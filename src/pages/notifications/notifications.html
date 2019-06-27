@@ -1,0 +1,94 @@
+<ion-header>
+ 
+  <ion-navbar color="secondary">
+	  	<button ion-button menuToggle>
+	      <ion-icon name="menu"></ion-icon>
+	    </button>
+	    
+	    <ion-row center style="text-align: center;vertical-align: middle;">
+	      <ion-col>
+	         <ion-title style="text-align: center;height: 100%;vertical-align: middle;">
+	           Notifications
+	         </ion-title>
+
+	      </ion-col>
+	      <ion-col style="text-align: right;">
+	       
+	          <ion-icon (click)="searchClient()" size="large" style="color:white;zoom:1.4;padding-right:10px" name="search"></ion-icon>
+	      
+	      </ion-col>
+	    </ion-row>
+     
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+<ion-list>
+	<ion-item>
+    <ion-label fixed>From</ion-label>
+    <ion-input type="date" value="" [(ngModel)]="n_from" name="from_date"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label fixed>To</ion-label>
+    <ion-input type="date" [(ngModel)]="n_to" name="to_date"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+     <ion-input type="text" placeholder="Filter by Allien no. | Case status | Client Name" [(ngModel)]="n_search" name="search"></ion-input>
+  </ion-item>
+
+</ion-list>
+   
+   <ion-row>
+   	<ion-col style="text-align: center">
+   		<button ion-button round icon-start end (click)="fetchData()"><ion-icon name="search"></ion-icon>Filter</button>
+   	</ion-col>
+   </ion-row>
+    
+
+<br><br>
+	<div style="overflow-x:auto">
+		<table border="1px solid blue">
+	
+			<tr>
+			
+				<th><b>S.No.</b></th>
+		
+				<th><b>Hearing Date</b></th>
+
+
+				<th><b>Hearing Time</b></th>
+
+				<th><b>Allien No.</b></th>
+
+				<th><b>Client Name</b></th>
+
+				<th><b>Judge Name</b></th>
+
+
+				<th><b>Type of hearing</b></th>
+
+				<th><b>Location of hearing</b></th>
+			</tr>
+	
+
+				<tr *ngFor="let notification of notifications">
+
+						<td> {{notification.id}}</td>
+
+						<td>{{notification.hearingDate}}</td>
+
+						<td>{{notification.case_no}}</td>
+
+						<td>{{notification.clientName}}</td>
+						<td>{{notification.casestage}}</td>						
+						<td>{{notification.totalamt}}</td>
+						<td>{{notification.paidamt}}</td>
+						<td>{{notification.overdueamt}}</td>
+
+
+				</tr>
+		   </table>
+	</div>
+</ion-content>

@@ -1,0 +1,24 @@
+1. Search API for header image 
+2. Settings: 
+	2.1: User Type List API
+	2.2: Case Type List API
+
+3. Update User API (currently on update, it returns all the detials as it is instead of update successful or failure)
+
+4. Client Details API: To show details of a particular client
+
+5. Case Manager List( Advocate list) API : To return a list of case managers from the database
+
+6. Add Client API: To add a new client in the database 
+
+7. User Account Management API: With search and filter
+
+8. Account Management API: With search and filter
+
+9. SMS:
+	9.1. Bulk Emails API: To show list of emails sent
+	9.2 SMS Sent List API: To show sent sms list
+
+10. Case Study
+	10.1. Case Study List API to display list of clients
+	10.2. Single Case Study details API to view details of a case and its hearings

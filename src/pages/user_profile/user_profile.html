@@ -1,0 +1,106 @@
+<ion-header>
+ 
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <div  style="text-align: center; background-image:url('../../assets/imgs/user_profile_bg.jpg');" >
+
+      <div class="overlay">
+
+        <div style="padding:10px; color: white">
+
+          <img style="border:2px solid white; padding:2px; border-radius: 100%;margin:5px 10px" *ngIf="u_image!=null && u_image.length!=0;" src="{{u_image}}" alt="No image Found" width="144px" height="144px"/>
+
+          <img style="border-radius: 100%;margin:5px 10px" *ngIf="u_image==null || u_image.length==0;" src="../../assets/imgs/user.png" alt="No image Found" width="144px" height="144px"/> 
+
+          <h2 class="profile-name dark">{{u_name}}</h2>
+          <div class="profile-info">{{u_email}}</div>
+
+      </div>
+    </div>
+  </div>
+
+        <ion-row class="border" (click)="viewProfile()">
+           <ion-col col-3 style="text-align: center">
+           
+              <ion-icon class="icon" name="person"></ion-icon>
+
+          </ion-col>
+
+           <ion-col col-1 style="text-align: center">
+
+            <div class="seperator">
+
+            </div>
+            
+           </ion-col>
+
+           <ion-col col-8 style="text-align: left">
+            <h5 class="profileButton">
+              View Profile
+            </h5> 
+        </ion-col>
+
+
+        </ion-row>
+
+        <ion-row class="border" (click)="changePassword()">
+           <ion-col col-3 style="text-align: center">
+           
+              <ion-icon class="icon" name="create"></ion-icon>
+
+          </ion-col>
+
+           <ion-col col-1 style="text-align: center">
+
+            <div class="seperator">
+
+            </div>
+            
+           </ion-col>
+
+           <ion-col col-8 style="text-align: left">
+            <h5 class="profileButton">
+               Change Password
+            </h5> 
+        </ion-col>
+
+
+        </ion-row>
+        
+
+        <ion-row class="border" (click)="userLogout()">
+           <ion-col col-3 style="text-align: center">
+           
+              <ion-icon class="icon" style="color: red;" name="log-out"></ion-icon>
+
+          </ion-col>
+
+           <ion-col col-1 style="text-align: center">
+
+            <div class="seperator">
+
+            </div>
+            
+           </ion-col>
+
+           <ion-col col-8 style="text-align: left;">
+            <h5 class="profileButton" style="color: red;">
+                Logout
+            </h5> 
+        </ion-col>
+
+
+        </ion-row>
+
+
+     
+	
+</ion-content>

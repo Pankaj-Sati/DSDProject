@@ -1,0 +1,98 @@
+<ion-header>
+	<ion-navbar color="secondary">
+	  	<button ion-button menuToggle>
+	      <ion-icon name="menu"></ion-icon>
+	    </button>
+	    
+	    <ion-row center style="text-align: center;vertical-align: middle;">
+	      <ion-col>
+	         <ion-title style="text-align: center;height: 100%;vertical-align: middle;">
+	           Case Types
+	         </ion-title>
+
+	      </ion-col>
+	      <ion-col style="text-align: right;">
+	       
+	          <ion-icon (click)="searchClient()" size="large" style="color:white;zoom:1.4;padding-right:10px" name="search"></ion-icon>
+	      
+	      </ion-col>
+	    </ion-row>
+     
+  </ion-navbar>
+</ion-header>
+
+<ion-content style="padding:10px">
+<br>
+	<ion-item>
+		
+			<ion-input type="text" placeholder="Filter by case type | created by"></ion-input>
+		
+	</ion-item>
+
+	<ion-row style="text-align: center;">
+		<ion-col>
+			<button icon-start ion-button>
+				<ion-icon name="search"></ion-icon>
+				 Filter
+			</button>
+		</ion-col>
+	</ion-row>
+	<br>
+	<br>
+	<ion-card style="background-image: linear-gradient(-45deg, #ddd, rgba(255, 255, 255, 0.5));"  *ngFor="let casetype of casetypes;let i=index">
+		<ion-card-content style="padding: 8px;">
+			<ion-row>
+				<ion-col col-4>
+				 <div style="margin: auto;display: grid;height:100%">
+					<ion-row>
+						<ion-col col-12>
+							<img src="{{casetype.icon}}" style="width:64px;height:64px;margin:auto;"/>
+						</ion-col>
+					</ion-row>
+
+					<ion-row>
+						<ion-col col-12 style='text-align: center;'>
+							<ion-label>{{casetype.type}}</ion-label>
+						</ion-col>
+					</ion-row>
+				 </div>
+					
+				</ion-col>
+
+				<ion-col col-8>
+					<div style="margin:auto;display: grid;height: 100%;">
+						<ion-row>
+							<ion-col col-12>
+								<ion-label stacked>Created By</ion-label>
+								<ion-label>{{casetype.created_by}}</ion-label>
+							</ion-col>
+						</ion-row>
+
+						<ion-row>
+							<ion-col col-12>
+								<ion-label stacked>Date</ion-label>
+								<ion-label>{{casetype.created_on}}</ion-label>
+							</ion-col>
+						</ion-row>
+					</div>
+				</ion-col>
+			</ion-row>
+		</ion-card-content>
+
+		<ion-row>
+			<ion-col col-4 style="text-align: center;">
+				<button ion-button icon-start class="cardButton"><ion-icon name="create"></ion-icon> Edit</button>
+			</ion-col>
+
+			<ion-col col-4 style="text-align: center;">
+				<button ion-button icon-start style="color: green;" class="cardButton"><ion-icon name="stats"></ion-icon> Status</button>
+			</ion-col>
+
+			<ion-col col-4 style="text-align: center;">
+				<button ion-button icon-start class="cardButton" style="color: red;"><ion-icon name="trash"></ion-icon> Delete</button>
+			</ion-col>
+
+		</ion-row>
+	</ion-card>
+		
+</ion-content>

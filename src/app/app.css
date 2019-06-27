@@ -1,0 +1,14 @@
+page-main .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+page-main .roundImg {
+  border-radius: 50%;
+  max-height: 240px;
+  max-width: 240px; }
+
+.icon
+{
+	width:30%;
+	height: auto;
+}

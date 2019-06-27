@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Hello Ionic</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <img [src]="imagePath" alt="Image Not found" />
+  <br>
+
+  <ion-label><b>Selected Image:</b>{{imagePath}}</ion-label>
+  <br>
+  <ion-row>
+    <ion-col style="text-align: center">
+      <button ion-button round end (click)="takeImage()">Take Image</button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

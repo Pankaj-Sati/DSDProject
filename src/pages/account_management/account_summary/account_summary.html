@@ -1,0 +1,118 @@
+<ion-header>
+ 
+ <ion-navbar color="secondary">
+	  	<button ion-button menuToggle>
+	      <ion-icon name="menu"></ion-icon>
+	    </button>
+	    
+	    <ion-row center style="text-align: center;vertical-align: middle;">
+	      <ion-col>
+	         <ion-title style="text-align: center;height: 100%;vertical-align: middle;">
+	           Account Management
+	         </ion-title>
+
+	      </ion-col>
+	      <ion-col style="text-align: right;">
+	       
+	          <ion-icon (click)="searchClient()" size="large" style="color:white;zoom:1.4;padding-right:10px" name="search"></ion-icon>
+	      
+	      </ion-col>
+	    </ion-row>
+     
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+	<ion-list>
+
+	<ion-item>
+
+    <ion-label fixed>Payment Mode</ion-label>
+
+	   	<ion-select  [(ngModel)]="a_pay_mode" >
+	      <ion-option value="1">Debit/Credit Card</ion-option>
+	        <ion-option value="2">Via Bank Transfer</ion-option>
+	        <ion-option value="3">Payment By Cash</ion-option>
+	        <ion-option value="4">Add charges into Client Account</ion-option>
+	        <ion-option value="5">Registration Charges</ion-option>
+	        
+	     </ion-select>
+  </ion-item>
+
+  <ion-item>
+
+    <ion-label fixed>Payment Status</ion-label>
+
+	   	<ion-select  [(ngModel)]="a_pay_status" >
+	      <ion-option value="1">Outstanding Payments</ion-option>
+	        <ion-option value="2">Payment Received</ion-option>
+	        
+	     </ion-select>
+  </ion-item>
+
+
+  <ion-item>
+    <ion-label fixed>From</ion-label>
+    <ion-datetime placeholder="Select Date" [(ngModel)]="c_pay_from"></ion-datetime>
+
+
+  </ion-item>
+
+  <ion-item>
+    <ion-label fixed>To</ion-label>
+    <ion-datetime placeholder="Select Date" [(ngModel)]="c_pay_to"></ion-datetime>
+
+
+  </ion-item>
+
+	</ion-list>
+	  <ion-row style="text-align: center;">
+
+		<ion-col>
+
+	  		<button icon-start ion-button><ion-icon name="search"></ion-icon>Search</button>
+	  	</ion-col>
+
+	  </ion-row>
+
+	  <hr>
+	  <br>
+
+	  <div style="overflow-x:auto">
+		<table>
+	
+			<tr>
+			
+				<th><b>S.No.</b></th>
+		
+				<th><b>Date</b></th>
+
+
+				<th><b>Client Name</b></th>
+
+				<th><b>Alien No.</b></th>
+
+				<th><b>Payment Mode</b></th>
+
+				<th><b>Payment Overdue</b></th>
+
+				<th><b>Amount</b></th>
+			</tr>
+		<!-- Later fetch the actual data from the server-->
+			<tr>
+				<td>1</td>
+				<td>12 Jan 2018</td>
+				<td>Dummy CLient</td>
+				<td>456</td>
+				<td>Pay By Cash</td>
+				<td>3000</td>
+				<td>0</td>
+				<td>400</td>
+
+			</tr>
+
+		</table>
+	</div>
+
+	</ion-content>

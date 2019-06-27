@@ -1,0 +1,156 @@
+Validations
+{
+	name: No digits
+	Contact only 10 digits (US format)
+	email: normal
+	SSN : 10 digits with subnet mask
+}
+
+Casual APK errors
+{
+	1. App not install for the second time: Disable scan for dangerous content in PlayStore-> Play Protect-> Scan...
+	2. App not install: 
+		<widget id=""> this part may produce errors because if there is already another app with same id on a phone, then apks will conflict and app will not install. Therefore, change the id field to a unique name each time
+}
+
+Casual plugin errors
+{
+	npm uninstall -g angular-cli  //Uninstalls angular CLI, -g tells npm to uninstall it globally
+	npm cache clean --force //Force clean the cache
+	npm install -g @angular/cli@latest
+
+
+	1. typescript error: rxjs
+		try reinstalling rxjs
+		npm uninstall rxjs
+		npm cache clean --force //Force clean the cache
+		npm install rxjs
+		npm install rxjs-compat   //Install both
+}
+
+[error]
+
+1.  
+
+2. Get all advocate api is not working ( http://jagdambasoftwaresolutions.com/dsd/api_work/get_advocate  
+)
+
+3. year  field in Get All CLient API is not returned but in the webiste, there is a year column  
+
+4. View Client API is not working (http://jagdambasoftwaresolutions.com/dsd/api_work/view_client/88)
+
+5. Update SIngle USer Profile api has an error. It should return updated successful or failure messages instead of showing all the data again. It ios difficult to know whether the data was updated or not to show the user.
+
+[required info]
+
+1. Client Type encoding
+2. Header API displays [{"name":"SUPER ADMIN","id":"1"}]  ()
+3. In add client, information is required regarding 'relation'
+4. Change case manager API is dependent on get all advocate API
+
+5. What info. is header page returning and its use (http://jagdambasoftwaresolutions.com/dsd/api_work/header)
+
+[14 May] 
+
+Changes:
+
+1. View Single user and details page added
+
+2. Change User Password Updated
+
+3. Delete User API added
+
+4. Update User page Added. (Require success message from server instead of user details)
+
+5. View Profile page has error on server end Add header (Allow- access)  (Detailed solution can be found at:"https://stackoverflow.com/questions/20035101/why-does-my-javascript-get-a-no-access-control-allow-origin-header-is-present")
+
+
+[15 May]
+
+Changes:
+
+1.Updated page navigation in View User and Delete User pages
+2.Added form validation in Add User page
+3.Added Client list API
+
+
+[16 May]
+
+Changes:
+1. Added View Profile Page (Only template b/c API is not working)
+2. Added View Single Client Page (Only template b/c API is not working)
+3. Added Change Case Manager Page (Only template b/c API is not working)
+4. Updated Layout of Login Page
+
+[18 May]
+
+Changes:
+1. Added Account management page and it's internal pages were created
+2. Added Case Study pages
+
+[20 May]
+
+Changes:
+1. Updated config.xml file and updated the widget ID
+2. Added the Name & Contact validations in forms
+
+[24 May]
+
+Changes:
+1. Added Submenu items
+2. Created a search bar and added it to app.component through Events
+
+[25 May]
+
+Changes:
+1. Updated the Look of Users list. Added Cards instead of tables (test only right now)
+2. Updated the look of Single User Page: Added background and icons
+3. Updated Dashboard page: Added color to cards
+4. Updated Reminders Page layout: Added Floating box and removed table
+
+
+[27 May]
+
+Changes:
+1. Updated the look of User Profile Page
+2. Updated Single Client page with API.
+	2.1. Error { Not all values are sent by the server in client_view.php page}
+3. Updated Change Manager Page with API
+4. Added Advocate List provider to hold code for fetching advocate list
+
+[28 May]
+
+Changes:
+1. Added camera plugin for selecting user profile pic
+	1.1. Error {File upload not added on the server}
+
+[30 May]
+
+Changes:
+1. File Upload test successfully works. 
+	1.1. Need a seperated php page for updating 
+
+[19 June]
+
+Changes:
+1. Hardcoded api and image url have been removed with a common base API url variable in api-values provider
+	1.1. All pages have been updated with new base api url dependency injection to request server url
+
+[20 June]
+
+Changes:
+1. Search bar added in all the root pages for searching clients	
+2. Created Search Header page for searching from the toolbar
+
+[26 June]
+
+Changes:
+1. Case Type in Settings page has been updated with new layout
+2. Edit single user profile page has been updated with new layout and validation
+
+[27 June]
+
+Changes:
+1. Edit Single user profile has been updated with file transfer plugin for uploading user image (API is having error)
+2. Login Page updated with error visuals
+3. Updated Navigation by removing the root page as Dashboard page

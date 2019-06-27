@@ -1,0 +1,111 @@
+<ion-header>
+ 
+  <ion-navbar color="secondary">
+	  	<button ion-button menuToggle>
+	      <ion-icon name="menu"></ion-icon>
+	    </button>
+	    
+	    <ion-row center style="text-align: center;vertical-align: middle;">
+	      <ion-col>
+	         <ion-title style="text-align: center;height: 100%;vertical-align: middle;">
+	           Clients
+	         </ion-title>
+
+	      </ion-col>
+	      <ion-col style="text-align: right;">
+	       
+	          <ion-icon (click)="searchClient()" size="large" style="color:white;zoom:1.4;padding-right:10px" name="search"></ion-icon>
+	      
+	      </ion-col>
+	    </ion-row>
+     
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+	<ion-list>
+	<ion-item>
+    <ion-label fixed>Case Type</ion-label>
+	   	<ion-select  [(ngModel)]="c_case_type" >
+	      <ion-option value="1">Civil</ion-option>
+	        <ion-option value="4">Murder</ion-option>
+	        <ion-option value="6">Criminal</ion-option>
+	        <ion-option value="7">Divorce</ion-option>
+	        
+	     </ion-select>
+  </ion-item>
+
+
+  <ion-item>
+    <ion-label fixed>Year</ion-label>
+    <ion-datetime [pickerOptions]="customPickerOptions" placeholder="Select Year" [(ngModel)]="c_case_year" displayFormat="YYYY"></ion-datetime>
+
+    
+
+  </ion-item>
+  <ion-item>
+    <ion-label fixed>Case Category</ion-label>
+    	<ion-select  [(ngModel)]="c_case_category" >
+	      <ion-option value="1">New</ion-option>
+	        <ion-option value="2">Reopen</ion-option>
+	     </ion-select>
+  </ion-item>
+
+  <ion-item>
+     <ion-input type="text" placeholder="Filter by Allien no. | Case status | Client Name" [(ngModel)]="c_search" ></ion-input>
+  </ion-item>
+
+</ion-list>
+   
+   <ion-row>
+   	<ion-col style="text-align: center">
+   		<button ion-button round icon-start end (click)="fetchData()"><ion-icon name="search"></ion-icon>Filter</button>
+   	</ion-col>
+   </ion-row>
+
+    <ion-row>
+   	<ion-col style="text-align: center">
+   		<button ion-button round icon-start end (click)="addClient()"><ion-icon name="add"></ion-icon>Add Client</button>
+   	</ion-col>
+   </ion-row>
+    
+<br><br>
+
+<div style="overflow-x:auto">
+		<table border="1px solid blue">
+	
+			<tr>
+			
+				<th><b>S.No.</b></th>
+		
+				<th><b>Client Name</b></th>
+
+
+				<th><b>Alien No.</b></th>
+
+				<th><b>Stage</b></th>
+
+				<th><b>Year</b></th>
+
+				<th><b>Case Type</b></th>
+			</tr>
+
+				<tr *ngFor="let client of clients; let i= index" (click)="viewClient(client.id)">
+
+						<td> {{i+1}}</td>
+
+						<td>{{client.client_name}}</td>
+
+						<td>{{client.case_no}}</td>
+
+						<td>{{client.case_stage}}</td>
+						<td>{{client.case_year}}</td>						
+						<td>{{client.case_type}}</td>
+
+
+				</tr>
+		   </table>
+
+	</div>
+</ion-content>

@@ -1,0 +1,10 @@
+/* CSS Document */
+page-login .vertical-align-content {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 50%;
+  border: 1px round;
+  width: 100%; }
+page-login ion-item {
+  width: 100%; }

@@ -1,0 +1,107 @@
+<!--
+  Generated template for the SearchHeaderPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Search Case</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+	<ion-item no-lines>
+		<ion-label stacked>Search</ion-label>
+		<ion-input type="text" [(ngModel)]="searchText" placeholder="Allien no. | Docket No. | index No." ></ion-input>
+	</ion-item>
+
+	<ion-row>
+		<ion-col style="text-align: center;">
+			<button ion-button icon-start (click)="performSearch()"><ion-icon name="search"></ion-icon>Search</button>
+		</ion-col>
+	</ion-row>
+
+	<ion-item no-lines *ngIf="error!=null && error.length>0">
+		<h3 style="color:red;">{{error}}</h3>
+	</ion-item>
+
+
+<ion-card  style="background-color: #efefef;border-radius: 2%; text-align: center;"  *ngFor="let case of cases" (click)="showDetails(case)">
+
+   <ion-row>
+
+      <ion-col col-3>
+
+        <ion-row>
+          <ion-col>
+            <b>Client Name</b>
+          </ion-col>
+        </ion-row>
+
+
+        <ion-row>
+          <ion-col>
+            {{case.client_name}}
+          </ion-col>
+        </ion-row>
+      
+      </ion-col>
+
+       <ion-col col-3 style="text-overflow: ellipsis; flex:1;overflow: hidden;white-space: nowrap;">
+        
+        <ion-row>
+          <ion-col>
+            <b>Stage</b>
+          </ion-col>
+        </ion-row>
+
+
+        <ion-row>
+          <ion-col>
+            {{case.case_stage}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+       <ion-col col-3>
+
+        <ion-row>
+          <ion-col>
+            <b>Type</b>
+          </ion-col>
+        </ion-row>
+
+
+        <ion-row>
+          <ion-col>
+            {{case.case_type}}
+          </ion-col>
+        </ion-row>
+
+      </ion-col>
+
+       <ion-col col-3>
+        
+          <ion-row>
+          <ion-col>
+            <b>Assigned To</b>
+          </ion-col>
+        </ion-row>
+
+
+        <ion-row>
+          <ion-col>
+           {{case.adv_assign}}
+          </ion-col>
+        </ion-row>
+
+      </ion-col>
+
+    </ion-row>
+
+  </ion-card>
+
+
+</ion-content>

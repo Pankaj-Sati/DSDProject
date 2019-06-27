@@ -1,0 +1,76 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>User List Test</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+
+	<ion-list>
+		<ion-item>
+		     <ion-input type="text" placeholder="Search Name" [(ngModel)]="u_search" name="search"></ion-input>
+		</ion-item>
+
+	</ion-list>
+   
+   <ion-row>
+	   	<ion-col style="text-align: center">
+	   		<button ion-button round icon-start end (click)="fetchData()"><ion-icon name="search"></ion-icon>Search</button>
+	   	</ion-col>
+   </ion-row>
+
+   <br> <br>
+
+	<div style="overflow-x:auto">
+		<table>
+	
+			<tr>
+			
+				<th><b>S.No.</b></th>
+		
+				<th class="greaterSize"><b>Image</b></th>
+
+
+				<th class="greaterSize"><b>Name (Username)</b></th>
+
+				<th class="greaterSize"><b>Email</b></th>
+
+				<th class="greaterSize"><b>Contact No.</b></th>
+
+				<th><b>User Type</b></th>
+
+
+				<th><b>Status</b></th>
+
+			</tr>
+	
+
+				<tr *ngFor="let user of users;let i=index" (click)="viewSingleUser(user.id)">
+
+						<td> {{i+1}}</td>
+						<!-- <td> <button ion-button (click)="viewSingleUser(user.id)">View User</button> </td> -->
+
+						<td class="greaterSize"> <img alt="No Image" src="http://jagdambasoftwaresolutions.com/dsd/upload/{{user.profile_img}}" width="96px" height="96px"/></td>
+
+						<td class="greaterSize">{{user.name}}({{user.username}})</td>
+
+						<td class="greaterSize">{{user.email}}</td>
+
+						<td class="greaterSize">{{user.contact}}</td>
+						<td [ngSwitch]="user.usertype_id"> 
+								<span *ngSwitchCase="2">ADMIN</span>
+								<span *ngSwitchDefault>Normal User</span>
+						</td>						
+						<td [ngSwitch]="user.status"> 
+								<span *ngSwitchCase="0">Active</span>
+								<span *ngSwitchDefault>Unknown State</span>
+						</td>
+
+
+				</tr>
+		   </table>
+	</div>
+</ion-content>

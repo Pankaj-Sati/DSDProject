@@ -1,0 +1,56 @@
+client_list
+{
+	table 
+	{
+		width:100%;
+		text-align:left;
+	}
+
+	th, td 
+	{
+		padding:10px 10px;
+
+	}
+
+	.greaterSize
+	{
+		min-width: 96px;
+		min-height: 96px;
+	}
+	
+	th 
+	{
+		color:#fff;
+		border-top:1px solid #222;
+		background-color:color($colors, primary, base);
+	}
+	
+	td 
+	{
+		border-bottom:1px solid #f4f4f4;
+	}
+
+	table 
+	{
+		width:100%;
+		text-align:left;
+	}
+	th, td 
+	{
+		padding:5px 10px;
+		min-width: 96px;
+		min-height: 96px;
+		margin: 10px;
+	}
+	th {
+		color:#fff;
+		border-top:1px solid #DDD;
+		background-color:color($colors, primary, base);
+	}
+
+	td 
+	{
+
+		border:1px solid #CCC;
+	}
+}

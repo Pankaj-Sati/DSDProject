@@ -1,0 +1,132 @@
+<ion-header>
+  <ion-navbar>
+   <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Update User</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+<form [formGroup]="userForm">
+
+<div  style="text-align: center; background-image:url('../../../assets/imgs/user_profile_bg.jpg');" >
+
+      <div class="overlay">
+
+        <div style="padding:10px" (click)="takeImage()" >
+
+          <img style="border:2px solid white; padding:2px; border-radius: 100%;margin:5px 20px" *ngIf="userForm.value.u_profile_img!=undefined && userForm.value.u_profile_img.length>0;" src="{{userForm.value.u_profile_img}}" alt="No image Found" width="144px" height="144px"/>
+
+          <img style="border-radius: 100%;margin:5px 20px" *ngIf="userForm.value.u_profile_img==undefined || userForm.value.u_profile_img.length==0;" src="../../../assets/imgs/user.png" alt="No image Found" width="144px" height="144px"/> 
+
+
+          <br>
+        </div>
+      </div>
+  </div>
+
+ <ion-list> 
+  
+  <ion-item [ngClass]="{'error':! userForm.controls.u_name.valid,'valid':(userForm.controls.u_name.touched && userForm.controls.u_name.valid)}" [class.invalid]="! userForm.controls.u_name.valid">
+
+    <ion-label stacked>Full Name <span class="requiredField">*</span></ion-label>
+    <ion-input type="text" formControlName="u_name" name="full_name"></ion-input>
+  </ion-item>
+  
+   <ion-item [ngClass]="{'error':! userForm.controls.u_email.valid,'valid':(userForm.controls.u_email.touched && userForm.controls.u_email.valid)}" [class.invalid]="! userForm.controls.u_email.valid">
+    <ion-label stacked>Email <span class="requiredField">*</span></ion-label>
+    <ion-input type="email" formControlName="u_email" name="email"></ion-input>
+  </ion-item>
+  
+   <ion-item [ngClass]="{'error':!userForm.controls.u_contact.valid,'valid':(userForm.controls.u_contact.touched && userForm.controls.u_contact.valid)}" [class.invalid]="userForm.controls.u_contact.valid">
+    <ion-label stacked>Contact No. <span class="requiredField">*</span></ion-label>
+    <ion-input type="tel" formControlName="u_contact" name="contact"></ion-input>
+  </ion-item>
+  
+  <ion-item [ngClass]="{'error':! userForm.controls.u_alt.valid,'valid':(userForm.controls.u_alt.touched && userForm.controls.u_alt.valid)}" [class.invalid]="! userForm.controls.u_alt.valid">
+    <ion-label stacked>Alternative No.</ion-label>
+    <ion-input type="tel" formControlName="u_alt" name="alt"></ion-input>
+  </ion-item>
+  
+  <ion-item [ngClass]="{'error':! userForm.controls.u_gender.valid,'valid':( userForm.controls.u_gender.touched && userForm.controls.u_gender.valid)}" [class.invalid]="! userForm.controls.u_gender.valid">
+
+   <ion-label stacked>Gender <span class="requiredField">*</span></ion-label>
+    <ion-select name="gender" formControlName="u_gender" >
+      <ion-option value="male">Male</ion-option>
+        <ion-option value="female">Female</ion-option>
+        <ion-option value="other">Other</ion-option>
+        
+     </ion-select>
+  </ion-item>
+  
+  <ion-item [ngClass]="{'error':! userForm.controls.u_dob.valid,'valid':(userForm.controls.u_dob.touched && userForm.controls.u_dob.valid)}" [class.invalid]="userForm.controls.u_dob.valid">
+
+    <ion-label stacked>Date Of Birth <span class="requiredField">*</span></ion-label>
+    <ion-input type="date" formControlName="u_dob" name="date_of_birth"></ion-input>
+  </ion-item>
+  
+  <ion-item [ngClass]="{'error':! userForm.controls.u_country.valid,'valid':(userForm.controls.u_country.touched && userForm.controls.u_country.valid)}" [class.invalid]="! userForm.controls.u_country.valid">
+
+    <ion-label stacked>Country <span class="requiredField">*</span></ion-label>
+    <ion-select  formControlName="u_country" name="country">
+      <ion-option value="321">United States</ion-option>
+    </ion-select>
+  </ion-item>
+  
+  <ion-item [ngClass]="{'error':! userForm.controls.u_state.valid,'valid':(userForm.controls.u_state.touched && userForm.controls.u_state.valid)}" [class.invalid]="! userForm.controls.u_state.valid">
+
+    <ion-label stacked>State <span class="requiredField">*</span></ion-label>
+    <ion-input type="text" formControlName="u_state" name="state"></ion-input>
+  </ion-item>
+  
+  <ion-item [ngClass]="{'error':! userForm.controls.u_city.valid,'valid':(userForm.controls.u_city.touched && userForm.controls.u_city.valid)}" [class.invalid]="! userForm.controls.u_city.valid">
+
+    <ion-label stacked>City or Town <span class="requiredField">*</span></ion-label>
+    <ion-input type="text" formControlName="u_city" name="city"></ion-input>
+  </ion-item>
+  
+  <ion-item [ngClass]="{'error':! userForm.controls.u_pincode.valid,'valid':( userForm.controls.u_pincode.touched && userForm.controls.u_pincode.valid)}" [class.invalid]="! userForm.controls.u_pincode.valid">
+
+    <ion-label stacked>Zip code <span class="requiredField">*</span></ion-label>
+    <ion-input type="number" formControlName="u_pincode" name="pincode"></ion-input>
+  </ion-item>
+  
+  <ion-item [ngClass]="{'error':! userForm.controls.u_fax.valid,'valid':(userForm.controls.u_fax.touched && userForm.controls.u_fax.valid)}" [class.invalid]=" ! userForm.controls.u_fax.valid">
+
+    <ion-label stacked>Fax</ion-label>
+    <ion-input type="text" formControlName="u_fax" name="fax"></ion-input>
+  </ion-item>
+
+  <ion-item [ngClass]="{'error':!userForm.controls.u_street.valid,'valid':(userForm.controls.u_street.touched && userForm.controls.u_street.valid)}" [class.invalid]="! userForm.controls.u_street.valid">
+
+    <ion-label stacked>Street <span class="requiredField">*</span></ion-label>
+    <ion-input type="text" formControlName="u_street" name="street"></ion-input>
+  </ion-item>
+  
+  <ion-item [ngClass]="{'error': ! userForm.controls.u_user_type.valid,'valid':( userForm.controls.u_user_type.touched && userForm.controls.u_user_type.valid)}" [class.invalid]=" ! userForm.controls.u_user_type.valid">
+  
+    <ion-label stacked>User Type <span class="requiredField">*</span></ion-label>
+   <ion-select  formControlName="u_user_type" name="user_type">
+      <ion-option value="1">Super Admin</ion-option>
+      <ion-option value="2">Admin</ion-option>
+      <ion-option value="3">Account</ion-option>
+      <ion-option value="4">Case Manger</ion-option>
+      <ion-option value="5">Client</ion-option>
+      <ion-option value="6">Guest</ion-option>
+    </ion-select>
+  </ion-item>
+  
+
+ </ion-list>
+
+
+    <ion-row>
+      <ion-col style="text-align: center">
+        <button ion-button round end [disabled]="! userForm.valid" (click)="submitData()">Update User</button>
+     </ion-col>
+    </ion-row>
+</form>
+</ion-content>
+  

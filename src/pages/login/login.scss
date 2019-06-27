@@ -1,0 +1,91 @@
+/* CSS Document */
+
+page-login 
+{
+	.vertical-align-content
+	{
+	     display: flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+	height: 50%;
+		border: 1px round;
+		  width: 100%;
+	}
+		
+		ion-item
+		{
+			 width: 100%; border-color: var(--ion-color-danger, #f1453d);
+		}
+
+	.profile-item 
+	{
+	  text-align: center;
+	  background-color: transparent;
+
+	}
+
+	.profile-picture 
+	{
+	  border: 1px solid rgba(0, 0, 0, 0.25);
+	  padding: 3px;
+	  -webkit-box-sizing: content-box;
+	  -moz-box-sizing: content-box;
+	  box-sizing: content-box;
+	  margin: 0 auto;
+	  overflow: hidden;
+	   background-color: transparent;
+	   width: 144px;
+	   height: 144px;
+	   border-radius: 100%;
+
+	}
+
+	img
+	{
+	  width: 144px;
+	  height: 144px;
+		border-radius: 50%;
+		object-fit: contain;
+		padding: 2px;
+	  
+	}
+
+	.transparentBG
+	{
+		background-color: transparent;
+	}
+
+	.slantRight
+	{
+			background-color:map-get($colors, primary);
+	                 /* added */
+		   bottom:0;                           /* added */
+		   right:0;     
+		  width:70%;
+		   height:200px;                      /* added */
+		   transform:rotate(-70deg);
+		   border-radius: 10%;
+	}
+
+	.slantLeft
+	{
+			background-color:map-get($colors, secondary);
+		                   /* added */
+		   bottom:0;                       /* added */
+		   left:10;  
+		    width:70%;
+		   height:200px;
+		   transform:rotate(70deg);
+		   border-radius: 10%;
+	}
+
+	.error>.item-inner
+	{
+		border-bottom-color: red !important;
+		border-bottom: 1px solid red !important;
+		box-shadow: inset 0 -1px 0 0 red !important;
+		-webkit-box-shadow: inset 0 0px 0 0 red !important;
+	}
+
+
+}

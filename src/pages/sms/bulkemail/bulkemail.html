@@ -1,0 +1,79 @@
+<ion-header>
+	<ion-navbar color="secondary">
+	  	<button ion-button menuToggle>
+	      <ion-icon name="menu"></ion-icon>
+	    </button>
+	    
+	    <ion-row center style="text-align: center;vertical-align: middle;">
+	      <ion-col>
+	         <ion-title style="text-align: center;height: 100%;vertical-align: middle;">
+	           Bulk Emails
+	         </ion-title>
+
+	      </ion-col>
+	      <ion-col style="text-align: right;">
+	       
+	          <ion-icon (click)="searchClient()" size="large" style="color:white;zoom:1.4;padding-right:10px" name="search"></ion-icon>
+	      
+	      </ion-col>
+	    </ion-row>
+     
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+	<ion-list>
+		<ion-item>
+			<ion-label>Client</ion-label>
+			<ion-input placeholder="Select Client" type="text"></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<ion-label>From:</ion-label>
+			<ion-datetime displayFormat="MM DD YYYY"></ion-datetime>
+		</ion-item>
+		<ion-item>
+			<ion-label>To: </ion-label>
+			<ion-datetime displayFormat="MM DD YYYY"></ion-datetime>
+		</ion-item>
+
+	</ion-list>
+
+	<ion-row style="text-align: center;">
+			
+			<ion-col>
+				<button ion-button icon-start>
+				<ion-icon name="search"></ion-icon>
+				Search
+			</button>
+			</ion-col>
+		</ion-row>
+
+	<br>
+	<hr>
+	<br>
+
+	<div style="overflow-x: auto">
+		<table>
+			<tr>
+				<th>S.No.</th>
+				<th>Date</th>
+				<th>Alien No.</th>
+				<th>Client Name</th>
+				<th>SMS Text</th>
+			</tr>
+
+			<tr *ngFor="let email of emails; let i=index">
+
+				<td>{{i+1}}</td>
+				<td>{{email.date}}</td>
+				<td>{{email.alien_no}}</td>
+				<td>{{email.c_name}}</td>
+				<td>{{email.sms}}</td>
+
+			</tr>
+		</table>
+	</div>
+
+</ion-content>

@@ -1,0 +1,87 @@
+user_list
+{
+	table 
+	{
+		width:100%;
+		text-align:left;
+	}
+
+	th, td 
+	{
+		padding:10px 10px;
+
+	}
+
+	.greaterSize
+	{
+		min-width: 96px;
+		min-height: 96px;
+	}
+	
+	th 
+	{
+		color:#fff;
+		border-top:1px solid #222;
+		background-color:color($colors, primary, base);
+	}
+	
+	td 
+	{
+		border-bottom:1px solid #f4f4f4;
+	}
+
+
+	table 
+	{
+		width:100%;
+		text-align:left;
+	}
+	th, td 
+	{
+		padding:5px 10px;
+		min-width: 96px;
+		min-height: 96px;
+		margin: 10px;
+	}
+	th {
+		color:#fff;
+		border-top:1px solid #DDD;
+		background-color:color($colors, primary, base);
+	}
+
+	td 
+	{
+
+		border:1px solid #BBB;
+	}
+
+	.profile-picture 
+	{
+	  border: 1px solid rgba(0, 0, 0, 0.25);
+	  padding: 3px;
+	  -webkit-box-sizing: content-box;
+	  -moz-box-sizing: content-box;
+	  box-sizing: content-box;
+	  margin: 0 auto;
+	  overflow: hidden;
+	   background-color: transparent;
+	   width: 96px;
+	   height: 96px;
+	   border-radius: 100%;
+
+	}
+
+	img
+	{
+	  width: 96px;
+	  height: 96px;
+		border-radius: 100%;
+
+		padding: 2px;
+	  
+	}
+	ion-icon 
+	{
+		padding: 0px 5px;
+	}
+}

@@ -1,0 +1,92 @@
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+
+<ion-menu id="mainMenu"  [content]="content">
+
+  <ion-header>
+    <ion-toolbar color="secondary">
+
+      <ion-row style="padding:1px;">
+        <ion-col col-4 align-self-start >
+            <img src="../assets/imgs/logo.png" style="max-width:64px; max-height:64px; object-fit: contain;"/>
+         
+        </ion-col>
+        <ion-col col-8  align-self-start>
+            <h3 style="font-weight: 600;margin-top:0em;color: #FFF">DSD Firm</h3>
+        </ion-col>
+      </ion-row>
+      
+      <!-- Default Searchbar -->
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+   
+   <div class="center">
+
+    <img class="roundImg" [src]="u_img"/>
+
+    <ion-row align-items-center style="padding:2px; background-color: #D3D3D3" (click)="viewProfile()">
+
+      <ion-col col-10>
+            <h2>{{u_name}}</h2>
+          </ion-col>
+            <ion-col col-2>
+              <ion-icon name="arrow-dropright-circle" style="zoom:1.7;"></ion-icon>
+
+            </ion-col>
+                
+    </ion-row>
+    </div>
+    
+    <ion-list>
+
+      <ion-item no-lines style="padding-left: 2px; border-bottom: 1px solid #efefef" *ngFor="let p of pages">
+
+        <ion-row (click)="openPage(p)">
+          <ion-col col-10>
+            <button ion-item icon-start style="font-size: 1em" >
+             <ion-icon style="line-height: 1" name="{{p.icon}}"></ion-icon>
+              {{p.title}}
+        </button>
+          </ion-col>
+          <ion-col *ngIf="p.component==null" style="text-align: center;display: grid;" col-2>
+            <ion-icon name="arrow-dropdown" style="margin: auto;"></ion-icon>
+          </ion-col>
+        </ion-row>
+        
+
+        <ion-item  *ngIf="p.hasSub">
+        <button style="font-size: 1em" ion-item *ngFor="let s of p.subs" icon-start (click)="openPage(s)">
+           <ion-icon style="line-height: 1" name="{{s.icon}}"></ion-icon>
+            {{s.title}}
+          </button>
+        </ion-item>
+    </ion-item>
+
+    </ion-list>
+  </ion-content>
+
+  <ion-footer>
+      <h6 style="text-align: center">Developed By:</h6>
+  
+      <h5 style="text-align: center"><a href="https://www.mazetechnologiesllc.com/"> Maze Technologies</a></h5>
+
+  
+</ion-footer>
+
+</ion-menu>
+
+
+   <ion-toolbar  *ngIf="showSearch">
+          <ion-searchbar showCancelButton animated cancel-button-icon (ionCancel)="hideSearch()" (search)="searchClient($event.target.value)" placeholder="Allien no. | Docket No. | index No." ></ion-searchbar>
+ </ion-toolbar>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,15 @@
+usertype
+{
+	.cardButton
+	{
+		color:color($colors, primary, base);
+		background-color: transparent;
+		box-shadow: none;
+		white-space: normal;
+	}
+
+	ion-label
+	{
+		margin: 0px;
+	}
+}

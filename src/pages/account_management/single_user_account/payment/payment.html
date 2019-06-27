@@ -1,0 +1,133 @@
+<ion-header>
+ 
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Payments</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-list>
+
+		<ion-item>
+	      	<ion-label><b>Payment Summary</b></ion-label>
+	      	<hr>
+	      	<br>
+	      </ion-item>
+
+	    <ion-item>
+	      	<ion-label fixed>Client Name: </ion-label>
+	      </ion-item>
+
+	        <ion-item>
+	      	<ion-label fixed>Alien No.: </ion-label>
+	      </ion-item>
+
+	        <ion-item>
+	      	<ion-label fixed>Total Balance: </ion-label>
+	      </ion-item>
+
+	        <ion-item>
+	      	<ion-label fixed>Outstanding Balance: </ion-label>
+	      </ion-item>
+
+	        <ion-item>
+	      	<ion-label fixed>Total Payment: </ion-label>
+	      </ion-item>
+
+	  </ion-list>
+
+	 <hr>
+	 <br>
+
+
+	 <ion-list>
+
+	 	<ion-item>
+	 		<ion-label fixed>Payment Mode *:</ion-label>
+	 		<ion-select #paymentMode interface="popover" (ionChange)="onPaymentModeChange(paymentMode.value)">
+	 			<ion-option value="1">Payment By Cash</ion-option>
+	 			<ion-option value="2">Debit/Credit Card</ion-option>
+	 			<ion-option value="3">Via Bank Transfer</ion-option>
+	 		</ion-select>
+	 	</ion-item>
+	    <ion-item>
+	      	<ion-label fixed>Amount*: </ion-label>
+	      	<ion-input type="number" [(ngModel)]="p_amount"></ion-input>
+	      </ion-item>
+
+	        <ion-item>
+	      	<ion-label fixed>Remarks (if any): </ion-label>
+	      	<ion-input type="text" [(ngModel)]="p_remark"></ion-input>
+	      </ion-item>
+
+	 </ion-list>
+
+	   <div *ngIf="selectedPaymentMode==2">
+		   	<ion-list>
+		   		<ion-item>
+				   	<ion-label >Card Holder Name*: </ion-label>
+				   	<ion-input placeholder="Enter Name" type="text" [(ngModel)]="p_card_name"></ion-input> 
+				 </ion-item> 
+				 <ion-item>
+				   	<ion-label>Card No.*: </ion-label>
+				   	<ion-input placeholder="Enter Card No." type="number" [(ngModel)]="p_card_number"></ion-input> 
+				 </ion-item>
+				 <ion-item>
+				   	<ion-label>CVV Code*: </ion-label>
+				   	<ion-input placeholder="Enter CVV No." type="number" [(ngModel)]="p_card_cvv"></ion-input> 
+				 </ion-item>
+				 <ion-item>
+				   	<ion-label>Card Expiration Date*: </ion-label>
+					  
+				</ion-item>
+
+				 <ion-item>
+				 	<ion-datetime picker-format="MMMM" placeholder="Select Month" [(ngModel)]="p_card_ex_month" displayFormat="MMMM"></ion-datetime>
+				 </ion-item>
+				 <ion-item>
+				 	<ion-datetime placeholder="Select Year" displayFormat="YYYY" [(ngModel)]="p_card_ex_year" ></ion-datetime>
+					   	
+				 </ion-item>
+
+
+			</ion-list>
+	   </div>
+
+	   <div *ngIf="selectedPaymentMode==3">
+	   	<ion-label><h2>Via Bank Transfer* </h2></ion-label>
+	   	<hr>
+
+		   	<ion-list>
+			   		<ion-item>
+					   	<ion-label >Bank Name*: </ion-label>
+					   	<ion-input placeholder="Enter Name" type="text" [(ngModel)]="p_transfer_b_name"></ion-input> 
+					 </ion-item>
+					 <ion-item>
+					   	<ion-label>Account Holder Name*: </ion-label>
+					   	<ion-input placeholder="Enter Acc. Holder Name" type="text" [(ngModel)]="p_transfer_name"></ion-input> 
+					 </ion-item>
+					 <ion-item>
+					   	<ion-label>Account No.*: </ion-label>
+					   	<ion-input placeholder="Enter Acc. No." type="number" [(ngModel)]="p_transfer_acc_no"></ion-input> 
+					 </ion-item>
+					  <ion-item>
+					   	<ion-label>Branch Code*: </ion-label>
+					   	<ion-input placeholder="Enter branch code" type="text" [(ngModel)]="p_transfer_b_code"></ion-input> 
+					 </ion-item>
+					  <ion-item>
+					   	<ion-label>Branch No.*: </ion-label>
+					   	<ion-input placeholder="Enter Branch No." type="text" [(ngModel)]="p_transfer_b_no"></ion-input> 
+					 </ion-item>
+				</ion-list>
+	   </div>
+
+	   <ion-row style="text-align: center;">
+	  	<ion-col>
+	  		<button icon-start ion-button (click)="addBalance()"><ion-icon name="add"></ion-icon>Add Balance</button>
+	  	</ion-col>
+	  </ion-row>
+
+	</ion-content>

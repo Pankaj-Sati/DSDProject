@@ -1,0 +1,127 @@
+<ion-header>
+  <ion-navbar>
+   <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Add User</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+ <ion-list >
+
+      <ion-item class="profile-item">
+          <div class="profile-picture">
+    		<img src="../../assets/imgs/logo.png" style="background-color:gray;"><br><br>
+      </div>
+    	</ion-item>
+    	
+      <ion-item>
+        <ion-label><b>Fields marked with * are compulsory</b></ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed><b>Full Name *</b></ion-label>
+        <ion-input type="text" required [(ngModel)]="u_name" name="full_name"></ion-input>
+      </ion-item>
+      
+       <ion-item>
+        <ion-label fixed><b>Email *</b></ion-label>
+        <ion-input type="email" required [(ngModel)]="u_email" name="email"></ion-input>
+      </ion-item>
+      
+       <ion-item>
+        <ion-label fixed><b>Contact No. * + 1</b></ion-label>
+        <ion-input type="tel" [(ngModel)]="u_contact" required name="contact"></ion-input>
+      </ion-item>
+      
+       <ion-item>
+        <ion-label fixed><b>Alternative No. +1 </b></ion-label>
+        <ion-input type="tel" [(ngModel)]="u_alt" name="alt"></ion-input>
+      </ion-item>
+      
+       <ion-item>
+       <ion-label fixed><b>Gender *</b></ion-label>
+     	  <ion-select required name="gender" [(ngModel)]="u_gender" >
+     	  	<ion-option value="male">Male</ion-option>
+            <ion-option value="female">Female</ion-option>
+            <ion-option value="other">Other</ion-option>
+            
+    	   </ion-select>
+    		
+    		
+      </ion-item>
+      
+      <ion-item>
+        <ion-label fixed><b>Date Of Birth *</b></ion-label>
+        <ion-input required type="date" [(ngModel)]="u_dob" name="date_of_birth"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label fixed><b>Country *</b></ion-label>
+        <ion-select required  [(ngModel)]="u_country" name="country">
+        	<ion-option value="321">United States</ion-option>
+        </ion-select>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label fixed><b>State *</b></ion-label>
+        <ion-input required type="text" [(ngModel)]="u_state" name="state"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label fixed><b>City or Town *</b></ion-label>
+        <ion-input required type="text" [(ngModel)]="u_city" name="city"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label fixed><b>Zip code *</b></ion-label>
+        <ion-input  required type="number" [(ngModel)]="u_pincode" name="pincode"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label fixed><b>Fax</b></ion-label>
+        <ion-input type="text" [(ngModel)]="u_fax" name="fax"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label fixed><b>Street</b></ion-label>
+        <ion-input required type="text" [(ngModel)]="u_street" name="street"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label fixed><b>Street Name</b></ion-label>
+        <ion-input type="text" [(ngModel)]="u_street_name" name="street_name"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label fixed><b>Apartment</b></ion-label>
+        <ion-input type="text" [(ngModel)]="u_apartment" name="apartment"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label fixed><b>User Type *</b></ion-label>
+       <ion-select required  [(ngModel)]="u_user_type" name="user_type">
+        	<ion-option value="1">Super Admin</ion-option>
+          <ion-option value="2">Admin</ion-option>
+          <ion-option value="3">Account</ion-option>
+          <ion-option value="4">Case Manger</ion-option>
+          <ion-option value="5">Client</ion-option>
+          <ion-option value="6">Guest</ion-option>
+        </ion-select>
+      </ion-item>
+      
+      <ion-item>
+      	<ion-row>
+       	<ion-col style="text-align: center">
+        <button ion-button round end (click)="submitData()">Add User</button>
+        </ion-col>
+        </ion-row>
+      </ion-item>
+      
+
+     </ion-list>
+  
+</ion-content>
+  
