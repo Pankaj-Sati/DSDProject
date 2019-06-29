@@ -1,9 +1,13 @@
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
 
+<div *ngIf="showSplash" class="splash"> <!--To show custom splash screen -->
+  <div class="spinner"></div>
+</div>
+
 <ion-menu id="mainMenu" type="overlay" [content]="content">
 
   <ion-header>
-    <ion-toolbar color="secondary">
+    <ion-toolbar class="mainBackgroundColor">
 
       <ion-row style="padding:1px;">
         <ion-col col-4 align-self-start >

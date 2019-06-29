@@ -154,3 +154,8 @@ Changes:
 1. Edit Single user profile has been updated with file transfer plugin for uploading user image (API is having error)
 2. Login Page updated with error visuals
 3. Updated Navigation by removing the root page as Dashboard page
+
+[28 June]
+
+Changes:
+1. Corrected Menu errors on iOS

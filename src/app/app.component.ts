@@ -23,6 +23,8 @@ import {SMSListPage} from '../pages/sms/smslist/smslist';
 import {SearchHeaderPage} from '../pages/search-header/search-header';
 import {ApiValuesProvider} from '../providers/api-values/api-values';
 
+import {timer} from 'rxjs/Observable/timer';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
@@ -39,6 +41,8 @@ export class MyApp {
 
   // make HelloIonicPage the root (or first) page
   rootPage:any =null;
+  showSplash=true; //To show custom splash screen
+
   pages: Array<{title: string, icon: string,component: any, subs:Array<{title: string, icon: string,component: any}>, hasSub:boolean}>;
   settingPages: Array<{title: string, icon: string,component: any}>;
   userPages: Array<{title: string, icon: string,component: any}>;
@@ -178,6 +182,10 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      timer(3000).subscribe(()=>{
+          this.showSplash=false;
+      });
     });
 
 	  
