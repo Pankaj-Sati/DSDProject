@@ -1,8 +1,11 @@
-<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
-
-<div *ngIf="showSplash" class="splash"> <!--To show custom splash screen -->
+<div *ngIf="showSplash" class="splash" style="background-color:red;">
+  <!--To show custom splash screen -->
   <div class="spinner"></div>
 </div>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+
+
 
 <ion-menu id="mainMenu" type="overlay" [content]="content">
 
@@ -79,6 +82,7 @@
 </ion-footer>
 
 </ion-menu>
+
 
 
    <ion-toolbar  *ngIf="showSearch">

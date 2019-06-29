@@ -23,7 +23,7 @@ import {SMSListPage} from '../pages/sms/smslist/smslist';
 import {SearchHeaderPage} from '../pages/search-header/search-header';
 import {ApiValuesProvider} from '../providers/api-values/api-values';
 
-import {timer} from 'rxjs/Observable/timer';
+import {timer} from 'rxjs/observable/timer';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -73,9 +73,9 @@ export class MyApp {
 	  public storage: Storage
   ) 
   {
-    this.checkIfAlreadyLoggedIn();
-    this.initializeApp();
 
+    this.initializeApp();
+    this.checkIfAlreadyLoggedIn();
     this.showSearch=false;
 
 
@@ -182,10 +182,9 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      console.log("Platform is ready");
 
-      timer(3000).subscribe(()=>{
-          this.showSplash=false;
-      });
+      timer(3000).subscribe(()=>this.showSplash = false);
     });
 
 	  

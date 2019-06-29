@@ -1,6 +1,7 @@
 {
   "ExpandedNodes": [
     "",
+    "\\resources",
     "\\src",
     "\\src\\app",
     "\\src\\pages",
@@ -9,6 +10,6 @@
     "\\src\\pages\\settings",
     "\\src\\pages\\settings\\user_type"
   ],
-  "SelectedNode": "\\src\\pages\\settings\\user_type\\usertype.html",
+  "SelectedNode": "\\src\\app\\app.component.ts",
   "PreviewInSolutionExplorer": false
 }
