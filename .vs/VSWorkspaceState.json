@@ -1,16 +1,18 @@
 {
   "ExpandedNodes": [
     "",
+    "\\node_modules",
+    "\\node_modules\\@ionic-native",
+    "\\node_modules\\@ionic-native\\ionic-webview",
     "\\src",
+    "\\src\\models",
     "\\src\\pages",
-    "\\src\\pages\\account_management",
-    "\\src\\pages\\account_management\\account_summary",
-    "\\src\\pages\\notifications",
-    "\\src\\pages\\reminders",
-    "\\src\\pages\\sms\\bulkemail",
-    "\\src\\pages\\user_list",
-    "\\src\\pages\\user_list\\update_user"
+    "\\src\\pages\\login",
+    "\\src\\pages\\user_profile\\change_password",
+    "\\src\\pages\\user_profile\\edit_profile",
+    "\\src\\providers",
+    "\\src\\providers\\my-storage"
   ],
-  "SelectedNode": "\\src\\pages\\user_list\\update_user\\update_user.ts",
+  "SelectedNode": "\\src\\index.html",
   "PreviewInSolutionExplorer": false
 }

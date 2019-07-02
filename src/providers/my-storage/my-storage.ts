@@ -8,6 +8,7 @@ import { User } from '../../models/login_user.model';
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
+
 @Injectable()
 export class MyStorageProvider 
 {
@@ -40,6 +41,12 @@ export class MyStorageProvider
     console.log(user);
     
     return user;
+  }
+
+  removeParameters()
+  {
+    localStorage.removeItem(this.userKey);
+
   }
 	
 

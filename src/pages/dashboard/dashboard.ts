@@ -112,7 +112,7 @@ export class DashboardPage
   
 		let loader = this.loading.create({
 
-		   content: "Fetching data. Please wait…",
+		   content: "Loading...",
 		   duration:15000
 
 		 });

@@ -16,11 +16,11 @@ export class SettingUserTypePage
 	{
 		this.usertypes=[
 
-		new UserType("Guest","Active",0,"../../../assets/imgs/guest.png"),
-		new UserType("Client","Active",0,"../../../assets/imgs/client.png"),
-		new UserType("Case Manager","Active",0,"../../../assets/imgs/manager.png"),
-		new UserType("Account","Active",0,"../../../assets/imgs/super_admin.png"),
-		new UserType("Admin","Active",0,"../../../assets/imgs/admin.png")
+		new UserType("Guest","Active",0,"assets/imgs/guest.png"),
+		new UserType("Client","Active",0,"assets/imgs/client.png"),
+		new UserType("Case Manager","Active",0,"assets/imgs/manager.png"),
+		new UserType("Account","Active",0,"assets/imgs/super_admin.png"),
+		new UserType("Admin","Active",0,"assets/imgs/admin.png")
 
 		];
 	}

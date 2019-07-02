@@ -8,6 +8,11 @@ import { ToastController } from 'ionic-angular';
 import { DashboardPage } from '../dashboard/dashboard';
 import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
+
+import { MyStorageProvider } from '../../providers/my-storage/my-storage';
+
+
+
 @Component({
   selector: 'page-logout',
   templateUrl: 'logout.html'
@@ -21,7 +26,7 @@ export class LogoutPage
 	U_PROFILEIMG="profile_img";
 
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  public loading: LoadingController,public storage: Storage, public menuCtrl: MenuController,public toastCtrl: ToastController)
+  constructor(public myStorage: MyStorageProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loading: LoadingController, public storage: Storage, public menuCtrl: MenuController, public toastCtrl: ToastController)
 	{
 		this.removeData();
         
@@ -37,12 +42,8 @@ export class LogoutPage
 		 });
 
 	   loader.present().then(() => 
-		{
-		   			this.storage.remove(this.U_ID);
-		  			this.storage.remove(this.U_NAME);
-		  			this.storage.remove(this.U_EMAIL);
-		  			this.storage.remove(this.U_USERTYPEID);
-		  			this.storage.remove(this.U_PROFILEIMG);
+       {
+         this.myStorage.removeParameters();
 						console.log('Data removed');
 					this.navCtrl.setRoot(LoginPage);
 	   		loader.dismiss();

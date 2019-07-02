@@ -16,10 +16,10 @@ export class SettingCaseTypePage
 	{
 		this.casetypes=[
 
-		new CaseType("Divorce","Dummy 1",new Date(),"Active","../../../assets/imgs/divorce.png"),
-		new CaseType("Criminal","Dummy 2",new Date(),"Active","../../../assets/imgs/criminal.png"),
-		new CaseType("Murder","Dummy 3",new Date(),"Active","../../../assets/imgs/murder.png"),
-		new CaseType("Civil","Dummy 4",new Date(),"Active","../../../assets/imgs/civil.png")
+		new CaseType("Divorce","Dummy 1",new Date(),"Active","assets/imgs/divorce.png"),
+		new CaseType("Criminal","Dummy 2",new Date(),"Active","assets/imgs/criminal.png"),
+		new CaseType("Murder","Dummy 3",new Date(),"Active","assets/imgs/murder.png"),
+		new CaseType("Civil","Dummy 4",new Date(),"Active","assets/imgs/civil.png")
 
 		];
 	}

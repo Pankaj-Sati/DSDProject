@@ -79,7 +79,7 @@ export class RemindersPage
 
 		let loader = this.loading.create({
 
-		   content: "Fetching data please wait…",
+		   content: "Loading...",
 		   duration:5000
 
 		 });

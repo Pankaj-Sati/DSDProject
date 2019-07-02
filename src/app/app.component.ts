@@ -40,7 +40,7 @@ import { Events } from 'ionic-angular';
 })
 
 export class MyApp {
-  @ViewChild(Nav) nav: Nav;
+  @ViewChild("content") nav: Nav;
 
   // make HelloIonicPage the root (or first) page
   rootPage:any =null;
@@ -59,7 +59,7 @@ export class MyApp {
 
    u_name: string="App User";
    u_email:string;
-   u_img: string = "../assets/imgs/generic_user.png";
+   u_img: string = "assets/imgs/generic_user.png";
 
    showSearch:boolean;
    header_title:string;
@@ -149,7 +149,7 @@ export class MyApp {
 
       { title: 'Case Study', icon:'paper', component: null,subs:this.caseStudyPages,hasSub:false },
 
-     { title: 'File Test', icon:'paper', component: HelloIonicPage,subs:null,hasSub:false },
+     //{ title: 'File Test', icon:'paper', component: HelloIonicPage,subs:null,hasSub:false },
 
       { title: 'Logout', icon:'log-out', component: LogoutPage,subs:null,hasSub:false }
     
@@ -159,13 +159,16 @@ export class MyApp {
   checkIfAlreadyLoggedIn()
   {
     if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id.length > 0)
-        {
-          this.rootPage=DashboardPage;
+    {
+        this.rootPage=DashboardPage;
           
-        }
+    }
       else
-      {
-        this.nav.setRoot(LoginPage);
+    {
+      console.log("nav");
+      console.log(this.nav);
+      this.rootPage=LoginPage;
+      
       }
         
       
@@ -184,11 +187,14 @@ export class MyApp {
     });
 
 
-    this.loggedInUser= this.myStorage.getParameters();
-
-    this.u_name = this.loggedInUser.name;
-    this.u_email = this.loggedInUser.email;
-    this.u_img = this.apiValues.baseImageFolder+this.loggedInUser.profile_img;
+    this.loggedInUser = this.myStorage.getParameters();
+    if (this.loggedInUser != undefined || this.loggedInUser != null)
+    {
+      this.u_name = this.loggedInUser.name;
+      this.u_email = this.loggedInUser.email;
+      this.u_img = this.apiValues.baseImageFolder + this.loggedInUser.profile_img;
+    }
+    
 		  		  
   }
 

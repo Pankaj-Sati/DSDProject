@@ -11,7 +11,7 @@
 
  <div *ngIf="user!=null">
 
- <div  style="text-align: center; background-image:url('../../../assets/imgs/user_profile_bg.jpg');" >
+ <div  style="text-align: center; background-image:url('assets/imgs/user_profile_bg.jpg');" >
 
       <div class="overlay">
 
@@ -19,7 +19,7 @@
 
   	      <img style="border:2px solid white; padding:2px; border-radius: 100%;margin:5px 20px" *ngIf="user.profile_img!=null && user.profile_img.length!=0;" src="{{apiValue.baseImageFolder}}{{user.profile_img}}" alt="No image Found" width="144px" height="144px"/>
 
-          <img style="border-radius: 100%;margin:5px 20px" *ngIf="user.profile_img==null || user.profile_img.length==0;" src="../../../assets/imgs/user.png" alt="No image Found" width="144px" height="144px"/> 
+          <img style="border-radius: 100%;margin:5px 20px" *ngIf="user.profile_img==null || user.profile_img.length==0;" src="assets/imgs/user.png" alt="No image Found" width="144px" height="144px"/> 
 
 
           <br>

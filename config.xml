@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>DSDFirm</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
+<widget android-versionCode="2" id="com.mazetech.dsdfirm" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Dalbir's Law Firm</name>
+    <description>DSD Law Firm</description>
+    <author email="support@mazetechnologiesllc.com" href="https://www.mazetechnologiesllc.com/">Maze Technologies</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -21,7 +21,7 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="AutoHideSplashScreen" value="false" />
-    <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="ShowSplashScreenSpinner" value="true" />
     <platform name="android">
         <config-file parent="/manifest" target="AndroidManifest.xml">
             <uses-permission android:name="android.permission.INTERNET" />
@@ -99,7 +99,7 @@
         <splash height="2436" src="resources\ios\splash\Default-2436h.png" width="1125" />
         <splash height="1125" src="resources\ios\splash\Default-Landscape-2436h.png" width="2436" />
     </platform>
-    <engine name="android" spec="~6.3.0" />
+    <engine name="android" spec="^8.0.0" />
     <plugin name="cordova-plugin-advanced-http" spec="2.0.9" />
     <plugin name="cordova-plugin-statusbar" spec="2.4.2" />
     <plugin name="cordova-plugin-device" spec="2.0.2" />
