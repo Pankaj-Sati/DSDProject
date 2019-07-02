@@ -1,14 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\resources",
     "\\src",
-    "\\src\\app",
     "\\src\\pages",
+    "\\src\\pages\\account_management",
+    "\\src\\pages\\account_management\\account_summary",
     "\\src\\pages\\notifications",
-    "\\src\\pages\\settings",
-    "\\src\\pages\\settings\\user_type"
+    "\\src\\pages\\reminders",
+    "\\src\\pages\\sms\\bulkemail",
+    "\\src\\pages\\user_list",
+    "\\src\\pages\\user_list\\update_user"
   ],
-  "SelectedNode": "\\src\\app\\app.component.ts",
+  "SelectedNode": "\\src\\pages\\user_list\\update_user\\update_user.ts",
   "PreviewInSolutionExplorer": false
 }

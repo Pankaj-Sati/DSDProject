@@ -21,7 +21,10 @@ import {SettingCaseTypePage} from '../pages/settings/casetype/casetype';
 import {SMSBulkEmailPage} from '../pages/sms/bulkemail/bulkemail';
 import {SMSListPage} from '../pages/sms/smslist/smslist';
 import {SearchHeaderPage} from '../pages/search-header/search-header';
-import {ApiValuesProvider} from '../providers/api-values/api-values';
+import { ApiValuesProvider } from '../providers/api-values/api-values';
+import { MyStorageProvider } from '../providers/my-storage/my-storage';
+
+import { User } from '../models/login_user.model';
 
 import {timer} from 'rxjs/observable/timer';
 
@@ -51,15 +54,13 @@ export class MyApp {
   caseStudyPages: Array<{title: string, icon: string,component: any}>;
   accountManagementPages: Array<{title: string, icon: string,component: any}>;
 
-   U_ID="id";
-   U_NAME="name";
-	 U_EMAIL="email";
-   U_PROFILEIMG="profile_img";
 
-  
+  loggedInUser: User;
+
    u_name: string="App User";
    u_email:string;
-   u_img: string="../assets/imgs/generic_user.png";
+   u_img: string = "../assets/imgs/generic_user.png";
+
    showSearch:boolean;
    header_title:string;
 
@@ -70,7 +71,8 @@ export class MyApp {
     public menu: MenuController,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-	  public storage: Storage
+    public storage: Storage,
+    public myStorage: MyStorageProvider
   ) 
   {
 
@@ -156,11 +158,7 @@ export class MyApp {
 
   checkIfAlreadyLoggedIn()
   {
-    
-
-    this.storage.get(this.U_ID).then((value) => {
-
-      if(value!=undefined && value !=null && value.length>0)
+    if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id.length > 0)
         {
           this.rootPage=DashboardPage;
           
@@ -169,8 +167,6 @@ export class MyApp {
       {
         this.nav.setRoot(LoginPage);
       }
-
-    });; 
         
       
   }
@@ -187,27 +183,13 @@ export class MyApp {
       timer(3000).subscribe(()=>this.showSplash = false);
     });
 
-	  
-	  this.storage.get(this.U_NAME).then((value) => 
-			  {
-					
-				    this.u_name=value;
-		  		  console.log("app value:"+value);
-			  });
-	  
-	  this.storage.get(this.U_EMAIL).then((value) => 
-			  {
-					
-				  this.u_email=value;
-		  		  console.log("app value:"+value);
-			  });
-	  
-	this.storage.get(this.U_PROFILEIMG).then((value) => 
-			  {
-					
-				  this.u_img=this.apiValues.baseImageFolder+value;
-		  		  console.log("app value:"+value);
-			  });
+
+    this.loggedInUser= this.myStorage.getParameters();
+
+    this.u_name = this.loggedInUser.name;
+    this.u_email = this.loggedInUser.email;
+    this.u_img = this.apiValues.baseImageFolder+this.loggedInUser.profile_img;
+		  		  
   }
 
   openPage(page) {

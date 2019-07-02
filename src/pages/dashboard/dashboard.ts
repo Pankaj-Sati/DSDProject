@@ -13,7 +13,10 @@ import { Storage } from '@ionic/storage';
 import { ToastController } from 'ionic-angular';
 import {Events} from 'ionic-angular'
 
-import {ApiValuesProvider} from '../../providers/api-values/api-values';
+import { ApiValuesProvider } from '../../providers/api-values/api-values';
+import { MyStorageProvider } from '../../providers/my-storage/my-storage';
+
+import {User } from '../../models/login_user.model';
 
 @Component({
   selector: 'page-dashboard',
@@ -21,14 +24,13 @@ import {ApiValuesProvider} from '../../providers/api-values/api-values';
 })
 export class DashboardPage 
 {
-	U_ID="id"; //For checking if user details are already saved i.e user is already logged in
-
+  loggedInUser: User;
 	total_reminders:string;
 	total_notifications:string;
 	total_clients:string;
 	showSearch:boolean;
 
-	constructor(public apiValue:ApiValuesProvider,public events:Events, public menuCtrl : MenuController,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public storage: Storage,public toastCtrl: ToastController)
+  constructor(public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public events: Events, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController, public storage: Storage, public toastCtrl: ToastController)
 	{
 		this.menuCtrl.enable(true);
 		this.menuCtrl.swipeEnable(true);
@@ -41,13 +43,13 @@ export class DashboardPage
 	
 	checkIfAlreadyLoggedIn()
 	{
-		
 
-		this.storage.get(this.U_ID).then((value) => {
+      this.loggedInUser = this.myStorage.getParameters();
 
-		  if(value !=null && value.length>0)
-			  {
-				  //User already exists, take him to dashboard
+      if (this.loggedInUser != null && this.loggedInUser.id.length > 0)
+			{
+				  //User already exists, fetch data
+
 				 this.fetchData();
 				  
 			  }
@@ -55,8 +57,6 @@ export class DashboardPage
 			{
 				this.navCtrl.setRoot(LoginPage);
 			}
-
-		});; 
 				
 		  
 	}

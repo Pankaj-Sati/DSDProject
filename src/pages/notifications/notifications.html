@@ -51,6 +51,11 @@
 
     <br><br>
 
+    <div *ngIf="notifications==undefined || notifications == null || notifications.length==0">
+      
+      <no-record-found></no-record-found>
+    </div>
+
     <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let notification of notifications" (click)="showDetails(notification)">
 
       <ion-row>

@@ -9,7 +9,9 @@ import "rxjs/add/operator/map";
 import {FileTransfer,FileTransferObject,FileUploadOptions} from '@ionic-native/file-transfer'
 import {FilePath} from '@ionic-native/file-path';
 import {File} from '@ionic-native/file';
-import {ApiValuesProvider} from '../../../providers/api-values/api-values';
+import { ApiValuesProvider } from '../../../providers/api-values/api-values';
+import { Storage } from '@ionic/storage';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 declare var cordova:any;
 
@@ -24,6 +26,8 @@ export class UpdateUserPage
 
 	user:any=null;
 
+  loggedInUserId;
+
 	passed_uid:string;
 
 	userForm:FormGroup;
@@ -35,7 +39,7 @@ export class UpdateUserPage
 	lastImage:string;
 	
 
-	constructor(public file:File,public platform:Platform,public filePath:FilePath,public fileTransfer:FileTransfer,public formBuilder:FormBuilder,public apiValue:ApiValuesProvider,private camera: Camera,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController, public menuCtrl: MenuController) 
+	constructor(public webView:WebView,public storage:Storage,public file:File,public platform:Platform,public filePath:FilePath,public fileTransfer:FileTransfer,public formBuilder:FormBuilder,public apiValue:ApiValuesProvider,private camera: Camera,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController, public menuCtrl: MenuController) 
 	{
 			this.userForm=this.formBuilder.group({
 
@@ -55,7 +59,13 @@ export class UpdateUserPage
 			u_street:new FormControl('',Validators.compose([Validators.required])),
 			u_user_type:new FormControl('',Validators.compose([Validators.required]))
 			
-		});
+            });
+
+      this.storage.get("id").then((value) => {
+
+        this.loggedInUserId = value;
+        console.log("Logged In User ID:" + value);
+      });
 	}
 
 
@@ -131,7 +141,8 @@ export class UpdateUserPage
 		          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
 
 		          this.isImageChanged=true; //We have got our image successfully;
-		          this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
+		         // this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
+		          this.userForm.value.u_profile_img=this.webView.convertFileSrc(imageData);
 		        })
 
 		        .catch(error=>{
@@ -150,7 +161,9 @@ export class UpdateUserPage
 		      var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
 		      this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
 		      this.isImageChanged=true; //We have got our image successfully;
-		      this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
+		      // this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
+                this.userForm.value.u_profile_img = this.webView.convertFileSrc(imageData);
+               
 		    }
 		 }
 		 else
@@ -292,6 +305,8 @@ export class UpdateUserPage
     submitData()
     {
 
+      console.log("Image changed" + this.isImageChanged);
+
 	    	if(! this.isImageChanged || this.lastImage==undefined || this.lastImage.length==0)
 	    	{
 	    		//If image is not changed, we don't need to send data using file transfer
@@ -313,7 +328,8 @@ export class UpdateUserPage
 				body.append("pincode",this.userForm.value.u_pincode);
 				body.append("fax",this.userForm.value.u_fax);
 				body.append("street",this.userForm.value.u_street);
-				body.append("user_type",this.userForm.value.u_user_type);
+        body.append("user_type", this.userForm.value.u_user_type);
+        body.append("session_id", this.loggedInUserId);
 
 				if(this.userForm.value.u_profile_img!=null && this.userForm.value.u_profile_img.length>0)
 				{
@@ -384,7 +400,8 @@ export class UpdateUserPage
 					"pincode":this.userForm.value.u_pincode,
 					"fax":this.userForm.value.u_fax,
 					"street":this.userForm.value.u_street,
-					"user_type":this.userForm.value.u_user_type
+          "user_type": this.userForm.value.u_user_type,
+          "session_id": this.loggedInUserId
 				}
 			};
 

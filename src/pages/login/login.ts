@@ -9,7 +9,10 @@ import "rxjs/add/operator/map";
 import { DashboardPage } from '../dashboard/dashboard';
 import { Storage } from '@ionic/storage';
 
-import {ApiValuesProvider} from '../../providers/api-values/api-values';
+import { ApiValuesProvider } from '../../providers/api-values/api-values';
+import { MyStorageProvider } from '../../providers/my-storage/my-storage';
+
+import {User } from '../../models/login_user.model';
 
 import { Events } from 'ionic-angular';
 
@@ -22,7 +25,7 @@ import { Events } from 'ionic-angular';
 
 export class LoginPage 
 {
-    U_ID="id";
+  U_ID="id";
 	U_NAME="name";
 	U_EMAIL="email";
 	U_USERTYPEID="usertype_id";
@@ -34,8 +37,8 @@ export class LoginPage
 	login_username:string;
 	login_password:string;
 	result:string;
-	
-	 constructor(public apiValue:ApiValuesProvider,public events: Events,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController,public storage: Storage, public menuCtrl: MenuController) 
+
+  constructor(public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public events: Events, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController, public toastCtrl: ToastController, public storage: Storage, public menuCtrl: MenuController) 
 	{
 
 		this.menuCtrl.enable(false);
@@ -191,13 +194,17 @@ export class LoginPage
 						
 						//Now we will save the user details
 						
-					
-		  			this.storage.set(this.U_ID, serverReply.id);
-		  			this.storage.set(this.U_NAME, serverReply.name);
-		  			this.storage.set(this.U_EMAIL, serverReply.email);
-		  			this.storage.set(this.U_USERTYPEID, serverReply.usertype_id);
-		  			this.storage.set(this.U_PROFILEIMG, serverReply.profile_img);
-					console.log('Data set');
+            let user: User=new User();
+
+           user.id = serverReply.id;
+           user.name = serverReply.name;
+           user.email = serverReply.email;
+           user.id = serverReply.usertype_id;
+           user.profile_img = serverReply.profile_img;
+
+           this.myStorage.setParameters(user);
+
+				  	console.log('Data set');
 
 					this.navCtrl.setRoot(DashboardPage);
 					}

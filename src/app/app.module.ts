@@ -40,7 +40,8 @@ import {SMSBulkEmailPage} from '../pages/sms/bulkemail/bulkemail';
 import {SMSListPage} from '../pages/sms/smslist/smslist';
 import {SingleUserAccountPage} from '../pages/account_management/single_user_account/single_user_account';
 import {SearchHeaderPageModule} from '../pages/search-header/search-header.module';
-import {ComponentsModule} from '../components/components.module';
+import { ComponentsModule } from '../components/components.module';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -146,7 +147,8 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
       FileTransfer,
     ApiValuesProvider,
     File,
-    FilePath
+    FilePath,
+    WebView
   ],
   exports: [ComponentsModule]
 })
