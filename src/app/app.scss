@@ -59,6 +59,16 @@ page-main {
   .mainBackgroundColor {
     background-image: radial-gradient(circle, #F9A72B 0%, #FA9026 70%, #FB6C1F 100%);
   }
+
+  .menuItem {
+    padding-left: 2px;
+    border-bottom: 1px solid #efefef;
+  }
+
+  .menuItem ion-label
+  {
+    margin:0px;
+  }
   //--------Splash Screen ANimation-----------//
   .splash {
     position: absolute;
