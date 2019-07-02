@@ -8,7 +8,11 @@ import {Events} from 'ionic-angular';
 
 export class SMSBulkEmailPage
 {
-	emails;
+  emails: Email[]=[];
+  setDetailVisible: boolean = false;
+  blurAmount: string = '';
+  emailDetail: Email;
+
 
 	constructor(public events:Events)
 	{
@@ -23,7 +27,29 @@ export class SMSBulkEmailPage
 	searchClient()
 	{
 		this.events.publish('mainSearch','ds'); //This event is defined in app.component.ts file
-	}
+    }
+
+  hideDetails() {
+    this.setDetailVisible = false;
+    this.blurAmount = '';
+  }
+
+  showDetails(account) {
+
+    if (this.setDetailVisible == true) {
+      //Already Visible
+
+      //Set it to false so that the div hides and don't do anything
+      this.hideDetails();
+      return;
+    }
+
+    this.setDetailVisible = true;
+    this.blurAmount = 'blurDiv';
+    this.emailDetail = account;
+
+  }
+
 }
 
 class Email

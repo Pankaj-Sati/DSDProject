@@ -5,8 +5,7 @@
     "\\src",
     "\\src\\app",
     "\\src\\pages",
-    "\\src\\pages\\dashboard",
-    "\\src\\pages\\login",
+    "\\src\\pages\\notifications",
     "\\src\\pages\\settings",
     "\\src\\pages\\settings\\user_type"
   ],

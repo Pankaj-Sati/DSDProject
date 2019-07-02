@@ -19,6 +19,9 @@ export class NotificationsPage
 	n_search:string;
 	notifications:any;
 
+  setDetailVisible: boolean;
+  detailNotification: any;
+  blurAmount: string;
 
 	constructor(public events:Events,public apiValue:ApiValuesProvider,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController)
 	{
@@ -29,7 +32,25 @@ export class NotificationsPage
     searchClient()
 	{
 		this.events.publish('mainSearch','ds'); //This event is defined in app.component.ts file
-	}
+    }
+
+  hideDetails() {
+    this.setDetailVisible = false;
+    this.blurAmount = '';
+  }
+
+  showDetails(notification) {
+    if (this.setDetailVisible == true) {
+      //Already Visible
+
+      //Set it to false so that the div hides and don't do anything
+      this.hideDetails();
+      return;
+    }
+    this.setDetailVisible = true;
+    this.blurAmount = 'blurDiv';
+    this.detailNotification = notification;
+  }
 
 
 	fetchData()

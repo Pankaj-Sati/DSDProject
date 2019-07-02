@@ -24,95 +24,250 @@
 
 <ion-content>
 
-	<ion-list>
+  <div [className]="blurAmount">
+    <ion-list>
 
-	<ion-item>
+      <ion-item>
 
-    <ion-label fixed>Payment Mode</ion-label>
+        <ion-label>Payment Mode</ion-label>
 
-	   	<ion-select  [(ngModel)]="a_pay_mode" >
-	      <ion-option value="1">Debit/Credit Card</ion-option>
-	        <ion-option value="2">Via Bank Transfer</ion-option>
-	        <ion-option value="3">Payment By Cash</ion-option>
-	        <ion-option value="4">Add charges into Client Account</ion-option>
-	        <ion-option value="5">Registration Charges</ion-option>
-	        
-	     </ion-select>
-  </ion-item>
+        <ion-select interface="popover" [(ngModel)]="a_pay_mode">
+          <ion-option value="1">Debit/Credit Card</ion-option>
+          <ion-option value="2">Via Bank Transfer</ion-option>
+          <ion-option value="3">Payment By Cash</ion-option>
+          <ion-option value="4">Add charges into Client Account</ion-option>
+          <ion-option value="5">Registration Charges</ion-option>
 
-  <ion-item>
+        </ion-select>
+      </ion-item>
 
-    <ion-label fixed>Payment Status</ion-label>
+      <ion-item>
 
-	   	<ion-select  [(ngModel)]="a_pay_status" >
-	      <ion-option value="1">Outstanding Payments</ion-option>
-	        <ion-option value="2">Payment Received</ion-option>
-	        
-	     </ion-select>
-  </ion-item>
+        <ion-label>Payment Status</ion-label>
 
+        <ion-select interface="popover" [(ngModel)]="a_pay_status">
+          <ion-option value="1">Outstanding Payments</ion-option>
+          <ion-option value="2">Payment Received</ion-option>
 
-  <ion-item>
-    <ion-label fixed>From</ion-label>
-    <ion-datetime placeholder="Select Date" [(ngModel)]="c_pay_from"></ion-datetime>
+        </ion-select>
+      </ion-item>
 
 
-  </ion-item>
-
-  <ion-item>
-    <ion-label fixed>To</ion-label>
-    <ion-datetime placeholder="Select Date" [(ngModel)]="c_pay_to"></ion-datetime>
+      <ion-item>
+        <ion-label>From</ion-label>
+        <ion-datetime placeholder="Select Date" [(ngModel)]="c_pay_from"></ion-datetime>
 
 
-  </ion-item>
+      </ion-item>
 
-	</ion-list>
-	  <ion-row style="text-align: center;">
-
-		<ion-col>
-
-	  		<button icon-start ion-button><ion-icon name="search"></ion-icon>Search</button>
-	  	</ion-col>
-
-	  </ion-row>
-
-	  <hr>
-	  <br>
-
-	  <div style="overflow-x:auto">
-		<table>
-	
-			<tr>
-			
-				<th><b>S.No.</b></th>
-		
-				<th><b>Date</b></th>
+      <ion-item>
+        <ion-label>To</ion-label>
+        <ion-datetime placeholder="Select Date" [(ngModel)]="c_pay_to"></ion-datetime>
 
 
-				<th><b>Client Name</b></th>
+      </ion-item>
 
-				<th><b>Alien No.</b></th>
+    </ion-list>
+    <ion-row style="text-align: center;">
 
-				<th><b>Payment Mode</b></th>
+      <ion-col>
 
-				<th><b>Payment Overdue</b></th>
+        <button icon-start ion-button><ion-icon name="search"></ion-icon>Search</button>
+      </ion-col>
 
-				<th><b>Amount</b></th>
-			</tr>
-		<!-- Later fetch the actual data from the server-->
-			<tr>
-				<td>1</td>
-				<td>12 Jan 2018</td>
-				<td>Dummy CLient</td>
-				<td>456</td>
-				<td>Pay By Cash</td>
-				<td>3000</td>
-				<td>0</td>
-				<td>400</td>
+    </ion-row>
 
-			</tr>
+    <hr>
+    <br>
 
-		</table>
-	</div>
+    <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let account of accounts;let i=index" (click)="showDetails(account)">
 
-	</ion-content>
+      <ion-row>
+
+        <ion-col col-3>
+
+          <ion-row>
+            <ion-col>
+              <b>Client</b>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col>
+              {{account.client_name}}
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+        <ion-col col-3 style="text-overflow: ellipsis; flex:1;overflow: hidden;white-space: nowrap;">
+
+          <ion-row>
+            <ion-col>
+              <b>Date</b>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col>
+              {{account.date}}
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+        <ion-col col-3>
+
+          <ion-row>
+            <ion-col>
+              <b>Overdue</b>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col>
+              {{account.payment_overdue}}
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+        <ion-col col-3>
+
+          <ion-row>
+            <ion-col>
+              <b>Amount</b>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col>
+
+              {{account.amount}}
+
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+      </ion-row>
+
+    </ion-card>
+
+  </div>
+
+  <div class="details" *ngIf="setDetailVisible">
+
+
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Client Name</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.client_name}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Alien No.</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.alien_no}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+
+
+    <div class="detailsSeperator"></div>
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Date</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.date}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Payment Mode</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.payment_mode}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-12>
+        <div class="detailsSeperator"></div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Payment Overdue</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.payment_overdue}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Amount</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.amount}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row style="text-align: center;">
+      <ion-col>
+        <button class="closeButton" ion-button (click)="hideDetails()"><ion-icon name="close"></ion-icon></button>
+      </ion-col>
+    </ion-row>
+
+  </div>
+
+</ion-content>

@@ -1,58 +1,52 @@
-smslist
-{
-	table 
-	{
-		width:100%;
-		text-align:left;
-	}
+smslist {
+  .fullPage {
+    width: 100%;
+    height: 100%;
+    position: sticky;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.3);
+  }
 
-	th, td 
-	{
-		padding:10px 10px;
+  .simpleCard {
+    background-color: #efefef;
+    border-radius: 2%;
+    text-align: center;
+  }
 
-	}
+  .details {
+    position: sticky;
+    bottom: 0;
+    min-height: 360px;
+    margin: 0px 10px;
+    background-color: #d4d4d4;
+    padding: 30px;
+    text-align: center;
+    font-size: 1.35em;
+    box-shadow: 1px 10px;
+    border-radius: 10px 10px 0px 0px;
+  }
 
-	.greaterSize
-	{
-		min-width: 96px;
-		min-height: 96px;
-	}
-	
-	th 
-	{
-		color:#fff;
-		border-top:1px solid #222;
-		background-color:color($colors, primary, base);
-	}
-	
-	td 
-	{
-		border-bottom:1px solid #f4f4f4;
-	}
+  .detailsSeperator {
+    background-color: map-get($colors,secondary);
+    width: 100%;
+    height: 3px;
+  }
 
+  .blurDiv {
+    filter: blur(3px);
+  }
 
-	table 
-	{
-		width:100%;
-		text-align:left;
-	}
-	th, td 
-	{
-		padding:5px 10px;
-		min-width: 96px;
-		min-height: 96px;
-		margin: 10px;
-	}
-	th {
-		color:#fff;
-		border-top:1px solid #DDD;
-		min-height: 96px;
-		background-color:color($colors, primary, base);
-	}
+  .closeButton {
+    background-color: map-get($colors,danger);
+    border-radius: 100%;
+    min-height: 48px;
+    min-width: 48px;
+  }
 
-	td 
-	{
-
-		border:1px solid #BBB;
-	}
+  .simpleCard ion-col {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    flex: 1;
+    overflow: hidden;
+  }
 }

@@ -1,6 +1,8 @@
 import { Http,Headers, RequestOptions } from '@angular/http';
 import { Injectable } from '@angular/core';
-import {Events} from 'ionic-angular';
+import { Events } from 'ionic-angular';
+import { ApiValuesProvider } from '../api-values/api-values';
+import { Observable } from 'rxjs/Observable';
 
 /*
   Generated class for the AdvocateListProvider provider.
@@ -11,7 +13,7 @@ import {Events} from 'ionic-angular';
 @Injectable()
 export class AdvocateListProvider {
 
-  constructor(public http: Http,public events:Events) {
+  constructor(public http: Http, public events: Events, public apiValues: ApiValuesProvider) {
     console.log('Hello AdvocateListProvider Provider');
   }
 
@@ -27,7 +29,7 @@ export class AdvocateListProvider {
 
 		};
 
-		this.http.post("http://jagdambasoftwaresolutions.com/dsd/api_work/get_advocate.php",data,options)
+    this.http.post(this.apiValues.baseURL+"/get_advocate.php", data, options)
 
 		.map(response=>response.json())
 		.subscribe(serverReply=>{
@@ -49,4 +51,18 @@ export class AdvocateListProvider {
 
 	}
 
+  getAdvocateList()
+  {
+    var headers = new Headers();
+    headers.append("Accept", "application/json");
+    headers.append("Content-Type", "application/json");
+
+    var options = new RequestOptions({ headers: headers });
+
+    var data = {
+
+    };
+
+    return this.http.post(this.apiValues.baseURL + "/get_advocate.php", data, options);  
+  }
 }

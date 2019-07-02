@@ -122,16 +122,14 @@
 
 </div>
 
-<div *ngIf="user==null || user.length==0" style="width:100%;height:100%;text-align: center; margin:20px 5px 0px 5px;">
+ <div *ngIf="user==null || user.length==0">
 
-  <img style="border-radius: 100%;margin:5px 20px" src="../../../assets/imgs/user.png" alt="No image Found" width="144px" height="144px"/>
+   <no-record-found></no-record-found>
 
-  <h4 style="margin: auto;font-size:15px;">No User Info.</h4>
-</div>
+ </div>
 <br>
 <br>
 <hr>
 <br>
 
 </ion-content>
-  
