@@ -61,7 +61,7 @@
           <ion-col style="text-align:center;">
             <h3 style="font-weight: 700;color:  $textColor;font-size:2.5em;margin:0px;">Dalbir's Law Firm</h3>
             <br />
-            <img src="assets/imgs/logo.png" style="max-width:144px; max-height:144px; object-fit: contain;" />
+            <img src="assets/imgs/logo.png" style="max-width:192px; max-height:192px; object-fit: contain;" />
 
           </ion-col>
         </ion-row>
@@ -72,8 +72,8 @@
             <h4 style="color: $textColor;font-size:1.2em;font-weight:700;">Reminders</h4>
             <h5 style="color: $textColor;font-size:2em;">{{total_reminders}}</h5>
             <span (click)="openRemindersList()">
-              <button ion-button class="headerButtons"><ion-icon name="bulb"></ion-icon></button>
-              <h6 style="color:white">See All</h6>
+              <button ion-button class="headerButtons"><ion-icon class="headerText" name="bulb"></ion-icon></button>
+              <h6 class="headerText">See All</h6>
             </span>
           </ion-col>
 
@@ -81,8 +81,8 @@
             <h4 style="color: $textColor;font-size:1.2em;font-weight:700;">Notifications</h4>
             <h5 style="color: $textColor;font-size:2em;">{{total_notifications}}</h5>
             <span (click)="openNotificationsList()">
-              <button ion-button class="headerButtons"><ion-icon name="notifications"></ion-icon></button>
-              <h6 style="color:white">See All</h6>
+              <button ion-button class="headerButtons"><ion-icon class="headerText" name="notifications"></ion-icon></button>
+              <h6 class="headerText">See All</h6>
             </span>
           </ion-col>
         </ion-row>
@@ -102,7 +102,7 @@
         Total Clients: <b>{{total_clients}}</b><br>
       </ion-col>
       <ion-col style="text-align: right">
-        <button ion-button (click)="addClient()" style="background-color: #f74646">Add a Client</button>
+        <button ion-button (click)="addClient()" style="background-color: #033054">Add a Client</button>
       </ion-col>
     </ion-row>
   </ion-card-content>

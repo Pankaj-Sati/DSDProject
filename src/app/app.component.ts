@@ -36,7 +36,7 @@ import { Events } from 'ionic-angular';
 
 @Component(
 {
-  templateUrl: 'app.html'
+    templateUrl: 'app.html'
 })
 
 export class MyApp {

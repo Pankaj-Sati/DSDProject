@@ -1,54 +1,79 @@
 /* CSS Document */
-page-reminders
-{
-	ion-scroll 
-	{
-	  white-space: nowrap;
-	  height: 150px
-	}
+page-reminders {
+  table {
+    width: 100%;
+    text-align: left;
+  }
 
-	.fullPage
-	{
-		width: 100%;
-		height: 100%;
-		position: sticky;
-		bottom: 0;
-		background-color: rgba(0,0,0,0.3);
+  th, td {
+    padding: 5px 10px;
+    min-width: 96px;
+    min-height: 96px;
+    margin: 10px;
+  }
 
-	}
+  tr:nth-child(even) {
+    background: #dbfbff;
+  }
 
-	.details
-	{
-		position: sticky;
-		bottom: 0;
-		min-height: 360px;
-		margin: 0px 10px;
-		background-color: #d4d4d4;
-		padding: 30px;
-		text-align: center;
-		font-size: 1.35em;
-		box-shadow: 1px 10px;
-		border-radius: 10px 10px 0px 0px;
-	}
+  tr:nth-child(odd) {
+    background: #FFF
+  }
 
-	.detailsSeperator
-	{
-		background-color: map-get($colors,secondary);
-		width: 100%;
-		height: 3px;
-	}
+  th {
+    color: #fff;
+    border-top: 1px solid #DDD;
+    background-color: color($colors, primary, base);
+    font-size: 14px;
+    font-weight: 400;
+    text-align:center;
+  }
 
-	.blurDiv
-	{
-		 filter: blur(3px);
-	}
+  td {
+    text-align: center;
+  }
 
-	.closeButton
-	{
-		background-color:map-get($colors,danger);
-		border-radius: 100%;
-		min-height: 48px;
-   		min-width: 48px;
-	}
-	
+
+  ion-scroll {
+    white-space: nowrap;
+    height: 150px
+  }
+
+  .fullPage {
+    width: 100%;
+    height: 100%;
+    position: sticky;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.3);
+  }
+
+  .details {
+    position: sticky;
+    bottom: 0;
+    min-height: 360px;
+    margin: 0px 10px;
+    background-color: #d4d4d4;
+    padding: 30px;
+    text-align: center;
+    font-size: 1.35em;
+    box-shadow: 1px 10px;
+    border-radius: 10px 10px 0px 0px;
+  }
+
+  .detailsSeperator {
+    background-color: map-get($colors,secondary);
+    width: 100%;
+    height: 3px;
+  }
+
+  .blurDiv {
+    filter: blur(3px);
+  }
+
+  .closeButton {
+    background-color: map-get($colors,danger);
+    border-radius: 100%;
+    min-height: 48px;
+    min-width: 48px;
+  }
 }
