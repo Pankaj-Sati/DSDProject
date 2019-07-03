@@ -11,6 +11,8 @@ import { EditProfilePage } from './edit_profile/edit_profile';
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../providers/my-storage/my-storage';
 
+import { Events } from 'ionic-angular';
+
 import {User } from '../../models/login_user.model';
 
 @Component({
@@ -24,7 +26,7 @@ export class UserProfilePage
    u_email:string;
    u_image: string;
 
-  constructor(public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loading: LoadingController, public toastCtrl: ToastController, public storage: Storage, public menuCtrl: MenuController) 
+  constructor(public events:Events,public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loading: LoadingController, public toastCtrl: ToastController, public storage: Storage, public menuCtrl: MenuController) 
 	{
 
         this.getLocalData();
@@ -42,6 +44,11 @@ export class UserProfilePage
 		  		  
 	
     }
+
+  searchClient()
+  {
+    this.events.publish('mainSearch', 'ds'); //This event is defined in app.component.ts file
+  }
 
   userLogout()
   {

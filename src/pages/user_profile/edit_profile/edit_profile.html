@@ -9,94 +9,109 @@
 
 <ion-content>
 
- <ion-list *ngFor="let user of users">
+  <ion-list *ngFor="let user of users">
 
-    <ion-item style="text-align: center;">
 
-	      <img style="border-radius: 100%;margin: 20px"  src="apiValue.baseImageFolder{{user.profile_img}}" alt="No image Found" width="96px" height="98px"/> 
+    <div style="text-align: center; background-image:url('assets/imgs/user_profile_bg.jpg');">
 
-        <br>
+      <div class="overlay">
 
-         <b>{{user.name}}</b> <br> <br>
-         <i>{{user.email}}</i>
-      </ion-item>
-    
+        <div style="padding:10px; color: white">
+
+         <img style="border:2px solid white; padding:2px; border-radius: 100%;margin:5px 10px" [src]="apiValue.baseImageFolder+user.profile_img" alt="No image Found" width="144px" height="144px" /> 
+
+          <!-- <img style="border-radius: 100%;margin:5px 10px" *ngIf="u_image==null || u_image.length==0;" src="assets/imgs/user.png" alt="No image Found" width="144px" height="144px" /> -->
+
+         <h2 class="profile-name dark">{{user.name}}</h2>
+         <div class="profile-info">{{user.email}}</div>
+
+        </div>
+      </div>
+    </div>
+
+
 
     <br><br>
 
     <ion-item>
       <ion-label fixed><b>Contact No.:</b></ion-label>
-      <ion-label>{{user.contact}}</ion-label>
-    
+      <ion-label>9420115863</ion-label>
+
     </ion-item>
 
     <ion-item>
       <ion-label fixed><b>Alternate No.:</b></ion-label>
-      <ion-label>{{user.alternate_number}}</ion-label>
-    
+      <ion-label><!--{{user.alternate_number}}--></ion-label>
+
     </ion-item>
 
     <ion-item>
       <ion-label fixed><b>Gender:</b></ion-label>
-       <ion-label>{{user.gender}}</ion-label>
-    
+      <ion-label><!--{{user.gender}}-->Female</ion-label>
+
     </ion-item>
 
     <ion-item>
       <ion-label fixed><b>Date Of Birth:</b></ion-label>
-       <ion-label>{{user.dob}}</ion-label>
-    
+      <ion-label><!--{{user.dob}}-->12 July 1990</ion-label>
+
     </ion-item>
 
     <ion-item>
       <ion-label fixed><b>Street:</b></ion-label>
-       <ion-label>{{user.streetNoName}}</ion-label>
-    
+      <ion-label><!--{{user.streetNoName}} -->Ashok Nagar</ion-label>
+
     </ion-item>
 
     <ion-item>
       <ion-label fixed><b>City or Town:</b></ion-label>
-      <ion-label>{{user.city}}</ion-label>
-    
+      <ion-label><!--{{user.city}}-->Delhi</ion-label>
+
     </ion-item>
 
     <ion-item>
       <ion-label fixed><b>State:</b></ion-label>
-      <ion-label>{{user.state}}</ion-label>
-    
+      <ion-label><!--{{user.state}}-->Delhi</ion-label>
+
     </ion-item>
 
     <ion-item>
       <ion-label fixed><b>Zip Code:</b></ion-label>
-      <ion-label>{{user.zipCode}}</ion-label>
-    
+      <ion-label><!--{{user.zipCode}}-->234562</ion-label>
+
     </ion-item>
 
     <ion-item>
       <ion-label fixed><b>Country:</b></ion-label>
-        <ion-label>{{user.country}}</ion-label>
-    
+      <ion-label><!--{{user.country}}-->India</ion-label>
+
     </ion-item>
 
     <ion-item>
       <ion-label fixed><b>Fax No.:</b></ion-label>
-       <ion-label>{{user.fax}}</ion-label>
-    
+      <ion-label><!--{{user.fax}}--></ion-label>
+
     </ion-item>
 
     <ion-item>
       <ion-label fixed><b>User Type:</b></ion-label>
-       <ion-label>{{user_type.getUserType(user.usertype_id)}}</ion-label>
-    
-    </ion-item>
+      <ion-label><!--{{user_type.getUserType(user.usertype_id)}}-->Admin</ion-label>
 
-    <ion-item style='text-align:center;margin:5px'>
-        <button ion-button (click)="changePassword(user.name)">Change Password</button>
-        <button ion-button (click)="editUser()">Update User</button>
-        <button ion-button (click)="deleteUser()">Delete User</button>
-      </ion-item>
+    </ion-item>
+    <!--
+   <ion-item style='text-align:center;margin:5px'>
+       <button ion-button (click)="changePassword(user.name)">Change Password</button>
+       <button ion-button (click)="editUser()">Update User</button>
+       <button ion-button (click)="deleteUser()">Delete User</button>
+     </ion-item>
+   -->
   </ion-list>
 
 
+   <ion-row>
+     <ion-col style="text-align:center">
+       <button ion-button (click)="goBack()">Back</button>
+     </ion-col>
+   </ion-row>
+
 </ion-content>
-  

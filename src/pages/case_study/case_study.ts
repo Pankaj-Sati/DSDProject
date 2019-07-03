@@ -19,7 +19,9 @@ export class CaseStudyPage
 	c_case_category:string;
 	c_case_year:string;
 	c_case_manager:string;
-	c_search:string;
+  c_search: string;
+
+  caseList: any = null;
 
 	constructor(public events:Events,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController, public menuCtrl: MenuController) 
 	{

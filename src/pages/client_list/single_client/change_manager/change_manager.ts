@@ -56,7 +56,7 @@ export class ChangeManagerPage
 	{
 
 		 this.loader=this.loading.create({
-			content: "Fetching manager list please wait…",
+           content: "Loading ...",
 		});
 
 		this.loader.present().then(()=>{

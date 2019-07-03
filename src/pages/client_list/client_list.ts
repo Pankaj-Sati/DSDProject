@@ -71,7 +71,7 @@ export class ClientListPage
 
 		let loader = this.loading.create({
 
-		   content: "Fetching data please wait…",
+		   content: "Loading ...",
 
 		 });
 

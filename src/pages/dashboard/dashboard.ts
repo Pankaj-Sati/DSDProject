@@ -101,7 +101,7 @@ export class DashboardPage
 	{
 	
 	   var headers = new Headers();
-	  console.log("Fetching Data");
+      console.log("Loading ...");
 
        headers.append("Accept", "application/json");
 

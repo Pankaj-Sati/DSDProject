@@ -16,6 +16,8 @@
 // automatically applied to the <body> element in the app.
 
 page-main {
+  $menuTextColor: map-get($colors, primary);
+
   .center {
     display: block;
     margin-left: auto;

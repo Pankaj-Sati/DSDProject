@@ -54,7 +54,7 @@ export class SingleClientPage
 
 		let loader = this.loading.create({
 
-		   content: this.passed_client_id+"Fetching client details please wait…",
+          content: this.passed_client_id +"Loading ...",
 
 		 });
 

@@ -235,7 +235,7 @@ export class UpdateUserPage
 
 				let loader = this.loading.create({
 
-				   content: "Fetching user details please wait…",
+                  content: "Loading ...",
 
 				 });
 

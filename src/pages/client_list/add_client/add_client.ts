@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import {Http, Headers, RequestOptions}  from "@angular/http";
-
 import { LoadingController } from "ionic-angular";
 import { ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators,FormControl } from '@angular/forms';
@@ -34,8 +33,8 @@ export class AddClientPage
 			c_date:new FormControl('',Validators.compose([Validators.required])),
 			c_name:new FormControl('',Validators.compose([Validators.required,Validators.pattern('^[a-zA-Z\-\']+')])),
 			c_alias:new FormControl('',Validators.compose([Validators.pattern('^[a-zA-Z\-\']+')])),
-			c_contact:new FormControl('',Validators.compose([Validators.required,Validators.pattern('^[0-9]{2,10}')])),
-			c_alt_no:new FormControl('',Validators.compose([Validators.pattern('^[0-9]{2,10}')])),
+          c_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
+          c_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
 			c_email:new FormControl('',Validators.compose([Validators.required,Validators.email])),
 			c_country:new FormControl('',Validators.compose([Validators.required])),
 			c_notes:new FormControl('',Validators.compose([Validators.required])),

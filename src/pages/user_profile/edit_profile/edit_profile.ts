@@ -8,7 +8,10 @@ import "rxjs/add/operator/map";
 import { LoginPage } from '../../login/login';
 import { Storage } from '@ionic/storage';
 
-import {ApiValuesProvider} from '../../../providers/api-values/api-values';
+import { ApiValuesProvider } from '../../../providers/api-values/api-values';
+import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
+
+import {User } from '../../../models/login_user.model';
 
 @Component({
 	selector: 'edit_profile',
@@ -19,9 +22,11 @@ export class EditProfilePage
 {
 	u_id=null;
 	USER_ID="id";
-	users:any;
+  users: any;
 
-	constructor(public apiValue:ApiValuesProvider,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController,public storage: Storage, public menuCtrl: MenuController) 
+  loggedInUser: User;
+
+  constructor(public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController, public toastCtrl: ToastController, public storage: Storage, public menuCtrl: MenuController) 
 	{
 
 		this.getUserId(); //We will fetch the user id from local storage which we saved at the time of login
@@ -61,7 +66,7 @@ export class EditProfilePage
 
 		let loader = this.loading.create({
 
-		   content: "Fetching details please wait…",
+          content: "Loading ...",
 
 		 });
 
@@ -109,15 +114,12 @@ export class EditProfilePage
 
     getUserId()
     {
-    	this.storage.get(this.USER_ID).then((value) => 
-			  {
-					
-				 this.u_id=value;
-		  		  console.log("User ID="+this.u_id);
-
-		  		 // this.fetchData(); //Add fetch later when API is working
-			  });
-
-    	
+      this.loggedInUser = this.myStorage.getParameters();
+      this.users = [this.loggedInUser];
     }
+
+  goBack()
+  {
+    this.navCtrl.pop();
+  }
 }

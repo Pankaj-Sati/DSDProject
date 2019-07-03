@@ -1,17 +1,15 @@
-casetype
-{
-	.cardButton
-	{
-		color:color($colors, primary, base);
-		background-color: transparent;
-		box-shadow: none;
-	}
+casetype {
+  .cardButton {
+    color: color($colors, primary, base);
+    background-color: transparent;
+    box-shadow: none;
+  }
 
-	ion-label
-	{
-		margin: 0px;
-	}
+  ion-label {
+    margin: 0px;
+  }
 
-	
+  .cardBG {
+    background-image: linear-gradient(#2196f399, rgba(255, 255, 255, 0.5));
+  }
 }
-

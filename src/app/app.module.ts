@@ -5,8 +5,8 @@ import { MyApp } from './app.component';
 import { Camera } from '@ionic-native/camera';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
-import {FilePath} from '@ionic-native/file-path';
-
+import { FilePath } from '@ionic-native/file-path';
+import { BrMaskerModule } from 'brmasker-ionic-3';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
@@ -42,6 +42,7 @@ import {SingleUserAccountPage} from '../pages/account_management/single_user_acc
 import {SearchHeaderPageModule} from '../pages/search-header/search-header.module';
 import { ComponentsModule } from '../components/components.module';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -97,7 +98,8 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
         ReactiveFormsModule,
 	     IonicStorageModule.forRoot(),
          SearchHeaderPageModule,
-         ComponentsModule
+    ComponentsModule,
+    BrMaskerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -148,7 +150,8 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
     ApiValuesProvider,
     File,
     FilePath,
-    WebView
+    WebView,
+    InAppBrowser
   ],
   exports: [ComponentsModule]
 })

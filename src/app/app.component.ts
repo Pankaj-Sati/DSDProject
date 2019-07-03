@@ -23,6 +23,8 @@ import {SMSListPage} from '../pages/sms/smslist/smslist';
 import {SearchHeaderPage} from '../pages/search-header/search-header';
 import { ApiValuesProvider } from '../providers/api-values/api-values';
 import { MyStorageProvider } from '../providers/my-storage/my-storage';
+import { InAppBrowser} from '@ionic-native/in-app-browser/ngx';
+
 
 import { User } from '../models/login_user.model';
 
@@ -46,13 +48,13 @@ export class MyApp {
   rootPage:any =null;
   showSplash=true; //To show custom splash screen
 
-  pages: Array<{title: string, icon: string,component: any, subs:Array<{title: string, icon: string,component: any}>, hasSub:boolean}>;
-  settingPages: Array<{title: string, icon: string,component: any}>;
-  userPages: Array<{title: string, icon: string,component: any}>;
-  clientPages: Array<{title: string, icon: string,component: any}>;
-  smsPages: Array<{title: string, icon: string,component: any}>;
-  caseStudyPages: Array<{title: string, icon: string,component: any}>;
-  accountManagementPages: Array<{title: string, icon: string,component: any}>;
+  pages: Array<{ title: string, icon: string, iconColor: string, component: any, subs: Array<{ title: string, icon: string,iconColor:string,component: any}>, hasSub:boolean}>;
+  settingPages: Array<{ title: string, icon: string, iconColor: string,component: any}>;
+  userPages: Array<{ title: string, icon: string, iconColor: string,component: any}>;
+  clientPages: Array<{ title: string, icon: string, iconColor: string,component: any}>;
+  smsPages: Array<{ title: string, icon: string, iconColor: string,component: any}>;
+  caseStudyPages: Array<{ title: string, icon: string, iconColor: string,component: any}>;
+  accountManagementPages: Array<{ title: string, icon: string, iconColor: string,component: any}>;
 
 
   loggedInUser: User;
@@ -72,7 +74,8 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public storage: Storage,
-    public myStorage: MyStorageProvider
+    public myStorage: MyStorageProvider,
+    public inAppBrowser: InAppBrowser
   ) 
   {
 
@@ -99,59 +102,59 @@ export class MyApp {
       this.showSearch=! this.showSearch;
     });
     //set subPages
-      this.settingPages=[
-      { title: 'User Type', icon: 'home' ,component: SettingUserTypePage},
-      { title: 'Case Type', icon: 'home' ,component: SettingCaseTypePage}
+    this.settingPages = [
+      { title: 'User Type', icon: 'bowtie', iconColor:'cadetblue', component: SettingUserTypePage },
+      { title: 'Case Type', icon: 'clipboard', iconColor: 'cadetblue',component: SettingCaseTypePage}
       ];
 
       this.userPages=[
-          { title: 'User List', icon:'contact',component: UserListPage}
+        { title: 'User List', icon: 'contact', iconColor: 'chocolate',component: UserListPage}
       ];
 
         this.clientPages=[
-        { title: 'Client List', icon:'people', component: ClientListPage},
+          { title: 'Client List', icon: 'people', iconColor: 'cornflowerblue', component: ClientListPage},
       ];
         this.smsPages=[
 
-          { title: 'Bulk Emails', icon:'contact',component: SMSBulkEmailPage},
-        { title: 'SMS List', icon:'list-box',component: SMSListPage}
+          { title: 'Bulk Emails', icon: 'contact', iconColor: 'darksalmon',component: SMSBulkEmailPage},
+          { title: 'SMS List', icon: 'list-box', iconColor: 'darksalmon',component: SMSListPage}
       ];
 
       this.caseStudyPages=[
-        { title: 'Case Study List', icon:'people', component: CaseStudyPage},
+        { title: 'Case Study List', icon: 'people', iconColor: 'forestgreen', component: CaseStudyPage},
       ];
 
       this.accountManagementPages=[
-        { title: 'User Account Management', icon:'people', component: AccountManagementPage},
-        { title: 'Account Management', icon:'bookmarks', component: AccountSummaryPage}
+        { title: 'User Account Management', icon: 'people', iconColor: 'darkcyan', component: AccountManagementPage},
+        { title: 'Account Management', icon: 'bookmarks', iconColor: 'darkcyan', component: AccountSummaryPage}
       ];
 
     // set our app's pages
     this.pages = [
-    
-      { title: 'Dashboard', icon: 'home' ,component: DashboardPage,subs:null,hasSub:false},
 
-      { title: 'Settings', icon: 'settings' ,component: null,subs:this.settingPages,hasSub:false},
+      { title: 'Dashboard', icon: 'home', iconColor:'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
 
-      { title: 'Users', icon: 'contacts' ,component: null,subs:this.userPages,hasSub:false},
+      { title: 'Settings', icon: 'settings', iconColor:'appSettingIcon', component: null, subs: this.settingPages, hasSub: false },
 
-      { title: 'Case Management', icon: 'filing' ,component: null,subs:this.clientPages,hasSub:false},
+      { title: 'Users', icon: 'contacts', iconColor:'appUsersIcon', component: null, subs: this.userPages, hasSub: false },
 
-     
-      { title: 'Account Management', icon:'archive', component: null,subs:this.accountManagementPages,hasSub:false },
+      { title: 'Case Management', icon: 'filing', iconColor:'appCaseIcon', component: null, subs: this.clientPages, hasSub: false },
 
-      { title: 'SMS', icon:'send', component: null,subs:this.smsPages,hasSub:false },
+
+      { title: 'Account Management', icon: 'archive', iconColor:'appAccountIcon', component: null, subs: this.accountManagementPages, hasSub: false },
+
+      { title: 'SMS', icon: 'send', iconColor:'appSMSIcon', component: null, subs: this.smsPages, hasSub: false },
    
-       
-      { title: 'Reminders', icon:'clock', component: RemindersPage,subs:null,hasSub:false },
-      
-      { title: 'Notifications', icon:'notifications',component: NotificationsPage,subs:null,hasSub:false },
 
-      { title: 'Case Study', icon:'paper', component: null,subs:this.caseStudyPages,hasSub:false },
+      { title: 'Reminders', icon: 'clock', iconColor:'appRemindersIcon', component: RemindersPage, subs: null, hasSub: false },
+
+      { title: 'Notifications', icon: 'notifications', iconColor:'appNotificationIcon', component: NotificationsPage, subs: null, hasSub: false },
+
+      { title: 'Case Study', icon: 'paper', iconColor:'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
 
      //{ title: 'File Test', icon:'paper', component: HelloIonicPage,subs:null,hasSub:false },
 
-      { title: 'Logout', icon:'log-out', component: LogoutPage,subs:null,hasSub:false }
+      { title: 'Logout', icon: 'log-out', iconColor:'appLogoutIcon', component: LogoutPage, subs: null, hasSub: false }
     
     ];
   }
@@ -160,8 +163,7 @@ export class MyApp {
   {
     if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id.length > 0)
     {
-        this.rootPage=DashboardPage;
-          
+        this.rootPage=DashboardPage;     
     }
       else
     {
@@ -235,4 +237,12 @@ export class MyApp {
     this.nav.push(SearchHeaderPage,data);
      console.log("Search String:"+searchString);
   }
+
+  openLink()
+  {
+    let target = "_system";
+    this.inAppBrowser.create("https://www.mazetechnologiesllc.com/", target);
+
+  }
+
 }

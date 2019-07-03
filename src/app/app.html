@@ -14,11 +14,11 @@
 
       <ion-row style="padding:1px;">
         <ion-col col-4 align-self-start >
-            <img src="assets/imgs/logo.png" style="max-width:82px; max-height:82px; object-fit: contain;"/>
+            <img src="assets/imgs/logo.png" style="max-width:88px; max-height:88px; object-fit: contain;"/>
          
         </ion-col>
-        <ion-col col-8  align-self-start>
-            <h3 style="font-weight: 600;margin-top:0em;color: #FFF">Dalbir's Law Firm</h3>
+        <ion-col col-8  align-self-start style="margin:auto;">
+            <h3 style="font-weight: 600;margin:auto;color: #FFF">Dalbir's Law Firm</h3>
         </ion-col>
       </ion-row>
       
@@ -50,11 +50,11 @@
       
       <div no-lines class="menuItem" style="padding-left: 2px;margin-top:15px;" *ngFor="let p of pages">
 
-        <ion-row style="margin: 10px;" (click)="openPage(p)">
+        <ion-row style="margin: 15px 10px;" (click)="openPage(p)">
           <ion-col detail-none col-10>
-            <ion-icon style="line-height: 1;font-size:20px;" name="{{p.icon}}"></ion-icon>
+            <ion-icon style="line-height: 1;font-size:20px;" [color]="p.iconColor"  name="{{p.icon}}"></ion-icon>
 
-            <span style="font-size: 16px;margin-left:10px;">
+            <span style="font-size: 16px;margin-left:10px;font-weight:500;">
                {{p.title}}
             </span>
 
@@ -68,9 +68,9 @@
         <div no-lines  *ngIf="p.hasSub" style="margin-left:20px;">
           <div no-lines style="font-size: 1em" ion-item *ngFor="let s of p.subs" (click)="openPage(s)">
 
-            <ion-icon style="line-height: 1;font-size:20px;" name="{{s.icon}}"></ion-icon>
+            <ion-icon style="line-height: 1;font-size:18px;" [color]="p.iconColor" name="{{s.icon}}"></ion-icon>
 
-            <span style="font-size: 16px;margin-left:10px;">
+            <span style="font-size: 14px;margin-left:10px;font-weight:500;">
               {{s.title}}
             </span>
           </div>
@@ -80,13 +80,13 @@
    
   </ion-content>
 
-  <ion-footer style="margin:0px;min-height:64px;">
+  <ion-footer style="margin:0px;min-height:64px;padding:5px;" (click)='openLink()'>
     <h6 style="text-align: center;margin:0px;">Developed By:</h6>
 
     <h5 style="text-align: center;margin:0px;">
-      <a class="item" href="#" onclick="window.open('https://www.mazetechnologiesllc.com/', '_blank', 'location=yes'); return false;">
-        Maze Technologies LLC.
-      </a>
+      <span class="item" style="color:steelblue;">
+        <u>Maze Technologies LLC.</u>
+      </span>
     </h5>
 
   </ion-footer>

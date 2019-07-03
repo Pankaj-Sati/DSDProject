@@ -1,18 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\node_modules",
-    "\\node_modules\\@ionic-native",
-    "\\node_modules\\@ionic-native\\ionic-webview",
     "\\src",
-    "\\src\\models",
+    "\\src\\app",
     "\\src\\pages",
+    "\\src\\pages\\case_study",
     "\\src\\pages\\login",
-    "\\src\\pages\\user_profile\\change_password",
-    "\\src\\pages\\user_profile\\edit_profile",
+    "\\src\\pages\\reminders",
     "\\src\\providers",
+    "\\src\\providers\\api-values",
     "\\src\\providers\\my-storage"
   ],
-  "SelectedNode": "\\src\\index.html",
+  "SelectedNode": "\\package.json",
   "PreviewInSolutionExplorer": false
 }

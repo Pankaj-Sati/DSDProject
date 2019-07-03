@@ -1,4 +1,14 @@
-edit_profile
-{
-	
+edit_profile {
+  .profile-name {
+    padding-top: 10px;
+    font-size: x-large !important;
+    font-weight: bold !important;
+    text-transform: capitalize;
+  }
+
+  .overlay {
+    background-color: rgba(0,0,0,0.7);
+    width: 100%;
+    height: 100%;
+  }
 }

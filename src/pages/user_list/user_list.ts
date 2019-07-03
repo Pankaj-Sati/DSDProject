@@ -58,7 +58,7 @@ export class UserListPage
 
 		let loader = this.loading.create({
 
-		   content: "Fetching users please wait…",
+          content: "Loading ...",
 
 		 });
 
