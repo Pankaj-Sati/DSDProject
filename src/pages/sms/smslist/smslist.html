@@ -46,7 +46,7 @@
 
     <ion-row>
       <ion-col style="text-align: center">
-        <button ion-button round icon-start end (click)="searchSMS()"><ion-icon name="search"></ion-icon>Filter</button>
+        <button ion-button round icon-start end (click)="fetchData()"><ion-icon name="search"></ion-icon>Filter</button>
       </ion-col>
     </ion-row>
 
@@ -135,6 +135,10 @@
         </ion-row>
       </div>
     </div>
+
+  <div *ngIf="sms_list==undefined || sms_list==null || sms_list.length==0">
+    <no-record-found></no-record-found>
+  </div>
 
 
 </ion-content>

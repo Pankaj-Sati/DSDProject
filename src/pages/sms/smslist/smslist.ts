@@ -81,6 +81,10 @@ export class SMSListPage
 
   fetchData()
   {
+
+    this.sms_list = [];
+    this.visibility = [];
+
     const loader = this.loadingCtrl.create({
 
       content: 'Loading...',
