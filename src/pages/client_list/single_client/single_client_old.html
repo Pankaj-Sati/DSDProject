@@ -1,0 +1,192 @@
+<ion-header>
+ 
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    
+    <ion-row center style="text-align: center;vertical-align: middle;">
+      <ion-col>
+        <ion-title style="text-align: center;height: 100%;vertical-align: middle;">
+          Client Details
+        </ion-title>
+
+      </ion-col>
+      <ion-col style="text-align: right;">
+
+        <ion-icon (click)="fetchData()" size="large" style="color:white;zoom:1.4;padding-right:10px" name="refresh"></ion-icon>
+
+      </ion-col>
+    </ion-row>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="client!=undefined && client!=null">
+    <ion-item no-lines>
+      <ion-label><b>Case Type:</b>{{client.case_type}} </ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Advocate Assigned:</b>{{client.caseManagerName}}</ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Case Number:{{client.case_no}}</b></ion-label>
+
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Case Stage:</b>{{client.case_stage}}</ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Case year:</b>{{client.case_year}}</ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Created On:</b>{{client.created_on}}</ion-label>
+
+    </ion-item>
+
+    <br>
+    <hr>
+    <br>
+
+    <ion-item no-lines>
+      <ion-label><b>Full Name:</b>{{client.client_name}}</ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Alias:</b>{{client.suffix_name}}</ion-label>
+
+    </ion-item>
+
+
+    <ion-item no-lines>
+      <ion-label><b>Contact No.:</b>{{client.contact}}</ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Alternative No.:</b></ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Email Id:</b>{{client.email}}</ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Notes:</b></ion-label>
+
+    </ion-item>
+
+    <br>
+    <hr>
+    <br>
+
+    <ion-item no-lines>
+      <ion-label><b>Permanent Address</b></ion-label>
+      <hr>
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Street:</b></ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>City or Town:</b></ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>State:</b></ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Zip Code:</b></ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Country:</b></ion-label>
+
+    </ion-item>
+
+    <br>
+    <hr>
+    <br>
+
+    <ion-item no-lines>
+      <ion-label><b>Filing Case Manager Name (If any):</b></ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Case Manager Assigned To:</b></ion-label>
+
+    </ion-item>
+
+    <br>
+    <hr>
+    <br>
+
+    <ion-item no-lines>
+      <ion-label><b>Defendant Information</b></ion-label>
+      <hr>
+    </ion-item>
+
+
+    <ion-item no-lines>
+      <ion-label><b>Full Name:</b></ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Alias:</b></ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Defendant Manager Name (If any):</b></ion-label>
+
+    </ion-item>
+
+    <br>
+    <hr>
+    <br>
+    <ion-item no-lines>
+      <ion-label><b>Registration Fee:</b></ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label><b>Decided Fee:</b></ion-label>
+
+    </ion-item>
+
+    <ion-row>
+      <ion-col style="text-align:center;">
+        <button ion-button (click)="changeCaseManager()">Change Case Manager</button>
+      </ion-col>
+    </ion-row>
+
+  </div>
+
+  <div *ngIf="client==undefined || client==null || client.length==0">
+    <no-record-found></no-record-found>
+  </div>
+
+
+</ion-content>

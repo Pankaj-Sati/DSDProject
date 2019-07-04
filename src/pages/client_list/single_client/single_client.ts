@@ -9,7 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import "rxjs/add/operator/map";
 
 import {ChangeManagerPage} from './change_manager/change_manager';
-import {ApiValuesProvider} from '../../../providers/api-values/api-values';
+import { ApiValuesProvider } from '../../../providers/api-values/api-values';
+import { Client } from '../../../models/client.model';
+import { AdvocateDropdown } from '../../../models/ advocate.model';
 
 @Component({
   selector: 'single_client',
@@ -17,47 +19,71 @@ import {ApiValuesProvider} from '../../../providers/api-values/api-values';
 })
 export class SingleClientPage
 {
-	passed_client_id:string;
-	clients:any;
+  public client: Client;
+
+  showCaseDetails: boolean = true;
+  showPersonalDetails: boolean = false;
+  showParmanentAddressDetails: boolean = false;
+  showCaseManagerDetails: boolean = false;
+  showDefendantDetails: boolean = false;
+
 
 	 ionViewDidLoad()
     {
     		//This method is called when the page loads for the first time
-    		this.passed_client_id=this.navParams.get('id'); //Get the id field passed from the user_list page
-    		console.log("Id received="+this.passed_client_id);
-    		
+       this.client = this.navParams.get('clientPassed'); //Get the id field passed from the user_list page
+       console.log("Received Client");
+       console.log(this.client);
 
-    }
+
+   }
 	ionViewDidEnter()
 	{
 		//This method is fired when this view is entered each time
-		this.fetchData(); //Update the table
-	}
-    constructor(public apiValue:ApiValuesProvider,public navCtrl: NavController, public navParams: NavParams,public formBuilder: FormBuilder, public alertCtrl: AlertController,public toastCtrl: ToastController,  private http: Http,  public loading: LoadingController)
-	{
-		
-	}
+		//this.fetchData(); //Update the table
+  }
+
+
+  constructor(public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public alertCtrl: AlertController, public toastCtrl: ToastController, private http: Http, public loading: LoadingController)
+  {
+    
+  }
+
+  toggleShowMore(id)
+  {
+    switch (id)
+    {
+      case 0: this.showCaseDetails = ! this.showCaseDetails;
+        break;
+      case 1: this.showPersonalDetails = !this.showPersonalDetails;
+        break;
+      case 2: this.showParmanentAddressDetails = !this.showParmanentAddressDetails;
+        break;
+      case 3: this.showCaseManagerDetails = !this.showCaseManagerDetails;
+        break;
+      case 4: this.showDefendantDetails = !this.showDefendantDetails;
+        break;
+    }
+  }
 
 	fetchData()
 	{
-	   
-	   this.clients=[];
-
 	   var headers = new Headers();
 
        let options = new RequestOptions({ headers: headers });
 
   
 
-       let data = new FormData(); 
-        data.append('cid',this.passed_client_id);
+      let data = new FormData();
+      data.append('cid', String(this.client.cid));
 
 		let loader = this.loading.create({
 
-          content: this.passed_client_id +"Loading ...",
+          content: "Loading ...",
+          duration:15000
 
 		 });
-
+      let loadingSuccessful = false; //To know whether the loader timeout occured or not
 	   loader.present().then(() => 
 		{
 
@@ -67,7 +93,8 @@ export class SingleClientPage
 
 	   .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
 				  
-			{ 
+       {
+            loadingSuccessful = true;
 		   			console.log(serverReply);
 		   			loader.dismiss();
 
@@ -83,28 +110,50 @@ export class SingleClientPage
 					}
 					else
 					{
-						this.clients=serverReply;
-						console.log("Client:"+this.clients);
+						this.client=serverReply[0];
+						console.log("Client:"+this.client);
 						
 					}
 
 				  
 			      
 
-			   });
+       },
+         error => {
+           loadingSuccessful = true;
+           this.showToast('Failed to load data');
+         });
 
-  		 });
+       });
+
+      loader.onDidDismiss(() => {
+
+        if (!loadingSuccessful)
+        {
+          this.showToast('Server Did Not Respond!!!');
+        }
+      });
 		
-	}
+    }
 
-	changeCaseManager(client_name)
-	{
-		console.log("ChangeCaseManager():"+this.passed_client_id);
+  showToast(text)
+  {
+    const toast = this.toastCtrl.create({
+      message: text,
+      duration: 3000
+    });
+    toast.present();
+  }
+
+  changeCaseManager()
+  {
+    console.log("ChangeCaseManager():" + this.client.id);
 
 		let data={
 
-			id:this.passed_client_id,
-			name:client_name
+          id:this.client.cid,
+          name: this.client.client_name,
+          advocate: this.client.caseManagerName
 		};
 
 		this.navCtrl.push(ChangeManagerPage,data);

@@ -25,6 +25,7 @@
 
 <ion-content>
 
+
   <div [className]="blurAmount">
 
 
@@ -73,7 +74,7 @@
         </tr>
 
 
-        <tr *ngFor="let reminder of reminders">
+        <tr *ngFor="let reminder of reminders" >
           <td><span style="font-weight: 500;">{{reminder.clientName}}</span></td>
           <td>{{reminder.hearingDate}}</td>
 

@@ -167,14 +167,14 @@ export class DashboardPage
 				{ 
 						loadingSuccessful=true;
 						console.log(serverReply);
-						if('code' in serverReply)
+						if(! serverReply)
 						{
 							//This means error
 							this.total_clients=String(0);
 						}
 						else
 						{
-							this.total_clients=serverReply.totalClient;
+							this.total_clients=serverReply;
 						}
 						
 						loader.dismiss();

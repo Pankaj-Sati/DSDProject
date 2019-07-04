@@ -55,12 +55,13 @@ export class SearchHeaderPage
   		});
   		popover.present();
   	*/
-
-  	let data={
-
+    /*
+    let data =
+    {
   		caseData:caseObject
   	}
   	this.navCtrl.push(CaseDetailsPage,data);
+        */
 
   }
 
@@ -95,7 +96,7 @@ export class SearchHeaderPage
 
 			let data=new FormData();
 
-			data.append('searchComman',this.searchText);
+         data.append('searchComman',this.searchText);
 	
 
   			this.http.post(this.apiValues.baseURL+"/header.php",data,requestOptions)
@@ -115,7 +116,7 @@ export class SearchHeaderPage
   					}
   					else
   					{
-  						this.showToast(serverReply);
+  					
   						this.error=null;
   						this.cases=serverReply;
   						loader.dismiss();

@@ -27,6 +27,8 @@ import { ClientListPage } from '../pages/client_list/client_list';
 import { AddClientPage } from '../pages/client_list/add_client/add_client';
 import { SingleClientPage } from '../pages/client_list/single_client/single_client';
 import { ChangeManagerPage } from '../pages/client_list/single_client/change_manager/change_manager';
+import { SendSMSPage } from '../pages/client_list/single_client/send_sms/send_sms';
+
 import { AccountManagementPage } from '../pages/account_management/account_management';
 import { AccountSummaryPage } from '../pages/account_management/account_summary/account_summary';
 import { PaymentSummaryPage } from '../pages/account_management/single_user_account/payment_summary/payment_summary';
@@ -43,7 +45,6 @@ import {SearchHeaderPageModule} from '../pages/search-header/search-header.modul
 import { ComponentsModule } from '../components/components.module';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -78,6 +79,7 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
     AddClientPage,
     SingleClientPage,
     ChangeManagerPage,
+    SendSMSPage,
     AccountManagementPage,
     AccountSummaryPage,
     SingleUserAccountPage,
@@ -135,7 +137,8 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
     SettingUserTypePage,
     SettingCaseTypePage,
     SMSBulkEmailPage,
-    SMSListPage
+    SMSListPage,
+    SendSMSPage
   ],
   providers: [
     StatusBar,

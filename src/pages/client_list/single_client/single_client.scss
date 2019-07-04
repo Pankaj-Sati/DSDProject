@@ -1,4 +1,17 @@
-single_client
-{
-	
+single_client {
+  .detailsRow {
+    background-color: #efefef;
+    border-bottom: 1px solid gray;
+    margin: 5px;
+  }
+
+  .detailIconCol {
+    text-align: center;
+    display: grid;
+  }
+
+  .detailIcon {
+    margin: auto;
+  }
+
 }

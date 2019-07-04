@@ -25,7 +25,6 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
 import { MyStorageProvider } from '../providers/my-storage/my-storage';
 import { InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 
-
 import { User } from '../models/login_user.model';
 
 import {timer} from 'rxjs/observable/timer';
@@ -67,7 +66,7 @@ export class MyApp {
    header_title:string;
 
   constructor(
-    public apiValues:ApiValuesProvider,
+    public apiValues: ApiValuesProvider,
     public events: Events,
     public platform: Platform,
     public menu: MenuController,

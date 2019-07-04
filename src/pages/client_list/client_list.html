@@ -71,52 +71,24 @@
   <br><br>
 
   <div *ngIf="clients!=null && clients.length>0">
-    <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let client of clients">
+    <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let client of clients" (click)="viewClient(client)">
 
-      <ion-row>
+      <ion-row style="padding-left: 5px;">
 
-        <ion-col col-3>
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="contact" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-col>
 
+        <ion-col style="margin:auto;" col-4>
           <ion-row>
-            <ion-col>
-              <b>Client Name</b>
-            </ion-col>
-          </ion-row>
-
-
-          <ion-row>
-            <ion-col>
-              {{client.clientName}}
+            <ion-col style="text-align:left;">
+             <b> {{client.client_name}} </b>
             </ion-col>
           </ion-row>
 
         </ion-col>
 
-        <ion-col col-3 style="text-overflow: ellipsis; flex:1;overflow: hidden;white-space: nowrap;">
-
-          <ion-row>
-            <ion-col>
-              <b>Alien No.</b>
-            </ion-col>
-          </ion-row>
-
-
-          <ion-row>
-            <ion-col>
-              {{client.alienNo}}
-            </ion-col>
-          </ion-row>
-        </ion-col>
-
-        <ion-col col-3>
-
-          <ion-row>
-            <ion-col>
-              <b>Stage</b>
-            </ion-col>
-          </ion-row>
-
-
+        <ion-col style="margin:auto;" col-3>
           <ion-row>
             <ion-col>
               {{client.stage}}
@@ -125,21 +97,17 @@
 
         </ion-col>
 
-        <ion-col col-3>
-
-          <ion-row>
-            <ion-col>
-              <b>Type</b>
-            </ion-col>
-          </ion-row>
-
-
+        <ion-col style="margin:auto;" col-3>
           <ion-row>
             <ion-col>
               {{client.case_type}}
             </ion-col>
           </ion-row>
 
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="more" color="primary" style="zoom: 1.2;"></ion-icon>
         </ion-col>
 
       </ion-row>

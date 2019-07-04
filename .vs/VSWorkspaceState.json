@@ -2,15 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app",
-    "\\src\\pages",
+    "\\src\\components",
     "\\src\\pages\\case_study",
-    "\\src\\pages\\login",
-    "\\src\\pages\\reminders",
-    "\\src\\providers",
-    "\\src\\providers\\api-values",
-    "\\src\\providers\\my-storage"
+    "\\src\\pages\\user_profile",
+    "\\src\\pages\\user_profile\\change_password",
+    "\\src\\pages\\user_profile\\edit_profile"
   ],
-  "SelectedNode": "\\package.json",
+  "SelectedNode": "\\src\\pages",
   "PreviewInSolutionExplorer": false
 }

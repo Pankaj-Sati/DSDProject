@@ -12,7 +12,11 @@ import{SingleClientPage} from '../single_client';
 import {AdvocateListProvider} from '../../../../providers/advocate-list/advocate-list';
 import {Events} from 'ionic-angular';
 
-import {ApiValuesProvider} from '../../../../providers/api-values/api-values';
+import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
+import { AdvocateDropdown } from '../../../../models/ advocate.model';
+import { User } from '../../../../models/login_user.model';
+
+import {MyStorageProvider } from '../../../../providers/my-storage/my-storage';
 
 @Component({
   selector: 'change_manager',
@@ -25,11 +29,15 @@ export class ChangeManagerPage
 	passed_c_id:string;
 	passed_c_name:string;
 	passed_c_manager:string;
-	advocate_list:any;
-	loader:any;
+  advocate_list: any;
+  caseAdvocate: string;
+  loader: any;
+  loggedInUser: User;
 
-	 constructor(public apiValue:ApiValuesProvider,public events:Events,public advocateList: AdvocateListProvider,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,public toastCtrl: ToastController,  private http: Http,  public loading: LoadingController)
-	{
+  constructor(public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public events: Events, public advocateList: AdvocateListProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public toastCtrl: ToastController, private http: Http, public loading: LoadingController)
+  {
+
+    this.loggedInUser = this.myStorage.getParameters();
 		this.fetchData();
 
 		console.log("In Change Manger Page");
@@ -51,7 +59,8 @@ export class ChangeManagerPage
 			}
 
 		});
-	}
+  }
+
 	fetchData()
 	{
 
@@ -71,8 +80,11 @@ export class ChangeManagerPage
 	{
 		//This method is called once when the view is loaded
 		this.passed_c_id=this.navParams.get('id'); //Getting the id that is passed from previous page
-		this.passed_c_name=this.navParams.get('name');
+      this.passed_c_name = this.navParams.get('name');
+      this.caseAdvocate = this.navParams.get('advocate');
+
 		console.log('CM Id received='+this.passed_c_id);
+		console.log(+this.caseAdvocate);
 	}
 
 
@@ -100,32 +112,33 @@ export class ChangeManagerPage
 		     } 
 
 			   var headers = new Headers();
-
-		       headers.append("Accept", "application/json");
-
-		       headers.append("Content-Type", "application/json" );
-
-		       let options = new RequestOptions({ headers: headers });
+          let options = new RequestOptions({ headers: headers });
 
 		       let data=
 		       {
 
-					cid:this.passed_c_id,
-					advocate_id:this.passed_c_manager
+					      cid:this.passed_c_id,
+                 advocate_id: this.passed_c_manager,
+                 session_id: this.loggedInUser.id
 				
 
-		         };
+      };
+      let body = new FormData();
+      body.append('cid', this.passed_c_id);
+      body.append('advocate_id', this.passed_c_manager);
+      body.append('session_id', this.loggedInUser.id);
+
 				let loader = this.loading.create
 				({
 
-				   content: "Changing manager please wait…",
+				   content: "Changing manager…",
 
 				 });
 
 			   loader.present().then(() => 
 				{
 
-			   this.http.post(this.apiValue.baseURL+"/change_case_manager",data,options) //Http request returns an observable
+			   this.http.post(this.apiValue.baseURL+"/change_case_manager.php",body,options) //Http request returns an observable
 
 			   .map(response => response.json()) ////To make it easy to read from observable
 
@@ -162,45 +175,4 @@ export class ChangeManagerPage
 
 	}
 
-	getCaseManagerList()
-	{
-		this.advocate_list=[];
-
-		var headers = new Headers();
-
-	       headers.append("Accept", "application/json");
-
-	       headers.append("Content-Type", "application/json" );
-
-	       let options = new RequestOptions({ headers: headers });
-
-	       let data=
-	       {
-
-	         };
-			let loader = this.loading.create({
-
-			   content: "Getting info. please wait…",
-
-			 });
-
-		   loader.present().then(() => 
-			{
-
-		   this.http.post(this.apiValue.baseURL+"/get_advocate",data,options) //Http request returns an observable
-
-		   .map(response => response.json()) ////To make it easy to read from observable
-
-		   .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
-					  
-				{ 
-			   			console.log(serverReply);
-			   			loader.dismiss();
-
-			   			//this.advocate_list=serverReply;
-				      
-				   });
-
-	  		 });
-	}
 }

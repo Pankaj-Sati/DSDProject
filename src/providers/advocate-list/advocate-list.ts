@@ -4,6 +4,8 @@ import { Events } from 'ionic-angular';
 import { ApiValuesProvider } from '../api-values/api-values';
 import { Observable } from 'rxjs/Observable';
 
+import { Advocate, AdvocateDropdown } from '../../models/ advocate.model';
+
 /*
   Generated class for the AdvocateListProvider provider.
 
@@ -11,14 +13,19 @@ import { Observable } from 'rxjs/Observable';
   and Angular DI.
 */
 @Injectable()
-export class AdvocateListProvider {
+export class AdvocateListProvider
+{
+
+  public advocateDropdownList: AdvocateDropdown[]=[];
 
   constructor(public http: Http, public events: Events, public apiValues: ApiValuesProvider) {
     console.log('Hello AdvocateListProvider Provider');
+
   }
 
   fetchList()
-	{
+  {
+
 		var headers=new Headers();
 		headers.append("Accept", "application/json");
 		headers.append("Content-Type", "application/json" );
@@ -42,7 +49,8 @@ export class AdvocateListProvider {
 			}
 			else
 			{
-				data= serverReply; 			
+              data = serverReply;
+              this.advocateDropdownList = serverReply;
 			}
 
 			this.events.publish('advocateListEvent',data);

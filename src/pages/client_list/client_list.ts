@@ -10,7 +10,9 @@ import {Events} from 'ionic-angular';
 import{AddClientPage} from './add_client/add_client';
 import{SingleClientPage} from './single_client/single_client';
 
-import {ApiValuesProvider} from '../../providers/api-values/api-values';
+import { ApiValuesProvider } from '../../providers/api-values/api-values';
+
+import { Client } from '../../models/client.model';
 
 @Component({
   selector: 'client_list',
@@ -21,7 +23,7 @@ import {ApiValuesProvider} from '../../providers/api-values/api-values';
 export class ClientListPage
 {
 
-	clients:any;
+  clients: Client[]=[];
 	c_case_type:string;
 	c_case_year:string;
 	c_case_category:string;
@@ -113,12 +115,12 @@ export class ClientListPage
 
    
 
-    viewClient(c_id)
+    viewClient(client:Client)
     {
 
-    	console.log("viewClient() is clicked with id="+c_id);
+    	console.log(client);
     	let data={
-    		id:c_id
+    		clientPassed:client
     	};
 
     	this.navCtrl.push(SingleClientPage,data);
