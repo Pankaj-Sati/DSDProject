@@ -2,12 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components",
-    "\\src\\pages\\case_study",
-    "\\src\\pages\\user_profile",
-    "\\src\\pages\\user_profile\\change_password",
-    "\\src\\pages\\user_profile\\edit_profile"
+    "\\src\\app",
+    "\\src\\pages",
+    "\\src\\pages\\client_list",
+    "\\src\\pages\\client_list\\single_client",
+    "\\src\\pages\\client_list\\single_client\\change_manager",
+    "\\src\\pages\\search-header",
+    "\\src\\providers",
+    "\\src\\providers\\advocate-list"
   ],
-  "SelectedNode": "\\src\\pages",
+  "SelectedNode": "\\config.xml",
   "PreviewInSolutionExplorer": false
 }

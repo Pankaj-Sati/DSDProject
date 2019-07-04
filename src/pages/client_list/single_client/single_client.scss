@@ -1,6 +1,12 @@
 single_client {
   .detailsRow {
-    background-color: #efefef;
+    background-color: #ffd07a;
+    border-bottom: 1px solid gray;
+    margin: 5px;
+  }
+
+  .detailsRow:nth-child(even) {
+    background-color: #96ceff;
     border-bottom: 1px solid gray;
     margin: 5px;
   }
@@ -14,4 +20,18 @@ single_client {
     margin: auto;
   }
 
+  .info {
+    float: right;
+  }
+
+  ion-label {
+    overflow: unset;
+    white-space: unset;
+  }
+
+  .innerLabel {
+    background-color: #b0ffbc;
+    margin: auto;
+    padding: 10px 0px;
+  }
 }

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, PopoverController} from 'ionic-angular';
 import {Http, Headers, RequestOptions}  from "@angular/http";
 
 import { LoadingController } from "ionic-angular";
@@ -10,8 +10,10 @@ import "rxjs/add/operator/map";
 
 import {ChangeManagerPage} from './change_manager/change_manager';
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
-import { Client } from '../../../models/client.model';
+import { Client, ClientDetails, Entity } from '../../../models/client.model';
 import { AdvocateDropdown } from '../../../models/ advocate.model';
+
+import { ClientDetailActionsComponent } from '../../../components/client-detail-actions/client-detail-actions';
 
 @Component({
   selector: 'single_client',
@@ -19,13 +21,16 @@ import { AdvocateDropdown } from '../../../models/ advocate.model';
 })
 export class SingleClientPage
 {
-  public client: Client;
+  public client: Client; //To hold the client passed from the list
+  public clientDetails: ClientDetails; //To display the client details
+  public entities: Entity[] = []; //To display the entities of this client
 
   showCaseDetails: boolean = true;
   showPersonalDetails: boolean = false;
   showParmanentAddressDetails: boolean = false;
   showCaseManagerDetails: boolean = false;
   showDefendantDetails: boolean = false;
+  showEntityDetails: boolean = false;
 
 
 	 ionViewDidLoad()
@@ -40,11 +45,11 @@ export class SingleClientPage
 	ionViewDidEnter()
 	{
 		//This method is fired when this view is entered each time
-		//this.fetchData(); //Update the table
+		this.fetchData(); //Update the table
   }
 
 
-  constructor(public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public alertCtrl: AlertController, public toastCtrl: ToastController, private http: Http, public loading: LoadingController)
+  constructor(public popover: PopoverController, public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public alertCtrl: AlertController, public toastCtrl: ToastController, private http: Http, public loading: LoadingController)
   {
     
   }
@@ -63,6 +68,8 @@ export class SingleClientPage
         break;
       case 4: this.showDefendantDetails = !this.showDefendantDetails;
         break;
+      case 5: this.showEntityDetails = !this.showEntityDetails;
+        break;
     }
   }
 
@@ -70,7 +77,7 @@ export class SingleClientPage
 	{
 	   var headers = new Headers();
 
-       let options = new RequestOptions({ headers: headers });
+      let options = new RequestOptions({ headers: headers });
 
   
 
@@ -96,24 +103,23 @@ export class SingleClientPage
        {
             loadingSuccessful = true;
 		   			console.log(serverReply);
-		   			loader.dismiss();
+		   			
 
-		   			if('message' in serverReply) //incorrect
-					{
-					
-						
-						const toast = this.toastCtrl.create({
-							  message: serverReply.message,
-							  duration: 5000
-							});
-							toast.present();
+		   		if('message' in serverReply) //incorrect
+          {
+                this.showToast(serverReply.message);
 					}
 					else
 					{
-						this.client=serverReply[0];
-						console.log("Client:"+this.client);
+            this.clientDetails = serverReply[0].data;
+            this.entities = serverReply[0].entity;
+						console.log("Client:");
+            console.log(this.clientDetails);
+            console.log("Entities:");
+            console.log(this.entities);
 						
-					}
+           }
+         loader.dismiss();
 
 				  
 			      
@@ -122,6 +128,7 @@ export class SingleClientPage
          error => {
            loadingSuccessful = true;
            this.showToast('Failed to load data');
+		   			loader.dismiss();
          });
 
        });
@@ -159,4 +166,11 @@ export class SingleClientPage
 		this.navCtrl.push(ChangeManagerPage,data);
 	}
 
+  showActions(clickEvent)
+  {
+    const popover = this.popover.create(ClientDetailActionsComponent);
+    popover.present({
+      ev: clickEvent
+    });
+  }
 }
