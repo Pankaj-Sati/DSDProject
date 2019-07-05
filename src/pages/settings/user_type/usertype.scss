@@ -8,9 +8,11 @@ usertype {
 
   ion-label {
     margin: 0px;
+    overflow:unset;
+    white-space:unset;
   }
 
   .cardBG {
-    background-image: linear-gradient(#2196f399, rgba(255, 255, 255, 0.5));
+    background-image: linear-gradient(#88c6f799, rgb(239, 253, 255));
   }
 }

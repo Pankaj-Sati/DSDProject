@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app",
+    "\\src\\components",
+    "\\src\\components\\sms-detail",
     "\\src\\pages",
     "\\src\\pages\\client_list",
     "\\src\\pages\\client_list\\single_client",
-    "\\src\\pages\\client_list\\single_client\\change_manager",
-    "\\src\\pages\\search-header",
-    "\\src\\providers",
-    "\\src\\providers\\advocate-list"
+    "\\src\\pages\\reminders",
+    "\\src\\pages\\sms",
+    "\\src\\pages\\sms\\smslist"
   ],
-  "SelectedNode": "\\config.xml",
+  "SelectedNode": "\\src\\pages\\sms\\smslist\\smslist.ts",
   "PreviewInSolutionExplorer": false
 }
