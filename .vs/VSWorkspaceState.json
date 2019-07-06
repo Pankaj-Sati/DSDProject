@@ -5,12 +5,12 @@
     "\\src\\components",
     "\\src\\components\\sms-detail",
     "\\src\\pages",
-    "\\src\\pages\\client_list",
     "\\src\\pages\\client_list\\single_client",
-    "\\src\\pages\\reminders",
-    "\\src\\pages\\sms",
+    "\\src\\pages\\settings",
+    "\\src\\pages\\settings\\casetype",
+    "\\src\\pages\\settings\\user_type",
     "\\src\\pages\\sms\\smslist"
   ],
-  "SelectedNode": "\\src\\pages\\sms\\smslist\\smslist.ts",
+  "SelectedNode": "\\src\\pages\\settings\\casetype\\casetype.html",
   "PreviewInSolutionExplorer": false
 }

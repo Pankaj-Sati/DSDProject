@@ -84,7 +84,7 @@
           <ion-col style="margin:auto;" col-3>
             <ion-row>
               <ion-col>
-                {{sms.smsSendDate}}
+                {{sms.smsSendDate | date :  "MMM d,y"}}
               </ion-col>
             </ion-row>
 

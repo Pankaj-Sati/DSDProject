@@ -1,30 +1,45 @@
 <!-- Generated template for the ClientDetailActionsComponent component -->
-  <ion-content>
 
-    <ion-item color="primary" class="text-10" (click)="messages()">
-      <ion-label>New Offer 25% OFF</ion-label>
-    </ion-item>
 
-    <ion-item color="light" class="text-10" (click)="messages()">
+      <div (click)="selectOption(0)">
+        <ion-icon name="briefcase"></ion-icon> Change Case Manager <span class="arrow">></span>
+      </div>
 
-      <ion-label>New Offer 15% OFF by month!</ion-label>
-    </ion-item>
+      <div (click)="selectOption(1)">
 
-    <ion-item color="light" class="text-10" (click)="messages()">
+        <ion-icon name="card"></ion-icon> Payment <span class="arrow">></span>
+      </div>
 
-      <ion-label>New Offer 10% OFF by month!</ion-label>
-    </ion-item>
+      <div (click)="selectOption(7)">
 
-    <ion-item color="primary" class="text-10" (click)="messages()">
+        <ion-icon name="mail"></ion-icon> Send SMS<span class="arrow">></span>
+      </div>
 
-      <ion-label>New Offer 35% OFF</ion-label>
-    </ion-item>
+      <div (click)="selectOption(2)">
 
-    <ion-row>
-      <ion-col style="text-align:center;">
-        <button ion-button>Close</button>
-      </ion-col>
+        <ion-icon name="barcode"></ion-icon> Hearing Details<span class="arrow">></span>
+      </div>
 
-    </ion-row>
-  </ion-content>
+      <div (click)="selectOption(3)">
+
+        <ion-icon name="globe"></ion-icon> Communications<span class="arrow">></span>
+      </div>
+
+      <div (click)="selectOption(4)">
+
+        <ion-icon name="trash"></ion-icon> Delete <span class="arrow">></span>
+      </div>
+
+      <div (click)="selectOption(5)">
+
+        <ion-icon name="clipboard"></ion-icon> Notes <span class="arrow">></span>
+      </div>
+
+      <div (click)="selectOption(6)">
+
+        <ion-icon name="bookmarks"></ion-icon> Documents <span class="arrow">></span>
+      </div>
+
+  
+
 

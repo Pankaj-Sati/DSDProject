@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the ClientDetailActionsComponent component.
@@ -13,14 +14,20 @@ import { Component } from '@angular/core';
 export class ClientDetailActionsComponent
 {
 
-  constructor()
+  constructor(public viewCtrl: ViewController)
   {
+    //ViewController is used to dismiss the popup component and send the data along with the dismiss callback
     console.log('Hello ClientDetailActionsComponent Component');
   
   }
 
-  messages()
+  selectOption(num)
   {
+    console.log("In select");
+    let data = {
+      selectedOption:num
+    }
+    this.viewCtrl.dismiss(data);
   }
 
 }

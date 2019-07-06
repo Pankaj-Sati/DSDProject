@@ -1,4 +1,5 @@
-import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { IonicPageModule } from 'ionic-angular';
 import { ClientDetailsComponent } from './client-details/client-details';
 import { NoRecordFoundComponent } from './no-record-found/no-record-found';
 import { RemindersDetailComponent } from './reminders-detail/reminders-detail';
@@ -12,7 +13,7 @@ import { SmsDetailComponent } from './sms-detail/sms-detail';
     RemindersDetailComponent,
     ClientDetailActionsComponent,
     SmsDetailComponent],
-  imports: [CommonModule],
+  imports: [IonicPageModule.forChild(ClientDetailActionsComponent), CommonModule],
   entryComponents: [ClientDetailsComponent, RemindersDetailComponent, NoRecordFoundComponent, ClientDetailActionsComponent, SmsDetailComponent],
 	exports: [ClientDetailsComponent,
     NoRecordFoundComponent,

@@ -8,7 +8,11 @@ import { ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import "rxjs/add/operator/map";
 
-import {ChangeManagerPage} from './change_manager/change_manager';
+//Sub Pages
+import { ChangeManagerPage } from './change_manager/change_manager';
+import { SendSMSPage } from './send_sms/send_sms';
+
+
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
 import { Client, ClientDetails, Entity } from '../../../models/client.model';
 import { AdvocateDropdown } from '../../../models/ advocate.model';
@@ -166,11 +170,53 @@ export class SingleClientPage
 		this.navCtrl.push(ChangeManagerPage,data);
 	}
 
+  sendSms()
+  {
+    let data = {
+      contact: this.clientDetails.contact,
+      client_id: this.clientDetails.id
+    }
+    this.navCtrl.push(SendSMSPage,data);
+  }
+
   showActions(clickEvent)
   {
     const popover = this.popover.create(ClientDetailActionsComponent);
     popover.present({
       ev: clickEvent
+    });
+
+    popover.onDidDismiss((data) =>
+    {
+      console.log("Popover Dismissed");
+
+      if (data != null || data != undefined)
+      {
+        console.log(data.selectedOption);
+
+        switch (data.selectedOption)
+        {
+          case 0: //Change Manager
+            this.changeCaseManager();
+            break;
+          case 1: //Payment
+            break;
+          case 2: //Hearing Details
+            break;
+          case 3: //Communications
+            break;
+          case 4: //Delete
+            break;
+          case 5: //Notes
+            break;
+          case 6: //Documents
+            break;
+          case 7: //Send SMS
+            this.sendSms();
+            break;
+        }
+
+      }
     });
   }
 }

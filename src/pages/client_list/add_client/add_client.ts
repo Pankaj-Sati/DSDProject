@@ -6,7 +6,8 @@ import { ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators,FormControl } from '@angular/forms';
 import "rxjs/add/operator/map";
 
-import {ApiValuesProvider} from '../../../providers/api-values/api-values';
+import { ApiValuesProvider } from '../../../providers/api-values/api-values';
+import { ClientEntityRelationshipProvider } from '../../../providers/client-entity-relationship/client-entity-relationship';
 
 @Component({
   selector: 'add_client',
@@ -20,39 +21,78 @@ export class AddClientPage
 
 	advocate_list:any;
 
-	addClientForm:FormGroup;
+  addClientForm: FormGroup;
+  addEntityForm: FormGroup[]=[];
+
+  showCaseDetails: boolean = true;
+  showPersonalDetails: boolean = false;
+  showParmanentAddressDetails: boolean = false;
+  showCaseManagerDetails: boolean = false;
+  showDefendantDetails: boolean = false;
+  showEntityDetails: boolean = false;
+
+  isBillingAndPermanentAddressSame: boolean = false;
+  totalEntities: number = 0;
+
+  relationshipList: any;
+
+  hasRelation:boolean=false;
 
 
-	constructor(public apiValue:ApiValuesProvider,public navCtrl: NavController, public navParams: NavParams,public formBuilder: FormBuilder, public alertCtrl: AlertController,public toastCtrl: ToastController,  private http: Http,  public loading: LoadingController)
+  constructor(public apiValue: ApiValuesProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public formBuilder: FormBuilder,
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
+    private http: Http,
+    public loading: LoadingController,
+    public relationshipProvider: ClientEntityRelationshipProvider
+  )
 	{
-		this.addClientForm=this.formBuilder.group({
+      this.addClientForm = this.formBuilder.group({
+
+        //Case details
 			c_case_type:new FormControl('',Validators.compose([Validators.required])),
 			c_alien_no:new FormControl('',Validators.compose([Validators.required])),
 			c_case_category:new FormControl('',Validators.compose([Validators.required])),
 			c_case_description:new FormControl(''),
-			c_date:new FormControl('',Validators.compose([Validators.required])),
+          c_date: new FormControl('', Validators.compose([Validators.required])),
+
+          //personal Details
 			c_name:new FormControl('',Validators.compose([Validators.required,Validators.pattern('^[a-zA-Z\-\']+')])),
 			c_alias:new FormControl('',Validators.compose([Validators.pattern('^[a-zA-Z\-\']+')])),
           c_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
           c_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
-			c_email:new FormControl('',Validators.compose([Validators.required,Validators.email])),
+          c_email: new FormControl('', Validators.compose([Validators.required, Validators.email])),
+          c_notes: new FormControl('', Validators.compose([Validators.required])),
 			c_country:new FormControl('',Validators.compose([Validators.required])),
-			c_notes:new FormControl('',Validators.compose([Validators.required])),
 			c_street:new FormControl('',Validators.compose([Validators.required])),
 			c_city:new FormControl('',Validators.compose([Validators.required])),
 			c_state:new FormControl('',Validators.compose([Validators.required])),
-			c_zipcode:new FormControl('',Validators.compose([Validators.required])),
+          c_zipcode: new FormControl('', Validators.compose([Validators.required])),
+          c_country_billing: new FormControl('', Validators.compose([Validators.required])),
+          c_street_billing: new FormControl('', Validators.compose([Validators.required])),
+          c_city_billing: new FormControl('', Validators.compose([Validators.required])),
+          c_state_billing: new FormControl('', Validators.compose([Validators.required])),
+        c_zipcode_billing: new FormControl('', Validators.compose([Validators.required])),
+
+          //Case Manager Details
 			c_filing_cm:new FormControl(''),
-			c_cm_assigned:new FormControl('',Validators.compose([Validators.required])),
-			c_defendent_name:new FormControl('',Validators.compose([Validators.required,Validators.pattern('^[a-zA-Z\-\']+')])),
-			c_defendent_alias:new FormControl('',Validators.compose([Validators.pattern('^[a-zA-Z\-\']+')])),
-			c_defendent_manager:new FormControl(''),
+        c_cm_assigned: new FormControl('', Validators.compose([Validators.required])),
+
+        //Defendant Details
+        c_defendent_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z\-\']+')])),
+			c_defendent_alias:new FormControl('',Validators.compose([Validators.pattern('^[a-zA-Z\-\']*')])),
+        c_defendent_manager: new FormControl(''),
+
 			c_reg_fee:new FormControl('',Validators.compose([Validators.required])),
 			c_decided_fee:new FormControl('',Validators.compose([Validators.required]))
 
 		});
 
-		this.getCaseManagerList();
+    this.getCaseManagerList();
+    this.relationshipList=this.relationshipProvider.getAllRelationships();
 
 	}
 
@@ -210,5 +250,88 @@ export class AddClientPage
 				   });
 
 	  		 });
-	}
+    }
+
+  toggleShowMore(id)
+  {
+    switch (id) {
+      case 0: this.showCaseDetails = !this.showCaseDetails;
+        break;
+      case 1: this.showPersonalDetails = !this.showPersonalDetails;
+        break;
+      case 2: this.showParmanentAddressDetails = !this.showParmanentAddressDetails;
+        break;
+      case 3: this.showCaseManagerDetails = !this.showCaseManagerDetails;
+        break;
+      case 4: this.showDefendantDetails = !this.showDefendantDetails;
+        break;
+      case 5: this.showEntityDetails = !this.showEntityDetails;
+        break;
+    }
+  }
+
+  setBillingAddressSame()
+  {
+    this.isBillingAndPermanentAddressSame = ! this.isBillingAndPermanentAddressSame;
+
+    if (this.isBillingAndPermanentAddressSame)
+    {
+     this.copyAddresses();
+    }
+  }
+
+  copyAddresses()
+  {
+    this.addClientForm.controls.c_country_billing.setValue(this.addClientForm.value.c_country);
+    this.addClientForm.controls.c_country_billing.updateValueAndValidity();
+
+    this.addClientForm.controls.c_street_billing.setValue(this.addClientForm.value.c_street);
+    this.addClientForm.controls.c_street_billing.updateValueAndValidity();
+
+    this.addClientForm.controls.c_city_billing.setValue(this.addClientForm.value.c_city);
+    this.addClientForm.controls.c_city_billing.updateValueAndValidity();
+
+    this.addClientForm.controls.c_state_billing.setValue(this.addClientForm.value.c_state);
+    this.addClientForm.controls.c_state_billing.updateValueAndValidity();
+
+    this.addClientForm.controls.c_zipcode_billing.setValue(this.addClientForm.value.c_zipcode);
+    this.addClientForm.controls.c_zipcode_billing.updateValueAndValidity();
+  }
+
+  addEntities()
+  {
+
+    let newEntity = new FormBuilder().group({
+
+      e_relationship:new FormControl('', Validators.required),
+
+      //personal Details
+      e_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z\-\']+')])),
+      e_alias: new FormControl('', Validators.compose([Validators.pattern('^[a-zA-Z\-\']+')])),
+      e_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
+      e_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
+      e_email: new FormControl('', Validators.compose([Validators.required, Validators.email])),
+      e_notes: new FormControl('', Validators.compose([Validators.required])),
+      e_country: new FormControl('', Validators.compose([Validators.required])),
+      e_street: new FormControl('', Validators.compose([Validators.required])),
+      e_city: new FormControl('', Validators.compose([Validators.required])),
+      e_state: new FormControl('', Validators.compose([Validators.required])),
+      e_zipcode: new FormControl('', Validators.compose([Validators.required])),
+      e_country_billing: new FormControl('', Validators.compose([Validators.required])),
+      e_street_billing: new FormControl('', Validators.compose([Validators.required])),
+      e_city_billing: new FormControl('', Validators.compose([Validators.required])),
+      e_state_billing: new FormControl('', Validators.compose([Validators.required])),
+      e_zipcode_billing: new FormControl('', Validators.compose([Validators.required])),
+
+    });
+
+    this.addEntityForm[this.totalEntities] = newEntity;
+    //Lastly We will increase entities
+    this.totalEntities++;
+  }
+
+  removeEntities(index)
+  {
+    this.addEntityForm.splice(index, 1); //Remove 1 item at the index from the array
+  }
 }

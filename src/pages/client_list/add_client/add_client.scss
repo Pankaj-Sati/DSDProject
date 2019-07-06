@@ -3,17 +3,48 @@ add_client {
     color: red;
   }
 
+  .detailsRow
+  {
+    border-bottom: 1px solid gray;
+    margin: 5px;
+  }
+
+  .detailsRow:nth-child(even) {
+   
+    border-bottom: 1px solid gray;
+    margin: 5px;
+  }
+
+  .completeIconCol {
+    margin: auto;
+    text-align: right;
+  }
+
+  .completeIcon
+  {
+    zoom:1.2;
+    padding:2px;
+  }
+
+  .detailIconCol {
+    text-align: center;
+    display: grid;
+  }
+
+  .detailIcon {
+    margin: auto;
+  }
+
+
   .error > .item-inner {
     border-bottom-color: red !important;
-    border-bottom: 2px solid red !important;
-    -webkit-box-shadow: inset 0 -1px 0 0 red !important;
-    box-shadow: inset 0 -1px 0 0 red !important;
+    border-bottom: 1px solid red !important;
+   
   }
 
   .valid > .item-inner {
     border-bottom-color: #32db64 !important;
-    border-bottom: 2px solid #32db64 !important;
-    -webkit-box-shadow: inset 0 -1px 0 0 #32db64 !important;
-    box-shadow: inset 0 -1px 0 0 #32db64 !important;
+    border-bottom: 1px solid #32db64 !important;
+    
   }
 }

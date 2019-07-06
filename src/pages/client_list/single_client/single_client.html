@@ -12,8 +12,8 @@
         </ion-title>
 
       </ion-col>
-      <ion-col style ="text-align: right;color:white;" (click)="showActions($event)">
-          <b >Action</b>
+      <ion-col style ="text-align: right;color:white; margin:auto;" (click)="showActions($event)">
+        <b style="font-size:14px;">ACTION</b>
        </ion-col>
         
 </ion-row>
@@ -403,7 +403,7 @@
 
     <ion-row>
       <ion-col style="text-align:center;">
-        <button ion-button (click)="changeCaseManager()">Change Case Manager</button>
+        <button ion-button (click)="navCtrl.pop()">Back</button>
       </ion-col>
     </ion-row>
 

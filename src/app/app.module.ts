@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -26,6 +27,7 @@ import { UpdateUserPage } from '../pages/user_list/update_user/update_user';
 import { ClientListPage } from '../pages/client_list/client_list';
 import { AddClientPage } from '../pages/client_list/add_client/add_client';
 import { SingleClientPage } from '../pages/client_list/single_client/single_client';
+import { SingleClientModule } from '../pages/client_list/single_client/single_client.module';
 import { ChangeManagerPage } from '../pages/client_list/single_client/change_manager/change_manager';
 import { SendSMSPage } from '../pages/client_list/single_client/send_sms/send_sms';
 
@@ -54,6 +56,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdvocateListProvider } from '../providers/advocate-list/advocate-list';
 import { ApiValuesProvider } from '../providers/api-values/api-values';
+import { ClientEntityRelationshipProvider } from '../providers/client-entity-relationship/client-entity-relationship';
 
 
 @NgModule({
@@ -77,9 +80,9 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
     UpdateUserPage,
     ClientListPage,
     AddClientPage,
-    SingleClientPage,
-    ChangeManagerPage,
-    SendSMSPage,
+    //SingleClientPage,
+   // ChangeManagerPage,
+    //SendSMSPage,
     AccountManagementPage,
     AccountSummaryPage,
     SingleUserAccountPage,
@@ -101,7 +104,8 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
 	     IonicStorageModule.forRoot(),
          SearchHeaderPageModule,
     ComponentsModule,
-    BrMaskerModule
+    BrMaskerModule,
+    SingleClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -124,8 +128,8 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
     UpdateUserPage,
     ClientListPage,
     AddClientPage,
-    SingleClientPage,
-    ChangeManagerPage,
+    //SingleClientPage,
+    //ChangeManagerPage,
     AccountManagementPage,
     AccountSummaryPage,
     SingleUserAccountPage,
@@ -138,7 +142,7 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
     SettingCaseTypePage,
     SMSBulkEmailPage,
     SMSListPage,
-    SendSMSPage
+    //SendSMSPage
   ],
   providers: [
     StatusBar,
@@ -154,8 +158,10 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
     File,
     FilePath,
     WebView,
-    InAppBrowser
+    InAppBrowser,
+    ClientEntityRelationshipProvider
   ],
-  exports: [ComponentsModule]
+  exports: [ComponentsModule],
+  schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

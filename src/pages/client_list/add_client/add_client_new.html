@@ -9,164 +9,431 @@
 
 <ion-content>
 
-<form [formGroup]="addClientForm" >	
-	<ion-list>
-		<ion-item no-lines>
-	        <ion-label stacked><b>Fields marked with * are compulsory</b></ion-label>
-	      </ion-item>
+<form [formGroup]="addClientForm" >
 
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_case_type.touched && ! addClientForm.controls.c_case_type.valid,'valid':(addClientForm.controls.c_case_type.touched && addClientForm.controls.c_case_type.valid)}" [class.invalid]="addClientForm.controls.c_case_type.dirty && ! addClientForm.controls.c_case_type.valid">
-	      	<ion-label stacked>Case Type <span class="mandatory_field"  >*</span></ion-label>
-	      	 <ion-select interface="popover"  formControlName="c_case_type" placeholder="Select Case Type">
-	      	<ion-option value="1">Civil</ion-option>
-	        <ion-option value="4">Murder</ion-option>
-	        <ion-option value="6">Criminal</ion-option>
-	        <ion-option value="7">Divorce</ion-option>
-	        
-	      </ion-select>
+  <ion-list>
+    <ion-item no-lines>
+      <ion-label stacked><b>Fields marked with * are compulsory</b></ion-label>
+    </ion-item>
 
-	      </ion-item>
-	     
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_alien_no.touched && !addClientForm.controls.c_alien_no.valid,'valid':(addClientForm.controls.c_alien_no.touched && addClientForm.controls.c_alien_no.valid)}" [class.invalid]="addClientForm.controls.c_alien_no.dirty && ! addClientForm.controls.c_alien_no.valid">
-	        <ion-label stacked><b>Alien No. <span class="mandatory_field"> *</span></b></ion-label>
-	        <ion-input type="text" required formControlName="c_alien_no" placeholder="Enter Alien No."></ion-input>
-	      </ion-item>
+    <!--------------------------------------------Case Details------------------------------>
 
-	       <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_case_category.touched && !addClientForm.controls.c_case_category.valid,'valid':(addClientForm.controls.c_case_category.touched && addClientForm.controls.c_case_category.valid)}" [class.invalid]="addClientForm.controls.c_case_category.dirty && ! addClientForm.controls.c_case_category.valid">
-	      	<ion-label stacked>Case Category <span class="mandatory_field"> *</span></ion-label>
-	      	 <ion-select interface="popover" formControlName="c_case_category" placeholder="Select Case Category">
-	      	<ion-option value="1">New</ion-option>
-	        <ion-option value="2">Reopen</ion-option>
-	        
-	      </ion-select>
+    <ion-row class="detailsRow" (click)="toggleShowMore(0)">
+      <ion-col col-8>
+        <ion-label style="font-size:1em "><b>Case Details</b></ion-label>
+      </ion-col>
 
-	      </ion-item>
+      <ion-col col-2 class="completeIconCol">
+        <ion-icon name="done-all" class="completeIcon" [color]="(addClientForm.controls.c_case_type.valid
+                  && addClientForm.controls.c_alien_no.valid
+                  && addClientForm.controls.c_case_category.valid
+                  && addClientForm.controls.c_case_description.valid
+                  && addClientForm.controls.c_date.valid)?'success':'invalid'"></ion-icon>
+      </ion-col>
+      <ion-col col-2 class="detailIconCol">
+        <ion-icon class="detailIcon" *ngIf="! showCaseDetails" name="arrow-down"></ion-icon>
+        <ion-icon class="detailIcon" *ngIf="showCaseDetails" name="arrow-up"></ion-icon>
+      </ion-col>
 
-	       <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_case_description.touched && !addClientForm.controls.c_case_description.valid,'valid':(addClientForm.controls.c_case_description.touched && addClientForm.controls.c_case_description.valid)}" [class.invalid]="addClientForm.controls.c_case_description.dirty && ! addClientForm.controls.c_case_description.valid">
-	        <ion-label stacked><b>Case Description</b></ion-label>
-	        <ion-input type="text" required formControlName="c_case_description" placeholder="Enter Description"></ion-input>
-	      </ion-item>
+    </ion-row>
 
-	       <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_date.touched && !addClientForm.controls.c_date.valid,'valid':(addClientForm.controls.c_date.touched && addClientForm.controls.c_date.valid)}" [class.invalid]="addClientForm.controls.c_date.dirty && ! addClientForm.controls.c_date.valid">
-	        <ion-label stacked><b>Case Registered Date <span class="mandatory_field"> *</span></b></ion-label>
-	        <ion-datetime required formControlName="c_date" placeholder="Select Date" displayFormat="DD MM YYYY"></ion-datetime>
-	      </ion-item>
-
-	      <hr>
-
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_name.touched && !addClientForm.controls.c_name.valid,'valid':(addClientForm.controls.c_name.touched && addClientForm.controls.c_name.valid)}" [class.invalid]="addClientForm.controls.c_name.dirty && ! addClientForm.controls.c_name.valid">
-	        <ion-label stacked><b>Full Name <span class="mandatory_field"> *</span></b></ion-label>
-	        <ion-input type="text" required formControlName="c_name" placeholder="Enter Name"></ion-input>
-	      </ion-item>
-
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_alias.touched && !addClientForm.controls.c_alias.valid,'valid':(addClientForm.controls.c_alias.touched && addClientForm.controls.c_alias.valid)}" [class.invalid]="addClientForm.controls.c_alias.dirty && ! addClientForm.controls.c_alias.valid">
-	        <ion-label stacked><b>Alias</b></ion-label>
-	        <ion-input type="text" required formControlName="c_alias" placeholder="Enter Alias"></ion-input>
-	      </ion-item>
-
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_contact.touched && !addClientForm.controls.c_contact.valid,'valid':(addClientForm.controls.c_contact.touched && addClientForm.controls.c_contact.valid)}" [class.invalid]="addClientForm.controls.c_contact.dirty && ! addClientForm.controls.c_contact.valid">
-	        <ion-label stacked><b>Contact No. <span class="mandatory_field"> *</span></b></ion-label>
-	        <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" required formControlName="c_contact" placeholder="Enter contact number"></ion-input>
-	      </ion-item>
-
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_alt_no.touched && !addClientForm.controls.c_alt_no.valid,'valid':(addClientForm.controls.c_alt_no.touched && addClientForm.controls.c_alt_no.valid)}" [class.invalid]="addClientForm.controls.c_alt_no.dirty && ! addClientForm.controls.c_alt_no.valid">
-	        <ion-label stacked><b>Alternative No.</b></ion-label>
-	        <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" required formControlName="c_alt_no" placeholder="Enter alternate number"></ion-input>
-	      </ion-item>
-
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_email.touched && !addClientForm.controls.c_email.valid,'valid':(addClientForm.controls.c_email.touched && addClientForm.controls.c_email.valid)}" [class.invalid]="addClientForm.controls.c_email.dirty && ! addClientForm.controls.c_email.valid">
-	        <ion-label stacked><b>Email Id <span class="mandatory_field"> *</span></b></ion-label>
-	        <ion-input type="email" required formControlName="c_email" placeholder="Enter email"></ion-input>
-	      </ion-item>
-
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_notes.touched && !addClientForm.controls.c_notes.valid,'valid':(addClientForm.controls.c_notes.touched && addClientForm.controls.c_notes.valid)}" [class.invalid]="addClientForm.controls.c_notes.dirty && ! addClientForm.controls.c_notes.valid">
-	        <ion-label stacked><b>Notes</b></ion-label>
-	        <ion-input type="text" formControlName="c_notes" placeholder="Enter notes"></ion-input>
-	      </ion-item>
-
-	      <hr>
-
-	     <ion-item no-lines>
-	        <ion-label><b>Permanent Address</b></ion-label>
-	   </ion-item>
-
-	   <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_street.touched && !addClientForm.controls.c_street.valid,'valid':(addClientForm.controls.c_street.touched && addClientForm.controls.c_street.valid)}" [class.invalid]="addClientForm.controls.c_street.dirty && ! addClientForm.controls.c_street.valid">
-	        <ion-label stacked><b>Street <span class="mandatory_field"> *</span></b></ion-label>
-	        <ion-input type="text" required formControlName="c_street" placeholder="Enter street"></ion-input>
-	      </ion-item>
-
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_city.touched && !addClientForm.controls.c_city.valid,'valid':(addClientForm.controls.c_city.touched && addClientForm.controls.c_city.valid)}" [class.invalid]="addClientForm.controls.c_city.dirty && ! addClientForm.controls.c_city.valid">
-	        <ion-label stacked><b>City or Town <span class="mandatory_field"> *</span></b></ion-label>
-	        <ion-input type="text" required formControlName="c_city" placeholder="Enter City"></ion-input>
-	      </ion-item>
-
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_state.touched && !addClientForm.controls.c_state.valid,'valid':(addClientForm.controls.c_state.touched && addClientForm.controls.c_state.valid)}" [class.invalid]="addClientForm.controls.c_state.dirty && ! addClientForm.controls.c_state.valid">
-	        <ion-label stacked><b>State <span class="mandatory_field"> *</span></b></ion-label>
-	        <ion-input type="text" required formControlName="c_state" placeholder="Enter state"></ion-input>
-	      </ion-item>
-
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_zipcode.touched && !addClientForm.controls.c_zipcode.valid,'valid':(addClientForm.controls.c_zipcode.touched && addClientForm.controls.c_zipcode.valid)}" [class.invalid]="addClientForm.controls.c_zipcode.dirty && ! addClientForm.controls.c_zipcode.valid">
-	        <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
-	        <ion-input type="text" required formControlName="c_zipcode" placeholder="Enter zipcode"></ion-input>
-	      </ion-item>
-
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_country.touched && !addClientForm.controls.c_country.valid,'valid':(addClientForm.controls.c_country.touched && addClientForm.controls.c_country.valid)}" [class.invalid]="addClientForm.controls.c_country.dirty && ! addClientForm.controls.c_country.valid">
-	        <ion-label stacked><b>Country <span class="mandatory_field"> *</span></b></ion-label>
-	        <ion-select interface="popover" formControlName="c_country" placeholder="Select country">
-            <ion-option value="United State">United State</ion-option>
-          </ion-select>
-	      </ion-item>
-	      <hr>
-
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_filing_cm.touched && !addClientForm.controls.c_filing_cm.valid,'valid':(addClientForm.controls.c_filing_cm.touched && addClientForm.controls.c_filing_cm.valid)}" [class.invalid]="addClientForm.controls.c_filing_cm.dirty && ! addClientForm.controls.c_filing_cm.valid">
-	        <ion-label stacked><b>Filing Case Manager Name (If any)</b></ion-label>
-	        <ion-input required formControlName="c_filing_cm"></ion-input>
-	      </ion-item>
-
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_cm_assigned.touched && !addClientForm.controls.c_cm_assigned.valid,'valid':(addClientForm.controls.c_cm_assigned.touched && addClientForm.controls.c_cm_assigned.valid)}" [class.invalid]="addClientForm.controls.c_cm_assigned.dirty && ! addClientForm.controls.c_cm_assigned.valid">
-	        <ion-label stacked><b>Case Manager Assigned To <span class="mandatory_field"> *</span></b></ion-label>
-	        <ion-select interface="popover" required formControlName="c_cm_assigned" placeholder="Select Case Manager">
-	        	<ion-option *ngFor="let advocate of advocate_list">{{advocate.name}} ({{advocate.id}})</ion-option>
-	        </ion-select>
-
-	  
-	      </ion-item>
-
-	      <hr>
-	    
-	     <ion-item no-lines>
-	        <ion-label ><b>Defendant Information</b></ion-label>
-	   </ion-item>
+    <div *ngIf="showCaseDetails">
 
 
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_defendent_name.touched && !addClientForm.controls.c_defendent_name.valid,'valid':(addClientForm.controls.c_defendent_name.touched && addClientForm.controls.c_defendent_name.valid)}" [class.invalid]="addClientForm.controls.c_defendent_name.dirty && ! addClientForm.controls.c_defendent_name.valid">
-	        <ion-label stacked><b>Full Name <span class="mandatory_field"> *</span></b></ion-label>
-	        <ion-input type="text" required formControlName="c_defendent_name" placeholder="Enter Defendant Name"></ion-input>
-	      </ion-item>
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_case_type.touched && ! addClientForm.controls.c_case_type.valid,'valid':(addClientForm.controls.c_case_type.touched && addClientForm.controls.c_case_type.valid)}" [class.invalid]="addClientForm.controls.c_case_type.dirty && ! addClientForm.controls.c_case_type.valid">
+        <ion-label stacked>Case Type <span class="mandatory_field">*</span></ion-label>
+        <ion-select interface="popover" formControlName="c_case_type" placeholder="Select Case Type">
+          <ion-option value="1">Civil</ion-option>
+          <ion-option value="4">Murder</ion-option>
+          <ion-option value="6">Criminal</ion-option>
+          <ion-option value="7">Divorce</ion-option>
 
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_defendent_alias.touched && !addClientForm.controls.c_defendent_alias.valid,'valid':(addClientForm.controls.c_defendent_alias.touched && addClientForm.controls.c_defendent_alias.valid)}" [class.invalid]="addClientForm.controls.c_defendent_alias.dirty && ! addClientForm.controls.c_defendent_alias.valid">
-	        <ion-label stacked><b>Alias</b></ion-label>
-	        <ion-input type="text" required formControlName="c_defendent_alias" placeholer="Enter Defendant Alias"></ion-input>
-	      </ion-item>
+        </ion-select>
 
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_defendent_manager.touched && !addClientForm.controls.c_defendent_manager.valid,'valid':(addClientForm.controls.c_defendent_manager.touched && addClientForm.controls.c_defendent_manager.valid)}" [class.invalid]="addClientForm.controls.c_defendent_manager.dirty && ! addClientForm.controls.c_defendent_manager.valid">
-	        <ion-label stacked><b>Defendant Manager Name (If any)</b></ion-label>
-	        <ion-input type="text" required formControlName="c_defendent_manager"></ion-input>
-	      </ion-item>
+      </ion-item>
 
-	      <hr>
-	  
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_reg_fee.touched && !addClientForm.controls.c_reg_fee.valid,'valid':(addClientForm.controls.c_reg_fee.touched && addClientForm.controls.c_reg_fee.valid)}" [class.invalid]="addClientForm.controls.c_reg_fee.dirty && ! addClientForm.controls.c_reg_fee.valid">
-	        <ion-label stacked><b>Registration Fee</b></ion-label>
-	        <ion-input type="num" required formControlName="c_reg_fee" placeholder="Enter Registration Fee"></ion-input>
-	      </ion-item>
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_alien_no.touched && !addClientForm.controls.c_alien_no.valid,'valid':(addClientForm.controls.c_alien_no.touched && addClientForm.controls.c_alien_no.valid)}" [class.invalid]="addClientForm.controls.c_alien_no.dirty && ! addClientForm.controls.c_alien_no.valid">
+        <ion-label stacked><b>Alien No. <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-input type="text" required formControlName="c_alien_no" placeholder="Enter Alien No."></ion-input>
+      </ion-item>
 
-	      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_decided_fee.touched && !addClientForm.controls.c_decided_fee.valid,'valid':(addClientForm.controls.c_decided_fee.touched && addClientForm.controls.c_decided_fee.valid)}" [class.invalid]="addClientForm.controls.c_decided_fee.dirty && ! addClientForm.controls.c_decided_fee.valid">
-	        <ion-label stacked><b>Decided Fee</b></ion-label>
-	        <ion-input type="num" required formControlName="c_decided_fee" placeholder="Enter Decided Fee"></ion-input>
-	      </ion-item>
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_case_category.touched && !addClientForm.controls.c_case_category.valid,'valid':(addClientForm.controls.c_case_category.touched && addClientForm.controls.c_case_category.valid)}" [class.invalid]="addClientForm.controls.c_case_category.dirty && ! addClientForm.controls.c_case_category.valid">
+        <ion-label stacked>Case Category <span class="mandatory_field"> *</span></ion-label>
+        <ion-select interface="popover" formControlName="c_case_category" placeholder="Select Case Category">
+          <ion-option value="1">New</ion-option>
+          <ion-option value="2">Reopen</ion-option>
 
-	     
+        </ion-select>
+
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_case_description.touched && !addClientForm.controls.c_case_description.valid,'valid':(addClientForm.controls.c_case_description.touched && addClientForm.controls.c_case_description.valid)}" [class.invalid]="addClientForm.controls.c_case_description.dirty && ! addClientForm.controls.c_case_description.valid">
+        <ion-label stacked><b>Case Description</b></ion-label>
+        <ion-input type="text" formControlName="c_case_description" placeholder="Enter Description"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_date.touched && !addClientForm.controls.c_date.valid,'valid':(addClientForm.controls.c_date.touched && addClientForm.controls.c_date.valid)}" [class.invalid]="addClientForm.controls.c_date.dirty && ! addClientForm.controls.c_date.valid">
+        <ion-label stacked><b>Case Registered Date <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-datetime required formControlName="c_date" placeholder="Select Date" displayFormat="DD MM YYYY"></ion-datetime>
+      </ion-item>
+
+    </div>
+
+
+    <!---------------------------------------------Personal Details------------------------->
+
+    <ion-row class="detailsRow" (click)="toggleShowMore(1)">
+      <ion-col col-8>
+        <ion-label style="font-size:1em "><b>Personal Details</b></ion-label>
+      </ion-col>
+
+      <ion-col col-2 class="completeIconCol">
+        <ion-icon name="done-all" class="completeIcon" [color]="(addClientForm.controls.c_name.valid
+                  && addClientForm.controls.c_alias.valid
+                  && addClientForm.controls.c_contact.valid
+                  && addClientForm.controls.c_alt_no.valid
+                  && addClientForm.controls.c_email.valid
+                  && addClientForm.controls.c_notes.valid
+                  && addClientForm.controls.c_street.valid
+                  && addClientForm.controls.c_city.valid
+                  && addClientForm.controls.c_state.valid
+                  && addClientForm.controls.c_zipcode.valid
+                  && addClientForm.controls.c_country.valid
+                  && addClientForm.controls.c_street_billing.valid
+                  && addClientForm.controls.c_city_billing.valid
+                  && addClientForm.controls.c_state_billing.valid
+                  && addClientForm.controls.c_zipcode_billing.valid
+                  && addClientForm.controls.c_country_billing.valid)?'success':'invalid'"></ion-icon>
+      </ion-col>
+
+      <ion-col col-2 class="detailIconCol">
+        <ion-icon class="detailIcon" *ngIf="! showPersonalDetails" name="arrow-down"></ion-icon>
+        <ion-icon class="detailIcon" *ngIf="showPersonalDetails" name="arrow-up"></ion-icon>
+      </ion-col>
+
+    </ion-row>
+
+    <div *ngIf="showPersonalDetails">
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_name.touched && !addClientForm.controls.c_name.valid,'valid':(addClientForm.controls.c_name.touched && addClientForm.controls.c_name.valid)}" [class.invalid]="addClientForm.controls.c_name.dirty && ! addClientForm.controls.c_name.valid">
+        <ion-label stacked><b>Full Name <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-input type="text" required formControlName="c_name" placeholder="Enter Name"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_alias.touched && !addClientForm.controls.c_alias.valid,'valid':(addClientForm.controls.c_alias.touched && addClientForm.controls.c_alias.valid)}" [class.invalid]="addClientForm.controls.c_alias.dirty && ! addClientForm.controls.c_alias.valid">
+        <ion-label stacked><b>Alias</b></ion-label>
+        <ion-input type="text" formControlName="c_alias" placeholder="Enter Alias"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_contact.touched && !addClientForm.controls.c_contact.valid,'valid':(addClientForm.controls.c_contact.touched && addClientForm.controls.c_contact.valid)}" [class.invalid]="addClientForm.controls.c_contact.dirty && ! addClientForm.controls.c_contact.valid">
+        <ion-label stacked><b>Contact No. <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" required formControlName="c_contact" placeholder="Enter contact number"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_alt_no.touched && !addClientForm.controls.c_alt_no.valid,'valid':(addClientForm.controls.c_alt_no.touched && addClientForm.controls.c_alt_no.valid)}" [class.invalid]="addClientForm.controls.c_alt_no.dirty && ! addClientForm.controls.c_alt_no.valid">
+        <ion-label stacked><b>Alternative No.</b></ion-label>
+        <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" formControlName="c_alt_no" placeholder="Enter alternate number"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_email.touched && !addClientForm.controls.c_email.valid,'valid':(addClientForm.controls.c_email.touched && addClientForm.controls.c_email.valid)}" [class.invalid]="addClientForm.controls.c_email.dirty && ! addClientForm.controls.c_email.valid">
+        <ion-label stacked><b>Email Id <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-input type="email" required formControlName="c_email" placeholder="Enter email"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_notes.touched && !addClientForm.controls.c_notes.valid,'valid':(addClientForm.controls.c_notes.touched && addClientForm.controls.c_notes.valid)}" [class.invalid]="addClientForm.controls.c_notes.dirty && ! addClientForm.controls.c_notes.valid">
+        <ion-label stacked><b>Notes</b></ion-label>
+        <ion-input type="text" formControlName="c_notes" placeholder="Enter notes"></ion-input>
+      </ion-item>
+
+      <hr>
+      <!----------Permanant Address----------->
+      <ion-item no-lines>
+        <ion-label><b>Permanent Address</b></ion-label>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_street.touched && !addClientForm.controls.c_street.valid,'valid':(addClientForm.controls.c_street.touched && addClientForm.controls.c_street.valid)}" [class.invalid]="addClientForm.controls.c_street.dirty && ! addClientForm.controls.c_street.valid">
+        <ion-label stacked><b>Street <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-input type="text" (ionChange)="isBillingAndPermanentAddressSame?addClientForm.controls.c_street_billing.setValue(addClientForm.value.c_street):null" required formControlName="c_street" placeholder="Enter street"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_city.touched && !addClientForm.controls.c_city.valid,'valid':(addClientForm.controls.c_city.touched && addClientForm.controls.c_city.valid)}" [class.invalid]="addClientForm.controls.c_city.dirty && ! addClientForm.controls.c_city.valid">
+        <ion-label stacked><b>City or Town <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-input type="text" (ionChange)="isBillingAndPermanentAddressSame?addClientForm.controls.c_city_billing.setValue(addClientForm.value.c_city):null" required formControlName="c_city" placeholder="Enter City"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_state.touched && !addClientForm.controls.c_state.valid,'valid':(addClientForm.controls.c_state.touched && addClientForm.controls.c_state.valid)}" [class.invalid]="addClientForm.controls.c_state.dirty && ! addClientForm.controls.c_state.valid">
+        <ion-label stacked><b>State <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-input type="text" required (ionChange)="isBillingAndPermanentAddressSame?addClientForm.controls.c_state_billing.setValue(addClientForm.value.c_state):null" formControlName="c_state" placeholder="Enter state"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_zipcode.touched && !addClientForm.controls.c_zipcode.valid,'valid':(addClientForm.controls.c_zipcode.touched && addClientForm.controls.c_zipcode.valid)}" [class.invalid]="addClientForm.controls.c_zipcode.dirty && ! addClientForm.controls.c_zipcode.valid">
+        <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-input type="text" required (ionChange)="isBillingAndPermanentAddressSame?addClientForm.controls.c_zipcode_billing.setValue(addClientForm.value.c_zipcode):null" formControlName="c_zipcode" placeholder="Enter zipcode"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_country.touched && !addClientForm.controls.c_country.valid,'valid':(addClientForm.controls.c_country.touched && addClientForm.controls.c_country.valid)}" [class.invalid]="addClientForm.controls.c_country.dirty && ! addClientForm.controls.c_country.valid">
+        <ion-label stacked><b>Country <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-select interface="popover" (ionChange)="isBillingAndPermanentAddressSame?addClientForm.controls.c_country_billing.setValue(addClientForm.value.c_country):null" formControlName="c_country" required placeholder="Select country">
+          <ion-option value="United State">United State</ion-option>
+        </ion-select>
+      </ion-item>
+      <hr>
+
+      <!----------Billing Address----------->
+      <ion-item no-lines>
+        <ion-label><b>Billing Address</b><span style="float:right;font-size:12px;margin:inherit;">Same as Permanent Address</span><ion-checkbox style="float:right;margin:inherit" (click)="setBillingAddressSame()"></ion-checkbox> </ion-label>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_street_billing.touched && !addClientForm.controls.c_street_billing.valid,'valid':(addClientForm.controls.c_street_billing.touched && addClientForm.controls.c_street_billing.valid)}" [class.invalid]="addClientForm.controls.c_street_billing.dirty && ! addClientForm.controls.c_street_billing.valid">
+        <ion-label stacked><b>Street <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-input [disabled]="isBillingAndPermanentAddressSame" type="text" required formControlName="c_street_billing" placeholder="Enter street"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_city_billing.touched && !addClientForm.controls.c_city_billing.valid,'valid':(addClientForm.controls.c_city_billing.touched && addClientForm.controls.c_city_billing.valid)}" [class.invalid]="addClientForm.controls.c_city_billing.dirty && ! addClientForm.controls.c_city_billing.valid">
+        <ion-label stacked><b>City or Town <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-input type="text" [disabled]="isBillingAndPermanentAddressSame" required formControlName="c_city_billing" placeholder="Enter City"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_state_billing.touched && !addClientForm.controls.c_state_billing.valid,'valid':(addClientForm.controls.c_state_billing.touched && addClientForm.controls.c_state_billing.valid)}" [class.invalid]="addClientForm.controls.c_state_billing.dirty && ! addClientForm.controls.c_state_billing.valid">
+        <ion-label stacked><b>State <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-input type="text" [disabled]="isBillingAndPermanentAddressSame" required formControlName="c_state_billing" placeholder="Enter state"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_zipcode_billing.touched && !addClientForm.controls.c_zipcode_billing.valid,'valid':(addClientForm.controls.c_zipcode_billing.touched && addClientForm.controls.c_zipcode_billing.valid)}" [class.invalid]="addClientForm.controls.c_zipcode_billing.dirty && ! addClientForm.controls.c_zipcode_billing.valid">
+        <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-input type="text" [disabled]="isBillingAndPermanentAddressSame" required formControlName="c_zipcode_billing" placeholder="Enter zipcode"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_country_billing.touched && !addClientForm.controls.c_country_billing.valid,'valid':(addClientForm.controls.c_country_billing.touched && addClientForm.controls.c_country_billing.valid)}" [class.invalid]="addClientForm.controls.c_country_billing.dirty && ! addClientForm.controls.c_country_billing.valid">
+        <ion-label stacked><b>Country <span class="mandatory_field"> *</span></b></ion-label>
+        <ion-select interface="popover" [disabled]="isBillingAndPermanentAddressSame" formControlName="c_country_billing" required placeholder="Select country">
+          <ion-option value="United State">United State</ion-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+
+    <!----------------------------------Entity Details-------------------------------->
+    
+        <ion-radio slot="start" value="false" [checked]="!hasRelation" (click)="hasRelation=false"></ion-radio>Individual
+        <ion-radio slot="start" value="true" [checked]="hasRelation" (click)="hasRelation=true"></ion-radio>Relations
+      
+
+        <!--------------------Entities Details--------------------->
+    <div name="entityDetails" *ngIf="hasRelation">
+
+      <ion-row class="detailsRow" (click)="toggleShowMore(5)">
+        <ion-col col-8>
+          <ion-label style="font-size:1em "><b>Entities:<span style="margin-left:10px;">{{totalEntities}}</span></b></ion-label>
+        </ion-col>
+        <ion-col col-2 class="completeIconCol" (click)="addEntities()">
+          <ion-icon name="add-circle" class="completeIcon" style="color:unset"></ion-icon>
+          </ion-col>
+
+        <ion-col col-2 class="detailIconCol">
+          <ion-icon class="detailIcon" *ngIf="! showEntityDetails" name="arrow-down"></ion-icon>
+          <ion-icon class="detailIcon" *ngIf="showEntityDetails" name="arrow-up"></ion-icon>
+        </ion-col>
+
+      </ion-row>
+      <div *ngIf="showEntityDetails">
+
+        <div *ngFor="let eachEntityForm of addEntityForm;let i=index">
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_relationship.touched && !addEntityForm[i].controls.e_relationship.valid,'valid':(addEntityForm[i].controls.e_relationship.touched && addEntityForm[i].controls.e_relationship.valid)}" [class.invalid]="addEntityForm[i].controls.e_relationship.dirty && ! addEntityForm[i].controls.e_relationship.valid">
+            <ion-label stacked><b>Relationship <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-select required formControlName="e_relationship" placeholder="Select a Relationship">
+              <ion-option *ngFor="let relation of relationshipList" value="{{relation.value}}">{{relation.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_name.touched && !addEntityForm[i].controls.e_name.valid,'valid':(addEntityForm[i].controls.e_name.touched && addEntityForm[i].controls.e_name.valid)}" [class.invalid]="addEntityForm[i].controls.e_name.dirty && ! addEntityForm[i].controls.e_name.valid">
+            <ion-label stacked><b>Full Name <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-input type="text" required formControlName="e_name" placeholder="Enter Name"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_alias.touched && !addEntityForm[i].controls.e_alias.valid,'valid':(addEntityForm[i].controls.e_alias.touched && addEntityForm[i].controls.e_alias.valid)}" [class.invalid]="addEntityForm[i].controls.e_alias.dirty && ! addEntityForm[i].controls.e_alias.valid">
+            <ion-label stacked><b>Alias</b></ion-label>
+            <ion-input type="text" formControlName="e_alias" placeholder="Enter Alias"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_contact.touched && !addEntityForm[i].controls.e_contact.valid,'valid':(addEntityForm[i].controls.e_contact.touched && addEntityForm[i].controls.e_contact.valid)}" [class.invalid]="addEntityForm[i].controls.e_contact.dirty && ! addEntityForm[i].controls.e_contact.valid">
+            <ion-label stacked><b>Contact No. <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" required formControlName="e_contact" placeholder="Enter contact number"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_alt_no.touched && !addEntityForm[i].controls.e_alt_no.valid,'valid':(addEntityForm[i].controls.e_alt_no.touched && addEntityForm[i].controls.e_alt_no.valid)}" [class.invalid]="addEntityForm[i].controls.e_alt_no.dirty && ! addEntityForm[i].controls.e_alt_no.valid">
+            <ion-label stacked><b>Alternative No.</b></ion-label>
+            <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" formControlName="e_alt_no" placeholder="Enter alternate number"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_email.touched && !addEntityForm[i].controls.e_email.valid,'valid':(addEntityForm[i].controls.e_email.touched && addEntityForm[i].controls.e_email.valid)}" [class.invalid]="addEntityForm[i].controls.e_email.dirty && ! addEntityForm[i].controls.e_email.valid">
+            <ion-label stacked><b>Email Id <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-input type="email" required formControlName="e_email" placeholder="Enter email"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_notes.touched && !addEntityForm[i].controls.e_notes.valid,'valid':(addEntityForm[i].controls.e_notes.touched && addEntityForm[i].controls.e_notes.valid)}" [class.invalid]="addEntityForm[i].controls.e_notes.dirty && ! addEntityForm[i].controls.e_notes.valid">
+            <ion-label stacked><b>Notes</b></ion-label>
+            <ion-input type="text" formControlName="e_notes" placeholder="Enter notes"></ion-input>
+          </ion-item>
+
+          <hr>
+          <!----------Permanant Address----------->
+          <ion-item no-lines>
+            <ion-label><b>Permanent Address</b></ion-label>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_street.touched && !addEntityForm[i].controls.e_street.valid,'valid':(addEntityForm[i].controls.e_street.touched && addEntityForm[i].controls.e_street.valid)}" [class.invalid]="addEntityForm[i].controls.e_street.dirty && ! addEntityForm[i].controls.e_street.valid">
+            <ion-label stacked><b>Street <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-input type="text" (ionChange)="isBillingAndPermanentAddressSame?addEntityForm[i].controls.e_street_billing.setValue(addEntityForm[i].value.e_street):null" required formControlName="e_street" placeholder="Enter street"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_city.touched && !addEntityForm[i].controls.e_city.valid,'valid':(addEntityForm[i].controls.e_city.touched && addEntityForm[i].controls.e_city.valid)}" [class.invalid]="addEntityForm[i].controls.e_city.dirty && ! addEntityForm[i].controls.e_city.valid">
+            <ion-label stacked><b>City or Town <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-input type="text" (ionChange)="isBillingAndPermanentAddressSame?addEntityForm[i].controls.e_city_billing.setValue(addEntityForm[i].value.e_city):null" required formControlName="e_city" placeholder="Enter City"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_state.touched && !addEntityForm[i].controls.e_state.valid,'valid':(addEntityForm[i].controls.e_state.touched && addEntityForm[i].controls.e_state.valid)}" [class.invalid]="addEntityForm[i].controls.e_state.dirty && ! addEntityForm[i].controls.e_state.valid">
+            <ion-label stacked><b>State <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-input type="text" required (ionChange)="isBillingAndPermanentAddressSame?addEntityForm[i].controls.e_state_billing.setValue(addEntityForm[i].value.e_state):null" formControlName="e_state" placeholder="Enter state"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_zipcode.touched && !addEntityForm[i].controls.e_zipcode.valid,'valid':(addEntityForm[i].controls.e_zipcode.touched && addEntityForm[i].controls.e_zipcode.valid)}" [class.invalid]="addEntityForm[i].controls.e_zipcode.dirty && ! addEntityForm[i].controls.e_zipcode.valid">
+            <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-input type="text" required (ionChange)="isBillingAndPermanentAddressSame?addEntityForm[i].controls.e_zipcode_billing.setValue(addEntityForm[i].value.e_zipcode):null" formControlName="e_zipcode" placeholder="Enter zipcode"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_country.touched && !addEntityForm[i].controls.e_country.valid,'valid':(addEntityForm[i].controls.e_country.touched && addEntityForm[i].controls.e_country.valid)}" [class.invalid]="addEntityForm[i].controls.e_country.dirty && ! addEntityForm[i].controls.e_country.valid">
+            <ion-label stacked><b>Country <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-select interface="popover" (ionChange)="isBillingAndPermanentAddressSame?addEntityForm[i].controls.e_country_billing.setValue(addEntityForm[i].value.e_country):null" formControlName="e_country" required placeholder="Select country">
+              <ion-option value="United State">United State</ion-option>
+            </ion-select>
+          </ion-item>
+          <hr>
+
+          <!----------Billing Address----------->
+          <ion-item no-lines>
+            <ion-label><b>Billing Address</b><span style="float:right;font-size:12px;margin:inherit;">Same as Permanent Address</span><ion-checkbox style="float:right;margin:inherit" (click)="setBillingAddressSame()"></ion-checkbox> </ion-label>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_street_billing.touched && !addEntityForm[i].controls.e_street_billing.valid,'valid':(addEntityForm[i].controls.e_street_billing.touched && addEntityForm[i].controls.e_street_billing.valid)}" [class.invalid]="addEntityForm[i].controls.e_street_billing.dirty && ! addEntityForm[i].controls.e_street_billing.valid">
+            <ion-label stacked><b>Street <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-input [disabled]="isBillingAndPermanentAddressSame" type="text" required formControlName="e_street_billing" placeholder="Enter street"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_city_billing.touched && !addEntityForm[i].controls.e_city_billing.valid,'valid':(addEntityForm[i].controls.e_city_billing.touched && addEntityForm[i].controls.e_city_billing.valid)}" [class.invalid]="addEntityForm[i].controls.e_city_billing.dirty && ! addEntityForm[i].controls.e_city_billing.valid">
+            <ion-label stacked><b>City or Town <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-input type="text" [disabled]="isBillingAndPermanentAddressSame" required formControlName="e_city_billing" placeholder="Enter City"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_state_billing.touched && !addEntityForm[i].controls.e_state_billing.valid,'valid':(addEntityForm[i].controls.e_state_billing.touched && addEntityForm[i].controls.e_state_billing.valid)}" [class.invalid]="addEntityForm[i].controls.e_state_billing.dirty && ! addEntityForm[i].controls.e_state_billing.valid">
+            <ion-label stacked><b>State <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-input type="text" [disabled]="isBillingAndPermanentAddressSame" required formControlName="e_state_billing" placeholder="Enter state"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_zipcode_billing.touched && !addEntityForm[i].controls.e_zipcode_billing.valid,'valid':(addEntityForm[i].controls.e_zipcode_billing.touched && addEntityForm[i].controls.e_zipcode_billing.valid)}" [class.invalid]="addEntityForm[i].controls.e_zipcode_billing.dirty && ! addEntityForm[i].controls.e_zipcode_billing.valid">
+            <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-input type="text" [disabled]="isBillingAndPermanentAddressSame" required formControlName="e_zipcode_billing" placeholder="Enter zipcode"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addEntityForm[i].controls.e_country_billing.touched && !addEntityForm[i].controls.e_country_billing.valid,'valid':(addEntityForm[i].controls.e_country_billing.touched && addEntityForm[i].controls.e_country_billing.valid)}" [class.invalid]="addEntityForm[i].controls.e_country_billing.dirty && ! addEntityForm[i].controls.e_country_billing.valid">
+            <ion-label stacked><b>Country <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-select interface="popover" [disabled]="isBillingAndPermanentAddressSame" formControlName="e_country_billing" required placeholder="Select country">
+              <ion-option value="United State">United State</ion-option>
+            </ion-select>
+          </ion-item>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+        <!----------------------------------Case Manager Details-------------------------------->
+        <ion-row class="detailsRow" (click)="toggleShowMore(3)">
+          <ion-col col-8>
+            <ion-label style="font-size:1em "><b>Case Manager</b></ion-label>
+          </ion-col>
+
+          <ion-col col-2 class="completeIconCol">
+            <ion-icon name="done-all" class="completeIcon" [color]="(addClientForm.controls.c_filing_cm.valid
+                  && addClientForm.controls.c_cm_assigned.valid)?'success':'invalid'"></ion-icon>
+          </ion-col>
+
+          <ion-col col-2 class="detailIconCol">
+            <ion-icon class="detailIcon" *ngIf="! showCaseManagerDetails" name="arrow-down"></ion-icon>
+            <ion-icon class="detailIcon" *ngIf="showCaseManagerDetails" name="arrow-up"></ion-icon>
+          </ion-col>
+
+        </ion-row>
+
+        <div *ngIf="showCaseManagerDetails">
+          <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_filing_cm.touched && !addClientForm.controls.c_filing_cm.valid,'valid':(addClientForm.controls.c_filing_cm.touched && addClientForm.controls.c_filing_cm.valid)}" [class.invalid]="addClientForm.controls.c_filing_cm.dirty && ! addClientForm.controls.c_filing_cm.valid">
+            <ion-label stacked><b>Filing Case Manager Name (If any)</b></ion-label>
+            <ion-input formControlName="c_filing_cm"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_cm_assigned.touched && !addClientForm.controls.c_cm_assigned.valid,'valid':(addClientForm.controls.c_cm_assigned.touched && addClientForm.controls.c_cm_assigned.valid)}" [class.invalid]="addClientForm.controls.c_cm_assigned.dirty && ! addClientForm.controls.c_cm_assigned.valid">
+            <ion-label stacked><b>Case Manager Assigned To <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-select interface="popover" required formControlName="c_cm_assigned" placeholder="Select Case Manager">
+              <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}} ({{advocate.id}})</ion-option>
+            </ion-select>
+
+
+          </ion-item>
+        </div>
+        <!------------------------------Defendant Details-------------------------------->
+
+        <ion-row class="detailsRow" (click)="toggleShowMore(4)">
+          <ion-col col-8>
+            <ion-label style="font-size:1em "><b>Defendant Details</b></ion-label>
+          </ion-col>
+
+
+          <ion-col col-2 class="completeIconCol">
+            <ion-icon name="done-all" class="completeIcon" [color]="(addClientForm.controls.c_defendent_name.valid
+                  && addClientForm.controls.c_defendent_alias.valid
+                  && addClientForm.controls.c_defendent_manager.valid)?'success':'invalid'"></ion-icon>
+          </ion-col>
+
+          <ion-col col-2 class="detailIconCol">
+            <ion-icon class="detailIcon" *ngIf="! showDefendantDetails" name="arrow-down"></ion-icon>
+            <ion-icon class="detailIcon" *ngIf="showDefendantDetails" name="arrow-up"></ion-icon>
+          </ion-col>
+
+        </ion-row>
+        <div *ngIf="showDefendantDetails">
+
+          <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_defendent_name.touched && !addClientForm.controls.c_defendent_name.valid,'valid':(addClientForm.controls.c_defendent_name.touched && addClientForm.controls.c_defendent_name.valid)}" [class.invalid]="addClientForm.controls.c_defendent_name.dirty && ! addClientForm.controls.c_defendent_name.valid">
+            <ion-label stacked><b>Full Name <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-input type="text" required formControlName="c_defendent_name" placeholder="Enter Defendant Name"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_defendent_alias.touched && !addClientForm.controls.c_defendent_alias.valid,'valid':(addClientForm.controls.c_defendent_alias.touched && addClientForm.controls.c_defendent_alias.valid)}" [class.invalid]="addClientForm.controls.c_defendent_alias.dirty && ! addClientForm.controls.c_defendent_alias.valid">
+            <ion-label stacked><b>Alias</b></ion-label>
+            <ion-input type="text" formControlName="c_defendent_alias" placeholer="Enter Defendant Alias"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_defendent_manager.touched && !addClientForm.controls.c_defendent_manager.valid,'valid':(addClientForm.controls.c_defendent_manager.touched && addClientForm.controls.c_defendent_manager.valid)}" [class.invalid]="addClientForm.controls.c_defendent_manager.dirty && ! addClientForm.controls.c_defendent_manager.valid">
+            <ion-label stacked><b>Defendant Manager Name (If any)</b></ion-label>
+            <ion-input type="text" formControlName="c_defendent_manager"></ion-input>
+          </ion-item>
+
+        </div>
+
+
+        <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_reg_fee.touched && !addClientForm.controls.c_reg_fee.valid,'valid':(addClientForm.controls.c_reg_fee.touched && addClientForm.controls.c_reg_fee.valid)}" [class.invalid]="addClientForm.controls.c_reg_fee.dirty && ! addClientForm.controls.c_reg_fee.valid">
+          <ion-label stacked><b>Registration Fee</b></ion-label>
+          <ion-input type="num" required formControlName="c_reg_fee" placeholder="Enter Registration Fee"></ion-input>
+        </ion-item>
+
+        <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_decided_fee.touched && !addClientForm.controls.c_decided_fee.valid,'valid':(addClientForm.controls.c_decided_fee.touched && addClientForm.controls.c_decided_fee.valid)}" [class.invalid]="addClientForm.controls.c_decided_fee.dirty && ! addClientForm.controls.c_decided_fee.valid">
+          <ion-label stacked><b>Decided Fee</b></ion-label>
+          <ion-input type="num" required formControlName="c_decided_fee" placeholder="Enter Decided Fee"></ion-input>
+        </ion-item>
+
+
   </ion-list>
    <ion-row>
     <ion-col style="text-align: center">

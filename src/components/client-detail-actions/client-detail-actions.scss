@@ -1,16 +1,14 @@
-client-detail-actions
-{
-  ion-list
+client-detail-actions {
+
+  div
   {
-    &.list-ios
-    {
-      margin-bottom: 0;
-    }
+    padding: 10px;
+    font-size: 16px;
   }
 
-  ion-item
+  .arrow
   {
-    padding:10px;
-    color:black;
+    float:right;
+    color:lightgray;
   }
 }

@@ -11,18 +11,20 @@
 <ion-content>
 	<ion-list>
 
-		<ion-item>
-	      	<ion-label><b>Send SMS</b></ion-label>
-	      	<hr>
-	      	<br>
+    <ion-item no-lines style="text-align:center;">
+
+      <ion-icon color="primary" name="mail" style="zoom:6"></ion-icon>
+
+    </ion-item>
+    <br />
+	      <ion-item no-lines>
+	      	<ion-label >Contact No <span class="mandatory-field">*</span>: </ion-label>
+          <ion-label style="text-align:right;">{{contactNo}}</ion-label>
 	      </ion-item>
 
-	      <ion-item>
-	      	<ion-label fixed>Contact No.*: </ion-label>
-	      </ion-item>
-
-	    <ion-item>
-	      	<ion-label fixed>Text Message*: </ion-label>
+	    <ion-item no-lines >
+	      	<ion-label stacked>Text Message <span class="mandatory-field">*</span> : <span style="float:right;font-size:12px;">{{maxCharacters - message.length}} characters remaining</span> </ion-label>
+        <ion-input [ngClass]="message.length>0?'valid':'error'" type="text" [(ngModel)]="message"  placeholder="Enter your message"></ion-input>
 	      </ion-item>
 
 	        
@@ -30,9 +32,9 @@
 	  </ion-list>
 
 	  <ion-row>
-	  	<ion-col>
+	  	<ion-col style="text-align:center;">
 
-	  		<button icon-start ion-button><ion-icon name="send"></ion-icon>Send SMS</button>
+	  		<button ion-button (click)="sendSMS()" icon-end>Send SMS</button>
 	  	</ion-col>
 	  </ion-row>
 
