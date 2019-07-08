@@ -1,28 +1,24 @@
-page-add_user{
+page-add_user {
 
-	.profile-item {
-	  text-align: center;
-	}
+  .overlay {
+    background-color: rgba(0,0,0,0.7);
+    width: 100%;
+    height: 100%;
+  }
 
-	.profile-picture {
-	  border: 1px solid rgba(0, 0, 0, 0.25);
-	  padding: 3px;
-	  border-radius: 100%;
-	  -webkit-box-sizing: content-box;
-	  -moz-box-sizing: content-box;
-	  box-sizing: content-box;
-	  margin: 0 auto;
-	  width: 128px;
-	  height: 128px;
-	  overflow: hidden;
-	}
+  .requiredField {
+    color: red;
+  }
 
-	img
-	{
-	  width: 128px;
-	  height: 128px;
-	  padding: 3px;
-	border-radius: 100%;
-	}
-	
+  .error > .item-inner {
+    border-bottom-color: red !important;
+    border-bottom: 1px solid red !important;
+
+  }
+
+  .valid > .item-inner {
+    border-bottom-color: #32db64 !important;
+    border-bottom:1px solid #32db64 !important;
+    
+  }
 }

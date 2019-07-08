@@ -50,6 +50,7 @@ export class UserProfilePage
     this.events.publish('mainSearch', 'ds'); //This event is defined in app.component.ts file
   }
 
+
   userLogout()
   {
   		this.navCtrl.setRoot(LogoutPage);

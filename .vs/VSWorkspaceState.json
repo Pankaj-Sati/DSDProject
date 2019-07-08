@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components",
-    "\\src\\components\\sms-detail",
     "\\src\\pages",
-    "\\src\\pages\\client_list\\single_client",
-    "\\src\\pages\\settings",
-    "\\src\\pages\\settings\\casetype",
-    "\\src\\pages\\settings\\user_type",
-    "\\src\\pages\\sms\\smslist"
+    "\\src\\pages\\client_list",
+    "\\src\\pages\\client_list\\add_client",
+    "\\src\\pages\\client_list\\single_client\\send_sms",
+    "\\src\\pages\\user_profile\\edit_profile",
+    "\\src\\providers",
+    "\\src\\providers\\client-entity-relationship",
+    "\\src\\theme"
   ],
-  "SelectedNode": "\\src\\pages\\settings\\casetype\\casetype.html",
+  "SelectedNode": "\\src\\pages\\client_list\\add_client\\add_client_new.html",
   "PreviewInSolutionExplorer": false
 }

@@ -41,9 +41,11 @@ import{SingleCaseStudyPage} from '../pages/case_study/single_case_study/single_c
 import {SettingUserTypePage} from '../pages/settings/user_type/usertype';
 import {SettingCaseTypePage} from '../pages/settings/casetype/casetype';
 import {SMSBulkEmailPage} from '../pages/sms/bulkemail/bulkemail';
-import {SMSListPage} from '../pages/sms/smslist/smslist';
+import { SMSListPage } from '../pages/sms/smslist/smslist';
 import {SingleUserAccountPage} from '../pages/account_management/single_user_account/single_user_account';
-import {SearchHeaderPageModule} from '../pages/search-header/search-header.module';
+import { SearchHeaderPageModule } from '../pages/search-header/search-header.module';
+
+
 import { ComponentsModule } from '../components/components.module';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';

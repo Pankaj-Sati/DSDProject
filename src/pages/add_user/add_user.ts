@@ -1,14 +1,20 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
 import {Http, Headers, RequestOptions}  from "@angular/http";
 import { LoadingController } from "ionic-angular";
 import "rxjs/add/operator/map";
 import {MenuController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { ToastController } from 'ionic-angular';
-import {DashboardPage} from '../dashboard/dashboard';
+import { DashboardPage } from '../dashboard/dashboard';
+import { FormControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ApiValuesProvider } from '../../providers/api-values/api-values';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer'
+import { FilePath } from '@ionic-native/file-path';
+import { File } from '@ionic-native/file';
 
-import {ApiValuesProvider} from '../../providers/api-values/api-values';
+declare var cordova: any;
 
 @Component({
   selector: 'page-add_user',
@@ -17,27 +23,34 @@ import {ApiValuesProvider} from '../../providers/api-values/api-values';
 
 export class AddUserPage 
 {
-	u_name: string;
-	u_email: string;
-	u_contact: string;
-	u_alt: string;
-	u_gender: string;
-	u_dob: string;
-	u_country: string;
-	u_state: string;
-	u_city: string;
-	u_pincode: string;
-	u_fax: string;
-	u_street: string;
-	u_street_name: string;
-	u_apartment: string;
-	u_user_type: string;
+  userForm: FormGroup;
+  win: any = window;
+  lastImage: string;
 
-
-	constructor(public apiValue:ApiValuesProvider,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController,public storage: Storage, public menuCtrl: MenuController) 
+  constructor(public filePath: FilePath, public file: File, public fileTransfer: FileTransfer, public platform: Platform, public camera: Camera, public formBuilder: FormBuilder, public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController, public toastCtrl: ToastController, public storage: Storage, public menuCtrl: MenuController) 
 	{
 		this.menuCtrl.enable(true);
-		this.menuCtrl.swipeEnable(true);
+      this.menuCtrl.swipeEnable(true);
+
+      this.userForm = this.formBuilder.group({
+
+        u_profile_img: new FormControl(''),
+        u_name: new FormControl('', Validators.compose([Validators.required])),
+
+        u_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
+        u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
+        u_alt: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
+        u_gender: new FormControl('', Validators.compose([Validators.required])),
+        u_dob: new FormControl('', Validators.compose([Validators.required])),
+        u_country: new FormControl('', Validators.compose([Validators.required])),
+        u_state: new FormControl('', Validators.compose([Validators.required])),
+        u_city: new FormControl('', Validators.compose([Validators.required])),
+        u_pincode: new FormControl('', Validators.compose([Validators.required])),
+        u_fax: new FormControl(''),
+        u_street: new FormControl('', Validators.compose([Validators.required])),
+        u_user_type: new FormControl('', Validators.compose([Validators.required]))
+
+      });
 
 	}
 
@@ -52,211 +65,138 @@ export class AddUserPage
 	{
 		var re=/^[A-Za-z]+$/;
 		return re.test(String(name));
-	}
+    }
+
+  takeImage() {
+
+    console.log("In take Image()");
+
+    let source = this.camera.PictureSourceType.PHOTOLIBRARY; //Default source type
+
+
+    let alert = this.alertCtrl.create({
+      title: 'Profile Image',
+      message: 'Select profile image from:',
+      buttons: [
+        {
+          text: 'Gallery',
+          handler: () => {
+            console.log('From Gallery');
+            this.getImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+          }
+        },
+        {
+          text: 'Camera',
+          handler: () => {
+            console.log('From camera');
+            this.getImage(this.camera.PictureSourceType.CAMERA);
+          }
+        }
+      ]
+    });
+    alert.present();
+
+
+  }
+
+  getImage(source) {
+    let options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      sourceType: source
+    };
+
+    this.camera.getPicture(options).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      console.log("Image get()" + imageData);
+
+      if ((imageData != null || imageData != undefined) && imageData.length > 0) {
+
+        //We need to get the native path of the files present in the gallery on Android
+        if (this.platform.is('android') && source === this.camera.PictureSourceType.PHOTOLIBRARY) {
+
+          this.filePath.resolveNativePath(imageData)
+            .then(filePath => {
+              let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+              let currentName = imageData.substring(imageData.lastIndexOf('/') + 1, imageData.lastIndexOf('?'));
+              this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+
+             
+              this.userForm.value.u_profile_img = this.win.Ionic.WebView.convertFileSrc(imageData);
+              // this.userForm.value.u_profile_img=this.webView.convertFileSrc(imageData);
+            })
+
+            .catch(error => {
+
+              console.log("resolveNativePath() error");
+              this.presentToast('Error in getting Image');
+              console.log(error);
+            });
+
+
+
+        }
+        else {
+          var currentName = imageData.substr(imageData.lastIndexOf('/') + 1);
+          var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
+          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+   
+          this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
+          
+
+        }
+      }
+      else {
+        this.presentToast('Error in getting Image');
+      }
+
+
+
+
+    }, (err) => {
+      // Handle error
+      this.presentToast('Error in getting Image');
+    });
+  }
+
+  createFileName() {
+    //This function creates a new name for the selected image file by naming it after the current timestamp
+    let date = new Date();
+    let name = date.getTime() + ".jpg";
+    return name;
+  }
+
+  copyFileToLocalDir(correctPath, currentName, newFileName) {
+    this.file.copyFile(correctPath, currentName, cordova.file.dataDirectory, newFileName).then(success => {
+
+      this.lastImage = cordova.file.dataDirectory + newFileName;
+
+    }, error => {
+
+      this.presentToast('Error in storing image file');
+    });
+  }
+
 
 	submitData()
 	{
 
-		//Validating data
-
-		if(this.u_name==null || this.isValidName(this.u_name)==false)
-		{
-			let alert = this.alertCtrl.create({
-
-			 title:"ATTENTION",
-
-			subTitle:"Name is empty or invalid",
-
-			buttons: ["OK"]
-
-			});
-
-			alert.present();
-
-			return; //exit from the function
-		}
-
-		//Following lines will execute if the above "if" statement is not entered
-
-		if(this.u_email==null || this.isValid(this.u_email)==false)
-		{
-			let alert = this.alertCtrl.create({
-
-			 title:"ATTENTION",
-
-			subTitle:"Email is not valid",
-
-			buttons: ["OK"]
-
-			});
-
-			alert.present();
-
-			return; //exit from the function
-		}
-
-		if(this.u_contact==null || this.u_contact.length!=10)
-		{
-			let alert = this.alertCtrl.create({
-
-			 title:"ATTENTION",
-
-			subTitle:"Enter a valid 10 digit contact No.",
-
-			buttons: ["OK"]
-
-			});
-
-			alert.present();
-
-			return; //exit from the function
-		}
-
-		if(this.u_alt!=null && this.u_alt.length!=10)
-		{
-			let alert = this.alertCtrl.create({
-
-			 title:"ATTENTION",
-
-			subTitle:"Enter a valid 10 digit Alternative No.",
-
-			buttons: ["OK"]
-
-			});
-
-			alert.present();
-
-			return; //exit from the function
-		}
-
-		if(this.u_gender==null || this.u_gender.length==0)
-		{
-			let alert = this.alertCtrl.create({
-
-			 title:"ATTENTION",
-
-			subTitle:"Gender not selected",
-
-			buttons: ["OK"]
-
-			});
-
-			alert.present();
-
-			return; //exit from the function
-		}
-
-		if(this.u_dob==null || this.u_dob.length==0)
-		{
-			let alert = this.alertCtrl.create({
-
-			 title:"ATTENTION",
-
-			subTitle:"Date of Birth is empty",
-
-			buttons: ["OK"]
-
-			});
-
-			alert.present();
-
-			return; //exit from the function
-		}
-
-		if(this.u_country==null || this.u_country.length==0)
-		{
-			let alert = this.alertCtrl.create({
-
-			 title:"ATTENTION",
-
-			subTitle:"Country cannot be  empty",
-
-			buttons: ["OK"]
-
-			});
-
-			alert.present();
-
-			return; //exit from the function
-		}
-
-		if(this.u_state==null || this.u_state.length==0)
-		{
-			let alert = this.alertCtrl.create({
-
-			 title:"ATTENTION",
-
-			subTitle:"State name cannot be  empty",
-
-			buttons: ["OK"]
-
-			});
-
-			alert.present();
-
-			return; //exit from the function
-		}
-
-		if(this.u_city==null || this.u_city.length==0)
-		{
-			let alert = this.alertCtrl.create({
-
-			 title:"ATTENTION",
-
-			subTitle:"City cannot be  empty",
-
-			buttons: ["OK"]
-
-			});
-
-			alert.present();
-
-			return; //exit from the function
-		}
-
-		if(this.u_pincode==null ||this.u_pincode.length==0)
-		{
-			let alert = this.alertCtrl.create({
-
-			 title:"ATTENTION",
-
-			subTitle:"ZipCode cannot be  empty",
-
-			buttons: ["OK"]
-
-			});
-
-			alert.present();
-
-			return; //exit from the function
-		}
-
-		if(this.u_user_type==null || this.u_user_type.length==0)
-		{
-			let alert = this.alertCtrl.create({
-
-			 title:"ATTENTION",
-
-			subTitle:"User Type not selected",
-
-			buttons: ["OK"]
-
-			});
-
-			alert.present();
-
-			return; //exit from the function
-		}
-
+      //Validating data
+      if (!this.userForm.valid)
+      {
+        this.presentAlert('Please fill all fields in the form');
+        return;
+      }
 
 		//The following code will run only if the details entered are valid
 
 		
 		var headers = new Headers();
-
-	  
-
-	   let options = new RequestOptions({ headers: headers });
+     let options = new RequestOptions({ headers: headers });
 
 
 
@@ -281,22 +221,20 @@ export class AddUserPage
 
 		 };
 		 */
-		let body = new FormData();
-		body.append("full_name",this.u_name);
-		body.append("email",this.u_email);
-		body.append("contact",this.u_contact);
-		body.append("alt",this.u_alt);
-		body.append("gender",this.u_gender);
-		body.append("date_of_birth",this.u_dob);
-		body.append("country",this.u_country);
-		body.append("state",this.u_state);
-		body.append("city",this.u_city);
-		body.append("pincode",this.u_pincode);
-		body.append("fax",this.u_fax);
-		body.append("street",this.u_street);
-		body.append("street_name",this.u_street_name);
-		body.append("apartment",this.u_apartment);
-		body.append("user_type",this.u_user_type);
+      let body = new FormData();
+      body.append("full_name", this.userForm.value.u_name);
+      body.append("email", this.userForm.value.u_email);
+      body.append("contact", this.userForm.value.u_contact);
+      body.append("alt", this.userForm.value.u_alt);
+      body.append("gender", this.userForm.value.u_gender);
+      body.append("date_of_birth", this.userForm.value.u_dob);
+      body.append("country", this.userForm.value.u_country);
+      body.append("state", this.userForm.value.u_state);
+      body.append("city", this.userForm.value.u_city);
+      body.append("pincode", this.userForm.value.u_pincode);
+      body.append("fax", this.userForm.value.u_fax);
+      body.append("street", this.userForm.value.u_street);
+      body.append("user_type", this.userForm.value.u_user_type);
 		body.append(" profile_image",'shabnam_saifi.jpg');
 		
 		/* body.append("full_name","Sudhanshu");
@@ -356,6 +294,24 @@ export class AddUserPage
   		 });
 	}
 
-	
+  presentAlert(text)
+  {
+    const alert = this.alertCtrl.create({
+      message: text,
+      title: 'Error!',
+      buttons: [{
+        text:'ok'
+      }]
+    });
+    alert.present();
+  }
 
+  presentToast(text) {
+    const toast = this.toastCtrl.create({
+
+      message: text,
+      duration: 3000
+    });
+    toast.present();
+  }
 }

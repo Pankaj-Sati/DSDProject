@@ -5,7 +5,8 @@ import { LoadingController } from "ionic-angular";
 import "rxjs/add/operator/map";
 import {MenuController} from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
-import {DashboardPage} from '../dashboard/dashboard';
+import { DashboardPage } from '../dashboard/dashboard';
+import { AddUserPage } from '../add_user/add_user';
 import {SingleUserPage} from './single_user/single_user';
 
 import {Events} from 'ionic-angular';
@@ -109,4 +110,9 @@ export class UserListPage
 
     	this.navCtrl.push(SingleUserPage,data);
     }
+
+  addUser()
+  {
+    this.navCtrl.push(AddUserPage);
+  }
 }

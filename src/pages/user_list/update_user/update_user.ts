@@ -46,9 +46,9 @@ export class UpdateUserPage
 			u_profile_img:new FormControl(''),
 			u_name:new FormControl('',Validators.compose([Validators.required])),
 			
-			u_email: new FormControl('',Validators.compose([Validators.required,Validators.email])),
-			u_contact: new FormControl('',Validators.compose([Validators.required,Validators.pattern("^[0-9]{2,10}")])),
-			u_alt: new FormControl('',Validators.compose([Validators.pattern("^[0-9]{2,10}")])),
+              u_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
+              u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
+              u_alt: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
 			u_gender: new FormControl('',Validators.compose([Validators.required])),
 			u_dob:new FormControl('',Validators.compose([Validators.required])),
 			u_country: new FormControl('',Validators.compose([Validators.required])),
@@ -141,8 +141,8 @@ export class UpdateUserPage
 		          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
 
 		          this.isImageChanged=true; //We have got our image successfully;
-		         // this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
-		          this.userForm.value.u_profile_img=this.webView.convertFileSrc(imageData);
+		         this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
+		         // this.userForm.value.u_profile_img=this.webView.convertFileSrc(imageData);
 		        })
 
 		        .catch(error=>{

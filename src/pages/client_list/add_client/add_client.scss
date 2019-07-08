@@ -6,12 +6,7 @@ add_client {
   .detailsRow
   {
     border-bottom: 1px solid gray;
-    margin: 5px;
-  }
-
-  .detailsRow:nth-child(even) {
-   
-    border-bottom: 1px solid gray;
+    background-color: #ffd07a;
     margin: 5px;
   }
 
@@ -20,10 +15,9 @@ add_client {
     text-align: right;
   }
 
-  .completeIcon
-  {
-    zoom:1.2;
-    padding:2px;
+  .completeIcon {
+    zoom: 1.2;
+    padding: 2px;
   }
 
   .detailIconCol {
@@ -35,16 +29,21 @@ add_client {
     margin: auto;
   }
 
+  .eachEntity {
+  }
+
+
+  .grayBorder {
+    border: 1px solid gray;
+  }
 
   .error > .item-inner {
     border-bottom-color: red !important;
     border-bottom: 1px solid red !important;
-   
   }
 
   .valid > .item-inner {
     border-bottom-color: #32db64 !important;
     border-bottom: 1px solid #32db64 !important;
-    
   }
 }

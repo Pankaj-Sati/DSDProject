@@ -47,12 +47,12 @@
   
    <ion-item [ngClass]="{'error':!userForm.controls.u_contact.valid,'valid':(userForm.controls.u_contact.touched && userForm.controls.u_contact.valid)}" [class.invalid]="userForm.controls.u_contact.valid">
     <ion-label stacked>Contact No. <span class="requiredField">*</span></ion-label>
-    <ion-input type="tel" formControlName="u_contact" name="contact"></ion-input>
+    <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" formControlName="u_contact" name="contact"></ion-input>
   </ion-item>
   
   <ion-item [ngClass]="{'error':! userForm.controls.u_alt.valid,'valid':(userForm.controls.u_alt.touched && userForm.controls.u_alt.valid)}" [class.invalid]="! userForm.controls.u_alt.valid">
     <ion-label stacked>Alternative No.</ion-label>
-    <ion-input type="tel" formControlName="u_alt" name="alt"></ion-input>
+    <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" formControlName="u_alt" name="alt"></ion-input>
   </ion-item>
   
   <ion-item [ngClass]="{'error':! userForm.controls.u_gender.valid,'valid':( userForm.controls.u_gender.touched && userForm.controls.u_gender.valid)}" [class.invalid]="! userForm.controls.u_gender.valid">

@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import {Http, Headers, RequestOptions}  from "@angular/http";
 import { LoadingController } from "ionic-angular";
 import { ToastController } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators,FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import "rxjs/add/operator/map";
 
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
@@ -22,7 +22,7 @@ export class AddClientPage
 	advocate_list:any;
 
   addClientForm: FormGroup;
-  addEntityForm: FormGroup[]=[];
+  addEntityForm: FormArray;
 
   showCaseDetails: boolean = true;
   showPersonalDetails: boolean = false;
@@ -30,9 +30,12 @@ export class AddClientPage
   showCaseManagerDetails: boolean = false;
   showDefendantDetails: boolean = false;
   showEntityDetails: boolean = false;
+  showEachEntityDetails: boolean[] =[];
 
   isBillingAndPermanentAddressSame: boolean = false;
+  isBillingAndPermanentAddressSameForEntity: boolean[]=[];
   totalEntities: number = 0;
+  
 
   relationshipList: any;
 
@@ -64,8 +67,8 @@ export class AddClientPage
 			c_alias:new FormControl('',Validators.compose([Validators.pattern('^[a-zA-Z\-\']+')])),
           c_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
           c_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
-          c_email: new FormControl('', Validators.compose([Validators.required, Validators.email])),
-          c_notes: new FormControl('', Validators.compose([Validators.required])),
+        c_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
+          c_notes: new FormControl(''),
 			c_country:new FormControl('',Validators.compose([Validators.required])),
 			c_street:new FormControl('',Validators.compose([Validators.required])),
 			c_city:new FormControl('',Validators.compose([Validators.required])),
@@ -77,6 +80,9 @@ export class AddClientPage
           c_state_billing: new FormControl('', Validators.compose([Validators.required])),
         c_zipcode_billing: new FormControl('', Validators.compose([Validators.required])),
 
+        //Entities
+        entity: this.formBuilder.array([]),
+
           //Case Manager Details
 			c_filing_cm:new FormControl(''),
         c_cm_assigned: new FormControl('', Validators.compose([Validators.required])),
@@ -86,8 +92,8 @@ export class AddClientPage
 			c_defendent_alias:new FormControl('',Validators.compose([Validators.pattern('^[a-zA-Z\-\']*')])),
         c_defendent_manager: new FormControl(''),
 
-			c_reg_fee:new FormControl('',Validators.compose([Validators.required])),
-			c_decided_fee:new FormControl('',Validators.compose([Validators.required]))
+        c_reg_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])),
+        c_decided_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')]))
 
 		});
 
@@ -101,7 +107,91 @@ export class AddClientPage
     {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
-	}
+    }
+
+  changeRelation(val: boolean)
+  {
+    this.hasRelation = val;
+    if (!this.hasRelation) {
+      //If the user has changed the case type from relation to individual, we need to remove validators on entities.
+      if (this.totalEntities>0)
+      {
+        let loader = this.loading.create({
+
+          content: 'Please Wait...',
+          duration:10000
+        });
+
+        let loadingSuccessful = false; //To know whether loading timeout occured 
+
+        loader.present().then(() =>
+        {
+            for (let i = 0; i < this.totalEntities; i++)
+            {
+              this.setEntityValidatorsNull(i, 'e_relationship');
+              this.setEntityValidatorsNull(i, 'e_name');
+              this.setEntityValidatorsNull(i, 'e_alias');
+              this.setEntityValidatorsNull(i, 'e_contact');
+              this.setEntityValidatorsNull(i, 'e_alt_no');
+              this.setEntityValidatorsNull(i, 'e_email');
+              this.setEntityValidatorsNull(i, 'e_notes');
+              this.setEntityValidatorsNull(i, 'e_country');
+              this.setEntityValidatorsNull(i, 'e_street');
+              this.setEntityValidatorsNull(i, 'e_city');
+              this.setEntityValidatorsNull(i, 'e_state');
+              this.setEntityValidatorsNull(i, 'e_zipcode');
+              this.setEntityValidatorsNull(i, 'e_country_billing');
+              this.setEntityValidatorsNull(i, 'e_street_billing');
+              this.setEntityValidatorsNull(i, 'e_city_billing');
+              this.setEntityValidatorsNull(i, 'e_state_billing');
+              this.setEntityValidatorsNull(i, 'e_zipcode_billing');
+            }
+          loadingSuccessful = true;
+          loader.dismiss();
+        });
+
+        loader.onDidDismiss(() => {
+
+          if (! loadingSuccessful)
+          {
+            this.showToast('Internal Error!!!');
+          }
+
+        });
+      }
+      
+    }
+
+    else
+    {
+      if (this.totalEntities>0)
+      {
+        this.addEntityValidators();
+      }
+      
+    }
+  }
+
+  showToast(text)
+  {
+    const toast = this.toastCtrl.create({
+      message: text,
+      duration:3000
+    });
+    toast.present();
+  }
+
+  setEntityValidatorsNull(i,_fControl)
+  {
+    this.addClientForm.get('entity')['controls'][i].get(_fControl).setValidators(null);
+    this.addClientForm.get('entity')['controls'][i].get(_fControl).updateValueAndValidity();
+
+  }
+
+  addEntityValidators()
+  {
+
+  }
 
 	isValidName(name)
 	{
@@ -133,9 +223,16 @@ export class AddClientPage
 
 			this.makeAlertDialog('Invalid inputs! Please correct your values');
 			return;
-		}
+        }
+    //Following lines will execute only if the form fields are correct
 
-		//Following lines will execute only if the form fields are correct
+      if (this.hasRelation && this.totalEntities <= 0)
+      {
+        //User has selected Case registration as relation but has not added any entity
+
+        this.makeAlertDialog('No Entities Added!!! Add some entities or mark registration as Individual');
+        return;
+      }
 		
 		var headers = new Headers();
 
@@ -270,6 +367,11 @@ export class AddClientPage
     }
   }
 
+  toggleShowMoreEntity(index)
+  {
+    this.showEachEntityDetails[index] = !this.showEachEntityDetails[index];
+  }
+
   setBillingAddressSame()
   {
     this.isBillingAndPermanentAddressSame = ! this.isBillingAndPermanentAddressSame;
@@ -277,6 +379,15 @@ export class AddClientPage
     if (this.isBillingAndPermanentAddressSame)
     {
      this.copyAddresses();
+    }
+  }
+
+  setBillingAddressSameForEntity(index)
+  {
+    this.isBillingAndPermanentAddressSameForEntity[index] = !this.isBillingAndPermanentAddressSameForEntity[index];
+    if (this.isBillingAndPermanentAddressSameForEntity[index])
+    {
+      this.copyEntityAddresses(index);
     }
   }
 
@@ -298,19 +409,37 @@ export class AddClientPage
     this.addClientForm.controls.c_zipcode_billing.updateValueAndValidity();
   }
 
-  addEntities()
+  copyEntityAddresses(i)
   {
+    console.log("Index" + i);
+    this.addClientForm.get('entity')['controls'][i].controls.e_country_billing.setValue(this.addClientForm.get('entity')['controls'][i].value.e_country);
+    this.addClientForm.get('entity')['controls'][i].controls.e_country_billing.updateValueAndValidity();
 
-    let newEntity = new FormBuilder().group({
+    this.addClientForm.get('entity')['controls'][i].controls.e_street_billing.setValue(this.addClientForm.get('entity')['controls'][i].value.e_street);
+    this.addClientForm.get('entity')['controls'][i].controls.e_street_billing.updateValueAndValidity();
 
-      e_relationship:new FormControl('', Validators.required),
+    this.addClientForm.get('entity')['controls'][i].controls.e_city_billing.setValue(this.addClientForm.get('entity')['controls'][i].value.e_city);
+    this.addClientForm.get('entity')['controls'][i].controls.e_city_billing.updateValueAndValidity();
+
+    this.addClientForm.get('entity')['controls'][i].controls.e_state_billing.setValue(this.addClientForm.get('entity')['controls'][i].value.e_state);
+    this.addClientForm.get('entity')['controls'][i].controls.e_state_billing.updateValueAndValidity();
+
+    this.addClientForm.get('entity')['controls'][i].controls.e_zipcode_billing.setValue(this.addClientForm.get('entity')['controls'][i].value.e_zipcode);
+    this.addClientForm.get('entity')['controls'][i].controls.e_zipcode_billing.updateValueAndValidity();
+  }
+
+  initializeEntityForm(): FormGroup
+  {
+    let newEntity: FormGroup = new FormBuilder().group({
+
+      e_relationship: new FormControl('', Validators.required),
 
       //personal Details
       e_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z\-\']+')])),
       e_alias: new FormControl('', Validators.compose([Validators.pattern('^[a-zA-Z\-\']+')])),
       e_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       e_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
-      e_email: new FormControl('', Validators.compose([Validators.required, Validators.email])),
+      e_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
       e_notes: new FormControl('', Validators.compose([Validators.required])),
       e_country: new FormControl('', Validators.compose([Validators.required])),
       e_street: new FormControl('', Validators.compose([Validators.required])),
@@ -324,14 +453,31 @@ export class AddClientPage
       e_zipcode_billing: new FormControl('', Validators.compose([Validators.required])),
 
     });
+    return newEntity
+  }
 
-    this.addEntityForm[this.totalEntities] = newEntity;
+  addEntities()
+  {
+
+    let newEntity: FormGroup = this.initializeEntityForm();
+
+
+    this.addEntityForm = this.addClientForm.get('entity') as FormArray;
+    this.addEntityForm.push(newEntity);
+    this.showEntityDetails = true;
     //Lastly We will increase entities
+    this.isBillingAndPermanentAddressSameForEntity.push(false);
+    this.showEachEntityDetails.push(false);
     this.totalEntities++;
   }
 
-  removeEntities(index)
+  removeEntity(index)
   {
-    this.addEntityForm.splice(index, 1); //Remove 1 item at the index from the array
+    this.addEntityForm = this.addClientForm.get('entity') as FormArray;
+
+    this.isBillingAndPermanentAddressSameForEntity.splice(index, 1);//Remove from the same address array
+    this.showEachEntityDetails.splice(index, 1);//Remove from the visibility array
+    this.addEntityForm.removeAt(index); //Remove 1 item at the index from the array
+    this.totalEntities--;
   }
 }
