@@ -6,7 +6,7 @@ import { ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { LogoutPage } from '../logout/logout';
 import { ChangePasswordPage } from './change_password/change_password';
-import { EditProfilePage } from './edit_profile/edit_profile';
+import { ViewProfilePage } from './view_profile/view_profile';
 
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../providers/my-storage/my-storage';
@@ -58,16 +58,13 @@ export class UserProfilePage
 
   changePassword()
   {
-        let data={
-
-          image:this.u_image
-        };
-  	    this.navCtrl.push(ChangePasswordPage,data);
+       
+  	    this.navCtrl.push(ChangePasswordPage);
   }
 
   viewProfile()
   {
-  		this.navCtrl.push(EditProfilePage);
+    this.navCtrl.push(ViewProfilePage);
   }
 
 }

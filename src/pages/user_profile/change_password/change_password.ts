@@ -31,7 +31,7 @@ export class ChangePasswordPage
   constructor(public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController, public toastCtrl: ToastController, public storage: Storage, public menuCtrl: MenuController) 
   {
     this.loggedInUser = this.myStorage.getParameters();
-    this.u_id = this.loggedInUser;
+    this.u_id = this.loggedInUser.id;
 		
 	  
 	}
@@ -39,7 +39,7 @@ export class ChangePasswordPage
 	ionViewDidLoad()
     {
     		//This method is called when the page loads for the first time
-    		this.passed_image=this.navParams.get('image');
+    		
 
     }
 	changePassword()

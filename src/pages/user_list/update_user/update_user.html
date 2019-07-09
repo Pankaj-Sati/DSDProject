@@ -24,7 +24,7 @@
           <br />
           <button ion-button icon-start style="background-color:transparent;color: white;border: 2px solid white;padding: 5px;">
           <ion-icon name="create"></ion-icon>
-          Change
+          Edit
           </button>
 
           <br>
@@ -69,7 +69,7 @@
   <ion-item [ngClass]="{'error':! userForm.controls.u_dob.valid,'valid':(userForm.controls.u_dob.touched && userForm.controls.u_dob.valid)}" [class.invalid]="userForm.controls.u_dob.valid">
 
     <ion-label stacked>Date Of Birth <span class="requiredField">*</span></ion-label>
-    <ion-input type="date" formControlName="u_dob" name="date_of_birth"></ion-input>
+    <ion-datetime displayFormat="MMM DD YY" formControlName="u_dob" name="date_of_birth"></ion-datetime>
   </ion-item>
   
   <ion-item [ngClass]="{'error':! userForm.controls.u_country.valid,'valid':(userForm.controls.u_country.touched && userForm.controls.u_country.valid)}" [class.invalid]="! userForm.controls.u_country.valid">

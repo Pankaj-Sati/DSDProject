@@ -60,13 +60,16 @@ user_profile {
   .profileButton {
     color: #488aff;
     background-color: transparent;
-    margin:2px;
+    margin: 2px;
   }
 
   .border {
     border: 2px solid #488aff;
     margin: auto;
     margin: 10px 20px 0px 20px;
-  
+  }
+
+  .eachRow {
+    min-height: 48px;
   }
 }

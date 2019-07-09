@@ -5,9 +5,9 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-row center style="text-align: center;vertical-align: middle;">
+    <ion-row center style="text-align: left;vertical-align: middle;">
       <ion-col>
-        <ion-title style="text-align: center;height: 100%;vertical-align: middle;">
+        <ion-title style="text-align: left;height: 100%;vertical-align: middle;">
           Profile
         </ion-title>
 
@@ -44,7 +44,7 @@
 
   <!--   --------------Previous Layout --------------------- -->
 
-          <ion-row class="border" (click)="viewProfile()">
+          <ion-row class="border eachRow" (click)="viewProfile()">
              <ion-col col-3 style="text-align: center">
 
                 <ion-icon class="iconButton" name="person"></ion-icon>
@@ -68,7 +68,7 @@
 
           </ion-row>
 
-          <ion-row class="border" (click)="changePassword()">
+          <ion-row class="border eachRow" (click)="changePassword()">
              <ion-col col-3 style="text-align: center;">
 
                 <ion-icon class="iconButton" name="create"></ion-icon>
@@ -93,7 +93,7 @@
           </ion-row>
 
 
-          <ion-row class="border" (click)="userLogout()">
+          <ion-row class="border eachRow" (click)="userLogout()">
              <ion-col col-3 style="text-align: center">
 
                 <ion-icon class="iconButton"  name="log-out"></ion-icon>

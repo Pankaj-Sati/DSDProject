@@ -20,6 +20,7 @@ import { AddUserPage } from '../pages/add_user/add_user';
 import { UserListPage } from '../pages/user_list/user_list';
 import { UserProfilePage } from '../pages/user_profile/user_profile';
 import { EditProfilePage } from '../pages/user_profile/edit_profile/edit_profile';
+import { ViewProfilePage } from '../pages/user_profile/view_profile/view_profile';
 import { ChangePasswordPage } from '../pages/user_profile/change_password/change_password';
 import { SingleUserPage } from '../pages/user_list/single_user/single_user';
 import { ChangeUserPasswordPage } from '../pages/user_list/change_user_password/change_user_password';
@@ -59,6 +60,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AdvocateListProvider } from '../providers/advocate-list/advocate-list';
 import { ApiValuesProvider } from '../providers/api-values/api-values';
 import { ClientEntityRelationshipProvider } from '../providers/client-entity-relationship/client-entity-relationship';
+import { CountryProvider } from '../providers/country/country';
 
 
 @NgModule({
@@ -76,6 +78,7 @@ import { ClientEntityRelationshipProvider } from '../providers/client-entity-rel
     UserListPage,
     UserProfilePage,
     EditProfilePage,
+    ViewProfilePage,
     ChangePasswordPage,
     SingleUserPage,
     ChangeUserPasswordPage,
@@ -130,6 +133,7 @@ import { ClientEntityRelationshipProvider } from '../providers/client-entity-rel
     UpdateUserPage,
     ClientListPage,
     AddClientPage,
+    ViewProfilePage,
     //SingleClientPage,
     //ChangeManagerPage,
     AccountManagementPage,
@@ -161,7 +165,8 @@ import { ClientEntityRelationshipProvider } from '../providers/client-entity-rel
     FilePath,
     WebView,
     InAppBrowser,
-    ClientEntityRelationshipProvider
+    ClientEntityRelationshipProvider,
+    CountryProvider
   ],
   exports: [ComponentsModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
