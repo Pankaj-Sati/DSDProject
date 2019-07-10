@@ -11,6 +11,8 @@ import{AddClientPage} from './add_client/add_client';
 import{SingleClientPage} from './single_client/single_client';
 
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
+import { AdvocateListProvider } from '../../providers/advocate-list/advocate-list';
+import { AdvocateDropdown } from '../../models/ advocate.model';
 
 import { Client } from '../../models/client.model';
 
@@ -24,15 +26,85 @@ export class ClientListPage
 {
 
   clients: Client[]=[];
-	c_case_type:string;
-	c_case_year:string;
-	c_case_category:string;
-	c_search:string;
+	c_case_type:string='';
+	c_case_year:string='';
+	c_case_category:string='';
+	c_case_manager:string='';
+	c_search:string='';
 
-	constructor(public events:Events,public apiValue:ApiValuesProvider,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,public toastCtrl: ToastController,  private http: Http,  public loading: LoadingController)
+	advocateList:AdvocateDropdown[]=[];
+
+	constructor(public advocateListProvider:AdvocateListProvider,
+		public events:Events,
+		public apiValue:ApiValuesProvider,
+		public navCtrl: NavController, 
+		public navParams: NavParams, 
+		public alertCtrl: AlertController,
+		public toastCtrl: ToastController,  
+		private http: Http,  
+		public loading: LoadingController)
 	{
-		this.fetchData();
+		this.getadvocateList();
         
+    }
+
+    getadvocateList()
+    {
+    	const loader=this.loading.create({
+
+    		content:'Loading...',
+    		duration:15000
+    	});
+    	loader.present();
+    	let loadingSuccessful=false; //To know whether timeout occured or not
+
+    	this.advocateListProvider.getAdvocateList().subscribe(response=>
+    	{
+    		if(response)
+    		{
+    			loadingSuccessful=true;
+    			loader.dismiss();
+    			try
+    			{
+    				let reply=JSON.parse(response['_body']);
+    				if('code' in reply || 'message' in reply)
+    				{
+    					//Error
+    					this.showToast(reply.message);
+    				}
+    				else
+    				{
+    					this.advocateList=reply;
+    					this.fetchData();
+    				}
+    			}
+    			catch(err)
+    			{
+
+    			}
+    			
+    		}
+    		else
+    		{
+    			loadingSuccessful=true;
+    			loader.dismiss();
+    			this.showToast('Failed to get data from server');
+    		}
+    	},error=>
+    	{
+    		console.log(error);
+    		loadingSuccessful=true;
+    			loader.dismiss();
+    			this.showToast('Failed to get data from server');
+    	});
+
+    	loader.onDidDismiss(()=>{
+
+    		if(! loadingSuccessful)
+    		{
+    			this.showToast('Failure!!! Server did not respond');
+    		}
+    	});
     }
 
     addClient()
@@ -60,17 +132,20 @@ export class ClientListPage
 
   
 
-       let data = { //Data to be sent to the server
+        //Data to be sent to the server
        				
-			    case_type:this.c_case_type,
-			    year:this.c_case_year,
-			    case_category:this.c_case_category,
-			    advocate_id:'',
-			    keyword:this.c_search
+		let body=new FormData();
+			    body.append('case_type',this.c_case_type);
+			    body.append('year',this.c_case_year);
+			    body.append('case_category',this.c_case_category);
+			    body.append('advocate_id',this.c_case_manager);
+			    body.append('keyword',this.c_search);
 
-           
-         };
+			    console.log('Case Type Selected:'+this.c_case_type);
+			    console.log('Advocate Id Selected:'+this.c_case_manager);
+			    console.log('Keyword:'+this.c_search);
 
+        
 		let loader = this.loading.create({
 
 		   content: "Loading ...",
@@ -80,7 +155,7 @@ export class ClientListPage
 	   loader.present().then(() => 
 		{
 
-	   this.http.post(this.apiValue.baseURL+"/client_list.php",data,options) //Http request returns an observable
+	   this.http.post(this.apiValue.baseURL+"/client_list.php",body,null) //Http request returns an observable
 
 	   .map(response => response.json()) ////To make it easy to read from observable
 
@@ -92,12 +167,7 @@ export class ClientListPage
 
 		   				if('message' in serverReply || 'code' in serverReply)
 		   				{
-
-					   		const toast = this.toastCtrl.create({
-										  message: serverReply.message,
-										  duration: 3000
-										});
-										toast.present();
+		   						this.showToast(serverReply.message)
 		   				}
 		   				else
 		   				{
@@ -113,7 +183,14 @@ export class ClientListPage
 
     }
 
-   
+   showToast(text)
+   {
+   	const toast = this.toastCtrl.create({
+			  message: text,
+			  duration: 3000
+			});
+			toast.present();
+   }
 
     viewClient(client:Client)
     {

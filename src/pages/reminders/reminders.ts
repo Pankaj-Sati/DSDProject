@@ -64,14 +64,16 @@ export class RemindersPage
             */
         const modal = this.modalCtrl.create(RemindersDetailComponent, {
             'reminder': reminder
-          });
+          },{cssClass: 'reminder-modal' });
 
         modal.onDidDismiss((resultData) => {
           console.log("Modal Dismissed");
           console.log(resultData);
+          this.blurAmount='';
         });
 
         modal.present();
+        this.blurAmount='blurDiv';
  	}
 
 	fetchData()

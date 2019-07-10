@@ -58,35 +58,48 @@
     </ion-row>
 
 
+      <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let reminder of reminders" (click)="showDetails(reminder)">
 
+            <ion-row style="padding-left: 5px;">
 
-    <br><br>
-    <div>
-      <table>
+              <ion-col style="margin:auto;" col-1>
+                <ion-icon name="bulb" color="primary" style="zoom: 1.2;"></ion-icon>
+              </ion-col>
 
-        <tr>
-          <th>Client Name</th>
-          <th>Hearing Date</th>
+              <ion-col style="margin:auto;" col-4>
+                <ion-row>
+                  <ion-col style="text-align:left;">
+                   <b> {{reminder.clientName}} </b>
+                  </ion-col>
+                </ion-row>
 
-          <th>Case Status</th>
+              </ion-col>
 
-          <th>Overdues</th>
-        </tr>
+              <ion-col style="margin:auto;" col-3>
+                <ion-row>
+                  <ion-col>
+                    {{reminder.casestage}}
+                  </ion-col>
+                </ion-row>
 
+              </ion-col>
 
-        <tr *ngFor="let reminder of reminders" >
-          <td><span style="font-weight: 500;">{{reminder.clientName}}</span></td>
-          <td>{{reminder.hearingDate}}</td>
+              <ion-col style="margin:auto;" col-3>
+                <ion-row>
+                  <ion-col>
+                    {{reminder.hearingDate | date:'MMM,d y'}}
+                  </ion-col>
+                </ion-row>
 
-          <td>{{reminder.casestage}}</td>
+              </ion-col>
 
-          <td>{{reminder.overdueamt}}</td>
+              <ion-col style="margin:auto;" col-1>
+                <ion-icon name="more" color="primary" style="zoom: 1.2;"></ion-icon>
+              </ion-col>
 
+            </ion-row>
 
-        </tr>
-      </table>
-    </div>
-
+          </ion-card>
 
     <!--
     <ion-card>

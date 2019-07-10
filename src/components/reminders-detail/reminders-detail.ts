@@ -13,16 +13,17 @@ import { Reminder } from '../../models/reminder.model';
   selector: 'reminders-detail',
   templateUrl: 'reminders-detail.html'
 })
-export class RemindersDetailComponent {
+export class RemindersDetailComponent 
+{
 
-  text: string;
+  
   reminder: Reminder;
 
   constructor(public modalCtrl: ModalController, public navParams: NavParams, public viewCtrl: ViewController)
   {
     console.log('Hello RemindersDetailComponent Component');
     this.reminder = this.navParams.get('reminder');
-    this.text = 'Hello World Placeholder ---' + this.reminder+'---';
+    console.log(this.reminder);
   }
 
   dismissPage()

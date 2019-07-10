@@ -2,15 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\src",
+    "\\src\\app",
     "\\src\\pages",
-    "\\src\\pages\\client_list",
-    "\\src\\pages\\client_list\\add_client",
-    "\\src\\pages\\client_list\\single_client\\send_sms",
-    "\\src\\pages\\user_profile\\edit_profile",
-    "\\src\\providers",
-    "\\src\\providers\\client-entity-relationship",
-    "\\src\\theme"
+    "\\src\\pages\\user_list",
+    "\\src\\pages\\user_list\\update_user",
+    "\\src\\pages\\user_profile",
+    "\\src\\pages\\user_profile\\change_password",
+    "\\src\\pages\\user_profile\\view_profile"
   ],
-  "SelectedNode": "\\src\\pages\\client_list\\add_client\\add_client_new.html",
+  "SelectedNode": "\\src\\pages\\user_profile\\change_password\\change_password.scss",
   "PreviewInSolutionExplorer": false
 }

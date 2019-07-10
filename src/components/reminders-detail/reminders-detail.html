@@ -1,11 +1,136 @@
 <!-- Generated template for the RemindersDetailComponent component -->
 
-<ion-content>
-  <div>
-    {{text}}
+<ion-header>
+	<ion-navbar>
+		<ion-title>Reminder Details</ion-title>
+	</ion-navbar>
+</ion-header>
 
-    <button ion-button (click)="dismissPage()">Close</button>
-  </div>
+<ion-content>
+
+  <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Client Name</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{reminder.clientName}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Alien No.</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{reminder.case_no}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+
+
+    <div class="detailsSeperator"></div>
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Hearing Date</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{reminder.hearingDate}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Case Status</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{reminder.casestage}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-12>
+        <div class="detailsSeperator"></div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Total Amount</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{reminder.totalamt}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Paid Amount</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{reminder.paidamt}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-12>
+        <ion-row>
+          <ion-col>
+            <b>Overdues</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{reminder.overdueamt}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+
+
+    <ion-row style="text-align: center;">
+      <ion-col>
+        <button class="closeButton" icon-start round ion-button (click)="dismissPage()"><ion-icon name="close"></ion-icon>Close</button>
+      </ion-col>
+    </ion-row>
 
 </ion-content>
 

@@ -76,4 +76,19 @@ page-reminders {
     min-height: 48px;
     min-width: 48px;
   }
+
+  
+}
+
+ion-modal 
+{
+    
+    top: 30% !important;
+    right: 0% !important;
+    padding:10px;
+    background: transparent !important;
+    ion-backdrop 
+    {
+        background: transparent !important;
+    }
 }
