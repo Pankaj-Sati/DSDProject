@@ -51,17 +51,17 @@ export class SearchHeaderPage
 
   showDetails(caseObject:Case)
   {
-  	/*
+  	
   //Once API return client ID, send it to single client details page
   let client:Client=new Client();
-  client.id= case.cid //Client ID
+  client.cid= caseObject.client_id //Client ID
     let data =
     {
   		clientPassed:client
   	}
   	this.navCtrl.push(SingleClientPage,data);
+      
         
-        */
 
   }
 

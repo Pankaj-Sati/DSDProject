@@ -14,6 +14,9 @@ import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-nati
 import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
 
+import {MyStorageProvider} from '../../providers/my-storage/my-storage';
+import {User} from '../../models/login_user.model';
+
 declare var cordova: any;
 
 @Component({
@@ -27,10 +30,29 @@ export class AddUserPage
   win: any = window;
   lastImage: string;
 
-  constructor(public filePath: FilePath, public file: File, public fileTransfer: FileTransfer, public platform: Platform, public camera: Camera, public formBuilder: FormBuilder, public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController, public toastCtrl: ToastController, public storage: Storage, public menuCtrl: MenuController) 
+  loggedInUser:User;
+
+  constructor(public myStorage:MyStorageProvider,
+    public filePath: FilePath, 
+    public file: File, 
+    public fileTransfer: FileTransfer, 
+    public platform: Platform, 
+    public camera: Camera, 
+    public formBuilder: FormBuilder, 
+    public apiValue: ApiValuesProvider, 
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public alertCtrl: AlertController, 
+    private http: Http, 
+    public loading: LoadingController, 
+    public toastCtrl: ToastController, 
+    public storage: Storage, 
+    public menuCtrl: MenuController) 
 	{
 		this.menuCtrl.enable(true);
       this.menuCtrl.swipeEnable(true);
+
+      this.loggedInUser=this.myStorage.getParameters();
 
       this.userForm = this.formBuilder.group({
 
@@ -235,7 +257,9 @@ export class AddUserPage
       body.append("fax", this.userForm.value.u_fax);
       body.append("street", this.userForm.value.u_street);
       body.append("user_type", this.userForm.value.u_user_type);
-		body.append(" profile_image",'shabnam_saifi.jpg');
+      body.append("profile_image",'');
+      body.append("session_id",this.loggedInUser.id);
+
 		
 		/* body.append("full_name","Sudhanshu");
 		body.append("email","ghsan@gmail.com");

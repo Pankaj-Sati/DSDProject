@@ -328,8 +328,8 @@ export class UpdateUserPage
 				body.append("pincode",this.userForm.value.u_pincode);
 				body.append("fax",this.userForm.value.u_fax);
 				body.append("street",this.userForm.value.u_street);
-        body.append("user_type", this.userForm.value.u_user_type);
-        body.append("session_id", this.loggedInUserId);
+		        body.append("user_type", this.userForm.value.u_user_type);
+		        body.append("session_id", this.loggedInUserId);
 
 				if(this.userForm.value.u_profile_img!=null && this.userForm.value.u_profile_img.length>0)
 				{
@@ -341,11 +341,13 @@ export class UpdateUserPage
 				let loader = this.loading.create({
 
 			   content: "Updating user please wait…",
+			   duration:15000
 
 			 });
 				console.log("Body");
 				console.log(body);
 
+				let loadingSuccessful=false; //To knopw whether timeout occured
 				console.log("Full name");
 				console.log(this.userForm.value.u_name);
 			
@@ -360,17 +362,26 @@ export class UpdateUserPage
 					  
 				{ 
 			   		console.log(serverReply);
+			   		loadingSuccessful=true;
 			   		loader.dismiss();
 					
-			   		const toast = this.toastCtrl.create({
-								  message: serverReply.message,
-								  duration: 3000
-								});
-								toast.present();
+			   		this.presentToast(serverReply.message);
 			
 
+	  		 },error=>{
+	  		 	loadingSuccessful=true;
+			   		loader.dismiss();
+			   		this.presentToast('Failed to upadte user');
 	  		 });
 		   });
+
+			loader.onDidDismiss(()=>{
+
+				if(! loadingSuccessful)
+				{
+					this.presentToast('Timeout!!! Server did not respond');
+				}
+			});
 
 		}
 		else
