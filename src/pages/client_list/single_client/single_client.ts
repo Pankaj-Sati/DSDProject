@@ -162,9 +162,9 @@ export class SingleClientPage
 
 		let data={
 
-          id:this.client.cid,
-          name: this.client.client_name,
-          advocate: this.client.caseManagerName
+          id: this.client.cid,
+          name: this.clientDetails.name,
+          advocate: this.clientDetails.caseManagerName
 		};
 
 		this.navCtrl.push(ChangeManagerPage,data);
