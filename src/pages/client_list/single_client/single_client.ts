@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import { IonicPage, NavController, NavParams, AlertController, PopoverController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, PopoverController, Header, NavOptions} from 'ionic-angular';
 import {Http, Headers, RequestOptions}  from "@angular/http";
 
 import { LoadingController } from "ionic-angular";
@@ -11,13 +11,21 @@ import "rxjs/add/operator/map";
 //Sub Pages
 import { ChangeManagerPage } from './change_manager/change_manager';
 import { SendSMSPage } from './send_sms/send_sms';
+import { NotesListPage } from './notes/notes';
+import { ClientDocumentsPage } from './document/document';
+import { ClientCommunicationsPage } from './communications/communications';
+import { ClientPaymentPage } from './payment/payment';
 
 
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
+import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
+
 import { Client, ClientDetails, Entity } from '../../../models/client.model';
 import { AdvocateDropdown } from '../../../models/ advocate.model';
+import { User } from '../../../models/login_user.model';
 
 import { ClientDetailActionsComponent } from '../../../components/client-detail-actions/client-detail-actions';
+import { dashCaseToCamelCase } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'single_client',
@@ -36,6 +44,7 @@ export class SingleClientPage
   showDefendantDetails: boolean = false;
   showEntityDetails: boolean = false;
 
+  loggedInUser: User; //To store data of the logged in user
 
 	 ionViewDidLoad()
     {
@@ -53,9 +62,18 @@ export class SingleClientPage
   }
 
 
-  constructor(public popover: PopoverController, public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public alertCtrl: AlertController, public toastCtrl: ToastController, private http: Http, public loading: LoadingController)
+  constructor(public myStorage: MyStorageProvider,
+    public popover: PopoverController,
+    public apiValue: ApiValuesProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public formBuilder: FormBuilder,
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
+    private http: Http,
+    public loading: LoadingController)
   {
-    
+    this.loggedInUser = this.myStorage.getParameters();
   }
 
   toggleShowMore(id)
@@ -200,16 +218,21 @@ export class SingleClientPage
             this.changeCaseManager();
             break;
           case 1: //Payment
+            this.clientPayments();
             break;
           case 2: //Hearing Details
             break;
           case 3: //Communications
+            this.clientCommunications();
             break;
           case 4: //Delete
+            this.deleteClientAlert();
             break;
           case 5: //Notes
+            this.clientNotes();
             break;
           case 6: //Documents
+            this.clientDocuments();
             break;
           case 7: //Send SMS
             this.sendSms();
@@ -218,5 +241,142 @@ export class SingleClientPage
 
       }
     });
+  }
+
+  deleteClientAlert()
+  {
+    const alert = this.alertCtrl.create(
+      {
+        message: 'Delete all the records of this client?',
+        title: 'Attention!',
+        buttons: [{
+
+          text: 'Confirm',
+          handler: () =>
+          {
+            console.log("Delete Client Confirm");
+            this.deleteClient();
+          }
+          
+        },
+          {
+            text: "Cancel",
+            handler: () =>
+            {
+              console.log("Delete Client Cancelled");
+            }
+          }
+        ],
+
+      });
+    alert.present();
+
+  }
+
+  deleteClient()
+  {
+    const loader = this.loading.create({
+
+      content: 'Deleting Client...',
+      duration:15000
+    });
+
+    loader.present();
+    let loadingSuccessful = false; //To know whether the loader ended due to timeout or not
+
+    let header = new Headers();
+    let options = new RequestOptions({ headers: header });
+
+    let body = new FormData();
+    body.append('rowID', this.clientDetails.id);
+    body.append('session_id', this.loggedInUser.id);
+
+    this.http.get(this.apiValue.baseURL + "/client_delete.php?rowID=" + this.clientDetails.id + "& session_id=" + this.loggedInUser.id)
+      .subscribe(response =>
+      {
+        loadingSuccessful = true;
+        loader.dismiss();
+
+        if (response)
+        {
+          try
+          {
+            let result = JSON.parse(response['_body']);
+            if('code' in result) 
+            {
+              this.showToast(result.message);
+
+              if (result.code == 200)
+              {
+                //Successfully Deleted
+                this.navCtrl.getPrevious().data.reload = true;
+                this.navCtrl.pop(); //Sending data along with pop
+              }
+              return;
+            }
+            else
+            {
+              this.showToast(result.message);
+              return;
+            }
+          }
+          catch (err)
+          {
+            this.showToast('Failed to delete the client');
+          }
+        }
+        else
+        {
+          this.showToast('Failed to delete the client');
+        }
+      },
+        error =>
+        {
+          loadingSuccessful = true;
+          this.showToast('Failed to delete the client');
+          loader.dismiss();
+        });
+
+    loader.onDidDismiss(() => {
+
+      if(!loadingSuccessful)
+      {
+        this.showToast('Timeout!!! Server Did not respond');
+      }
+    })
+  }
+
+  clientNotes()
+  {
+    let data = {
+      client_id: this.client.id
+    };
+    this.navCtrl.push(NotesListPage, data);
+  }
+
+  clientDocuments()
+  {
+    let data = {
+      client_id: this.client.id
+    };
+    this.navCtrl.push(ClientDocumentsPage, data);
+  }
+
+  clientCommunications()
+  {
+    let data = {
+      client: this.client
+    };
+    this.navCtrl.push(ClientCommunicationsPage, data);
+  }
+
+  clientPayments()
+  {
+    let data =
+    {
+      clientdetails: this.clientDetails
+    };
+
+    this.navCtrl.push(ClientPaymentPage, data);
   }
 }

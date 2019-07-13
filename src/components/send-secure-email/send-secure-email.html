@@ -1,0 +1,64 @@
+<!-- Generated template for the SendSecureEmailComponent component -->
+<!-- Generated template for the RemindersDetailComponent component -->
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>Send Secure Email</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item no-lines>
+    <ion-label><b>Matter <span class="required_field">*</span></b></ion-label>
+    <ion-label *ngIf="passed_client!=null && passed_client!=undefined">{{passed_client.client_name}}</ion-label>
+  </ion-item>
+
+ 
+  <ion-item no-lines>
+    <ion-label><b>From <span class="required_field">*</span></b></ion-label>
+    <ion-label >{{loggedInUser.email}}</ion-label>
+  </ion-item>
+   
+
+
+  <ion-item no-lines>
+    <ion-label style="color:unset"><b>To <span class="required_field">*</span></b></ion-label>
+    <ion-select interface="popover" >
+      <ion-option *ngFor="let user of user_list" (ionSelect)="addUser(user)" [value]="user.id">{{user.name}}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <div style="margin-top:10px;">
+    <ion-chip style="margin:2px;" *ngFor="let select_user of selected_users;let i=index;">
+      <ion-label>{{select_user.name}}</ion-label>
+      <ion-icon class="chipIcon" (click)="removeUser(i)" name="close-circle"></ion-icon>
+    </ion-chip>
+  </div>
+
+
+
+
+  <ion-item no-lines>
+    <ion-label style="color:unset"><b>Subject <span class="required_field">*</span></b></ion-label>
+    <ion-input required [(ngModel)]="subject" placeholder="Enter Subject"></ion-input>
+  </ion-item>
+
+  <ion-item no-lines>
+    <ion-label style="color:unset"><b>Body <span class="required_field">*</span></b></ion-label>
+    <ion-textarea required [(ngModel)]="email_body"></ion-textarea>
+</ion-item>
+
+
+
+  <ion-row style="text-align: center;">
+    <ion-col col-6>
+      <button class="closeButton" icon-start round ion-button (click)="dismissPage()"><ion-icon name="close"></ion-icon>Close</button>
+    </ion-col>
+    <ion-col col-6>
+      <button icon-start round ion-button [disabled]="subject==null || subject.length==0 || email_body==null || email_body.length==0 || selected_users==null || selected_users.length==0" (click)="sendEmail()"><ion-icon name="mail"></ion-icon>Send Email</button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
+

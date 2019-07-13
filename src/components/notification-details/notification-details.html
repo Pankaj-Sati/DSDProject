@@ -1,0 +1,212 @@
+<ion-header>
+
+  <ion-navbar>
+
+    <ion-row>
+      <ion-col col-2 style="margin:auto;text-align:center;">
+
+        <ion-icon name="close" (click)="dismissPage()" style="color:white;zoom:1.5;"></ion-icon>
+
+      </ion-col>
+      <ion-col col-10 style="text-align:left">
+        <ion-title>Details</ion-title>
+      </ion-col>
+
+    </ion-row>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="notification!=null && notification!=undefined">
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Client Name</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{notification.clientName}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Alien No.</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{notification.case_no}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+
+
+    <div class="detailsSeperator"></div>
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Hearing Date</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{notification.hearingDate}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Hearing Time</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{notification.hearingTime}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-12>
+        <div class="detailsSeperator"></div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Judge </b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{notification.judgeName}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Location Of Hearing</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{notification.locationOfHearing}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Advocate Name</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{notification.advocatename}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Type Of Hearing</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{notification.TypeofHearing}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+     
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Total Amount</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{notification.totalamt}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Paid Amount</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{notification.paidamt}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-row>
+          <ion-col>
+            <b>Overdues</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{notification.overdueamt}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+
+      <br />
+      <ion-row style="text-align: center;">
+        <ion-col>
+          <button class="closeButton" icon-start round ion-button (click)="dismissPage()"><ion-icon name="close"></ion-icon>Close</button>
+        </ion-col>
+      </ion-row>
+  </div>
+</ion-content>

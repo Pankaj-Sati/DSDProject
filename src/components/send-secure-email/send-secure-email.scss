@@ -1,0 +1,22 @@
+send-secure-email {
+  .required_field {
+    color: red;
+  }
+
+  .closeButton {
+    background-color: red;
+  }
+
+  .toolbar-background {
+    background-color: map-get($colors,primary);
+  }
+
+  .valueField {
+    float: right;
+  }
+
+  .chipIcon {
+    color: red;
+    background-color: transparent;
+  }
+}

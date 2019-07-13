@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { ModalController } from 'ionic-angular';
+
 import {Http, Headers, RequestOptions}  from "@angular/http";
 import { ToastController } from 'ionic-angular';
 import { LoadingController } from "ionic-angular";
 import "rxjs/add/operator/map";
-import {Events} from 'ionic-angular';
+import { Events } from 'ionic-angular';
 
-import {ApiValuesProvider} from '../../providers/api-values/api-values';
+import { NotificationDetailsComponent } from '../../components/notification-details/notification-details';
+
+import { ApiValuesProvider } from '../../providers/api-values/api-values';
 
 @Component({
   selector: 'page-notifications',
@@ -23,7 +27,18 @@ export class NotificationsPage
   detailNotification: any;
   blurAmount: string;
 
-	constructor(public events:Events,public apiValue:ApiValuesProvider,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController)
+  constructor
+    (
+      public modalCtrl: ModalController,
+    public events: Events,
+    public apiValue: ApiValuesProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    private http: Http,
+    public loading: LoadingController,
+    public toastCtrl: ToastController
+  )
 	{
 		this.fetchData();
         
@@ -39,17 +54,35 @@ export class NotificationsPage
     this.blurAmount = '';
   }
 
-  showDetails(notification) {
-    if (this.setDetailVisible == true) {
+  showDetails(notification)
+  {
+    /*
+    if (this.setDetailVisible == true)
+    {
       //Already Visible
 
       //Set it to false so that the div hides and don't do anything
       this.hideDetails();
       return;
     }
+
+
     this.setDetailVisible = true;
     this.blurAmount = 'blurDiv';
     this.detailNotification = notification;
+    */
+    let data = {
+      notification: notification
+    }
+    const modal = this.modalCtrl.create(NotificationDetailsComponent, data);
+
+    modal.present();
+    this.blurAmount = 'blurDiv';
+    modal.onDidDismiss(() =>
+    {
+      this.blurAmount = '';
+    });
+
   }
 
 

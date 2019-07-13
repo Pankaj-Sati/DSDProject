@@ -1,0 +1,38 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Add Note</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+
+    <ion-item no-lines style="text-align:center;">
+
+      <ion-icon color="primary" name="mail" style="zoom:6"></ion-icon>
+
+    </ion-item>
+    <br />
+    
+
+    <ion-item no-lines>
+      <ion-label stacked>Note<span class="mandatory-field">*</span> : <span style="float:right;font-size:12px;">{{maxCharacters - note.length}} characters remaining</span> </ion-label>
+      <ion-textarea [ngClass]="note.length>0?'valid':'error'" type="text" [(ngModel)]="note" placeholder="Enter your note"></ion-textarea>
+</ion-item>
+
+
+
+  </ion-list>
+
+  <ion-row>
+    <ion-col style="text-align:center;">
+
+      <button ion-button (click)="addNote()" icon-end>Add</button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

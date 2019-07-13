@@ -80,15 +80,15 @@ page-reminders {
   
 }
 
-ion-modal 
-{
-    
-    top: 30% !important;
-    right: 0% !important;
-    padding:10px;
+ion-modal {
+  top: 30% !important;
+  right: 0% !important;
+  padding: 10px;
+  background: transparent !important;
+  overflow-y: scroll;
+  padding-bottom: 70%;
+
+  ion-backdrop {
     background: transparent !important;
-    ion-backdrop 
-    {
-        background: transparent !important;
-    }
+  }
 }

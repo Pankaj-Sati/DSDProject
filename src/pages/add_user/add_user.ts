@@ -310,8 +310,8 @@ export class AddUserPage
 			 
 		   		if('code' in serverReply && serverReply.code==200) 
 					{
-						//Successfully created user
-						this.navCtrl.setRoot(DashboardPage);
+              //Successfully created user
+              this.navCtrl.pop();
 					}
 			   });
 

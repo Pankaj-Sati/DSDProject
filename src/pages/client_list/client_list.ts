@@ -48,6 +48,17 @@ export class ClientListPage
         
     }
 
+  ionViewDidEnter()
+  {
+    console.log('ionViewDidEnter()');
+    console.log(this.navParams.data.reload);
+    if (this.navParams.data.reload)
+    {
+      this.fetchData();
+    }
+
+  }
+
     getadvocateList()
     {
     	const loader=this.loading.create({

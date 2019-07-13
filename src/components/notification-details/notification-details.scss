@@ -1,0 +1,9 @@
+notification-details {
+  .closeButton {
+    background-color: red;
+  }
+
+  .toolbar-background {
+    background-color: map-get($colors,primary);
+  }
+}

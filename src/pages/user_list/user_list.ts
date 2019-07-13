@@ -60,8 +60,11 @@ export class UserListPage
 		let loader = this.loading.create({
 
           content: "Loading ...",
+          duration:15000
 
-		 });
+        });
+
+      let loadingSuccessful = false;//To know whether loading timeout happened or not
 
 	   loader.present().then(() => 
 		{
@@ -72,11 +75,12 @@ export class UserListPage
 
 	   .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
 				  
-			{ 
+       {
+         loadingSuccessful = true;
 		   			console.log(serverReply);
 		   			loader.dismiss();
 
-		   			if('message' in serverReply) //incorrect login
+		   		if('message' in serverReply) //incorrect login
 					{
 					
 						
@@ -94,9 +98,23 @@ export class UserListPage
 				  
 			      
 
-			   });
+       }, error =>
+         {
+           loadingSuccessful = true;
+           console.log(error);
+           this.presentToast("Error in getting data ");
+           loader.dismiss();
+         });
 
-  		 });
+       });
+
+      loader.onDidDismiss(() =>
+      {
+        if (!loadingSuccessful)
+        {
+          this.presentToast("Timeout!!! Server did not respond ");
+        }
+      });
 		
 
     }
@@ -110,6 +128,16 @@ export class UserListPage
 
     	this.navCtrl.push(SingleUserPage,data);
     }
+
+  presentToast(text)
+  {
+    const toast = this.toastCtrl.create({
+      message: text,
+      duration: 3000
+    });
+
+    toast.present();
+  }
 
   addUser()
   {
