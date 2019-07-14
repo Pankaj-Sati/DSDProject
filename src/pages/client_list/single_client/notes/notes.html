@@ -4,47 +4,88 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Communiation</ion-title>
+    <ion-row>
+      <ion-col col-10 style="text-align:left">
+        <ion-title>Notes</ion-title>
+      </ion-col>
+      <ion-col col-2 style="margin:auto;">
+        <ion-icon name="refresh" (click)="fetchData()" style="float:right;margin-right:10px;color:white;zoom:1.5;"></ion-icon>
+      </ion-col>
+    </ion-row>
+
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-	  <ion-row>
+  <ion-row>
+    <ion-col col-7>
+      <ion-item no-lines>
+        <ion-input type="text" placeholder="Search By Keywords" [(ngModel)]="n_search" name="search"></ion-input>
+      </ion-item>
+    </ion-col>
 
-	  	<ion-col>
-	  		<ion-input placeholder="Keywords"></ion-label>
-	  		
-		</ion-col>
+  </ion-row>
+  <br />
+  <ion-row>
+    <ion-col style="text-align:center;">
+      <button ion-button icon-start end (click)="fetchData()"><ion-icon name="search"></ion-icon></button>
+      <button icon-start ion-button (click)="addNotes()"><ion-icon name="add"></ion-icon>Add Notes</button>
+    </ion-col>
+  </ion-row>
 
-		<ion-col>
+  <hr>
 
-	  		<button icon-start ion-button><ion-icon name="search"></ion-icon>Filter</button>
-	  	</ion-col>
 
-	  </ion-row>
+  <div *ngFor="let note of notes_list;let i=index">
+    <ion-card class="simpleCard" (click)="showDetails(sms,$event,i)">
 
-	  <hr>
-	  <br>
+      <ion-row style="padding-left: 5px;">
 
-	  <ion-row>
-	  	<ion-col>
-	  	<button icon-start ion-button><ion-icon name="add"></ion-icon>Add Notes</button>
-	 	 </ion-col>
-	  </ion-row>
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="mail" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-col>
 
-	  <div style="overflow-x:auto">
-		<table>
-	
-			<tr>
-			
-				<th><b>S.No.</b></th>
-		
-				<th><b>Notes</b></th>
+        <ion-col style="margin:auto;" col-7>
+          <ion-row>
+            <ion-col style="text-align:left;">
+              <b style="overflow: hidden;white-space: nowrap;">{{note.notes}} </b>
+            </ion-col>
+          </ion-row>
 
-				<th><b>Date</b></th>
+        </ion-col>
 
-			</tr>
-		</table>
-	</div>
+        <ion-col style="margin:auto;float:right" col-4>
+          <ion-row>
+            <ion-col>
+              {{note.created_on | date :  "MMM d,y"}}
+            </ion-col>
+          </ion-row>
 
-	</ion-content>
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="more" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-col>
+
+      </ion-row>
+
+    </ion-card>
+
+    <div class="noteDetails" *ngIf="visibility[i]">
+
+      <ion-row>
+        <ion-col>
+          <ion-item no-lines>
+            <ion-label stacked>Note</ion-label>
+            <ion-label>{{note.notes}}</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </div>
+  </div>
+
+  <div *ngIf="notes_list==undefined || notes_list==null || notes_list.length==0">
+    <no-record-found></no-record-found>
+  </div>
+
+</ion-content>

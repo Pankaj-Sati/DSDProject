@@ -1,0 +1,11 @@
+send_sms {
+  .mandatory-field {
+    color: red;
+  }
+
+  .error{
+   
+    border-bottom: 1px solid red !important;
+   
+  }
+}

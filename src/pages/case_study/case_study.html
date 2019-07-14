@@ -28,11 +28,11 @@
 
 	
 
-<ion-item>
+<ion-item no-lines>
 
-    <ion-label fixed>Case Type</ion-label>
+    <ion-label stacked>Case Type</ion-label>
 
-	   	<ion-select interface="popover" [(ngModel)]="c_case_type" >
+	   	<ion-select interface="popover" [(ngModel)]="c_case_type" placeholder="Select Case Type">
 	      <ion-option value="1">Civil</ion-option>
 	        <ion-option value="4">Murder</ion-option>
 	        <ion-option value="6">Criminal</ion-option>
@@ -41,46 +41,46 @@
 	     </ion-select>
   </ion-item>
 
-  <ion-item>
+  <ion-item no-lines>
 
-    <ion-label fixed>Client Type</ion-label>
+    <ion-label stacked>Client Type</ion-label>
 
-	   	<ion-select interface="popover" [(ngModel)]="c_client_type" >
+	   	<ion-select interface="popover" [(ngModel)]="c_client_type" placeholder="Select Client Type">
 	      <ion-option value="1">Type 1</ion-option>
 	        <ion-option value="2">Type 2</ion-option>
 	        
 	     </ion-select>
   </ion-item>
 
-  <ion-item>
+  <ion-item no-lines>
 
-    <ion-label fixed>Case Category</ion-label>
+    <ion-label stacked>Case Category</ion-label>
 
-	   	<ion-select interface="popover" [(ngModel)]="c_case_category" >
+	   	<ion-select interface="popover" [(ngModel)]="c_case_category" placeholder="Select Case Caegory" >
 	      <ion-option value="1">Category 1</ion-option>
 	        <ion-option value="2">Category 2</ion-option>
 	        
 	     </ion-select>
   </ion-item>
 
-  <ion-item>
-    <ion-label fixed>Year</ion-label>
+  <ion-item no-lines>
+    <ion-label stacked>Year</ion-label>
     <ion-datetime [pickerOptions]="customPickerOptions" placeholder="Select Year" [(ngModel)]="c_case_year" displayFormat="YYYY"></ion-datetime>
 
     
 <!-- Change the managers by fetching manager list from server -->
 
   </ion-item>
-  <ion-item>
-    <ion-label fixed>Case Manager</ion-label>
-    	<ion-select  [(ngModel)]="c_case_manager" >
+  <ion-item no-lines>
+    <ion-label stacked>Case Manager</ion-label>
+    	<ion-select  [(ngModel)]="c_case_manager" placeholder="Select Case Manager">
 	      <ion-option value="1">Manager 1</ion-option>
 	        <ion-option value="2">Manager 2</ion-option>
 	     </ion-select>
   </ion-item>
 
-  <ion-item>
-     <ion-input type="text" placeholder="Alias | COntact No. | Email ID | Client Name | Alien No." [(ngModel)]="c_search" ></ion-input>
+  <ion-item no-lines>
+     <ion-input type="text" placeholder="Search by Alias | Contact No. | Email ID | Client Name | Alien No." [(ngModel)]="c_search" ></ion-input>
   </ion-item>
 
 	</ion-list>
@@ -96,6 +96,13 @@
 	  <hr>
 	  <br>
 
+
+  <div *ngIf="caseList==null || caseList.length==0">
+
+    <no-record-found></no-record-found>
+  </div>
+
+  <!--
 	  <div style="overflow-x:auto">
 		<table>
 	
@@ -114,7 +121,7 @@
 
 				<th><b>Status</b></th>
 			</tr>
-		<!-- Later fetch the actual data from the server-->
+------------Later fetch the actual data from the server---------
 			<tr (click)="openClient()">
 				<td>1</td>
 				<td>123</td>
@@ -134,5 +141,5 @@
 			</tr>
 		</table>
 	</div>
-
+  -->
 	</ion-content>

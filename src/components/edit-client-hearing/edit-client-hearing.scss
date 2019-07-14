@@ -1,0 +1,15 @@
+edit-client-hearing
+{
+  .closeButton {
+    background-color: red;
+  }
+
+  .toolbar-background {
+    background-color: map-get($colors,primary);
+  }
+
+  .required_field
+    {
+    color:red;
+  }
+}

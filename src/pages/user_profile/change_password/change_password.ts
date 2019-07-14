@@ -7,7 +7,10 @@ import { ToastController } from 'ionic-angular';
 import "rxjs/add/operator/map";
 import { Storage } from '@ionic/storage';
 
-import {ApiValuesProvider} from '../../../providers/api-values/api-values';
+import { ApiValuesProvider } from '../../../providers/api-values/api-values';
+import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
+
+import { User } from '../../../models/login_user.model';
 
 @Component({
 	selector: 'change_password',
@@ -16,6 +19,8 @@ import {ApiValuesProvider} from '../../../providers/api-values/api-values';
 
 export class ChangePasswordPage 
 {
+
+  loggedInUser: User;
 	u_id=null;
 	USER_ID="id";
 	current_pass:string;
@@ -23,21 +28,18 @@ export class ChangePasswordPage
 	confirm_pass:string;
 	passed_image:string;
 
-	constructor(public apiValue:ApiValuesProvider,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController,public storage: Storage, public menuCtrl: MenuController) 
-	{
-			this.storage.get(this.USER_ID).then((value) => 
-			  {
-					
-				  this.u_id=value;
-		  		  
-			  });
+  constructor(public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController, public toastCtrl: ToastController, public storage: Storage, public menuCtrl: MenuController) 
+  {
+    this.loggedInUser = this.myStorage.getParameters();
+    this.u_id = this.loggedInUser.id;
+		
 	  
 	}
 
 	ionViewDidLoad()
     {
     		//This method is called when the page loads for the first time
-    		this.passed_image=this.navParams.get('image');
+    		
 
     }
 	changePassword()

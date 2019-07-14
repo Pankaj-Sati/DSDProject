@@ -33,14 +33,20 @@ $app-direction: ltr;
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
 
-$colors: (
-  primary:    #488aff,
-  secondary:  #f7a40d,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222
-
-);
+$colors: ( primary:#488aff, secondary:#f7a40d,danger:#f53d3d,light:#f4f4f4,dark:#222,success:#61b336,invalid:#fff, 
+// Icons color
+appHomeIcon: #536D9E,
+  appDashboardIcon: #3E8CCA,
+  appCaseIcon: #3E4B54,
+  appUsersIcon: #08B8D0,
+  appSettingIcon: #CB6AAF,
+  appAccountIcon: #01487E,
+  appSMSIcon: #EA7E33,
+  appRemindersIcon: #CEB618,
+  appNotificationIcon: #E94C3B,
+  appCaseStudyIcon: #DF7970,
+  appAffiliateIcon: #4C9CA0,
+  appLogoutIcon: #AF2330 );
 
 $toolbar-background: #f7a40d;
 // App iOS Variables

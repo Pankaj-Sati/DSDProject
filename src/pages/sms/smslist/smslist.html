@@ -22,56 +22,123 @@
 </ion-header>
 
 <ion-content>
+    <ion-row>
+      <ion-col col-6>
+        <ion-item no-lines>
+          <ion-label stacked>From</ion-label>
+          <ion-datetime name="from_date" placeholder="Select" [(ngModel)]="s_from" displayFormat="DD MM YYYY"></ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col col-6>
+        <ion-item no-lines>
+          <ion-label stacked>To</ion-label>
+          <ion-datetime [(ngModel)]="s_to" placeholder="Select" name="n_date" displayFormat="DD MM YYYY"></ion-datetime>
+        </ion-item>
+      </ion-col>
+    </ion-row>
 
-	<ion-list>
-		<ion-item>
-			<ion-label>Client</ion-label>
-			<ion-input placeholder="Select Client" type="text"></ion-input>
-		</ion-item>
 
-		<ion-item>
-			<ion-label>From:</ion-label>
-			<ion-datetime displayFormat="MM DD YYYY"></ion-datetime>
-		</ion-item>
-		<ion-item>
-			<ion-label>To: </ion-label>
-			<ion-datetime displayFormat="MM DD YYYY"></ion-datetime>
-		</ion-item>
+    <ion-item>
+      <ion-input type="text" placeholder="Search By Client Name" [(ngModel)]="s_search" name="search"></ion-input>
+    </ion-item>
 
-	</ion-list>
 
-	<ion-row style="text-align: center;">
-			
-			<ion-col>
-				<button ion-button icon-start>
-				<ion-icon name="search"></ion-icon>
-				Search
-			</button>
-			</ion-col>
-		</ion-row>
 
-	<br>
-	<hr>
-	<br>
+    <ion-row>
+      <ion-col style="text-align: center">
+        <button ion-button round icon-start end (click)="fetchData()"><ion-icon name="search"></ion-icon>Filter</button>
+      </ion-col>
+    </ion-row>
 
-	<div style="overflow-x: auto">
-		<table>
-			<tr>
-				<th>S.No.</th>
-				<th>Date</th>
-				<th>Client Name</th>
-				<th>SMS Text</th>
-			</tr>
+    <br>
+    <hr>
+    <br>
 
-			<tr *ngFor="let sms of sms_list; let i=index">
+    <div *ngFor="let sms of sms_list;let i=index">
+      <ion-card class="simpleCard" (click)="showDetails(sms,$event,i)">
 
-				<td>{{i+1}}</td>
-				<td>{{sms.date}}</td>
-				<td>{{sms.c_name}}</td>
-				<td>{{sms.sms}}</td>
+        <ion-row style="padding-left: 5px;">
 
-			</tr>
-		</table>
-	</div>
+          <ion-col style="margin:auto;" col-1>
+            <ion-icon name="mail" color="primary" style="zoom: 1.2;"></ion-icon>
+          </ion-col>
+
+          <ion-col style="margin:auto;" col-3>
+            <ion-row>
+              <ion-col style="text-align:left;">
+                <b> {{sms.name}} </b>
+              </ion-col>
+            </ion-row>
+
+          </ion-col>
+
+          <ion-col style="margin:auto;white-space:unset;overflow:unset;" col-4>
+            <ion-row>
+              <ion-col>
+                {{sms.contact_no}}
+              </ion-col>
+            </ion-row>
+
+          </ion-col>
+
+          <ion-col style="margin:auto;" col-3>
+            <ion-row>
+              <ion-col>
+                {{sms.smsSendDate | date :  "MMM d,y"}}
+              </ion-col>
+            </ion-row>
+
+          </ion-col>
+
+          <ion-col style="margin:auto;" col-1>
+            <ion-icon name="more" color="primary" style="zoom: 1.2;"></ion-icon>
+          </ion-col>
+
+        </ion-row>
+
+      </ion-card>
+
+      <div class="smsDetails" *ngIf="visibility[i]">
+
+        <ion-row>
+          <ion-col col-6>
+            <ion-item no-lines>
+              <ion-label stacked>Name</ion-label>
+              <ion-label>"{{sms.name}}"</ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col col-6>
+            <ion-item no-lines>
+              <ion-label stacked>Sent To</ion-label>
+              <ion-label>{{sms.contact_no}}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col col-6>
+            <ion-item no-lines>
+              <ion-label stacked>Date</ion-label>
+              <ion-label>{{sms.smsSendDate}}</ion-label>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-item no-lines>
+              <ion-label stacked>SMS Text</ion-label>
+              <ion-label style="overflow:unset;white-space:unset;">{{sms.sms_text}}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </div>
+    </div>
+
+  <div *ngIf="sms_list==undefined || sms_list==null || sms_list.length==0">
+    <no-record-found></no-record-found>
+  </div>
+
 
 </ion-content>

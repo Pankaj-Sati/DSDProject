@@ -24,105 +24,281 @@
 
 <ion-content>
 
-	<ion-list>
+  <div [className]="blurAmount">
+    <ion-list>
 
-	<ion-item>
+      <ion-item>
 
-    <ion-label fixed>Case Type</ion-label>
+        <ion-label>Case Type</ion-label>
 
-	   	<ion-select  [(ngModel)]="c_case_type" >
-	      <ion-option value="1">Civil</ion-option>
-	        <ion-option value="4">Murder</ion-option>
-	        <ion-option value="6">Criminal</ion-option>
-	        <ion-option value="7">Divorce</ion-option>
-	        
-	     </ion-select>
-  </ion-item>
+        <ion-select interface="popover" [(ngModel)]="c_case_type">
+          <ion-option value="1">Civil</ion-option>
+          <ion-option value="4">Murder</ion-option>
+          <ion-option value="6">Criminal</ion-option>
+          <ion-option value="7">Divorce</ion-option>
 
-
-  <ion-item>
-    <ion-label fixed>Year</ion-label>
-    <ion-datetime [pickerOptions]="customPickerOptions" placeholder="Select Year" [(ngModel)]="c_case_year" displayFormat="YYYY"></ion-datetime>
-
-    
-<!-- Change the managers by fetching manager list from server -->
-
-  </ion-item>
-  <ion-item>
-    <ion-label fixed>Case Manager</ion-label>
-    	<ion-select  [(ngModel)]="c_case_manager" >
-	      <ion-option value="1">Manager 1</ion-option>
-	        <ion-option value="2">Manager 2</ion-option>
-	     </ion-select>
-  </ion-item>
-
-  <ion-item>
-     <ion-input type="text" placeholder="Alias | COntact No. | Email ID | Client Name | Alien No." [(ngModel)]="c_search" ></ion-input>
-  </ion-item>
-
-	</ion-list>
-	  <ion-row style="text-align: center;">
-
-		<ion-col>
-
-	  		<button icon-start ion-button><ion-icon name="search"></ion-icon>Search</button>
-	  	</ion-col>
-
-	  </ion-row>
-
-	  <hr>
-	  <br>
-
-	  <div style="overflow-x:auto">
-		<table>
-	
-			<tr>
-			
-				<th><b>S.No.</b></th>
-		
-				<th><b>Alien No.</b></th>
+        </ion-select>
+      </ion-item>
 
 
-				<th><b>Client Name</b></th>
-
-				<th><b>Case Manager</b></th>
-
-				<th><b>Year</b></th>
-
-				<th><b>Total Amount</b></th>
+      <ion-item>
+        <ion-label>Year</ion-label>
+        <ion-datetime [pickerOptions]="customPickerOptions" placeholder="Select Year" [(ngModel)]="c_case_year" displayFormat="YYYY"></ion-datetime>
 
 
-				<th><b>Outstanding</b></th>
+        <!-- Change the managers by fetching manager list from server -->
 
-				<th><b>Given Amt.</b></th>
+      </ion-item>
+      <ion-item>
+        <ion-label>Case Manager</ion-label>
+        <ion-select interface="action-sheet" [(ngModel)]="c_case_manager">
+          <ion-option *ngFor="let caseManager of caseManagerList" value="caseManager.id">{{caseManager.name}}({{caseManager.id}})</ion-option>
+        </ion-select>
+      </ion-item>
 
-				<th><b>Status</b></th>
-			</tr>
-		<!-- Later fetch the actual data from the server-->
-			<tr (click)="openClient()">
-				<td>1</td>
-				<td>123</td>
-				<td>Dummy CLient</td>
-				<td>Dummy Manager</td>
-				<td>2019</td>
-				<td>3000</td>
-				<td>0</td>
-				<td>400</td>
-				<td>Active</td>
-			</tr>
+      <ion-item>
+        <ion-input type="text" placeholder="Alias | COntact No. | Email ID | Client Name | Alien No." [(ngModel)]="c_search"></ion-input>
+      </ion-item>
 
-			<tr (click)="openClient()">
-				<td>2</td>
-				<td>23</td>
-				<td>Dummy CLient2</td>
-				<td>Dummy Manager2</td>
-				<td>2019</td>
-				<td>8900</td>
-				<td>90</td>
-				<td>1200</td>
-				<td>Active</td>
-			</tr>
-		</table>
-	</div>
+    </ion-list>
+    <ion-row style="text-align: center;">
 
-	</ion-content>
+      <ion-col>
+
+        <button icon-start ion-button><ion-icon name="search"></ion-icon>Search</button>
+      </ion-col>
+
+    </ion-row>
+
+    <hr>
+    <br>
+
+    <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let account of accounts;let i=index" (click)="showDetails(account)">
+
+      <ion-row>
+
+        <ion-col col-3>
+
+          <ion-row>
+            <ion-col>
+              <b>Client</b>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col>
+              {{account.client_name}}
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+        <ion-col col-3 style="text-overflow: ellipsis; flex:1;overflow: hidden;white-space: nowrap;">
+
+          <ion-row>
+            <ion-col>
+              <b>Manager</b>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col>
+              {{account.manager}}
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+        <ion-col col-3>
+
+          <ion-row>
+            <ion-col>
+              <b>Outstanding</b>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col>
+              {{account.outstanding}}
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+        <ion-col col-3>
+
+          <ion-row>
+            <ion-col>
+              <b>Status</b>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row>
+            <ion-col>
+              <span *ngIf="account.status=='Active'" style="color:green;"> {{account.status}}</span>
+              <span *ngIf="account.status!='Active'"> {{account.status}}</span>
+
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+      </ion-row>
+
+    </ion-card>
+
+  </div>
+
+  <div class="details" *ngIf="setDetailVisible">
+
+
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Client Name</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.client_name}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Alien No.</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.alien_no}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+
+
+    <div class="detailsSeperator"></div>
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Case Manager</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.manager}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Year</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.year}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-12>
+        <div class="detailsSeperator"></div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Total Amount</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.total_amount}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Given Amount</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.given_amount}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+
+    <div class="detailsSeperator"></div>
+
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Outstanding</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{detailAccount.outstanding}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+        <ion-col col-6>
+
+        <ion-row>
+          <ion-col>
+            <b>Status</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <span *ngIf="detailAccount.status=='Active'" style="color:green;"> {{detailAccount.status}}</span>
+            <span *ngIf="detailAccount.status!='Active'"> {{detailAccount.status}}</span>
+          </ion-col>
+        </ion-row>
+
+      </ion-col>
+
+    </ion-row>
+
+
+    <ion-row style="text-align: center;">
+      <ion-col>
+        <button class="closeButton" ion-button (click)="hideDetails()"><ion-icon name="close"></ion-icon></button>
+      </ion-col>
+    </ion-row>
+
+  </div>
+
+
+</ion-content>

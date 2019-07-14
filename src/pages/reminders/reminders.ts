@@ -1,13 +1,19 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, PopoverController } from 'ionic-angular';
 import {Http, Headers, RequestOptions}  from "@angular/http";
 
-import { LoadingController,ToastController } from "ionic-angular";
+import { LoadingController, ToastController, ModalController  } from "ionic-angular";
 import "rxjs/add/operator/map";
 
-import {ApiValuesProvider} from '../../providers/api-values/api-values';
+import { ApiValuesProvider } from '../../providers/api-values/api-values';
 
-import {Events} from 'ionic-angular';
+import { Reminder } from '../../models/reminder.model';
+
+import { RemindersDetailComponent } from '../../components/reminders-detail/reminders-detail';
+import { NotificationsPage } from '../notifications/notifications';
+
+import { Events } from 'ionic-angular';
+
 @Component({
   selector: 'page-reminders',
   templateUrl: 'reminders.html'
@@ -24,10 +30,10 @@ export class RemindersPage
 	blurAmount:string;
 
 
-	constructor(public apiValue:ApiValuesProvider,public events:Events,public toastCtrl:ToastController, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController)
+  constructor(public popoverCtrl: PopoverController, public modalCtrl: ModalController, public apiValue: ApiValuesProvider, public events: Events, public toastCtrl: ToastController, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController)
 	{
 		this.fetchData();
-        this.setDetailVisible=false;
+    this.setDetailVisible=false;
     }
 
  	searchClient()
@@ -42,7 +48,8 @@ export class RemindersPage
  	}
 
  	showDetails(reminder)
- 	{
+  {
+        /*
  		if(this.setDetailVisible==true)
  		{
  			//Already Visible
@@ -54,6 +61,19 @@ export class RemindersPage
  		this.setDetailVisible=true;
  		this.blurAmount='blurDiv';
  		this.detailReminder=reminder;
+            */
+        const modal = this.modalCtrl.create(RemindersDetailComponent, {
+            'reminder': reminder
+          },{cssClass: 'reminder-modal' });
+
+        modal.onDidDismiss((resultData) => {
+          console.log("Modal Dismissed");
+          console.log(resultData);
+          this.blurAmount='';
+        });
+
+        modal.present();
+        this.blurAmount='blurDiv';
  	}
 
 	fetchData()
@@ -79,7 +99,7 @@ export class RemindersPage
 
 		let loader = this.loading.create({
 
-		   content: "Fetching data please wait…",
+		   content: "Loading...",
 		   duration:5000
 
 		 });

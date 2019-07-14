@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -5,8 +6,8 @@ import { MyApp } from './app.component';
 import { Camera } from '@ionic-native/camera';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
-import {FilePath} from '@ionic-native/file-path';
-
+import { FilePath } from '@ionic-native/file-path';
+import { BrMaskerModule } from 'brmasker-ionic-3';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
@@ -19,6 +20,7 @@ import { AddUserPage } from '../pages/add_user/add_user';
 import { UserListPage } from '../pages/user_list/user_list';
 import { UserProfilePage } from '../pages/user_profile/user_profile';
 import { EditProfilePage } from '../pages/user_profile/edit_profile/edit_profile';
+import { ViewProfilePage } from '../pages/user_profile/view_profile/view_profile';
 import { ChangePasswordPage } from '../pages/user_profile/change_password/change_password';
 import { SingleUserPage } from '../pages/user_list/single_user/single_user';
 import { ChangeUserPasswordPage } from '../pages/user_list/change_user_password/change_user_password';
@@ -26,7 +28,10 @@ import { UpdateUserPage } from '../pages/user_list/update_user/update_user';
 import { ClientListPage } from '../pages/client_list/client_list';
 import { AddClientPage } from '../pages/client_list/add_client/add_client';
 import { SingleClientPage } from '../pages/client_list/single_client/single_client';
+import { SingleClientModule } from '../pages/client_list/single_client/single_client.module';
 import { ChangeManagerPage } from '../pages/client_list/single_client/change_manager/change_manager';
+import { SendSMSPage } from '../pages/client_list/single_client/send_sms/send_sms';
+
 import { AccountManagementPage } from '../pages/account_management/account_management';
 import { AccountSummaryPage } from '../pages/account_management/account_summary/account_summary';
 import { PaymentSummaryPage } from '../pages/account_management/single_user_account/payment_summary/payment_summary';
@@ -37,11 +42,14 @@ import{SingleCaseStudyPage} from '../pages/case_study/single_case_study/single_c
 import {SettingUserTypePage} from '../pages/settings/user_type/usertype';
 import {SettingCaseTypePage} from '../pages/settings/casetype/casetype';
 import {SMSBulkEmailPage} from '../pages/sms/bulkemail/bulkemail';
-import {SMSListPage} from '../pages/sms/smslist/smslist';
+import { SMSListPage } from '../pages/sms/smslist/smslist';
 import {SingleUserAccountPage} from '../pages/account_management/single_user_account/single_user_account';
-import {SearchHeaderPageModule} from '../pages/search-header/search-header.module';
-import {ComponentsModule} from '../components/components.module';
+import { SearchHeaderPageModule } from '../pages/search-header/search-header.module';
 
+
+import { ComponentsModule } from '../components/components.module';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -51,6 +59,8 @@ import { IonicStorageModule } from '@ionic/storage';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdvocateListProvider } from '../providers/advocate-list/advocate-list';
 import { ApiValuesProvider } from '../providers/api-values/api-values';
+import { ClientEntityRelationshipProvider } from '../providers/client-entity-relationship/client-entity-relationship';
+import { CountryProvider } from '../providers/country/country';
 
 
 @NgModule({
@@ -68,14 +78,16 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
     UserListPage,
     UserProfilePage,
     EditProfilePage,
+    ViewProfilePage,
     ChangePasswordPage,
     SingleUserPage,
     ChangeUserPasswordPage,
     UpdateUserPage,
     ClientListPage,
     AddClientPage,
-    SingleClientPage,
-    ChangeManagerPage,
+    //SingleClientPage,
+   // ChangeManagerPage,
+    //SendSMSPage,
     AccountManagementPage,
     AccountSummaryPage,
     SingleUserAccountPage,
@@ -96,7 +108,9 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
         ReactiveFormsModule,
 	     IonicStorageModule.forRoot(),
          SearchHeaderPageModule,
-         ComponentsModule
+    ComponentsModule,
+    BrMaskerModule,
+    SingleClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -119,8 +133,9 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
     UpdateUserPage,
     ClientListPage,
     AddClientPage,
-    SingleClientPage,
-    ChangeManagerPage,
+    ViewProfilePage,
+    //SingleClientPage,
+    //ChangeManagerPage,
     AccountManagementPage,
     AccountSummaryPage,
     SingleUserAccountPage,
@@ -132,7 +147,8 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
     SettingUserTypePage,
     SettingCaseTypePage,
     SMSBulkEmailPage,
-    SMSListPage
+    SMSListPage,
+    //SendSMSPage
   ],
   providers: [
     StatusBar,
@@ -146,8 +162,13 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
       FileTransfer,
     ApiValuesProvider,
     File,
-    FilePath
+    FilePath,
+    WebView,
+    InAppBrowser,
+    ClientEntityRelationshipProvider,
+    CountryProvider
   ],
-  exports: [ComponentsModule]
+  exports: [ComponentsModule],
+  schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

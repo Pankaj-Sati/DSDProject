@@ -1,0 +1,9 @@
+add-balance-in-payment {
+  .closeButton {
+    background-color: red;
+  }
+
+  .toolbar-background {
+    background-color: map-get($colors,primary);
+  }
+}

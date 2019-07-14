@@ -9,7 +9,9 @@ import "rxjs/add/operator/map";
 import {FileTransfer,FileTransferObject,FileUploadOptions} from '@ionic-native/file-transfer'
 import {FilePath} from '@ionic-native/file-path';
 import {File} from '@ionic-native/file';
-import {ApiValuesProvider} from '../../../providers/api-values/api-values';
+import { ApiValuesProvider } from '../../../providers/api-values/api-values';
+import { Storage } from '@ionic/storage';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 declare var cordova:any;
 
@@ -24,6 +26,8 @@ export class UpdateUserPage
 
 	user:any=null;
 
+  loggedInUserId;
+
 	passed_uid:string;
 
 	userForm:FormGroup;
@@ -35,16 +39,16 @@ export class UpdateUserPage
 	lastImage:string;
 	
 
-	constructor(public file:File,public platform:Platform,public filePath:FilePath,public fileTransfer:FileTransfer,public formBuilder:FormBuilder,public apiValue:ApiValuesProvider,private camera: Camera,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController, public menuCtrl: MenuController) 
+	constructor(public webView:WebView,public storage:Storage,public file:File,public platform:Platform,public filePath:FilePath,public fileTransfer:FileTransfer,public formBuilder:FormBuilder,public apiValue:ApiValuesProvider,private camera: Camera,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController, public menuCtrl: MenuController) 
 	{
 			this.userForm=this.formBuilder.group({
 
 			u_profile_img:new FormControl(''),
 			u_name:new FormControl('',Validators.compose([Validators.required])),
 			
-			u_email: new FormControl('',Validators.compose([Validators.required,Validators.email])),
-			u_contact: new FormControl('',Validators.compose([Validators.required,Validators.pattern("^[0-9]{2,10}")])),
-			u_alt: new FormControl('',Validators.compose([Validators.pattern("^[0-9]{2,10}")])),
+              u_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
+              u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
+              u_alt: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
 			u_gender: new FormControl('',Validators.compose([Validators.required])),
 			u_dob:new FormControl('',Validators.compose([Validators.required])),
 			u_country: new FormControl('',Validators.compose([Validators.required])),
@@ -55,7 +59,13 @@ export class UpdateUserPage
 			u_street:new FormControl('',Validators.compose([Validators.required])),
 			u_user_type:new FormControl('',Validators.compose([Validators.required]))
 			
-		});
+            });
+
+      this.storage.get("id").then((value) => {
+
+        this.loggedInUserId = value;
+        console.log("Logged In User ID:" + value);
+      });
 	}
 
 
@@ -131,7 +141,8 @@ export class UpdateUserPage
 		          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
 
 		          this.isImageChanged=true; //We have got our image successfully;
-		          this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
+		         this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
+		         // this.userForm.value.u_profile_img=this.webView.convertFileSrc(imageData);
 		        })
 
 		        .catch(error=>{
@@ -150,7 +161,9 @@ export class UpdateUserPage
 		      var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
 		      this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
 		      this.isImageChanged=true; //We have got our image successfully;
-		      this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
+		      // this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
+                this.userForm.value.u_profile_img = this.webView.convertFileSrc(imageData);
+               
 		    }
 		 }
 		 else
@@ -222,7 +235,7 @@ export class UpdateUserPage
 
 				let loader = this.loading.create({
 
-				   content: "Fetching user details please wait…",
+                  content: "Loading ...",
 
 				 });
 
@@ -292,6 +305,8 @@ export class UpdateUserPage
     submitData()
     {
 
+      console.log("Image changed" + this.isImageChanged);
+
 	    	if(! this.isImageChanged || this.lastImage==undefined || this.lastImage.length==0)
 	    	{
 	    		//If image is not changed, we don't need to send data using file transfer
@@ -303,8 +318,8 @@ export class UpdateUserPage
 				body.append("uid",this.passed_uid);
 				body.append("full_name",this.userForm.value.u_name);
 				body.append("email",this.userForm.value.u_email);
-				body.append("contact",this.userForm.value.u_contact);
-				body.append("alt",this.userForm.value.u_alt);
+        body.append("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
+				body.append("alt",String(this.userForm.value.u_alt).replace(/\D+/g,''));
 				body.append("gender",this.userForm.value.u_gender);
 				body.append("date_of_birth",this.userForm.value.u_dob);
 				body.append("country",this.userForm.value.u_country);
@@ -313,7 +328,8 @@ export class UpdateUserPage
 				body.append("pincode",this.userForm.value.u_pincode);
 				body.append("fax",this.userForm.value.u_fax);
 				body.append("street",this.userForm.value.u_street);
-				body.append("user_type",this.userForm.value.u_user_type);
+		        body.append("user_type", this.userForm.value.u_user_type);
+		        body.append("session_id", this.loggedInUserId);
 
 				if(this.userForm.value.u_profile_img!=null && this.userForm.value.u_profile_img.length>0)
 				{
@@ -325,11 +341,13 @@ export class UpdateUserPage
 				let loader = this.loading.create({
 
 			   content: "Updating user please wait…",
+			   duration:15000
 
 			 });
 				console.log("Body");
 				console.log(body);
 
+				let loadingSuccessful=false; //To knopw whether timeout occured
 				console.log("Full name");
 				console.log(this.userForm.value.u_name);
 			
@@ -344,17 +362,26 @@ export class UpdateUserPage
 					  
 				{ 
 			   		console.log(serverReply);
+			   		loadingSuccessful=true;
 			   		loader.dismiss();
 					
-			   		const toast = this.toastCtrl.create({
-								  message: serverReply.message,
-								  duration: 3000
-								});
-								toast.present();
+			   		this.presentToast(serverReply.message);
 			
 
+	  		 },error=>{
+	  		 	loadingSuccessful=true;
+			   		loader.dismiss();
+			   		this.presentToast('Failed to upadte user');
 	  		 });
 		   });
+
+			loader.onDidDismiss(()=>{
+
+				if(! loadingSuccessful)
+				{
+					this.presentToast('Timeout!!! Server did not respond');
+				}
+			});
 
 		}
 		else
@@ -384,7 +411,8 @@ export class UpdateUserPage
 					"pincode":this.userForm.value.u_pincode,
 					"fax":this.userForm.value.u_fax,
 					"street":this.userForm.value.u_street,
-					"user_type":this.userForm.value.u_user_type
+          "user_type": this.userForm.value.u_user_type,
+          "session_id": this.loggedInUserId
 				}
 			};
 

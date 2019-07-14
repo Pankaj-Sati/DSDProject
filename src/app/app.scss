@@ -15,101 +15,131 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-	page-main
-	{
-		.center
-		{
-			display: block;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		.roundImg
-		{
-			border-radius: 50%;
-			max-height: 240px;
-			max-width: 240px;
-			
-		}
-		
-	ion-footer 
-	{
-		background-color:map-get($colors, primary);
-	}
+page-main {
+  $menuTextColor: map-get($colors, primary);
 
-	ion-toolbar
-	{
-	    .toolbar-background 
-	    {
-			background-image: radial-gradient(circle, #F9A72B 0%, #FA9026 70%, #FB6C1F 100%);
-		}
-	}
-
-	.mandatory_field
-	{
-		color:red;
-	}
-
-	.error>.item-inner {
-        border-bottom-color: red !important;
-        border-bottom: 2px solid red !important;
-        -webkit-box-shadow: inset 0 -1px 0 0 red !important;
-        box-shadow: inset 0 -1px 0 0 red !important;
-    }
-
-    .valid>.item-inner {
-        border-bottom-color: #32db64 !important;
-        border-bottom: 2px solid #32db64 !important;
-        -webkit-box-shadow: inset 0 -1px 0 0 #32db64 !important;
-        box-shadow: inset 0 -1px 0 0 #32db64 !important;
-    }
-
-    .mainBackgroundColor
-    {
-    	background-image: radial-gradient(circle, #F9A72B 0%, #FA9026 70%, #FB6C1F 100%);
-    }
-
-    //--------Splash Screen ANimation-----------//
-
-    .splash
-    {
-    	position: absolute;
-    	width: 100%;
-    	height: 100%;
-    	z-index: 999;
-    	display: flex;
-    	align-items:center;
-    	justify-content:center;
-    	background-color: #ff7400;
-    }
-    .spinner {
-  width: 40px;
-  height: 40px;
-  background-color: #333;
-
-  margin: 100px auto;
-  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
-  animation: sk-rotateplane 1.2s infinite ease-in-out;
-}
-
-@-webkit-keyframes sk-rotateplane {
-  0% { -webkit-transform: perspective(120px) }
-  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
-  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
-}
-
-@keyframes sk-rotateplane {
-  0% { 
-    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
-  } 50% { 
-    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
-  } 100% { 
-    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
-}
-    //--------Splash Screen ANimation Ends-----------//
 
+  .roundImg {
+    border-radius: 50%;
+    max-height: 240px;
+    max-width: 240px;
+  }
 
+  ion-footer {
+    background-color: map-get($colors, primary);
+  }
+
+  ion-toolbar {
+    .toolbar-background {
+      background-image: radial-gradient(circle, #F9A72B 0%, #FA9026 70%, #FB6C1F 100%);
+    }
+  }
+
+  .mandatory_field {
+    color: red;
+  }
+
+  .error > .item-inner {
+    border-bottom-color: red !important;
+    border-bottom: 2px solid red !important;
+    -webkit-box-shadow: inset 0 -1px 0 0 red !important;
+    box-shadow: inset 0 -1px 0 0 red !important;
+  }
+
+  .valid > .item-inner {
+    border-bottom-color: #32db64 !important;
+    border-bottom: 2px solid #32db64 !important;
+    -webkit-box-shadow: inset 0 -1px 0 0 #32db64 !important;
+    box-shadow: inset 0 -1px 0 0 #32db64 !important;
+  }
+
+  .mainBackgroundColor {
+    background-image: radial-gradient(circle, #F9A72B 0%, #FA9026 70%, #FB6C1F 100%);
+  }
+
+  .menuItem {
+    padding-left: 2px;
+    border-bottom: 1px solid #efefef;
+  }
+
+  .menuItem ion-label {
+    margin: 0px;
+  }
+
+  .menuSubItem {
+    margin-left: 20px;
+  }
+
+  .profileName {
+    padding:2px;
+    background-color:map-get($colors,primary);
+  }
+
+  .menuSubItem:last-child {
+    .item-inner {
+      border-bottom: 0px;
+    }
+  }
+
+//---------------Reminder Model Classes------------//
+
+//---------------Reminder Model Classes Ends------------//
+
+  //--------Splash Screen ANimation-----------//
+  .splash {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ff7400;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    background-color: #333;
+    margin: 100px auto;
+    -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+    animation: sk-rotateplane 1.2s infinite ease-in-out;
+  }
+
+  @-webkit-keyframes sk-rotateplane {
+    0% {
+      -webkit-transform: perspective(120px)
+    }
+
+    50% {
+      -webkit-transform: perspective(120px) rotateY(180deg)
+    }
+
+    100% {
+      -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg)
+    }
+  }
+
+  @keyframes sk-rotateplane {
+    0% {
+      transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+      -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+    }
+
+    50% {
+      transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+      -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+    }
+
+    100% {
+      transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+      -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    }
+  }
+  //--------Splash Screen ANimation Ends-----------//
 }

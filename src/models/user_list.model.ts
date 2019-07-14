@@ -1,0 +1,54 @@
+export class SingleUser
+{
+  id;
+  staff;
+  username; //Long UUID of the user
+  name;
+  alias;
+  suffix_name;
+  father_name;
+  usertype_id;
+  gender;
+  email;
+  password;
+  contact;
+  alternate_number;
+  dob;
+  permanent_address;
+  residencial_address;
+  city;
+  state;
+  streetNoName;
+  apt;
+  ste;
+  flr;
+  zipCode;
+  pincode;
+  streetNoNameB;
+  aptB;
+  steB;
+  flrB;
+  zipCodeB;
+  cityB;
+  stateB;
+  fax;
+  security_amount;
+  amount;
+  country;
+  profile_img;
+  empID;
+  internal_notes;
+  notes;
+  client;
+  created_on;
+  updated_on;
+  created_by;
+  updated_by;
+  del_by;
+  del_on;
+  last_login;
+  is_active;
+  registed_via;
+  status;
+  flag;
+}

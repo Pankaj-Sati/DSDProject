@@ -1,15 +1,18 @@
-usertype
-{
-	.cardButton
-	{
-		color:color($colors, primary, base);
-		background-color: transparent;
-		box-shadow: none;
-		white-space: normal;
-	}
+usertype {
+  .cardButton {
+    color: color($colors, primary, base);
+    background-color: transparent;
+    box-shadow: none;
+    white-space: normal;
+  }
 
-	ion-label
-	{
-		margin: 0px;
-	}
+  ion-label {
+    margin: 0px;
+    overflow:unset;
+    white-space:unset;
+  }
+
+  .cardBG {
+    background-image: linear-gradient(#88c6f799, rgb(239, 253, 255));
+  }
 }

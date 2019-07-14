@@ -17,4 +17,5 @@ export class ApiValuesProvider {
 
   public baseURL:string="http://myamenbizzapp.com/dsd/api_work";
   public baseImageFolder:string="http://myamenbizzapp.com/dsd/upload/";
+  public baseFileUploadFolder:string="http://myamenbizzapp.com/dsd/UploadFile/";
 }

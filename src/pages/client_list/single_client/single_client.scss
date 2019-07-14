@@ -1,4 +1,37 @@
-single_client
-{
-	
+single_client {
+  .detailsRow {
+    background-color: #ffd07a;
+    border-bottom: 1px solid gray;
+    margin: 5px;
+  }
+
+  .detailsRow:nth-child(even) {
+    background-color: #96ceff;
+    border-bottom: 1px solid gray;
+    margin: 5px;
+  }
+
+  .detailIconCol {
+    text-align: center;
+    display: grid;
+  }
+
+  .detailIcon {
+    margin: auto;
+  }
+
+  .info {
+    float: right;
+  }
+
+  ion-label {
+    overflow: unset;
+    white-space: unset;
+  }
+
+  .innerLabel {
+    background-color: #b0ffbc;
+    margin: auto;
+    padding: 10px 0px;
+  }
 }

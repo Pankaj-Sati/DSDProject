@@ -1,26 +1,18 @@
-communications
-{
-	table 
-	{
-		width:100%;
-		text-align:left;
-	}
-	th, td 
-	{
-		padding:5px 10px;
-		min-width: 96px;
-		min-height: 96px;
-		margin: 10px;
-	}
-	th {
-		color:#fff;
-		border-top:1px solid #DDD;
-		background-color:color($colors, primary, base);
-	}
+communications {
 
-	td 
-	{
 
-		border:1px solid #BBB;
-	}
+  .blurDiv {
+    filter: blur(3px);
+  }
+
+  ion-modal {
+    top: 30% !important;
+    padding: 10px;
+    background: transparent !important;
+    overflow-y: scroll;
+    padding-bottom: 70%;
+
+    ion-backdrop {
+    }
+  }
 }

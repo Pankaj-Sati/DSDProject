@@ -159,3 +159,12 @@ Changes:
 
 Changes:
 1. Corrected Menu errors on iOS
+2. Added animations in Login Page
+3. Updated the layout of the Dashboard Page
+
+[29 June]
+
+Changes:
+1. Created icon and splash screen images and psds
+2. Updated the custom splash screen animation
+

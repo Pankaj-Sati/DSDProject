@@ -8,6 +8,9 @@ import {Case} from '../../models/case.model';
 import {PopoverController} from 'ionic-angular';
 import {ClientDetailsComponent} from '../../components/client-details/client-details';
 import {CaseDetailsPage} from './case_details/case_details';
+import {SingleClientPage} from '../client_list/single_client/single_client';
+
+import {Client} from '../../models/client.model';
 
 /**
  * Generated class for the SearchHeaderPage page.
@@ -48,19 +51,17 @@ export class SearchHeaderPage
 
   showDetails(caseObject:Case)
   {
-  	/*
-  		const popover=this.popoverCtrl.create({
-  			component: ClientDetailsComponent,
-  			event:'nj',
-  		});
-  		popover.present();
-  	*/
-
-  	let data={
-
-  		caseData:caseObject
+  	
+  //Once API return client ID, send it to single client details page
+  let client:Client=new Client();
+  client.cid= caseObject.client_id //Client ID
+    let data =
+    {
+  		clientPassed:client
   	}
-  	this.navCtrl.push(CaseDetailsPage,data);
+  	this.navCtrl.push(SingleClientPage,data);
+      
+        
 
   }
 
@@ -95,7 +96,7 @@ export class SearchHeaderPage
 
 			let data=new FormData();
 
-			data.append('searchComman',this.searchText);
+         data.append('searchComman',this.searchText);
 	
 
   			this.http.post(this.apiValues.baseURL+"/header.php",data,requestOptions)
@@ -115,7 +116,7 @@ export class SearchHeaderPage
   					}
   					else
   					{
-  						this.showToast(serverReply);
+  					
   						this.error=null;
   						this.cases=serverReply;
   						loader.dismiss();

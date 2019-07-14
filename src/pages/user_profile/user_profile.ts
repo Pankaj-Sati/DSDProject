@@ -6,9 +6,14 @@ import { ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { LogoutPage } from '../logout/logout';
 import { ChangePasswordPage } from './change_password/change_password';
-import { EditProfilePage } from './edit_profile/edit_profile';
+import { ViewProfilePage } from './view_profile/view_profile';
 
-import {ApiValuesProvider} from '../../providers/api-values/api-values';
+import { ApiValuesProvider } from '../../providers/api-values/api-values';
+import { MyStorageProvider } from '../../providers/my-storage/my-storage';
+
+import { Events } from 'ionic-angular';
+
+import {User } from '../../models/login_user.model';
 
 @Component({
   selector: 'user_profile',
@@ -16,16 +21,12 @@ import {ApiValuesProvider} from '../../providers/api-values/api-values';
 })
 export class UserProfilePage 
 {
-
-	U_NAME="name";
-	U_EMAIL="email";
-    U_PROFILEIMG="profile_img";
-   
+  loggedInUser: User;
    u_name: string;
    u_email:string;
    u_image: string;
 
-	constructor(public apiValue:ApiValuesProvider,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  public loading: LoadingController,public toastCtrl: ToastController,public storage: Storage, public menuCtrl: MenuController) 
+  constructor(public events:Events,public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loading: LoadingController, public toastCtrl: ToastController, public storage: Storage, public menuCtrl: MenuController) 
 	{
 
         this.getLocalData();
@@ -33,27 +34,22 @@ export class UserProfilePage
 
     getLocalData()
     {
-    	this.storage.get(this.U_NAME).then((value) => 
-			  {
-					
-				  this.u_name=value;
+      this.loggedInUser = this.myStorage.getParameters();
+
+      this.u_name = this.loggedInUser.name;
+      this.u_email = this.loggedInUser.email;
+      console.log("User Profile");
+      console.log(this.loggedInUser);
+      this.u_image = this.apiValue.baseImageFolder + this.loggedInUser.profile_img;
 		  		  
-			  });
-	  
-	  this.storage.get(this.U_EMAIL).then((value) => 
-			  {
-					
-				  this.u_email=value;
-		  		
-			  });
-	  
-	  this.storage.get(this.U_PROFILEIMG).then((value) => 
-			  {
-					
-				  this.u_image=this.apiValue.baseImageFolder+value;
-		  		  
-			  });
+	
+    }
+
+  searchClient()
+  {
+    this.events.publish('mainSearch', 'ds'); //This event is defined in app.component.ts file
   }
+
 
   userLogout()
   {
@@ -62,16 +58,13 @@ export class UserProfilePage
 
   changePassword()
   {
-        let data={
-
-          image:this.u_image
-        };
-  	    this.navCtrl.push(ChangePasswordPage,data);
+       
+  	    this.navCtrl.push(ChangePasswordPage);
   }
 
   viewProfile()
   {
-  		this.navCtrl.push(EditProfilePage);
+    this.navCtrl.push(ViewProfilePage);
   }
 
 }

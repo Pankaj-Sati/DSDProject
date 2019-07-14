@@ -1,75 +1,75 @@
-user_profile
-{
-	.profile-item {
-	  text-align: center;
-	}
+user_profile {
+  .profile-item {
+    text-align: center;
+  }
 
-	.profile-picture {
-	  border: 1px solid rgba(0, 0, 0, 0.25);
-	  padding: 3px;
-	  border-radius: 100%;
-	  -webkit-box-sizing: content-box;
-	  -moz-box-sizing: content-box;
-	  box-sizing: content-box;
-	  margin: 0 auto;
-	  width: 144px;
-	  height: 144px;
-	  overflow: hidden;
-	}
+  .profile-picture {
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    padding: 3px;
+    border-radius: 100%;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    margin: 0 auto;
+    width: 144px;
+    height: 144px;
+    overflow: hidden;
+  }
 
-	img
-	{
-	  width: 144px;
-	  height: 144px;
-	  padding: 3px;
-	border-radius: 100%;
-	}
-	ion-row
-	{
-		 text-align: center;	
-	}
+  img {
+    width: 144px;
+    height: 144px;
+    padding: 3px;
+    border-radius: 100%;
+  }
 
-	.profile-name {
-	  padding-top: 10px;
-	  font-size: x-large !important;
-	  font-weight: bold !important;
-	  text-transform: capitalize;
-	}
-	.overlay
-	{
-		background-color: rgba(0,0,0,0.7);
-		width:100%;
-		height:100%;
+  ion-row {
+    text-align: center;
+  }
 
-	}
+  .profile-name {
+    padding-top: 10px;
+    font-size: x-large !important;
+    font-weight: bold !important;
+    text-transform: capitalize;
+  }
 
-	.seperator
-	{
-		width:1px;
-		background-color: black;
-		    padding: 10px 0px;
-	}
+  .overlay {
+    background-color: rgba(0,0,0,0.7);
+    width: 100%;
+    height: 100%;
+  }
 
-	ion-col
-	{
-		height: auto;
-	    align-content: center;
-	    display: grid;
-	}
+  .seperator {
+    width: 1px;
+    background-color: black;
+    padding: 10px 0px;
+  }
 
-	.icon
-	{
-		zoom:1.3;
-	}
+  ion-col {
+    height: auto;
+    align-content: center;
+    display: grid;
+  }
 
-	.profileButton
-	{
-		color: black;
-		background-color: transparent;
-	}
-	.border 
-	{
-		border: 2px solid black;
-		margin:20px;
-	}
+  .iconButton {
+    zoom: 1.3;
+    color: #488aff;
+  }
+
+  .profileButton {
+    color: #488aff;
+    background-color: transparent;
+    margin: 2px;
+  }
+
+  .border {
+    border: 2px solid #488aff;
+    margin: auto;
+    margin: 10px 20px 0px 20px;
+  }
+
+  .eachRow {
+    min-height: 48px;
+  }
 }

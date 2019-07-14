@@ -1,27 +1,33 @@
-hearing_details
-{
-	
-	table 
-	{
-		width:100%;
-		text-align:left;
-	}
-	th, td 
-	{
-		padding:5px 10px;
-		min-width: 96px;
-		min-height: 96px;
-		margin: 10px;
-	}
-	th {
-		color:#fff;
-		border-top:1px solid #DDD;
-		background-color:color($colors, primary, base);
-	}
+hearing_details {
 
-	td 
-	{
+  table {
+    width: 100%;
+    text-align: left;
+  }
 
-		border:1px solid #BBB;
-	}
+  th, td {
+    padding: 5px 10px;
+    min-width: 96px;
+    min-height: 96px;
+    margin: 10px;
+    text-align: center;
+  }
+
+  th {
+    color: #fff;
+    border-top: 1px solid #DDD;
+    background-color: color($colors, primary, base);
+  }
+
+  td {
+    border: 1px solid #BBB;
+  }
+
+  .clientDetailsDiv
+  {
+    ion-row ion-col
+    {
+      
+    }
+  }
 }

@@ -2,13 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app",
+    "\\src\\components",
+    "\\src\\components\\client-communication-details",
     "\\src\\pages",
-    "\\src\\pages\\dashboard",
-    "\\src\\pages\\login",
-    "\\src\\pages\\settings",
-    "\\src\\pages\\settings\\user_type"
+    "\\src\\pages\\add_user",
+    "\\src\\pages\\client_list",
+    "\\src\\pages\\client_list\\single_client",
+    "\\src\\pages\\client_list\\single_client\\notes",
+    "\\src\\pages\\client_list\\single_client\\payment"
   ],
-  "SelectedNode": "\\src\\pages\\settings\\user_type\\usertype.html",
+  "SelectedNode": "\\src\\pages\\add_user\\add_user.ts",
   "PreviewInSolutionExplorer": false
 }

@@ -11,7 +11,7 @@
 
 <form [formGroup]="userForm">
 
-<div  style="text-align: center; background-image:url('../../../assets/imgs/user_profile_bg.jpg');" >
+<div  style="text-align: center; background-image:url('assets/imgs/user_profile_bg.jpg');" >
 
       <div class="overlay">
 
@@ -19,8 +19,13 @@
 
           <img style="border:2px solid white; padding:2px; border-radius: 100%;margin:5px 20px" *ngIf="userForm.value.u_profile_img!=undefined && userForm.value.u_profile_img.length>0;" src="{{userForm.value.u_profile_img}}" alt="No image Found" width="144px" height="144px"/>
 
-          <img style="border-radius: 100%;margin:5px 20px" *ngIf="userForm.value.u_profile_img==undefined || userForm.value.u_profile_img.length==0;" src="../../../assets/imgs/user.png" alt="No image Found" width="144px" height="144px"/> 
+          <img style="border-radius: 100%;margin:5px 20px" *ngIf="userForm.value.u_profile_img==undefined || userForm.value.u_profile_img.length==0;" src="assets/imgs/user.png" alt="No image Found" width="144px" height="144px"/> 
 
+          <br />
+          <button ion-button icon-start style="background-color:transparent;color: white;border: 2px solid white;padding: 5px;">
+          <ion-icon name="create"></ion-icon>
+          Edit
+          </button>
 
           <br>
         </div>
@@ -42,12 +47,12 @@
   
    <ion-item [ngClass]="{'error':!userForm.controls.u_contact.valid,'valid':(userForm.controls.u_contact.touched && userForm.controls.u_contact.valid)}" [class.invalid]="userForm.controls.u_contact.valid">
     <ion-label stacked>Contact No. <span class="requiredField">*</span></ion-label>
-    <ion-input type="tel" formControlName="u_contact" name="contact"></ion-input>
+    <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" formControlName="u_contact" name="contact"></ion-input>
   </ion-item>
   
   <ion-item [ngClass]="{'error':! userForm.controls.u_alt.valid,'valid':(userForm.controls.u_alt.touched && userForm.controls.u_alt.valid)}" [class.invalid]="! userForm.controls.u_alt.valid">
     <ion-label stacked>Alternative No.</ion-label>
-    <ion-input type="tel" formControlName="u_alt" name="alt"></ion-input>
+    <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" formControlName="u_alt" name="alt"></ion-input>
   </ion-item>
   
   <ion-item [ngClass]="{'error':! userForm.controls.u_gender.valid,'valid':( userForm.controls.u_gender.touched && userForm.controls.u_gender.valid)}" [class.invalid]="! userForm.controls.u_gender.valid">
@@ -64,7 +69,7 @@
   <ion-item [ngClass]="{'error':! userForm.controls.u_dob.valid,'valid':(userForm.controls.u_dob.touched && userForm.controls.u_dob.valid)}" [class.invalid]="userForm.controls.u_dob.valid">
 
     <ion-label stacked>Date Of Birth <span class="requiredField">*</span></ion-label>
-    <ion-input type="date" formControlName="u_dob" name="date_of_birth"></ion-input>
+    <ion-datetime displayFormat="MMM DD YY" formControlName="u_dob" name="date_of_birth"></ion-datetime>
   </ion-item>
   
   <ion-item [ngClass]="{'error':! userForm.controls.u_country.valid,'valid':(userForm.controls.u_country.touched && userForm.controls.u_country.valid)}" [class.invalid]="! userForm.controls.u_country.valid">
@@ -113,7 +118,6 @@
       <ion-option value="2">Admin</ion-option>
       <ion-option value="3">Account</ion-option>
       <ion-option value="4">Case Manger</ion-option>
-      <ion-option value="5">Client</ion-option>
       <ion-option value="6">Guest</ion-option>
     </ion-select>
   </ion-item>

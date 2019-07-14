@@ -60,7 +60,7 @@ export class SingleUserPage
 
 		let loader = this.loading.create({
 
-		   content: "Fetching user details please wait…",
+          content: "Loading ...",
 
 		 });
 

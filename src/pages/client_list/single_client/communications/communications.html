@@ -1,55 +1,93 @@
 <ion-header>
- 
+
   <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Communiation</ion-title>
+    <ion-row>
+      <ion-col col-10 style="text-align:left">
+        <ion-title>Communications</ion-title>
+      </ion-col>
+      <ion-col col-2 style="margin:auto;">
+        <ion-icon name="refresh" (click)="fetchData()" style="float:right;margin-right:10px;color:white;zoom:1.5;"></ion-icon>
+      </ion-col>
+    </ion-row>
+
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-	  <ion-row>
+  <div [className]="blurAmount">
+    <ion-row>
+      <ion-col col-10>
+        <ion-item no-lines>
+          <ion-input type="text" placeholder="Filter by Name | Matter | Subject | Email" [(ngModel)]="search_string" name="search"></ion-input>
+        </ion-item>
 
-	  	<ion-col>
-	  		<ion-input placeholder="Filter by Name|Matter|Subject|Message|Email"></ion-label>
-	  		
-		</ion-col>
+      </ion-col>
 
-		<ion-col>
+      <ion-col col-2>
+        <button ion-button icon-start end (click)="fetchData()"><ion-icon name="search"></ion-icon></button>
+      </ion-col>
 
-	  		<button icon-start ion-button><ion-icon name="search"></ion-icon>Filter</button>
-	  	</ion-col>
+    </ion-row>
+    <br />
+    <ion-row>
+      <ion-col style="text-align:center;">
 
-	  </ion-row>
+        <button icon-start ion-button (click)="sendEmail()"><ion-icon name="add"></ion-icon>Send Secure Email</button>
+      </ion-col>
+    </ion-row>
 
-	  <hr>
-	  <br>
+    <hr>
 
-	  <div style="overflow-x:auto">
-		<table>
-	
-			<tr>
-			
-				<th><b>S.No.</b></th>
-		
-				<th><b>User</b></th>
+    <div *ngIf="communication_list!=null && communication_list.length>0">
+      <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let communication of communication_list" (click)="viewCommunication(communication)">
 
+        <ion-row style="padding-left: 5px;">
 
-				<th><b>Email</b></th>
+          <ion-col style="margin:auto;" col-1>
+            <ion-icon name="mail" color="primary" style="zoom: 1.2;"></ion-icon>
+          </ion-col>
 
-				<th><b>Matter</b></th>
+          <ion-col style="margin:auto;" col-4>
+            <ion-row>
+              <ion-col style="text-align:left;">
+                <b> {{communication.name}} </b>
+              </ion-col>
+            </ion-row>
 
-				<th><b>Subject</b></th>
+          </ion-col>
 
-				<th><b>Body</b></th>
+          <ion-col style="margin:auto;" col-3>
+            <ion-row>
+              <ion-col>
+                {{communication.subject}}
+              </ion-col>
+            </ion-row>
 
+          </ion-col>
 
-				<th><b>Document</b></th>
+          <ion-col style="margin:auto;" col-3>
+            <ion-row>
+              <ion-col>
+                {{communication.created_date | date:'MMM, DD YY'}}
+              </ion-col>
+            </ion-row>
 
-				<th><b>Created On</b></th>
-			</tr>
-		</table>
-	</div>
+          </ion-col>
 
-	</ion-content>
+          <ion-col style="margin:auto;" col-1>
+            <ion-icon name="more" color="primary" style="zoom: 1.2;"></ion-icon>
+          </ion-col>
+
+        </ion-row>
+
+      </ion-card>
+    </div>
+
+    <div *ngIf="communication_list==undefined || communication_list==null ||communication_list.length==0">
+      <no-record-found></no-record-found>
+    </div>
+  </div>
+</ion-content>

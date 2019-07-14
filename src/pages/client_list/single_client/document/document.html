@@ -1,39 +1,77 @@
 <ion-header>
- 
+
   <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Document List</ion-title>
+    <ion-row>
+      <ion-col col-10 style="text-align:left">
+        <ion-title>Documents</ion-title>
+      </ion-col>
+      <ion-col col-2 style="margin:auto;">
+        <ion-icon name="refresh" (click)="fetchData()" style="float:right;margin-right:10px;color:white;zoom:1.5;"></ion-icon>
+      </ion-col>
+    </ion-row>
+
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-	  
+  <ion-row>
+    <ion-col style="text-align:center;">
+      <button ion-button icon-start><ion-icon name="cloud-download"></ion-icon>Download All</button>
+      <button icon-start ion-button (click)="takeImage()"><ion-icon name="add"></ion-icon>Add New</button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col style="text-align:center;">
+      <ion-label><b>Selected File:</b>{{selected_file_name}}</ion-label>
+      <button icon-start ion-button  (click)="uploadFile()"><ion-icon name="cloud-upload"></ion-icon>Upload</button>
+    </ion-col>
+  </ion-row>
+
+  <hr>
 
 
+  <div *ngFor="let doc of doc_list;let i=index">
+    <ion-card class="simpleCard" (click)="getDocument(doc)">
 
-	  <ion-row>
-	  	<ion-col>
-	  	<button icon-start ion-button><ion-icon name="add"></ion-icon>Add Notes</button>
-	 	 </ion-col>
-	  </ion-row>
+      <ion-row style="padding-left: 5px;">
 
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="document" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-col>
 
-	  <hr>
-	  <br>
-	  
-	  <div style="overflow-x:auto">
-		<table>
-	
-			<tr>
-			
-				<th><b>Document</b></th>
-		
-				<th><b>Date</b></th>
+        <ion-col style="margin:auto;" col-7>
+          <ion-row>
+            <ion-col style="text-align:left;">
+              <b>{{doc.documents}} </b>
+            </ion-col>
+          </ion-row>
 
-			</tr>
-		</table>
-	</div>
+        </ion-col>
 
-	</ion-content>
+        <ion-col style="margin:auto;float:right" col-4>
+          <ion-row>
+            <ion-col>
+              {{doc.created_on | date :  "MMM d,y"}}
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="download" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-col>
+
+      </ion-row>
+
+    </ion-card>
+  </div>
+
+  <div *ngIf="doc_list==undefined || doc_list==null || doc_list.length==0">
+    <no-record-found></no-record-found>
+  </div>
+
+</ion-content>

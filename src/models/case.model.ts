@@ -1,6 +1,7 @@
 export class Case
 {
-	public id?;
+	public id?; //Reference ID of the client
+	public client_id?; //Actual ID of the client
 	public suffix_name?;
 	public client_name?;
 	public case_no?;

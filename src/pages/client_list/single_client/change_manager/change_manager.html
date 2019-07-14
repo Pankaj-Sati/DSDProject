@@ -13,29 +13,34 @@
   <ion-icon style="zoom:5.0;" name="briefcase"></ion-icon>
 </div>
 
- <ion-list >
+
+<ion-list>
   <ion-item>
-    <ion-label ><b>Client Name:</b>{{passed_c_name}}</ion-label>
-  </ion-item>
-  
-   <ion-item>
-    <ion-label ><b>Alien No.:</b>{{passed_c_id}}</ion-label>
+    <ion-label><b>Client Name:</b>{{passed_c_name}}</ion-label>
   </ion-item>
 
   <ion-item>
-    <ion-label ><b>Select Case Manager:</b></ion-label>
+    <ion-label><b>Alien No.:</b>{{passed_c_id}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label><b>Current Case Manager:</b>{{caseAdvocate}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Select Case Manager:</ion-label>
     <ion-select interface="popover" [(ngModel)]="passed_c_manager">
       <span *ngFor="let manager of advocate_list">
-      <ion-option value="{{manager.id}}">{{manager.name}}</ion-option>
+        <ion-option value="{{manager.id}}">{{manager.name}}</ion-option>
       </span>
     </ion-select>
-    
-</ion-item>
+
+  </ion-item>
   <ion-row style="text-align: center;">
     <ion-col>
       <button ion-button (click)="changeManager()">Change Manager</button>
     </ion-col>
   </ion-row>
 
-  </ion-list>
+</ion-list>
 </ion-content>
