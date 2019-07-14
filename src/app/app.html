@@ -96,7 +96,7 @@
 
 
    <ion-toolbar  *ngIf="showSearch">
-          <ion-searchbar showCancelButton animated cancel-button-icon (ionCancel)="hideSearch()" (search)="searchClient($event.target.value)" placeholder="Allien no. | Docket No. | index No." ></ion-searchbar>
+          <ion-searchbar showCancelButton searchIcon="search" animated cancel-button-icon (ionCancel)="hideSearch()" (search)="searchClient($event.target.value)" placeholder="Allien no. | Docket No. | index No." ></ion-searchbar>
  </ion-toolbar>
 
 

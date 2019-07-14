@@ -15,6 +15,7 @@ import { NotesListPage } from './notes/notes';
 import { ClientDocumentsPage } from './document/document';
 import { ClientCommunicationsPage } from './communications/communications';
 import { ClientPaymentPage } from './payment/payment';
+import { HearingDetailsPage } from './hearing_details/hearing_details';
 
 
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
@@ -221,6 +222,7 @@ export class SingleClientPage
             this.clientPayments();
             break;
           case 2: //Hearing Details
+            this.clientHearingDetails();
             break;
           case 3: //Communications
             this.clientCommunications();
@@ -378,5 +380,16 @@ export class SingleClientPage
     };
 
     this.navCtrl.push(ClientPaymentPage, data);
+  }
+
+  clientHearingDetails()
+  {
+    let data =
+    {
+      client: this.client, //For passing the ID
+      clientdetails: this.clientDetails
+    };
+
+    this.navCtrl.push(HearingDetailsPage, data);
   }
 }

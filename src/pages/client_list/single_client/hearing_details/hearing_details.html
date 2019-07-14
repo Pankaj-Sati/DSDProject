@@ -9,86 +9,192 @@
 </ion-header>
 
 <ion-content>
-	<ion-list>
+  <div class="clientDetailsDiv" *ngIf="passedClientDetails!=null && passedClientDetails!=undefined">
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Client Name</b>
+          </ion-col>
+        </ion-row>
 
-	    <ion-item>
-	      	<ion-label fixed>Name: </ion-label>
-	      </ion-item>
+        <ion-row>
+          <ion-col>
+            {{passedClientDetails.name}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
 
-	        <ion-item>
-	      	<ion-label fixed>Alias: </ion-label>
-	      </ion-item>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Alias</b>
+          </ion-col>
+        </ion-row>
 
-	        <ion-item>
-	      	<ion-label fixed>Alien No.: </ion-label>
-	      </ion-item>
+        <ion-row>
+          <ion-col>
+            {{passedClientDetails.alias}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
 
-	        <ion-item>
-	      	<ion-label fixed>Date Of Registration: </ion-label>
-	      </ion-item>
+    </ion-row>
 
-	        <ion-item>
-	      	<ion-label fixed>Filing Case Manager: </ion-label>
-	      </ion-item>
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Alien No.</b>
+          </ion-col>
+        </ion-row>
 
-	      <ion-item>
-	      	<ion-label fixed>Contact No.: </ion-label>
-	      </ion-item>
+        <ion-row>
+          <ion-col>
+            {{passedClientDetails.case_no}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
 
-	      <ion-item>
-	      	<ion-label fixed>Status: </ion-label>
-	      </ion-item>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Date Of Registration</b>
+          </ion-col>
+        </ion-row>
 
-	      <ion-item>
-	      	<ion-label fixed>Date Of Filing: </ion-label>
-	      </ion-item>
+        <ion-row>
+          <ion-col>
+            {{passedClientDetails.case_reg_date}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
 
-	  </ion-list>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Filing Case Manager</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{passedClientDetails.caseManagerName}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Contact No.</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{passedClientDetails.contact}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Status</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{passedClientDetails.status}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col col-6>
+        <ion-row>
+          <ion-col>
+            <b>Date Of Filing</b>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            {{passedClientDetails.created_on}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+    </ion-row>
+
+  </div>
+
+  <ion-row *ngIf="showAddHearing">
+
+    <ion-col style="text-align:center;">
+
+      <button icon-start ion-button (click)="addHearing()"><ion-icon name="add"></ion-icon>Add Hearing</button>
+    </ion-col>
+
+  </ion-row>
+
+  <div style="padding:1px;background-color:#d8d8d8;text-align:center;">
+   <h3>Datewise Hearing Details</h3>
+
+  </div>
+
+  <br>
+
+  <div style="overflow-x:auto">
+    <table>
+
+      <tr>
+
+        <th><b>S.No.</b></th>
+
+        <th><b>Date</b></th>
 
 
-	  <ion-row>
+        <th><b>Type Of Hearing/Interview</b></th>
 
-	  	<ion-col>
-	  		<ion-label>Datewise Hearing Details</ion-label>
-	  		
-		</ion-col>
+        <th><b>Judge Name</b></th>
 
-		<ion-col>
+        <th><b>Location</b></th>
 
-	  		<button icon-start ion-button><ion-icon name="add"></ion-icon>Add Hearing</button>
-	  	</ion-col>
-
-	  </ion-row>
-
-	  <hr>
-	  <br>
-
-	  <div style="overflow-x:auto">
-		<table>
-	
-			<tr>
-			
-				<th><b>S.No.</b></th>
-		
-				<th><b>Date</b></th>
+        <th><b>Call Up</b></th>
 
 
-				<th><b>Type Of Hearing/Interview</b></th>
+        <th><b>Desc</b></th>
 
-				<th><b>Judge Name</b></th>
+        <th><b>View Doc</b></th>
 
-				<th><b>Location</b></th>
+        <th><b>Action</b></th>
+      </tr>
 
-				<th><b>Call Up</b></th>
+      <tr *ngFor="let hearing of hearing_list;let i=index;">
+        <td>{{i+1}}</td>
+        <td>{{hearing.hearing_date | date:'MMM, dd yy'}}</td>
+        <td>{{hearing.TypeofHearing}}</td>
+        <td>{{hearing.judgeName}}</td>
+        <td>{{hearing.locationOfHearing}}</td>
+        <td>{{hearing.callUp}}</td>
+        <td>{{hearing.hearing_disc}}</td>
+        <td (click)="viewDoc(hearing.upload_doc)" style="color:blue;"><u>{{hearing.upload_doc}}</u></td>
+        <td>
 
+          <button ion-button (click)="deleteHearingAlert(hearing)">Delete</button>
+          <br />
+          <button ion-button *ngIf="hearing.hearing_disc==null || hearing.hearing_disc.length==0" (click)="editHearing(hearing)">Edit</button>
+        </td>
+      </tr>
+    </table>
+  </div>
 
-				<th><b>Desc</b></th>
-
-				<th><b>View Doc</b></th>
-
-				<th><b>Action</b></th>
-			</tr>
-		</table>
-	</div>
-
-	</ion-content>
+</ion-content>

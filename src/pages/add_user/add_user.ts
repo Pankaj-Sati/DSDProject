@@ -246,8 +246,11 @@ export class AddUserPage
       let body = new FormData();
       body.append("full_name", this.userForm.value.u_name);
       body.append("email", this.userForm.value.u_email);
-      body.append("contact", this.userForm.value.u_contact);
-      body.append("alt", this.userForm.value.u_alt);
+      body.append("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
+
+      console.log('Contact value Sent=' + String(this.userForm.value.u_contact).replace(/\D+/g, ''));
+
+      body.append("alt",''+String(this.userForm.value.u_alt).replace(/\D+/g, ''));
       body.append("gender", this.userForm.value.u_gender);
       body.append("date_of_birth", this.userForm.value.u_dob);
       body.append("country", this.userForm.value.u_country);
@@ -283,10 +286,12 @@ export class AddUserPage
 		*/
 		let loader = this.loading.create({
 
-		   content: "Adding user please wait…",
+          content: "Adding user please wait…",
+          duration:15000
 
 		 });
-		
+
+    let loadingSuccessful = false; //To know whether timeout occured
 		loader.present().then(() => 
 		{
 
@@ -296,8 +301,8 @@ export class AddUserPage
 
 	   .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
 				  
-			{ 
-		   		
+       {
+         loadingSuccessful = true;
 		   		loader.dismiss()
 				
 				console.log(serverReply);
@@ -315,7 +320,22 @@ export class AddUserPage
 					}
 			   });
 
-  		 });
+        }, error =>
+          {
+            loadingSuccessful = true;
+            loader.dismiss();
+            this.presentToast('Failed to add user');
+
+
+          });
+
+      loader.onDidDismiss(() =>
+      {
+        if (!loadingSuccessful)
+        {
+          this.presentToast('Timeout!!! Server did not respond');
+        }
+      });
 	}
 
   presentAlert(text)

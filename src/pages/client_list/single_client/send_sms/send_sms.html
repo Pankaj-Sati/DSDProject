@@ -24,7 +24,7 @@
 
 	    <ion-item no-lines >
 	      	<ion-label stacked>Text Message <span class="mandatory-field">*</span> : <span style="float:right;font-size:12px;">{{maxCharacters - message.length}} characters remaining</span> </ion-label>
-        <ion-input [ngClass]="message.length>0?'valid':'error'" type="text" [(ngModel)]="message"  placeholder="Enter your message"></ion-input>
+        <ion-textarea [ngClass]="message.length>0?'valid':'error'" type="text" [(ngModel)]="message"  placeholder="Enter your message"></ion-textarea>
 	      </ion-item>
 
 	        

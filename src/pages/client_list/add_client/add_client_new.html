@@ -57,6 +57,14 @@
         <ion-input type="text" required formControlName="c_alien_no" placeholder="Enter Alien No."></ion-input>
       </ion-item>
 
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_client_type.touched && !addClientForm.controls.c_client_type.valid,'valid':(addClientForm.controls.c_client_type.touched && addClientForm.controls.c_client_type.valid)}" [class.invalid]="addClientForm.controls.c_client_type.dirty && ! addClientForm.controls.c_client_type.valid">
+        <ion-label stacked>Client Type <span class="mandatory_field"> *</span></ion-label>
+        <ion-select interface="popover" formControlName="c_client_type" placeholder="Select Client Type">
+          <ion-option value="Test 1">Test 1</ion-option>
+          <ion-option value="Test 2">Test 2</ion-option>
+        </ion-select>
+      </ion-item>
+
       <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_case_category.touched && !addClientForm.controls.c_case_category.valid,'valid':(addClientForm.controls.c_case_category.touched && addClientForm.controls.c_case_category.valid)}" [class.invalid]="addClientForm.controls.c_case_category.dirty && ! addClientForm.controls.c_case_category.valid">
         <ion-label stacked>Case Category <span class="mandatory_field"> *</span></ion-label>
         <ion-select interface="popover" formControlName="c_case_category" placeholder="Select Case Category">
@@ -319,7 +327,7 @@
 
             <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_city.touched && !addClientForm.get('entity').controls[i].e_city.valid,'valid':(addClientForm.get('entity').controls[i].e_city.touched && addClientForm.get('entity').controls[i].e_city.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_city.dirty && ! addClientForm.get('entity').controls[i].e_city.valid">
               <ion-label stacked><b>City or Town <span class="mandatory_field"> *</span></b></ion-label>
-              <ion-input type="text" (ionChange)="isBillingAndPermanentAddressSame?addClientForm.get('entity').controls[i].e_city_billing.setValue(addClientForm.get('entity')['controls'][i].value.e_city):null" required formControlName="e_city" placeholder="Enter City"></ion-input>
+              <ion-input type="text" (ionChange)="isBillingAndPermanentAddressSame?addClientForm.get('entity').controls[i].controls.e_city_billing.setValue(addClientForm.get('entity')['controls'][i].value.e_city):null" required formControlName="e_city" placeholder="Enter City"></ion-input>
             </ion-item>
 
             <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_state.touched && !addClientForm.get('entity').controls[i].e_state.valid,'valid':(addClientForm.get('entity').controls[i].e_state.touched && addClientForm.get('entity').controls[i].e_state.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_state.dirty && ! addClientForm.get('entity').controls[i].e_state.valid">

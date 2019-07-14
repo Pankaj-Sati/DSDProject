@@ -6,6 +6,9 @@ import { ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import "rxjs/add/operator/map";
 
+import { User } from '../../../models/login_user.model';
+import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
+
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
 import { ClientEntityRelationshipProvider } from '../../../providers/client-entity-relationship/client-entity-relationship';
 
@@ -23,6 +26,8 @@ export class AddClientPage
 
   addClientForm: FormGroup;
   addEntityForm: FormArray;
+
+  loggedInUser: User;
 
   showCaseDetails: boolean = true;
   showPersonalDetails: boolean = false;
@@ -42,7 +47,9 @@ export class AddClientPage
   hasRelation:boolean=false;
 
 
-  constructor(public apiValue: ApiValuesProvider,
+  constructor(
+    public myStorage: MyStorageProvider,
+    public apiValue: ApiValuesProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
@@ -58,13 +65,14 @@ export class AddClientPage
         //Case details
 			c_case_type:new FormControl('',Validators.compose([Validators.required])),
 			c_alien_no:new FormControl('',Validators.compose([Validators.required])),
+			c_client_type:new FormControl('',Validators.compose([Validators.required])),
 			c_case_category:new FormControl('',Validators.compose([Validators.required])),
 			c_case_description:new FormControl(''),
           c_date: new FormControl('', Validators.compose([Validators.required])),
 
           //personal Details
-			c_name:new FormControl('',Validators.compose([Validators.required,Validators.pattern('^[a-zA-Z\-\']+')])),
-			c_alias:new FormControl('',Validators.compose([Validators.pattern('^[a-zA-Z\-\']+')])),
+			c_name:new FormControl('',Validators.compose([Validators.required])),
+			c_alias:new FormControl(''),
           c_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
           c_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
         c_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
@@ -88,8 +96,8 @@ export class AddClientPage
         c_cm_assigned: new FormControl('', Validators.compose([Validators.required])),
 
         //Defendant Details
-        c_defendent_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z\-\']+')])),
-			c_defendent_alias:new FormControl('',Validators.compose([Validators.pattern('^[a-zA-Z\-\']*')])),
+        c_defendent_name: new FormControl('', Validators.compose([Validators.required])),
+			c_defendent_alias:new FormControl(''),
         c_defendent_manager: new FormControl(''),
 
         c_reg_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])),
@@ -98,8 +106,8 @@ export class AddClientPage
 		});
 
     this.getCaseManagerList();
-    this.relationshipList=this.relationshipProvider.getAllRelationships();
-
+    this.relationshipList = this.relationshipProvider.getAllRelationships();
+    this.loggedInUser = this.myStorage.getParameters();
 	}
 
 
@@ -204,7 +212,7 @@ export class AddClientPage
 
 			 title:"ATTENTION",
 
-			subTitle:message,
+       message: message,
 
 			buttons: ["OK"]
 
@@ -233,75 +241,139 @@ export class AddClientPage
         this.makeAlertDialog('No Entities Added!!! Add some entities or mark registration as Individual');
         return;
       }
-		
-		var headers = new Headers();
 
-	       headers.append("Accept", "application/json");
+      console.log("-----Entity Data---");
+      console.log(this.addClientForm.value.entity);
+      console.log(JSON.stringify(this.addClientForm.value.entity));
+	
+	       
+      let body = new FormData();  //Data to be sent to the server
+      /*
+                        http://myamenbizzapp.com/dsd/api_work/add_client.php?
+                        case_type=5&case_no=115&case_category=New
+                        &adv_assign=13&op_full_name=SunakshiSingh
+                        &full_name=Papu&p_streetNoName=GulmoharStreetNo-2
+                        &p_city=delhi&p_state=delhi&p_pin_code=686867897
+                        &p_country=UnitedStates&client_group=ENTITY
+                        &filing_adv_name=raj kumar&client_type=Test1
+                        &case_desc=dummytext&op_alias=Rahul Singh
+                        &op_adv_name=kukkke&registration_fee=20000
+                        &decided_fee=10000&alias=raja&contact=9599104345
+                        &alternate_number=9599104387&email=aakashchaudharyq@gamil.com
+                        &notes=dummytext&b_state=jkljkljljkj&b_city=kjkkljkjlj
+                        &b_pin_code=kjkkljkjlj&b_streetNoName=FSDFSDD
+                        &session_id=1&relationship[]=[{"e_name":"Entity1","e_alias":"","e_contact":"89723","e_alt_no":"238","e_email":"entity1@gmails.com","e_notes":"dsd","e_country":"UnitedStates","e_street":"Street1","e_city":"NY","e_state":"State1","e_zipcode":"78234","e_country_billing":"UnitedStates","e_street_billing":"jsdh","e_city_billing":"sds","e_state_billing":"fdsgjfd","e_zipcode_billing":"23213","e_relationship":"Father"},{"e_name":"Entity2","e_alias":"","e_contact":"89546723","e_alt_no":"64238","e_email":"entity2@gmails.com","e_notes":"dsd","e_country":"UnitedStates","e_street":"Street2","e_city":"NY","e_state":"State2","e_zipcode":"78234","e_country_billing":"UnitedStates","e_street_billing":"jsdh","e_city_billing":"sds","e_state_billing":"fdsgjfd","e_zipcode_billing":"23213","e_relationship":"Father"}]
+&case_reg_date=13-07-2019    
+       */
+      body.append('case_type', this.addClientForm.value.c_case_type);
+        body.append('case_no', this.addClientForm.value.c_alien_no);
+        body.append('case_category', this.addClientForm.value.c_case_category);
+        body.append('adv_assign', this.addClientForm.value.c_cm_assigned);
+        body.append('op_full_name', this.addClientForm.value.c_defendent_name);
+        body.append('full_name', this.addClientForm.value.c_name);
+        body.append('p_streetNoName', this.addClientForm.value.c_street);
+        body.append('p_city', this.addClientForm.value.c_city);
+        body.append('p_state', this.addClientForm.value.c_state);
+        body.append('p_pin_code', this.addClientForm.value.c_zipcode);
+        body.append('p_country', this.addClientForm.value.c_country);
+        body.append('filing_adv_name', this.addClientForm.value.c_filing_cm);
+        body.append('client_type', this.addClientForm.value.c_client_type);
+        body.append('case_desc', this.addClientForm.value.c_case_description);
+        body.append('op_alias', this.addClientForm.value.c_defendent_alias);
+        body.append('op_adv_name', this.addClientForm.value.c_defendent_manager);
+        body.append('registration_fee', this.addClientForm.value.c_reg_fee);
+        body.append('decided_fee', this.addClientForm.value.c_decided_fee);
+        body.append('alias', this.addClientForm.value.c_alias);
+      body.append('contact', String(this.addClientForm.value.c_contact).replace(/\D+/g, ''));
+      body.append('alternate_number', String(this.addClientForm.value.c_alt_no).replace(/\D+/g,''));
+        body.append('email', this.addClientForm.value.c_email);
+        body.append('notes', this.addClientForm.value.c_notes);
+        body.append('b_state', this.addClientForm.value.c_state_billing);
+        body.append('b_city', this.addClientForm.value.c_city_billing);
+        body.append('b_pin_code', this.addClientForm.value.c_zipcode_billing);
+      body.append('b_streetNoName', this.addClientForm.value.c_street_billing);
+      body.append('case_reg_date', this.addClientForm.value.c_date);
+      body.append('session_id', this.loggedInUser.id);
 
-	       headers.append("Content-Type", "application/json" );
+      if (this.totalEntities > 0)
+      {
+        for (let i = 0; i < this.totalEntities; i++)
+        {
+          this.addClientForm.get('entity')['controls'][i].controls.e_contact.setValue(String(this.addClientForm.get('entity')['controls'][i].value.e_contact).replace(/\D+/g,''));
+          this.addClientForm.get('entity')['controls'][i].controls.e_alt_no.setValue(String(this.addClientForm.get('entity')['controls'][i].value.e_alt_no).replace(/\D+/g,''));
 
-	       let options = new RequestOptions({ headers: headers });
-
-	  
-	       /*
-	       let data = { //Data to be sent to the server
-
-	            case_type:this.c_case_type,
-			    case_no:this.c_alien_no,
-			    case_category:this.c_case_category,
-			    adv_assign:this.c_cm_assigned,
-			    op_full_name:,
-			    full_name:[Aakash Chaudhary],
-			    p_streetNoName:[GulmoharStreet No-2],
-			    p_city:[jkljkljljkj],
-			    p_state:[kjkkljkjlj],
-			    p_pin_code:[78656],
-			    p_country:[United States],
-			    client_group:ENTITY,
-			    filing_adv_name:,
-			    client_type:Test1,
-			    case_desc:dummy text,
-			    op_alias:[],
-			    op_adv_name:,
-			    registration_fee:20000,
-			    decided_fee:10000,
-			    alias:[],
-			    contact:[9599104387],
-			    alternate_number:[9599104387],
-			    email:[aakashchaudhary@gamil.com],
-			    notes:[dummy text],
-			    b_state:[jkljkljljkj],
-			    b_city:[kjkkljkjlj],
-			    b_pin_code:[78656],
-			    b_streetNoName:[Gali no-3, Sector-43],
-			    relationship:[]
-	         };
-	         */
-
-	         let data={
-
-	         };
+        }
+        body.append('relationship[]', JSON.stringify(this.addClientForm.value.entity));
+      }
+      else
+      {
+        body.append('relationship[]','');
+      }
+     
+			  
+			   // client_group:ENTITY
+			         
 			let loader = this.loading.create({
 
-			   content: "Adding client please wait…",
+              content: "Adding client please wait…",
+              duration:15000
 
 			 });
+
+      let loadingSuccessful = false;//To know whether timeout occured or not
 
 		   loader.present().then(() => 
 			{
 
-		   this.http.post(this.apiValue.baseURL+"/add_client",data,options) //Http request returns an observable
-
-		   .map(response => response.json()) ////To make it easy to read from observable
+		   this.http.post(this.apiValue.baseURL+"/add_client.php",body,null) //Http request returns an observable
 
 		   .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
 					  
-				{ 
-			   			console.log(serverReply);
-			   			loader.dismiss();
-				      
+           {
+             loadingSuccessful = true;
+             loader.dismiss();
+             console.log(serverReply);
 
-				   });
+             if (serverReply)
+             {
+               try
+               {
+                 let response = JSON.parse(serverReply['_body']);
+                 if ('code' in response)
+                 {
+                   this.showToast(response.message);
+                   if (response.code == 200)
+                   {
+                     //Added successfully
+                     this.navCtrl.getPrevious().data.reload = true;
+                     this.navCtrl.pop();
+                   }
+                 }
+                 else
+                 {
+                   this.showToast("Failed to add client");
+                 }
+               }
+               catch (err)
+               {
+                 this.showToast("Failed to add client");
+               }
+              
+               
+             }
+             else
+             {
+               this.showToast("Failed to add client");
+             }
+            
+
+
+           }, error =>
+             {
+               loadingSuccessful = true;
+               loader.dismiss();
+               this.showToast("Failed to add client");
+             });
 
 	  		 });
 	}
@@ -341,9 +413,7 @@ export class AddClientPage
 			   			console.log(serverReply);
 			   			this.advocate_list=serverReply;
 			   			loader.dismiss();
-
-			   		
-				      
+   
 				   });
 
 	  		 });
@@ -435,12 +505,12 @@ export class AddClientPage
       e_relationship: new FormControl('', Validators.required),
 
       //personal Details
-      e_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z\-\']+')])),
-      e_alias: new FormControl('', Validators.compose([Validators.pattern('^[a-zA-Z\-\']+')])),
+      e_name: new FormControl('', Validators.compose([Validators.required])),
+      e_alias: new FormControl(''),
       e_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       e_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       e_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
-      e_notes: new FormControl('', Validators.compose([Validators.required])),
+      e_notes: new FormControl(''),
       e_country: new FormControl('', Validators.compose([Validators.required])),
       e_street: new FormControl('', Validators.compose([Validators.required])),
       e_city: new FormControl('', Validators.compose([Validators.required])),

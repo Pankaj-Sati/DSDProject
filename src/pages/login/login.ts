@@ -93,7 +93,7 @@ export class LoginPage
 
 		 title:"ATTENTION",
 
-		subTitle:"Username field is empty",
+     message: "Username field is empty",
 
 		buttons: ["OK"]
 
@@ -112,7 +112,7 @@ export class LoginPage
 
 		title:"ATTENTION",
 
-		subTitle:"Password field is empty",
+    message: "Password field is empty",
 
 		buttons: ["OK"]
 

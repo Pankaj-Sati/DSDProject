@@ -1,0 +1,74 @@
+<ion-header>
+
+  <ion-navbar>
+
+    <ion-row>
+      <ion-col col-2 style="margin:auto;text-align:center;">
+
+        <ion-icon name="close" (click)="dismissPage()" style="color:white;zoom:1.5;"></ion-icon>
+
+      </ion-col>
+      <ion-col col-10 style="text-align:left">
+        <ion-title>Add Hearing</ion-title>
+      </ion-col>
+
+    </ion-row>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content overflow-scroll="false">
+
+ 
+    <form [formGroup]="addHearingForm">
+      <ion-item no-lines>
+        <ion-label stacked style="color:unset;"><b>Select Date <span class="required_field">*</span></b></ion-label>
+        <ion-datetime displayFormat="DD MM YYYY" formControlName="date" required></ion-datetime>
+
+      </ion-item>
+
+      <ion-item no-lines>
+        <ion-label stacked style="color:unset;"><b>Time <span class="required_field">*</span></b></ion-label>
+        <ion-datetime displayFormat="HH:mm" formControlName="time" required></ion-datetime>
+
+      </ion-item>
+
+      <ion-item no-lines>
+        <ion-label stacked style="color:unset;"><b>Judge Name <span class="required_field">*</span></b></ion-label>
+        <ion-input formControlName="judge_name" required></ion-input>
+
+      </ion-item>
+
+      <ion-item no-lines>
+        <ion-label stacked style="color:unset;"><b>Location Of Hearing <span class="required_field">*</span></b></ion-label>
+        <ion-input formControlName="location" required></ion-input>
+
+      </ion-item>
+
+      <ion-item no-lines>
+        <ion-label stacked style="color:unset;"><b>Call Up</b></ion-label>
+        <ion-input formControlName="call_up"></ion-input>
+
+      </ion-item>
+
+      <ion-item no-lines>
+        <ion-label stacked style="color:unset;"><b>Type of Hearing/Interview</b></ion-label>
+        <ion-input formControlName="type"></ion-input>
+
+      </ion-item>
+
+
+    </form>
+
+    <ion-row style="text-align: center;">
+      <ion-col col-6>
+        <button class="closeButton" icon-start round ion-button (click)="dismissPage()"><ion-icon name="close"></ion-icon>Close</button>
+      </ion-col>
+      <ion-col col-6>
+        <button round ion-button [disabled]="!addHearingForm.valid" (click)="add()">Add</button>
+      </ion-col>
+    </ion-row>
+
+</ion-content>
+

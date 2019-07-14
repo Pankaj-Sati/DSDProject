@@ -2,13 +2,15 @@ import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoadingController, ToastController, AlertController } from 'ionic-angular';
+import { LoadingController, ToastController, AlertController, ModalController } from 'ionic-angular';
 
 import { ClientDetails } from '../../../../models/client.model';
 import { User } from '../../../../models/login_user.model';
 
 import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
+
+import { AddBalanceInPaymentComponent } from '../../../../components/add-balance-in-payment/add-balance-in-payment';
 
 @Component({
   selector: 'payment',
@@ -36,7 +38,8 @@ export class ClientPaymentPage
     public apiValues: ApiValuesProvider,
     public myStorage: MyStorageProvider,
     public alertCtrl: AlertController,
-    public http: Http
+    public http: Http,
+    public modalCtrl: ModalController
   ) 
   {
     this.loggedInUser = this.myStorage.getParameters();
@@ -297,6 +300,17 @@ export class ClientPaymentPage
     });
 
     toast.present();
+  }
+
+  addBalance()
+  {
+    console.log('Add Balance');
+    let data =
+    {
+      client: this.clientDetails
+    }
+    const modal=this.modalCtrl.create(AddBalanceInPaymentComponent, data);
+    modal.present();
   }
 
 }
