@@ -4,8 +4,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoadingController, ToastController, AlertController, ModalController } from 'ionic-angular';
 
-import { ClientDetails } from '../../../../models/client.model';
+import { Client,ClientDetails } from '../../../../models/client.model';
 import { User } from '../../../../models/login_user.model';
+import { Payment } from '../../../../models/client_payment.model';
 
 import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
@@ -19,13 +20,16 @@ import { AddBalanceInPaymentComponent } from '../../../../components/add-balance
 export class ClientPaymentPage 
 {
 	paymentForm:FormGroup;
-  
+
+  paymentDetails: Payment; 
 
   showAddPayment:boolean=false;
   show_add_button_text: string ="Add Payment";
 
-  clientDetails: ClientDetails;
+  showAddBalance: true;
 
+  clientDetails: ClientDetails;
+  passedClientID;
   loggedInUser: User;
 
   constructor
@@ -70,6 +74,80 @@ export class ClientPaymentPage
 
   }
 
+  fetchPaymentDetails()
+  {
+   
+    const loader = this.loadingCtrl.create({
+
+      content: 'Loading...',
+      duration: 15000
+
+    });
+
+    let loadingSuccessful = false; //To know whether the loader ended successfully or timeout occured
+
+    loader.present().then(() =>
+    {
+
+      let body = new FormData();
+
+      body.append('cid', String(this.passedClientID));
+
+      this.http.post(this.apiValues.baseURL + "/get_client_paymentDetails.php", body, null)
+        .subscribe(response =>
+        {
+          loadingSuccessful = true;
+          loader.dismiss();
+          if (response)
+          {
+            console.log(response);
+
+            try
+            {
+              let data = JSON.parse(response['_body']);
+
+              if ('code' in data)
+              {
+                this.showToast(data.message);
+                return;
+              }
+              else
+              {
+                this.paymentDetails = data[0];
+              }
+            }
+            catch (err)
+            {
+              console.log(err);
+              this.showToast('Failure!!! Error in response');
+            }
+
+          }
+          else
+          {
+            this.showToast('Failure!!! Error in response');
+          }
+        },
+          error =>
+          {
+            loadingSuccessful = true;
+            this.showToast('Failed to get data from server');
+            loader.dismiss();
+          });
+
+    });
+
+    loader.onDidDismiss(() =>
+    {
+
+      if (!loadingSuccessful)
+      {
+        this.showToast('Timeout!!! Server did not respond');
+      }
+
+    });
+  }
+
   toggleAddPayment()
   {
     this.showAddPayment = !this.showAddPayment;
@@ -87,7 +165,10 @@ export class ClientPaymentPage
   ionViewDidLoad() 
   {
     console.log('ionViewDidLoad Payments');
-    this.clientDetails = this.navParams.get('clientdetails');  
+    this.passedClientID = this.navParams.get('clientID');  
+    this.clientDetails = this.navParams.get('clientdetails');
+    this.showAddBalance = this.navParams.get('showAddBalance');
+    this.fetchPaymentDetails();
   }
 
   modeChanged(change)
@@ -188,7 +269,7 @@ export class ClientPaymentPage
     //These lines will execute only if the form is valid
 
     let body = new FormData();
-    body.append('cid', this.clientDetails.id);
+    body.append('cid', String(this.passedClientID));
     body.append('session_id', this.loggedInUser.id);
 
     body.append('payamount', this.paymentForm.value.p_amount);
@@ -250,6 +331,7 @@ export class ClientPaymentPage
               if ('message' in response) 
               {
                 this.showToast(response.message);
+                this.fetchPaymentDetails();
               }
               else
               {
@@ -307,10 +389,16 @@ export class ClientPaymentPage
     console.log('Add Balance');
     let data =
     {
-      client: this.clientDetails
+      clientID: this.passedClientID,
+      clientDetails: this.clientDetails
     }
     const modal=this.modalCtrl.create(AddBalanceInPaymentComponent, data);
     modal.present();
+
+    modal.onDidDismiss(() =>
+    {
+      this.fetchPaymentDetails();
+    });
   }
 
 }

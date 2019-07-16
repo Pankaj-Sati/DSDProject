@@ -386,8 +386,8 @@ export class EditProfilePage
 
       body.append("full_name", this.userForm.value.u_name);
       body.append("email", this.userForm.value.u_email);
-      body.append("contact", this.userForm.value.u_contact);
-      body.append("alt", this.userForm.value.u_alt);
+      body.append("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
+      body.append("alt", String(this.userForm.value.u_alt).replace(/\D+/g,''));
       body.append("gender", this.userForm.value.u_gender);
       body.append("date_of_birth", this.userForm.value.u_dob);
       body.append("country", this.userForm.value.u_country);

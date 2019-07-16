@@ -8,8 +8,8 @@
       <ion-col col-7 style="text-align:left">
         <ion-title>Payments</ion-title>
       </ion-col>
-      <ion-col col-5 style="margin:auto;" (click)="addBalance()">
-       <ion-label style="float:right;margin-right:10px;color:white;font-size:16px;"> <ion-icon name="add" style="color:white;zoom:1;padding:5px;"></ion-icon>Add Balance</ion-label>
+      <ion-col col-5 style="margin:auto;" *ngIf="showAddBalance" (click)="addBalance()">
+       <ion-title style="float:right;margin-right:10px;color:white;font-size:16px;"> <ion-icon name="add" style="color:white;zoom:1;padding:5px;"></ion-icon>Add Balance</ion-title>
       </ion-col>
     </ion-row>
 
@@ -17,7 +17,7 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="clientDetails!=null && clientDetails!=undefined">
+  <div *ngIf="clientDetails!=null && clientDetails!=undefined && paymentDetails!=null && paymentDetails!=undefined">
     <ion-row>
       <ion-col col-6>
         <ion-row>
@@ -59,7 +59,7 @@
 
         <ion-row>
           <ion-col>
-            4576
+            {{paymentDetails.total_given_amount}}
           </ion-col>
         </ion-row>
       </ion-col>
@@ -73,7 +73,7 @@
 
         <ion-row>
           <ion-col>
-            23
+            {{paymentDetails.outstandingamount}}
           </ion-col>
         </ion-row>
       </ion-col>
@@ -90,7 +90,7 @@
 
         <ion-row>
           <ion-col>
-            457
+            {{paymentDetails.amount}}
           </ion-col>
         </ion-row>
       </ion-col>

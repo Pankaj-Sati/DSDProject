@@ -32,11 +32,11 @@
         <ion-label>Payment Mode</ion-label>
 
         <ion-select interface="popover" [(ngModel)]="a_pay_mode">
-          <ion-option value="1">Debit/Credit Card</ion-option>
-          <ion-option value="2">Via Bank Transfer</ion-option>
-          <ion-option value="3">Payment By Cash</ion-option>
-          <ion-option value="4">Add charges into Client Account</ion-option>
-          <ion-option value="5">Registration Charges</ion-option>
+          <ion-option value="Debit/Credit Card">Debit/Credit Card</ion-option>
+          <ion-option value="Via Bank Transfer">Via Bank Transfer</ion-option>
+          <ion-option value="Payment By Cash">Payment By Cash</ion-option>
+          <ion-option value="ADD CHARGES INTO CLIENT ACCOUNT">Add charges into Client Account</ion-option>
+          <ion-option value="REGISTRATION CHARGES">Registration Charges</ion-option>
 
         </ion-select>
       </ion-item>
@@ -46,8 +46,8 @@
         <ion-label>Payment Status</ion-label>
 
         <ion-select interface="popover" [(ngModel)]="a_pay_status">
-          <ion-option value="1">Outstanding Payments</ion-option>
-          <ion-option value="2">Payment Received</ion-option>
+          <ion-option value="Outstanding">Outstanding Payments</ion-option>
+          <ion-option value="paymentReceived">Payment Received</ion-option>
 
         </ion-select>
       </ion-item>
@@ -72,7 +72,7 @@
 
       <ion-col>
 
-        <button icon-start ion-button><ion-icon name="search"></ion-icon>Search</button>
+        <button icon-start ion-button (click)="fetchData()"><ion-icon name="search"></ion-icon>Search</button>
       </ion-col>
 
     </ion-row>
@@ -80,7 +80,7 @@
     <hr>
     <br>
 
-    <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let account of accounts;let i=index" (click)="showDetails(account)">
+    <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let account of accounts;let i=index" >
 
       <ion-row>
 
@@ -95,7 +95,7 @@
 
           <ion-row>
             <ion-col>
-              {{account.client_name}}
+              {{account.name}}
             </ion-col>
           </ion-row>
 
@@ -112,7 +112,7 @@
 
           <ion-row>
             <ion-col>
-              {{account.date}}
+              {{account.created_on| date:'MMM,dd yy'}}
             </ion-col>
           </ion-row>
         </ion-col>
@@ -128,7 +128,7 @@
 
           <ion-row>
             <ion-col>
-              {{account.payment_overdue}}
+              {{account.total_overdue_amount}}
             </ion-col>
           </ion-row>
 
@@ -146,7 +146,7 @@
           <ion-row>
             <ion-col>
 
-              {{account.amount}}
+              {{account.total_amount}}
 
             </ion-col>
           </ion-row>

@@ -27,7 +27,7 @@
   <div [className]="blurAmount">
     <ion-list>
 
-      <ion-item>
+      <ion-item no-lines>
 
         <ion-label>Case Type</ion-label>
 
@@ -49,14 +49,14 @@
         <!-- Change the managers by fetching manager list from server -->
 
       </ion-item>
-      <ion-item>
+      <ion-item no-lines>
         <ion-label>Case Manager</ion-label>
         <ion-select interface="action-sheet" [(ngModel)]="c_case_manager">
           <ion-option *ngFor="let caseManager of caseManagerList" value="caseManager.id">{{caseManager.name}}({{caseManager.id}})</ion-option>
         </ion-select>
       </ion-item>
 
-      <ion-item>
+      <ion-item no-lines>
         <ion-input type="text" placeholder="Alias | COntact No. | Email ID | Client Name | Alien No." [(ngModel)]="c_search"></ion-input>
       </ion-item>
 
@@ -65,14 +65,14 @@
 
       <ion-col>
 
-        <button icon-start ion-button><ion-icon name="search"></ion-icon>Search</button>
+        <button icon-start ion-button (click)="fetchData()"><ion-icon name="search"></ion-icon>Search</button>
       </ion-col>
 
     </ion-row>
 
     <hr>
     <br>
-
+    <!--
     <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let account of accounts;let i=index" (click)="showDetails(account)">
 
       <ion-row>
@@ -105,7 +105,7 @@
 
           <ion-row>
             <ion-col>
-              {{account.manager}}
+              {{account.advocatename}}
             </ion-col>
           </ion-row>
         </ion-col>
@@ -121,7 +121,7 @@
 
           <ion-row>
             <ion-col>
-              {{account.outstanding}}
+              {{account.outstanding_amount}}
             </ion-col>
           </ion-row>
 
@@ -138,8 +138,8 @@
 
           <ion-row>
             <ion-col>
-              <span *ngIf="account.status=='Active'" style="color:green;"> {{account.status}}</span>
-              <span *ngIf="account.status!='Active'"> {{account.status}}</span>
+              <span *ngIf="account.status=='Active User'" style="color:green;"> {{account.userstatus}}</span>
+              <span *ngIf="account.status!='Active User'"> {{account.userstatus}}</span>
 
             </ion-col>
           </ion-row>
@@ -149,156 +149,53 @@
       </ion-row>
 
     </ion-card>
+    -->
+
+    <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let account of accounts;let i=index" (click)="openClient(account)">
+
+      <ion-row style="padding-left: 5px;">
+
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="contact" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-4>
+          <ion-row>
+            <ion-col style="text-align:left;">
+              <b> {{account.client_name}}</b>
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-3>
+          <ion-row>
+            <ion-col>
+              {{account.advocatename}}
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-3>
+          <ion-row>
+            <ion-col>
+              {{account.outstanding_amount}}
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="more" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-col>
+
+      </ion-row>
+
+    </ion-card>
 
   </div>
 
-  <div class="details" *ngIf="setDetailVisible">
-
-
-    <ion-row>
-      <ion-col col-6>
-        <ion-row>
-          <ion-col>
-            <b>Client Name</b>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>
-            {{detailAccount.client_name}}
-          </ion-col>
-        </ion-row>
-      </ion-col>
-
-      <ion-col col-6>
-        <ion-row>
-          <ion-col>
-            <b>Alien No.</b>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>
-            {{detailAccount.alien_no}}
-          </ion-col>
-        </ion-row>
-      </ion-col>
-
-    </ion-row>
-
-
-    <div class="detailsSeperator"></div>
-    <ion-row>
-      <ion-col col-6>
-        <ion-row>
-          <ion-col>
-            <b>Case Manager</b>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>
-            {{detailAccount.manager}}
-          </ion-col>
-        </ion-row>
-      </ion-col>
-
-      <ion-col col-6>
-        <ion-row>
-          <ion-col>
-            <b>Year</b>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>
-            {{detailAccount.year}}
-          </ion-col>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col col-12>
-        <div class="detailsSeperator"></div>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col col-6>
-        <ion-row>
-          <ion-col>
-            <b>Total Amount</b>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>
-            {{detailAccount.total_amount}}
-          </ion-col>
-        </ion-row>
-      </ion-col>
-
-      <ion-col col-6>
-        <ion-row>
-          <ion-col>
-            <b>Given Amount</b>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>
-            {{detailAccount.given_amount}}
-          </ion-col>
-        </ion-row>
-      </ion-col>
-
-    </ion-row>
-
-    <div class="detailsSeperator"></div>
-
-    <ion-row>
-      <ion-col col-6>
-        <ion-row>
-          <ion-col>
-            <b>Outstanding</b>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>
-            {{detailAccount.outstanding}}
-          </ion-col>
-        </ion-row>
-      </ion-col>
-
-        <ion-col col-6>
-
-        <ion-row>
-          <ion-col>
-            <b>Status</b>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col>
-            <span *ngIf="detailAccount.status=='Active'" style="color:green;"> {{detailAccount.status}}</span>
-            <span *ngIf="detailAccount.status!='Active'"> {{detailAccount.status}}</span>
-          </ion-col>
-        </ion-row>
-
-      </ion-col>
-
-    </ion-row>
-
-
-    <ion-row style="text-align: center;">
-      <ion-col>
-        <button class="closeButton" ion-button (click)="hideDetails()"><ion-icon name="close"></ion-icon></button>
-      </ion-col>
-    </ion-row>
-
-  </div>
 
 
 </ion-content>

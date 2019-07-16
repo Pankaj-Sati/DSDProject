@@ -12,6 +12,7 @@ import { NotificationDetailsComponent } from './notification-details/notificatio
 import { AddBalanceInPaymentComponent } from './add-balance-in-payment/add-balance-in-payment';
 import { EditClientHearingComponent } from './edit-client-hearing/edit-client-hearing';
 import { AddClientHearingComponent } from './add-client-hearing/add-client-hearing';
+import { ShowMoreUserAccountOptionsComponent } from './show-more-user-account-options/show-more-user-account-options';
 
 @NgModule({
 	declarations: [ClientDetailsComponent,
@@ -24,7 +25,8 @@ import { AddClientHearingComponent } from './add-client-hearing/add-client-heari
     NotificationDetailsComponent,
     AddBalanceInPaymentComponent,
     EditClientHearingComponent,
-    AddClientHearingComponent],
+    AddClientHearingComponent,
+    ShowMoreUserAccountOptionsComponent],
   imports: [IonicPageModule.forChild(ClientDetailActionsComponent), CommonModule],
   entryComponents: [ClientDetailsComponent,
     RemindersDetailComponent,
@@ -36,7 +38,8 @@ import { AddClientHearingComponent } from './add-client-hearing/add-client-heari
     NotificationDetailsComponent,
     AddBalanceInPaymentComponent,
     EditClientHearingComponent,
-    AddClientHearingComponent
+    AddClientHearingComponent,
+    ShowMoreUserAccountOptionsComponent
   ],
 	exports: [ClientDetailsComponent,
     NoRecordFoundComponent,
@@ -48,7 +51,8 @@ import { AddClientHearingComponent } from './add-client-hearing/add-client-heari
     NotificationDetailsComponent,
     AddBalanceInPaymentComponent,
     EditClientHearingComponent,
-    AddClientHearingComponent],
+    AddClientHearingComponent,
+    ShowMoreUserAccountOptionsComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ComponentsModule {}

@@ -43,10 +43,10 @@
       <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_case_type.touched && ! addClientForm.controls.c_case_type.valid,'valid':(addClientForm.controls.c_case_type.touched && addClientForm.controls.c_case_type.valid)}" [class.invalid]="addClientForm.controls.c_case_type.dirty && ! addClientForm.controls.c_case_type.valid">
         <ion-label stacked>Case Type <span class="mandatory_field">*</span></ion-label>
         <ion-select interface="popover" formControlName="c_case_type" placeholder="Select Case Type">
-          <ion-option value="1">Civil</ion-option>
-          <ion-option value="4">Murder</ion-option>
-          <ion-option value="6">Criminal</ion-option>
-          <ion-option value="7">Divorce</ion-option>
+          <ion-option value="Civil">Civil</ion-option>
+          <ion-option value="Murder">Murder</ion-option>
+          <ion-option value="Criminal">Criminal</ion-option>
+          <ion-option value="Divorce">Divorce</ion-option>
 
         </ion-select>
 
@@ -68,8 +68,8 @@
       <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_case_category.touched && !addClientForm.controls.c_case_category.valid,'valid':(addClientForm.controls.c_case_category.touched && addClientForm.controls.c_case_category.valid)}" [class.invalid]="addClientForm.controls.c_case_category.dirty && ! addClientForm.controls.c_case_category.valid">
         <ion-label stacked>Case Category <span class="mandatory_field"> *</span></ion-label>
         <ion-select interface="popover" formControlName="c_case_category" placeholder="Select Case Category">
-          <ion-option value="1">New</ion-option>
-          <ion-option value="2">Reopen</ion-option>
+          <ion-option value="New">New</ion-option>
+          <ion-option value="Reopen">Reopen</ion-option>
 
         </ion-select>
 
@@ -182,7 +182,7 @@
       <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_country.touched && !addClientForm.controls.c_country.valid,'valid':(addClientForm.controls.c_country.touched && addClientForm.controls.c_country.valid)}" [class.invalid]="addClientForm.controls.c_country.dirty && ! addClientForm.controls.c_country.valid">
         <ion-label stacked><b>Country <span class="mandatory_field"> *</span></b></ion-label>
         <ion-select interface="popover" (ionChange)="isBillingAndPermanentAddressSame?addClientForm.controls.c_country_billing.setValue(addClientForm.value.c_country):null" formControlName="c_country" required placeholder="Select country">
-          <ion-option value="United State">United State</ion-option>
+          <ion-option value="UnitedStates">United Statess</ion-option>
         </ion-select>
       </ion-item>
       <hr>
@@ -215,7 +215,7 @@
       <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_country_billing.touched && !addClientForm.controls.c_country_billing.valid,'valid':(addClientForm.controls.c_country_billing.touched && addClientForm.controls.c_country_billing.valid)}" [class.invalid]="addClientForm.controls.c_country_billing.dirty && ! addClientForm.controls.c_country_billing.valid">
         <ion-label stacked><b>Country <span class="mandatory_field"> *</span></b></ion-label>
         <ion-select interface="popover" [disabled]="isBillingAndPermanentAddressSame" formControlName="c_country_billing" required placeholder="Select country">
-          <ion-option value="United State">United State</ion-option>
+          <ion-option value="UnitedStates">United States</ion-option>
         </ion-select>
       </ion-item>
     </div>
@@ -343,7 +343,7 @@
             <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_country.touched && !addClientForm.get('entity').controls[i].e_country.valid,'valid':(addClientForm.get('entity').controls[i].e_country.touched && addClientForm.get('entity').controls[i].e_country.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_country.dirty && ! addClientForm.get('entity').controls[i].e_country.valid">
               <ion-label stacked><b>Country <span class="mandatory_field"> *</span></b></ion-label>
               <ion-select interface="popover" (ionChange)="isBillingAndPermanentAddressSameForEntity[i]?addClientForm.get('entity')['controls'][i].controls.e_country_billing.setValue(addClientForm.get('entity')['controls'][i].value.e_country):null" formControlName="e_country" required placeholder="Select country">
-                <ion-option value="United State">United State</ion-option>
+                <ion-option value="UnitedStates">United States</ion-option>
               </ion-select>
             </ion-item>
             <hr>
@@ -376,7 +376,7 @@
             <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_country_billing.touched && !addClientForm.get('entity').controls[i].e_country_billing.valid,'valid':(addClientForm.get('entity').controls[i].e_country_billing.touched && addClientForm.get('entity').controls[i].e_country_billing.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_country_billing.dirty && ! addClientForm.get('entity').controls[i].e_country_billing.valid">
               <ion-label stacked><b>Country <span class="mandatory_field"> *</span></b></ion-label>
               <ion-select interface="popover" [disabled]="isBillingAndPermanentAddressSameForEntity[i]" formControlName="e_country_billing" required placeholder="Select country">
-                <ion-option value="United State">United State</ion-option>
+                <ion-option value="UnitedStates">United States</ion-option>
               </ion-select>
             </ion-item>
           </div>

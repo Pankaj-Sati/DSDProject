@@ -16,6 +16,7 @@ import { ClientDocumentsPage } from './document/document';
 import { ClientCommunicationsPage } from './communications/communications';
 import { ClientPaymentPage } from './payment/payment';
 import { HearingDetailsPage } from './hearing_details/hearing_details';
+import { EditClientPage } from './edit_client/edit_client';
 
 
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
@@ -26,7 +27,7 @@ import { AdvocateDropdown } from '../../../models/ advocate.model';
 import { User } from '../../../models/login_user.model';
 
 import { ClientDetailActionsComponent } from '../../../components/client-detail-actions/client-detail-actions';
-import { dashCaseToCamelCase } from '@angular/compiler/src/util';
+
 
 @Component({
   selector: 'single_client',
@@ -215,6 +216,7 @@ export class SingleClientPage
 
         switch (data.selectedOption)
         {
+
           case 0: //Change Manager
             this.changeCaseManager();
             break;
@@ -239,10 +241,25 @@ export class SingleClientPage
           case 7: //Send SMS
             this.sendSms();
             break;
+          case 8://Edit Client
+            this.editClient();
+            break;
         }
 
       }
     });
+  }
+
+  editClient()
+  {
+    let data =
+    {
+      client: this.client,
+      clientDetails: this.clientDetails,
+      entityDetails: this.entities
+    };
+
+    this.navCtrl.push(EditClientPage,data);
   }
 
   deleteClientAlert()
@@ -376,7 +393,9 @@ export class SingleClientPage
   {
     let data =
     {
-      clientdetails: this.clientDetails
+      clientID: this.client.id,
+      clientdetails: this.clientDetails,
+      showAddBalance:true
     };
 
     this.navCtrl.push(ClientPaymentPage, data);
