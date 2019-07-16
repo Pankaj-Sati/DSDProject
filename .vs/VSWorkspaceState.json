@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app",
-    "\\src\\pages",
-    "\\src\\pages\\client_list",
-    "\\src\\pages\\client_list\\add_client",
-    "\\src\\pages\\login",
-    "\\src\\pages\\sms\\smslist",
-    "\\src\\pages\\user_list\\change_user_password",
-    "\\src\\pages\\user_list\\update_user"
+    "\\src\\components\\add-balance-in-payment",
+    "\\src\\pages\\account_management",
+    "\\src\\pages\\account_management\\account_summary",
+    "\\src\\pages\\account_management\\single_user_account\\payment_summary",
+    "\\src\\pages\\client_list\\single_client\\send_sms",
+    "\\src\\pages\\sms",
+    "\\src\\providers",
+    "\\src\\providers\\api-values"
   ],
-  "SelectedNode": "\\src\\pages\\client_list\\add_client\\add_client.ts",
+  "SelectedNode": "\\src\\providers\\api-values\\api-values.ts",
   "PreviewInSolutionExplorer": false
 }
