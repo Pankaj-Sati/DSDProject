@@ -32,10 +32,7 @@
         <ion-label>Case Type</ion-label>
 
         <ion-select interface="popover" [(ngModel)]="c_case_type">
-          <ion-option value="1">Civil</ion-option>
-          <ion-option value="4">Murder</ion-option>
-          <ion-option value="6">Criminal</ion-option>
-          <ion-option value="7">Divorce</ion-option>
+          <ion-option *ngFor="let caseType of caseTypeList" value="{{caseType.id}}">{{caseType.case_type}}</ion-option>
 
         </ion-select>
       </ion-item>
@@ -72,78 +69,47 @@
 
     <hr>
     <br>
+
     <!--
-    <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let account of accounts;let i=index" (click)="showDetails(account)">
+-------------------------Showing hint about the data displyed in each card-------------------
 
-      <ion-row>
+    <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;">
 
-        <ion-col col-3>
+      <ion-row style="padding-left: 5px;">
 
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="contact" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-4>
           <ion-row>
-            <ion-col>
-              <b>Client</b>
-            </ion-col>
-          </ion-row>
-
-
-          <ion-row>
-            <ion-col>
-              {{account.client_name}}
+            <ion-col style="text-align:left;">
+              <b> --Client--</b>
             </ion-col>
           </ion-row>
 
         </ion-col>
 
-        <ion-col col-3 style="text-overflow: ellipsis; flex:1;overflow: hidden;white-space: nowrap;">
-
+        <ion-col style="margin:auto;" col-3>
           <ion-row>
             <ion-col>
-              <b>Manager</b>
-            </ion-col>
-          </ion-row>
-
-
-          <ion-row>
-            <ion-col>
-              {{account.advocatename}}
-            </ion-col>
-          </ion-row>
-        </ion-col>
-
-        <ion-col col-3>
-
-          <ion-row>
-            <ion-col>
-              <b>Outstanding</b>
-            </ion-col>
-          </ion-row>
-
-
-          <ion-row>
-            <ion-col>
-              {{account.outstanding_amount}}
+              --Advocate--
             </ion-col>
           </ion-row>
 
         </ion-col>
 
-        <ion-col col-3>
-
+        <ion-col style="margin:auto;" col-3>
           <ion-row>
             <ion-col>
-              <b>Status</b>
+              --Outstanding--
             </ion-col>
           </ion-row>
 
+        </ion-col>
 
-          <ion-row>
-            <ion-col>
-              <span *ngIf="account.status=='Active User'" style="color:green;"> {{account.userstatus}}</span>
-              <span *ngIf="account.status!='Active User'"> {{account.userstatus}}</span>
-
-            </ion-col>
-          </ion-row>
-
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="more" color="primary" style="zoom: 1.2;"></ion-icon>
         </ion-col>
 
       </ion-row>
@@ -196,6 +162,8 @@
 
   </div>
 
-
+  <div *ngIf="accounts==null || accounts==undefined || accounts.length==0">
+    <no-record-found></no-record-found>
+  </div>
 
 </ion-content>

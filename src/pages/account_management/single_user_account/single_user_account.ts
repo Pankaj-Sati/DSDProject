@@ -9,6 +9,7 @@ import "rxjs/add/operator/map";
 
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
+import { CaseTypeProvider } from '../../../providers/case-type/case-type';
 
 
 //Sub Pages
@@ -66,6 +67,7 @@ export class SingleUserAccountPage
   constructor(public myStorage: MyStorageProvider,
     public popover: PopoverController,
     public apiValue: ApiValuesProvider,
+    public caseTypeProvider: CaseTypeProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
@@ -135,6 +137,9 @@ export class SingleUserAccountPage
           else
           {
             this.clientDetails = serverReply[0].data;
+            //Map case type with its string
+            this.clientDetails.case_type = this.caseTypeProvider.getCaseType(this.clientDetails.case_type);
+
             this.entities = serverReply[0].entity;
             console.log("Client:");
             console.log(this.clientDetails);

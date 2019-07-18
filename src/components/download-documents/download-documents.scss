@@ -1,0 +1,11 @@
+download-documents {
+  .toolbar-background {
+    background-color: map-get($colors,primary);
+  }
+
+  .simpleCard {
+    background-color: #efefef;
+    border-radius: 2%;
+    text-align: center;
+  }
+}

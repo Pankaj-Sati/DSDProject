@@ -7,8 +7,10 @@ import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@ang
 import "rxjs/add/operator/map";
 
 import { User } from '../../../models/login_user.model';
-import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
+import { CaseType } from '../../../models/case_type.model';
 
+import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
+import { CaseTypeProvider } from '../../../providers/case-type/case-type';
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
 import { ClientEntityRelationshipProvider } from '../../../providers/client-entity-relationship/client-entity-relationship';
 
@@ -28,6 +30,8 @@ export class AddClientPage
   addEntityForm: FormArray;
 
   loggedInUser: User;
+
+  caseTypeList: CaseType[] = [];
 
   showCaseDetails: boolean = true;
   showPersonalDetails: boolean = false;
@@ -50,6 +54,7 @@ export class AddClientPage
   constructor(
     public myStorage: MyStorageProvider,
     public apiValue: ApiValuesProvider,
+    public caseTypeProvider: CaseTypeProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
@@ -104,6 +109,12 @@ export class AddClientPage
         c_decided_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')]))
 
 		});
+
+    if (this.caseTypeProvider.isEmpty)
+    {
+      this.showToast('Failure!!! Cannot get case types');
+    }
+    this.caseTypeList = this.caseTypeProvider.caseTypeList;
 
     this.getCaseManagerList();
     this.relationshipList = this.relationshipProvider.getAllRelationships();
@@ -304,14 +315,15 @@ export class AddClientPage
 
         }
         body.append('relationship[]', JSON.stringify(this.addClientForm.value.entity));
+        body.append('client_group', 'ENTITY');
       }
       else
       {
         body.append('relationship[]','');
+        body.append('client_group','INDIVIDUAL');
       }
-     
-			  
-			   // client_group:ENTITY
+
+      console.log(this.addClientForm);
 			         
 			let loader = this.loading.create({
 

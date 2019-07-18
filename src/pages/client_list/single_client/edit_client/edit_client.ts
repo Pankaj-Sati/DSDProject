@@ -7,7 +7,10 @@ import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@ang
 import "rxjs/add/operator/map";
 
 import { User } from '../../../../models/login_user.model';
+import { CaseType } from '../../../../models/case_type.model';
+
 import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
+import { CaseTypeProvider } from '../../../../providers/case-type/case-type';
 import { Client, ClientDetails, Entity } from '../../../../models/client.model';
 import { AdvocateDropdown } from '../../../../models/ advocate.model';
 
@@ -45,10 +48,13 @@ export class EditClientPage
 
   relationshipList: any;
 
+  caseTypeList: CaseType[]=[];
+
   hasRelation: boolean = false;
 
   constructor(
     public myStorage: MyStorageProvider,
+    public caseTypeProvider: CaseTypeProvider,
     public apiValue: ApiValuesProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -105,6 +111,14 @@ export class EditClientPage
 
     });
 
+
+    if (this.caseTypeProvider.isEmpty)
+    {
+      this.showToast('Failure!!! Cannot get case types');
+    }
+    this.caseTypeList = this.caseTypeProvider.caseTypeList;
+
+
     this.getCaseManagerList();
     this.relationshipList = this.relationshipProvider.getAllRelationships();
     this.loggedInUser = this.myStorage.getParameters();
@@ -117,6 +131,7 @@ export class EditClientPage
     this.passedClientDetails = this.navParams.get('clientDetails');
     this.passedEntities = this.navParams.get('entityDetails');
 
+    console.log(this.passedClient);
     console.log(this.passedClientDetails);
     console.log(this.passedEntities);
 
@@ -130,7 +145,8 @@ export class EditClientPage
     //Passing the value will make this method generic
 
     //Case details
-    this.editClientForm.controls.c_case_type.setValue(this.passedClientDetails.case_type);
+
+    this.editClientForm.controls.c_case_type.setValue(this.caseTypeProvider.getCaseTypeNo(this.passedClientDetails.case_type)); //Client Details returns thge string of the Case Type
     this.editClientForm.controls.c_alien_no.setValue(this.passedClientDetails.case_no); //Case number and Alien Numbers are same
     this.editClientForm.controls.c_client_type.setValue(this.passedClientDetails.client_type);
     this.editClientForm.controls.c_case_category.setValue(this.passedClientDetails.case_category);
@@ -591,7 +607,7 @@ export class EditClientPage
      * &cid=112&case_reg_date=15-07-2019
      
      */
-    
+    /*
     body.append('case_type', this.editClientForm.value.c_case_type);
     body.append('case_no', this.editClientForm.value.c_alien_no);
     body.append('case_category', this.editClientForm.value.c_case_category);
@@ -622,17 +638,6 @@ export class EditClientPage
     body.append('b_streetNoName', this.editClientForm.value.c_street_billing);
     body.append('case_reg_date', this.editClientForm.value.c_date);
 
-   
-
-    if (this.hasRelation)
-    {
-      body.append('client_group', 'ENTITY');
-    }
-    else
-    {
-      body.append('client_group', 'INDIVIDUAL');
-    }
-
     body.append('cid', String(this.passedClient.id));
     body.append('session_id', this.loggedInUser.id);
 
@@ -646,19 +651,25 @@ export class EditClientPage
 
       }
 
+      console.log("-----Client Data---");
+      console.log(this.editClientForm.value);
       console.log("-----Entity Data---");
       console.log(this.editClientForm.value.entity);
       console.log(JSON.stringify(this.editClientForm.value.entity));
 
       body.append('relationship[]', JSON.stringify(this.editClientForm.value.entity));
+      body.append('client_group', 'ENTITY');
     }
     else
     {
       body.append('relationship[]', '');
+      body.append('client_group', 'INDIVIDUAL');
     }
 
 
     // client_group:ENTITY
+
+*/
 
     let loader = this.loading.create({
 
@@ -672,7 +683,7 @@ export class EditClientPage
     loader.present().then(() => 
     {
 
-      this.http.post(this.apiValue.baseURL + "/edit_client.php", body, null) //Http request returns an observable
+      this.http.get(this.makeSubmitURL()) //Http request returns an observable
 
         .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
 
@@ -723,5 +734,74 @@ export class EditClientPage
           });
 
     });
+  }
+
+  makeSubmitURL():string
+  {
+    let url = this.apiValue.baseURL + '/edit_client.php?';
+
+    url = url + 'case_type=' + this.editClientForm.value.c_case_type;
+
+    url = url + '&case_no='+this.editClientForm.value.c_alien_no;
+    url = url + '&case_category=' + this.editClientForm.value.c_case_category;
+
+    url = url + '&' + 'adv_assign='+ this.editClientForm.value.c_cm_assigned;
+    url = url + '&' + 'op_full_name='+ this.editClientForm.value.c_defendent_name;
+    url = url + '&' + 'full_name='+ this.editClientForm.value.c_name;
+
+    url = url + '&' + 'p_streetNoName='+ this.editClientForm.value.c_street;
+    url = url + '&' + 'p_city='+ this.editClientForm.value.c_city;
+    url = url + '&' + 'p_state='+this.editClientForm.value.c_state;
+    url = url + '&' + 'p_pin_code='+this.editClientForm.value.c_zipcode;
+    url = url + '&' + 'p_country='+ this.editClientForm.value.c_country;
+    url = url + '&' + 'filing_adv_name='+ this.editClientForm.value.c_filing_cm;
+    url = url + '&' + 'client_type='+ this.editClientForm.value.c_client_type;
+    url = url + '&' + 'case_desc='+ this.editClientForm.value.c_case_description;
+    url = url + '&' + 'op_alias='+ this.editClientForm.value.c_defendent_alias;
+    url = url + '&' + 'op_adv_name='+ this.editClientForm.value.c_defendent_manager;
+    url = url + '&' + 'registration_fee='+ this.editClientForm.value.c_reg_fee;
+    url = url + '&' + 'decided_fee='+ this.editClientForm.value.c_decided_fee;
+    url = url + '&' + 'alias='+ this.editClientForm.value.c_alias;
+    url = url + '&' + 'contact='+ String(this.editClientForm.value.c_contact).replace(/\D+/g, '');
+    url = url + '&' + 'alternate_number='+ String(this.editClientForm.value.c_alt_no).replace(/\D+/g, '');
+    url = url + '&' + 'email='+ this.editClientForm.value.c_email;
+    url = url + '&' + 'notes='+ this.editClientForm.value.c_notes;
+    url = url + '&' + 'b_state='+ this.editClientForm.value.c_state_billing;
+    url = url + '&' + 'b_city='+ this.editClientForm.value.c_city_billing;
+    url = url + '&' + 'b_pin_code='+ this.editClientForm.value.c_zipcode_billing;
+    url = url + '&' + 'b_streetNoName='+this.editClientForm.value.c_street_billing;
+    url = url + '&' + 'case_reg_date='+ this.editClientForm.value.c_date;
+
+    url = url + '&' + 'cid='+ String(this.passedClient.id);
+    url = url + '&' + 'session_id='+this.loggedInUser.id;
+
+    if (this.hasRelation && this.totalEntities > 0)
+    {
+      for (let i = 0; i < this.totalEntities; i++)
+      {
+        //Changing the contact number br-masker
+        this.editClientForm.get('entity')['controls'][i].controls.e_contact.setValue(String(this.editClientForm.get('entity')['controls'][i].value.e_contact).replace(/\D+/g, ''));
+        this.editClientForm.get('entity')['controls'][i].controls.e_alt_no.setValue(String(this.editClientForm.get('entity')['controls'][i].value.e_alt_no).replace(/\D+/g, ''));
+
+      }
+
+      console.log("-----Client Data---");
+      console.log(this.editClientForm.value);
+      console.log("-----Entity Data---");
+      console.log(this.editClientForm.value.entity);
+      console.log(JSON.stringify(this.editClientForm.value.entity));
+
+      url = url + '&' + 'relationship[]='+JSON.stringify(this.editClientForm.value.entity);
+      url = url + '&' + 'client_group='+ 'ENTITY';
+    }
+    else
+    {
+      url = url + '&' + 'relationship[]='+ '';
+      url = url + '&' + 'client_group='+ 'INDIVIDUAL';
+    }
+
+    console.log('------Generated URL------')
+    console.log(url);
+    return url;
   }
 }

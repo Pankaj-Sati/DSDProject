@@ -1,0 +1,10 @@
+bulk-sms-detail {
+  .toolbar-background {
+    background-color: map-get($colors,primary);
+  }
+
+  .closeButton
+    {
+    background-color:red;
+  }
+}

@@ -1,0 +1,52 @@
+<ion-header>
+
+  <ion-navbar>
+
+    <ion-row>
+      <ion-col col-2 style="margin:auto;text-align:center;">
+
+        <ion-icon name="close" (click)="dismissPage()" style="color:white;zoom:1.5;"></ion-icon>
+
+      </ion-col>
+      <ion-col col-10 style="text-align:left">
+        <ion-title>Documents</ion-title>
+      </ion-col>
+
+    </ion-row>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngFor="let doc of documentList;let i=index">
+    <ion-card class="simpleCard" (click)="getDocument(doc)">
+
+      <ion-row style="padding-left: 5px;">
+
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="document" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-10>
+          <ion-row>
+            <ion-col style="text-align:left;">
+              <b>{{doc}} </b>
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="download" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-col>
+
+      </ion-row>
+
+    </ion-card>
+  </div>
+
+  <div *ngIf="documentList==undefined || documentList==null || documentList.length==0">
+    <no-record-found></no-record-found>
+  </div>
+</ion-content>

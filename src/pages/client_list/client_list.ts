@@ -11,10 +11,12 @@ import{AddClientPage} from './add_client/add_client';
 import{SingleClientPage} from './single_client/single_client';
 
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
+import { CaseTypeProvider } from '../../providers/case-type/case-type';
 import { AdvocateListProvider } from '../../providers/advocate-list/advocate-list';
 import { AdvocateDropdown } from '../../models/ advocate.model';
 
 import { Client } from '../../models/client.model';
+import { CaseType } from '../../models/case_type.model';
 
 @Component({
   selector: 'client_list',
@@ -32,9 +34,11 @@ export class ClientListPage
 	c_case_manager:string='';
 	c_search:string='';
 
+  caseTypeList: CaseType[] = [];
 	advocateList:AdvocateDropdown[]=[];
 
-	constructor(public advocateListProvider:AdvocateListProvider,
+  constructor(public advocateListProvider: AdvocateListProvider,
+    public caseTypeProvider: CaseTypeProvider,
 		public events:Events,
 		public apiValue:ApiValuesProvider,
 		public navCtrl: NavController, 
@@ -43,7 +47,14 @@ export class ClientListPage
 		public toastCtrl: ToastController,  
 		private http: Http,  
 		public loading: LoadingController)
-	{
+    {
+
+      if (this.caseTypeProvider.isEmpty)
+      {
+        this.showToast('Failure!!! Cannot get case types');
+      }
+      this.caseTypeList = this.caseTypeProvider.caseTypeList;
+
 		this.getadvocateList();
         
     }
@@ -159,10 +170,11 @@ export class ClientListPage
         
 		let loader = this.loading.create({
 
-		   content: "Loading ...",
+          content: "Loading ...",
+          duration:15000
 
 		 });
-
+     let loadingSuccessful = false;//To know whether timeout occured or not
 	   loader.present().then(() => 
 		{
 
@@ -172,7 +184,8 @@ export class ClientListPage
 
 	   .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
 				  
-			{ 
+       {
+         loadingSuccessful = true;
 		   			console.log(serverReply);
 		   			loader.dismiss();
 
@@ -187,9 +200,25 @@ export class ClientListPage
 				 
 			      
 
-			   });
+       }, error =>
+         {
+           loadingSuccessful = true;
+           console.log(error);
 
-  		 });
+           this.showToast('Error in getting data');
+           loader.dismiss();
+
+         });
+
+       });
+
+     loader.onDidDismiss(() =>
+     {
+       if (!loadingSuccessful)
+       {
+         this.showToast('Timeout!!! Server did not respond');
+       }
+     });
 		
 
     }

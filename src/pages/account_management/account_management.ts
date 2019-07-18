@@ -8,9 +8,12 @@ import { ToastController } from 'ionic-angular';
 import {Events} from 'ionic-angular';
 
 import { UserAccount } from '../../models/user_account.model';
+import { CaseType } from '../../models/case_type.model';
+
 import {SingleUserAccountPage} from './single_user_account/single_user_account';
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
 import { AdvocateListProvider } from '../../providers/advocate-list/advocate-list';
+import { CaseTypeProvider } from '../../providers/case-type/case-type';
 
 @Component({
   selector: 'account_management',
@@ -30,7 +33,10 @@ export class AccountManagementPage
   accounts: UserAccount[] = [];
   detailAccount: UserAccount;
 
+  caseTypeList: CaseType[]=[];
+
   constructor(public advocateListProvider: AdvocateListProvider,
+    public caseTypeProvider: CaseTypeProvider,
     public events: Events,
     public apiValue: ApiValuesProvider,
     public navCtrl: NavController,
@@ -39,10 +45,18 @@ export class AccountManagementPage
     private http: Http,
     public loading: LoadingController,
     public toastCtrl: ToastController,
-    public menuCtrl: MenuController) 
+    public menuCtrl: MenuController)
 	{
     this.getManagers();
     this.fetchData();
+
+    if (this.caseTypeProvider.isEmpty)
+    {
+      this.showToast('Failure!!! Cannot get Case types');
+    }
+  
+    this.caseTypeList = this.caseTypeProvider.caseTypeList; //Return even if empty
+
 	}
 
   openClient(account: UserAccount)

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from "@angular/http";
 import { LoadingController } from "ionic-angular";
 import "rxjs/add/operator/map";
@@ -12,6 +12,7 @@ import { SingleUserAccountPage } from '../single_user_account/single_user_accoun
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
 import { AdvocateListProvider } from '../../../providers/advocate-list/advocate-list';
 
+import {AccountSummaryDetailsComponent } from '../../../components/account-summary-details/account-summary-details';
 import { AccountSummary} from '../../../models/account_summary.model'
 
 @Component({
@@ -33,7 +34,9 @@ export class AccountSummaryPage
   detailAccount: AccountSummary;
 
 
-  constructor(public advocateListProvider: AdvocateListProvider,
+  constructor(
+    public modalCtrl: ModalController,
+    public advocateListProvider: AdvocateListProvider,
     public events: Events,
     public apiValue: ApiValuesProvider,
     public navCtrl: NavController,
@@ -152,20 +155,22 @@ export class AccountSummaryPage
     this.blurAmount = '';
   }
 
-  showDetails(account)
+  showDetails(account: AccountSummary)
   {
 
-    if (this.setDetailVisible == true) {
-      //Already Visible
+    let data =
+    {
+      accountDetails:account
+    };
+    const modal = this.modalCtrl.create(AccountSummaryDetailsComponent, data);
 
-      //Set it to false so that the div hides and don't do anything
-      this.hideDetails();
-      return;
-    }
-
-    this.setDetailVisible = true;
+    modal.present();
     this.blurAmount = 'blurDiv';
-    this.detailAccount = account;
+
+    modal.onDidDismiss(() =>
+    {
+      this.blurAmount = '';
+    });
 
   }
 }

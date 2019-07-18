@@ -1,0 +1,11 @@
+account-summary-details {
+  .toolbar-background {
+    background-color: map-get($colors,primary);
+  }
+
+  ion-label
+  {
+    overflow:unset;
+    white-space:unset;
+  }
+}

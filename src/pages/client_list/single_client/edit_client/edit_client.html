@@ -43,11 +43,7 @@
         <ion-item no-lines [ngClass]="{'error':! editClientForm.controls.c_case_type.valid,'valid':(editClientForm.controls.c_case_type.touched && editClientForm.controls.c_case_type.valid)}" [class.invalid]="! editClientForm.controls.c_case_type.valid">
           <ion-label stacked>Case Type <span class="mandatory_field">*</span></ion-label>
           <ion-select interface="popover" formControlName="c_case_type" placeholder="Select Case Type">
-            <ion-option value="Civil">Civil</ion-option>
-            <ion-option value="Murder">Murder</ion-option>
-            <ion-option value="Criminal">Criminal</ion-option>
-            <ion-option value="Divorce">Divorce</ion-option>
-
+            <ion-option *ngFor="let caseType of caseTypeList" value="{{caseType.id}}">{{caseType.case_type}}</ion-option>
           </ion-select>
 
         </ion-item>
@@ -60,8 +56,8 @@
         <ion-item no-lines [ngClass]="{'error': !editClientForm.controls.c_client_type.valid,'valid':(editClientForm.controls.c_client_type.touched && editClientForm.controls.c_client_type.valid)}" [class.invalid]="! editClientForm.controls.c_client_type.valid">
           <ion-label stacked>Client Type <span class="mandatory_field"> *</span></ion-label>
           <ion-select interface="popover" formControlName="c_client_type" placeholder="Select Client Type">
-            <ion-option value="Test1">Test 1</ion-option>
-            <ion-option value="Test2">Test 2</ion-option>
+            <ion-option value="Case Filer">Case Filer</ion-option>
+            <ion-option value="Apposite From Case filer">Apposite From Case filer</ion-option>
           </ion-select>
         </ion-item>
 

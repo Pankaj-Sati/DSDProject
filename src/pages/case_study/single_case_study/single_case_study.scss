@@ -1,57 +1,56 @@
-single_case_study
-{
-	table 
-	{
-		width:100%;
-		text-align:left;
-	}
+single_case_study {
+  table {
+    width: 100%;
+    text-align: left;
+  }
 
-	th, td 
-	{
-		padding:10px 10px;
+  th, td {
+    padding: 10px 10px;
+  }
 
-	}
+  .greaterSize {
+    min-width: 96px;
+    min-height: 96px;
+  }
 
-	.greaterSize
-	{
-		min-width: 96px;
-		min-height: 96px;
-	}
-	
-	th 
-	{
-		color:#fff;
-		border-top:1px solid #222;
-		background-color:color($colors, primary, base);
-	}
-	
-	td 
-	{
-		border-bottom:1px solid #f4f4f4;
-	}
+  th {
+    color: #fff;
+    border-top: 1px solid #222;
+    background-color: color($colors, primary, base);
+  }
+
+  td {
+    border-bottom: 1px solid #f4f4f4;
+  }
 
 
-	table 
-	{
-		width:100%;
-		text-align:left;
-	}
-	th, td 
-	{
-		padding:5px 10px;
-		min-width: 96px;
-		min-height: 96px;
-		margin: 10px;
-	}
-	th {
-		color:#fff;
-		border-top:1px solid #DDD;
-		background-color:color($colors, primary, base);
-	}
+  table {
+    width: 100%;
+    text-align: left;
+  }
 
-	td 
-	{
+  th, td {
+    padding: 5px 10px;
+    min-width: 96px;
+    min-height: 96px;
+    margin: 10px;
+  }
 
-		border:1px solid #BBB;
-	}
+  th {
+    color: #fff;
+    border-top: 1px solid #DDD;
+    background-color: color($colors, primary, base);
+  }
+
+  td {
+    border: 1px solid #BBB;
+  }
+
+  .seperatorHeading {
+    font-size: 18px;
+    text-align: center;
+    color: white;
+    background-color: map-get($colors,primary);
+    padding: 5px;
+  }
 }
