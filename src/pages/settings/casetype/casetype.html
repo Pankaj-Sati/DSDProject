@@ -95,5 +95,9 @@
 
 		</ion-row>
 	</ion-card>
+
+  <div *ngIf="casetypes==null || casetypes==undefined|| casetypes.length==0">
+    <no-record-found></no-record-found>
+  </div>
 		
 </ion-content>

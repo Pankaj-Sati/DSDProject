@@ -1,0 +1,20 @@
+export class BulkSMS
+{
+  id;
+  user_id;
+  msg_id;
+  contact_no;
+  sms_text;
+  response;
+  sendAs;
+  created_on;
+  created_by;
+  del_on;
+  del_by;
+  status;
+  flag;
+  smsSendDate;
+  name;
+  alias;
+  case_no;
+}

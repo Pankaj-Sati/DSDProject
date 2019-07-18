@@ -1,0 +1,67 @@
+<!-- Generated template for the RemindersDetailComponent component -->
+
+<ion-header>
+
+  <ion-navbar>
+
+    <ion-row>
+      <ion-col col-2 style="margin:auto;text-align:center;">
+
+        <ion-icon name="close" (click)="dismissPage()" style="color:white;zoom:1.5;"></ion-icon>
+
+      </ion-col>
+      <ion-col col-10 style="text-align:left">
+        <ion-title>Details</ion-title>
+      </ion-col>
+
+    </ion-row>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content overflow-scroll="false">
+
+  <ion-list>
+    <div *ngIf="smsDetail!=null && smsDetail!=undefined">
+
+      <ion-item no-lines>
+        <ion-label><b>Name</b></ion-label>
+        <ion-label> {{smsDetail.name}}</ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines>
+        <ion-label><b>Contact</b></ion-label>
+        <ion-label> {{smsDetail.contact_no}}</ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines>
+        <ion-label><b>Sent On:</b></ion-label>
+        <ion-label> {{smsDetail.smsSendDate}}</ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines>
+        <ion-label><b>Alien No.</b></ion-label>
+        <ion-label> {{smsDetail.case_no}}</ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines>
+        <ion-label><b>Body:</b></ion-label>
+        <ion-label style="overflow:unset;white-space:unset;">{{smsDetail.sms_text}}</ion-label>
+
+      </ion-item>
+
+
+      <ion-row style="text-align: center;margin-top:20px;">
+        <ion-col>
+          <button class="closeButton" icon-start round ion-button (click)="dismissPage()"><ion-icon name="close"></ion-icon>Close</button>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-list>
+</ion-content>
+

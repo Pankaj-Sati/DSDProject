@@ -1,224 +1,417 @@
 <ion-header>
- 
+
   <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Account Details</ion-title>
+
+    <ion-row center style="text-align: center;vertical-align: middle;">
+      <ion-col>
+        <ion-title style="text-align: left;height: 100%;vertical-align: middle;">
+          User Account Details
+        </ion-title>
+
+      </ion-col>
+      <ion-col style="text-align: right;color:white; margin:auto;" (click)="showActions($event)">
+        <b style="font-size:14px;">ACTION</b>
+      </ion-col>
+
+    </ion-row>
+
   </ion-navbar>
 </ion-header>
 
-
-
 <ion-content>
+  <div *ngIf="clientDetails!=undefined && clientDetails!=null">
 
-	<br>
-	<hr>
-	<br>
-			<button class="btn-padding"  icon-start ion-button (click)="viewPaymentSummary()">
-				<ion-icon name="eye"></ion-icon>
-			View Payment Summary</button> <br>
-	
-			<button class="btn-padding"  icon-start ion-button (click)="addPayment()">
-				<ion-icon name="add"></ion-icon>
-			Add Payment</button> <br>
-		
-			<button class="btn-padding" icon-start ion-button (click)="sendSMS()">
-				<ion-icon name="send"></ion-icon>Send SMS</button> 
-	
-	<br>
-	<hr>
-	<br>
+    <!--------------------Case Details--------------------->
+    <ion-row class="detailsRow" (click)="toggleShowMore(0)">
+      <ion-col col-10>
+        <ion-label style="font-size:1em "><b>Case Details</b></ion-label>
+      </ion-col>
 
-	<ion-list>
+      <ion-col col-2 class="detailIconCol">
+        <ion-icon class="detailIcon" *ngIf="! showCaseDetails" name="arrow-down"></ion-icon>
+        <ion-icon class="detailIcon" *ngIf="showCaseDetails" name="arrow-up"></ion-icon>
+      </ion-col>
 
-	    <ion-item>
-	      	<ion-label fixed>Case Type: </ion-label>
-	      	
-	      </ion-item>
-	     
-	      <ion-item>
-	        <ion-label fixed><b>Alien No.:</b></ion-label>
-	    
-	      </ion-item>
+    </ion-row>
 
-	       <ion-item>
-	      	<ion-label>Case Category:</ion-label>
-	      	
+    <div *ngIf="showCaseDetails">
 
-	      </ion-item>
+      <ion-row>
+        <ion-col>
 
-	       <ion-item>
-	        <ion-label fixed><b>Case Description:</b></ion-label>
-	       
-	      </ion-item>
+        </ion-col>
+      </ion-row>
 
-	       <ion-item>
-	        <ion-label fixed><b>Case Registered Date.:</b></ion-label>
-	       
-	      </ion-item>
-
- 		<ion-item>
-	        <ion-label><b>Entry 1</b></ion-label>
-	       <hr>
-	   </ion-item>
-	      <br>
-	      <hr>
-	      <br>
+      <ion-item *ngIf="clientDetails.case_type!=null && clientDetails.case_type.length>0">
+        <ion-label><b>Case Type:</b><span class='info'>{{clientDetails.case_type}}</span> </ion-label>
+      </ion-item>
 
 
-	      <ion-item>
-	        <ion-label fixed><b>Full Name:</b></ion-label>
-	        
-	      </ion-item>
 
-	      <ion-item>
-	        <ion-label fixed><b>Alias:</b></ion-label>
-	        
-	      </ion-item>
+      <ion-item no-lines *ngIf="clientDetails.case_no!=null && clientDetails.case_no.length>0">
+        <ion-label><b>Alien No.:</b><span class='info'>{{clientDetails.case_no}}</span></ion-label>
 
-	      <ion-item>
-	        <ion-label fixed><b>Contact No.:</b></ion-label>
-	      
-	      </ion-item>
+      </ion-item>
 
-	      <ion-item>
-	        <ion-label fixed><b>Alternative No.:</b></ion-label>
-	       
-	      </ion-item>
-
-	      <ion-item>
-	        <ion-label fixed><b>Email Id:</b></ion-label>
-	        
-	      </ion-item>
-
-	      <ion-item>
-	        <ion-label fixed><b>Notes:</b></ion-label>
-	       
-	      </ion-item>
-
-	      <br>
-	      <hr>
-	      <br>
-
-	     <ion-item>
-	        <ion-label><b>Permanent Address</b></ion-label>
-	       <hr>
-	   </ion-item>
-
-	   <ion-item>
-	        <ion-label fixed><b>Street:</b></ion-label>
-	        
-	      </ion-item>
-
-	      <ion-item>
-	        <ion-label fixed><b>City or Town:</b></ion-label>
-	       
-	      </ion-item>
-
-	      <ion-item>
-	        <ion-label fixed><b>State:</b></ion-label>
-	       
-	      </ion-item>
-
-	      <ion-item>
-	        <ion-label fixed><b>Zip Code:</b></ion-label>
-	       
-	      </ion-item>
-
-	      <ion-item>
-	        <ion-label fixed><b>Country:</b></ion-label>
-	        
-	      </ion-item>
-
-		  <br>
-	      <hr>
-	      <br>
-
- 		<ion-item>
-	        <ion-label><b>Biling Address</b></ion-label>
-	       <hr>
-	   </ion-item>
-
-	   <ion-item>
-	        <ion-label fixed><b>Street:</b></ion-label>
-	        
-	      </ion-item>
-
-	      <ion-item>
-	        <ion-label fixed><b>City or Town:</b></ion-label>
-	       
-	      </ion-item>
-
-	      <ion-item>
-	        <ion-label fixed><b>State:</b></ion-label>
-	       
-	      </ion-item>
-
-	      <ion-item>
-	        <ion-label fixed><b>Zip Code:</b></ion-label>
-	       
-	      </ion-item>
-
-	      <ion-item>
-	        <ion-label fixed><b>Country:</b></ion-label>
-	        
-	      </ion-item>
-	      <br>
-	      <hr>
-	      <br>
-
-	      <ion-item>
-	        <ion-label fixed><b>Filing Case Manager Name (If any):</b></ion-label>
-	       
-	      </ion-item>
-
-	      <ion-item>
-	        <ion-label fixed><b>Case Manager Assigned To:</b></ion-label>
-	        
-	      </ion-item>
-
-	      <br>
-	      <hr>
-	      <br>
-
-	     <ion-item>
-	        <ion-label ><b>Defendant Information</b></ion-label>
-	       <hr>
-	   </ion-item>
+      <ion-item no-lines *ngIf="clientDetails.client_type!=null && clientDetails.client_type.length>0">
+        <ion-label><b>Client Type:</b><span class='info'>{{clientDetails.client_type}}</span></ion-label>
 
 
-	      <ion-item>
-	        <ion-label fixed><b>Full Name:</b></ion-label>
-	      
-	      </ion-item>
+      </ion-item>
 
-	      <ion-item>
-	        <ion-label fixed><b>Alias:</b></ion-label>
-	   
-	      </ion-item>
+      <ion-item no-lines *ngIf="clientDetails.case_category!=null && clientDetails.case_category.length>0">
+        <ion-label><b>Case Category:</b><span class='info'>{{clientDetails.case_category}}</span></ion-label>
 
-	      <ion-item>
-	        <ion-label fixed><b>Defendant Manager Name (If any):</b></ion-label>
-	    
-	      </ion-item>
+      </ion-item>
 
-	      <br>
-	      <hr>
-	      <br>
-	      <ion-item>
-	        <ion-label fixed><b>Registration Fee:</b></ion-label>
-	     
-	      </ion-item>
+      <ion-item no-lines *ngIf="clientDetails.case_desc!=null && clientDetails.case_desc.length>0">
+        <ion-label><b>Case Description:</b><span class='info'>{{clientDetails.case_desc}}</span></ion-label>
 
-	      <ion-item>
-	        <ion-label fixed><b>Decided Fee:</b></ion-label>
-	     
-	      </ion-item>
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.case_reg_date!=null && clientDetails.case_reg_date.length>0">
+        <ion-label><b>Case Registration Date:</b><span class='info'>{{clientDetails.case_reg_date}}</span></ion-label>
+
+      </ion-item>
+
+    </div>
+
+    <!--------------------Case Details Ends--------------------->
+    <!--------------------Personal Details--------------------->
+    <ion-row class="detailsRow" (click)="toggleShowMore(1)">
+      <ion-col col-10>
+        <ion-label style="font-size:1em "><b>Personal Details</b></ion-label>
+      </ion-col>
+
+      <ion-col col-2 class="detailIconCol">
+        <ion-icon class="detailIcon" *ngIf="! showPersonalDetails" name="arrow-down"></ion-icon>
+        <ion-icon class="detailIcon" *ngIf="showPersonalDetails" name="arrow-up"></ion-icon>
+      </ion-col>
+
+    </ion-row>
+
+    <div *ngIf="showPersonalDetails">
+      <ion-item no-lines *ngIf="clientDetails.name!=null && clientDetails.name.length>0">
+        <ion-label><b>Full Name:</b><span class='info'>{{clientDetails.name}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.alias!=null && clientDetails.alias.length>0">
+        <ion-label><b>Alias:</b><span class='info'>{{clientDetails.alias}}</span></ion-label>
+
+      </ion-item>
 
 
-	</ion-list>
+      <ion-item no-lines *ngIf="clientDetails.contact!=null && clientDetails.contact.length>0">
+        <ion-label><b>Contact No.:</b><span class='info'>{{clientDetails.contact}}</span></ion-label>
 
-	
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.alternate_number!=null && clientDetails.alternate_number.length>0">
+        <ion-label><b>Alternative No.:</b><span class='info'>{{clientDetails.alternate_number}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.email!=null && clientDetails.email.length>0">
+        <ion-label><b>Email Id:</b><span class='info'>{{clientDetails.email}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.notes!=null && clientDetails.notes.length>0">
+        <ion-label><b>Notes:</b><span class='info'>{{clientDetails.notes}}</span></ion-label>
+
+      </ion-item>
+    </div>
+
+    <!--------------------Permanent Address Details--------------------->
+    <ion-row class="detailsRow" (click)="toggleShowMore(2)">
+      <ion-col col-10>
+        <ion-label style="font-size:1em "><b>Address</b></ion-label>
+      </ion-col>
+
+      <ion-col col-2 class="detailIconCol">
+        <ion-icon class="detailIcon" *ngIf="! showParmanentAddressDetails" name="arrow-down"></ion-icon>
+        <ion-icon class="detailIcon" *ngIf="showParmanentAddressDetails" name="arrow-up"></ion-icon>
+      </ion-col>
+
+    </ion-row>
+
+    <div *ngIf="showParmanentAddressDetails">
+      <ion-item>
+        <div class="innerLabel"><b>Permanent Address</b></div>
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.apt!=null && clientDetails.apt.length>0">
+        <ion-label><b>Appartment:</b><span class='info'>{{clientDetails.apt}}</span></ion-label>
+
+      </ion-item>
+      <ion-item no-lines *ngIf="clientDetails.streetNoName!=null && clientDetails.streetNoName.length>0">
+        <ion-label><b>Street:</b><span class='info'>{{clientDetails.streetNoName}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.city!=null && clientDetails.city.length>0">
+        <ion-label><b>City or Town:</b><span class='info'>{{clientDetails.city}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.state!=null && clientDetails.state.length>0">
+        <ion-label><b>State:</b><span class='info'>{{clientDetails.state}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.zipCode!=null && clientDetails.zipCode.length>0">
+        <ion-label><b>Zip Code:</b><span class='info'>{{clientDetails.zipCode}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.country!=null && clientDetails.country.length>0">
+        <ion-label><b>Country:</b><span class='info'>{{clientDetails.country}}</span></ion-label>
+
+      </ion-item>
+
+      <!-- Billing address -->
+      <br />
+      <ion-item>
+        <div class="innerLabel"><b>Billing Address</b></div>
+      </ion-item>
+      <hr />
+      <ion-item no-lines *ngIf="clientDetails.streetNoNameB!=null && clientDetails.streetNoNameB.length>0">
+        <ion-label><b>Street:</b><span class='info'>{{clientDetails.streetNoNameB}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.cityB!=null && clientDetails.cityB.length>0">
+        <ion-label><b>City or Town:</b><span class='info'>{{clientDetails.cityB}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.stateB!=null && clientDetails.stateB.length>0">
+        <ion-label><b>State:</b><span class='info'>{{clientDetails.stateB}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.zipCodeB!=null && clientDetails.zipCodeB.length>0">
+        <ion-label><b>Zip Code:</b><span class='info'>{{clientDetails.zipCodeB}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.country!=null && clientDetails.country.length>0">
+        <ion-label><b>Country:</b><span class='info'>{{clientDetails.country}}</span></ion-label>
+
+      </ion-item>
+
+    </div>
+
+    <!--------------------Entities Details--------------------->
+    <div name="entityDetails" *ngIf="entities!=null && entities.length>0">
+      <ion-row class="detailsRow" (click)="toggleShowMore(5)">
+        <ion-col col-10>
+          <ion-label style="font-size:1em "><b>Entities:<span style="margin-left:10px;">{{entities.length}}</span></b></ion-label>
+        </ion-col>
+
+        <ion-col col-2 class="detailIconCol">
+          <ion-icon class="detailIcon" *ngIf="! showEntityDetails" name="arrow-down"></ion-icon>
+          <ion-icon class="detailIcon" *ngIf="showEntityDetails" name="arrow-up"></ion-icon>
+        </ion-col>
+
+      </ion-row>
+      <div *ngIf="showEntityDetails">
+        <div name="eachEntity" *ngFor="let entity of entities;let i=index">
+          <ion-item>
+            <span style="font-size:18px; font-weight:500">Entity:{{i+1}}</span>
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.relationship!=null && entity.relationship.length>0">
+            <ion-label><b>Relationship:</b><span class='info'>{{entity.relationship}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.name!=null && entity.name.length>0">
+            <ion-label><b>Full Name:</b><span class='info'>{{entity.name}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.alias!=null && entity.alias.length>0">
+            <ion-label><b>Alias:</b><span class='info'>{{entity.alias}}</span></ion-label>
+
+          </ion-item>
+
+
+          <ion-item no-lines *ngIf="entity.contact!=null && entity.contact.length>0">
+            <ion-label><b>Contact No.:</b><span class='info'> {{entity.contact}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.alternate_number!=null && entity.alternate_number.length>0">
+            <ion-label><b>Alternative No.:</b><span class='info'>{{entity.alternate_number}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.email!=null && entity.email.length>0">
+            <ion-label><b>Email Id:</b><span class='info'>{{entity.email}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.notes!=null && entity.notes.length>0">
+            <ion-label><b>Notes:</b><span class='info'>{{entity.notes}}</span></ion-label>
+
+          </ion-item>
+          <br />
+          <!--Permanent Address -->
+          <ion-item>
+            <div class="innerLabel"><b>Permanent Address</b></div>
+          </ion-item>
+          <hr />
+
+          <ion-item no-lines *ngIf="entity.apt!=null && entity.apt.length>0">
+            <ion-label><b>Apartment:</b><span class='info'>{{entity.apt}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.streetNoName!=null && entity.streetNoName.length>0">
+            <ion-label><b>Street:</b><span class='info'>{{entity.streetNoName}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.city!=null && entity.city.length>0">
+            <ion-label><b>City or Town:</b><span class='info'>{{entity.city}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.state!=null && entity.state.length>0">
+            <ion-label><b>State:</b><span class='info'>{{entity.state}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.zipCode!=null && entity.zipCode.length>0">
+            <ion-label><b>Zip Code:</b><span class='info'>{{entity.zipCode}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.country!=null && entity.country.length>0">
+            <ion-label><b>Country:</b><span class='info'>{{entity.country}}</span></ion-label>
+
+          </ion-item>
+
+          <!-- Billing address -->
+          <hr />
+          <ion-item no-lines>
+            <div class="innerLabel"><b>Billing Address</b></div>
+          </ion-item>
+          <ion-item no-lines *ngIf="entity.streetNoNameB!=null && entity.streetNoNameB.length>0">
+            <ion-label><b>Street:</b><span class='info'>{{entity.streetNoNameB}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.cityB!=null && entity.cityB.length>0">
+            <ion-label><b>City or Town:</b><span class='info'>{{entity.cityB}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.stateB!=null && entity.stateB.length>0">
+            <ion-label><b>State:</b><span class='info'>{{entity.stateB}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.zipCodeB!=null && entity.zipCodeB.length>0">
+            <ion-label><b>Zip Code:</b><span class='info'>{{entity.zipCodeB}}</span></ion-label>
+
+          </ion-item>
+
+          <ion-item no-lines *ngIf="entity.country!=null && entity.country.length>0">
+            <ion-label><b>Country:</b><span class='info'>{{entity.country}}</span></ion-label>
+
+          </ion-item>
+
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <!--------------------Case Manager Details--------------------->
+    <ion-row class="detailsRow" (click)="toggleShowMore(3)">
+      <ion-col col-10>
+        <ion-label style="font-size:1em "><b>Case Manager</b></ion-label>
+      </ion-col>
+
+      <ion-col col-2 class="detailIconCol">
+        <ion-icon class="detailIcon" *ngIf="! showCaseManagerDetails" name="arrow-down"></ion-icon>
+        <ion-icon class="detailIcon" *ngIf="showCaseManagerDetails" name="arrow-up"></ion-icon>
+      </ion-col>
+
+    </ion-row>
+
+    <div *ngIf="showCaseManagerDetails">
+      <ion-item no-lines *ngIf="clientDetails.fillingAdvocate_name!=null && clientDetails.fillingAdvocate_name.length>0">
+        <ion-label><b>Filing Case Manager Name (If any):</b><span class='info'>{{clientDetails.fillingAdvocate_name}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.caseManagerName!=null && clientDetails.caseManagerName.length>0">
+        <ion-label><b>Case Manager Assigned To:</b><span class='info'>{{clientDetails.caseManagerName}}</span></ion-label>
+
+      </ion-item>
+    </div>
+
+
+    <!--------------------Defendant Details--------------------->
+    <ion-row class="detailsRow" (click)="toggleShowMore(4)">
+      <ion-col col-10>
+        <ion-label style="font-size:1em "><b>Defendant Details</b></ion-label>
+      </ion-col>
+
+      <ion-col col-2 class="detailIconCol">
+        <ion-icon class="detailIcon" *ngIf="! showDefendantDetails" name="arrow-down"></ion-icon>
+        <ion-icon class="detailIcon" *ngIf="showDefendantDetails" name="arrow-up"></ion-icon>
+      </ion-col>
+
+    </ion-row>
+    <div *ngIf="showDefendantDetails">
+
+      <ion-item no-lines *ngIf="clientDetails.defendentName!=null && clientDetails.defendentName.length>0">
+        <ion-label><b>Full Name:</b><span class='info'>{{clientDetails.defendentName}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.defendentAlias!=null && clientDetails.defendentAlias.length>0">
+        <ion-label><b>Alias:</b><span class='info'>{{clientDetails.defendentAlias}}</span></ion-label>
+
+      </ion-item>
+
+      <ion-item no-lines *ngIf="clientDetails.op_adv_name!=null && clientDetails.op_adv_name.length>0">
+        <ion-label><b>Defendant Manager Name (If any):</b><span class='info'>{{clientDetails.op_adv_name}}</span></ion-label>
+
+      </ion-item>
+    </div>
+    <!--------------------Defendant Details Ends--------------------->
+    <hr />
+    <ion-item no-lines *ngIf="clientDetails.registration_fee!=null && clientDetails.registration_fee.length>0">
+      <ion-label><b>Registration Fee:</b><span class='info'>{{clientDetails.registration_fee}}</span></ion-label>
+
+    </ion-item>
+
+    <ion-item no-lines *ngIf="clientDetails.decided_fee!=null && clientDetails.decided_fee.length>0">
+      <ion-label><b>Decided Fee:</b><span class='info'>{{clientDetails.decided_fee}}</span></ion-label>
+
+    </ion-item>
+
+    <ion-row>
+      <ion-col style="text-align:center;">
+        <button ion-button (click)="navCtrl.pop()">Back</button>
+      </ion-col>
+    </ion-row>
+
+  </div>
+
+  <div *ngIf="clientDetails==undefined || clientDetails==null || clientDetails.length==0">
+    <no-record-found></no-record-found>
+  </div>
+
 
 </ion-content>

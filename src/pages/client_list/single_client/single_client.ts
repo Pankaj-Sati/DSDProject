@@ -16,17 +16,20 @@ import { ClientDocumentsPage } from './document/document';
 import { ClientCommunicationsPage } from './communications/communications';
 import { ClientPaymentPage } from './payment/payment';
 import { HearingDetailsPage } from './hearing_details/hearing_details';
+import { EditClientPage } from './edit_client/edit_client';
 
 
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
+import { CaseTypeProvider } from '../../../providers/case-type/case-type';
 
 import { Client, ClientDetails, Entity } from '../../../models/client.model';
 import { AdvocateDropdown } from '../../../models/ advocate.model';
 import { User } from '../../../models/login_user.model';
 
 import { ClientDetailActionsComponent } from '../../../components/client-detail-actions/client-detail-actions';
-import { dashCaseToCamelCase } from '@angular/compiler/src/util';
+import { CaseType } from '../../../models/case_type.model';
+
 
 @Component({
   selector: 'single_client',
@@ -66,6 +69,7 @@ export class SingleClientPage
   constructor(public myStorage: MyStorageProvider,
     public popover: PopoverController,
     public apiValue: ApiValuesProvider,
+    public caseTypeProvider: CaseTypeProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
@@ -105,7 +109,7 @@ export class SingleClientPage
   
 
       let data = new FormData();
-      data.append('cid', String(this.client.cid));
+      data.append('cid', String(this.client.id));
 
 		let loader = this.loading.create({
 
@@ -134,7 +138,11 @@ export class SingleClientPage
 					}
 					else
 					{
-            this.clientDetails = serverReply[0].data;
+             this.clientDetails = serverReply[0].data;
+
+            //Map case type with its string
+            this.clientDetails.case_type = this.caseTypeProvider.getCaseType(this.clientDetails.case_type);
+
             this.entities = serverReply[0].entity;
 						console.log("Client:");
             console.log(this.clientDetails);
@@ -215,6 +223,7 @@ export class SingleClientPage
 
         switch (data.selectedOption)
         {
+
           case 0: //Change Manager
             this.changeCaseManager();
             break;
@@ -239,10 +248,25 @@ export class SingleClientPage
           case 7: //Send SMS
             this.sendSms();
             break;
+          case 8://Edit Client
+            this.editClient();
+            break;
         }
 
       }
     });
+  }
+
+  editClient()
+  {
+    let data =
+    {
+      client: this.client,
+      clientDetails: this.clientDetails,
+      entityDetails: this.entities
+    };
+
+    this.navCtrl.push(EditClientPage,data);
   }
 
   deleteClientAlert()
@@ -376,7 +400,9 @@ export class SingleClientPage
   {
     let data =
     {
-      clientdetails: this.clientDetails
+      clientID: this.client.id,
+      clientdetails: this.clientDetails,
+      showAddBalance:true
     };
 
     this.navCtrl.push(ClientPaymentPage, data);

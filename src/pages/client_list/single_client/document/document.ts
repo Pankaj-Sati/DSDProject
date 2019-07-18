@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Events, NavParams, Platform } from 'ionic-angular';
-import { LoadingController, ToastController, NavController, NavOptions, AlertController } from 'ionic-angular';
+import { LoadingController, ToastController, NavController, NavOptions, AlertController, ModalController } from 'ionic-angular';
 import { Http } from "@angular/http";
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer'
@@ -8,6 +8,7 @@ import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
+import {DownloadDocumentsComponent } from '../../../../components/download-documents/download-documents';
 import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
 
@@ -41,7 +42,8 @@ export class ClientDocumentsPage
       public inAppBrowser: InAppBrowser,
       public file: File,
       public platform: Platform,
-      public filePath: FilePath,
+    public filePath: FilePath,
+    public modalCtrl: ModalController,
       public fileTransfer: FileTransfer,
     private camera: Camera,
     public myStorage: MyStorageProvider
@@ -65,9 +67,17 @@ export class ClientDocumentsPage
   getDocument(document: ClientDocuments)
   {
     //To download a single document
-    let target = "_system"; //To open the url in device native browser like chrome or safari
-    let downloadUrl = this.apiValues.baseFileUploadFolder + document.documents;
-    this.inAppBrowser.create(downloadUrl, target);
+
+    if (document.documents == null || document.documents.length == 0)
+    {
+      return;
+    }
+
+    let data = {
+      document: document.documents
+    };
+    const modal = this.modalCtrl.create(DownloadDocumentsComponent, data);
+    modal.present();
   }
 
   fetchData()

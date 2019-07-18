@@ -23,9 +23,12 @@ import {SMSListPage} from '../pages/sms/smslist/smslist';
 import {SearchHeaderPage} from '../pages/search-header/search-header';
 import { ApiValuesProvider } from '../providers/api-values/api-values';
 import { MyStorageProvider } from '../providers/my-storage/my-storage';
-import { InAppBrowser} from '@ionic-native/in-app-browser/ngx';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { LoadingController, ToastController } from 'ionic-angular';
 import { User } from '../models/login_user.model';
+import { CaseType } from '../models/case_type.model';
+
+import { CaseTypeProvider } from '../providers/case-type/case-type';
 
 import {timer} from 'rxjs/observable/timer';
 
@@ -74,11 +77,15 @@ export class MyApp {
     public splashScreen: SplashScreen,
     public storage: Storage,
     public myStorage: MyStorageProvider,
-    public inAppBrowser: InAppBrowser
+    public inAppBrowser: InAppBrowser,
+    public caseTypeProvider: CaseTypeProvider,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController
   ) 
   {
 
     this.initializeApp();
+    this.getCaseTypeList();
     this.checkIfAlreadyLoggedIn();
     this.showSearch=false;
 
@@ -115,7 +122,7 @@ export class MyApp {
       ];
         this.smsPages=[
 
-          { title: 'Bulk Emails', icon: 'contact', iconColor: 'darksalmon',component: SMSBulkEmailPage},
+          { title: 'Bulk SMS', icon: 'contact', iconColor: 'darksalmon',component: SMSBulkEmailPage},
           { title: 'SMS List', icon: 'list-box', iconColor: 'darksalmon',component: SMSListPage}
       ];
 
@@ -156,6 +163,41 @@ export class MyApp {
       { title: 'Logout', icon: 'log-out', iconColor:'appLogoutIcon', component: LogoutPage, subs: null, hasSub: false }
     
     ];
+  }
+
+  getCaseTypeList()
+  {
+    const loader = this.loadingCtrl.create(
+      {
+        content: 'Loading...',
+        duration:10000
+      });
+    loader.present();
+
+    let loadingSuccessful = false; //To know whether timeout occured or not
+    this.caseTypeProvider.fetchList();
+
+    this.events.subscribe('get_case_types', (success) =>
+    {
+      
+      loadingSuccessful = true;
+      loader.dismiss(); //Dismiss the loader whether the result was a success or a failure
+    });
+
+    loader.onDidDismiss(() =>
+    {
+      if (!loadingSuccessful)
+      {
+        //Timeout
+        const toast = this.toastCtrl.create({
+          message: 'Timeout!!! Server Did Not Respond',
+          duration:3000
+        });
+        toast.present();
+      }
+    });
+
+
   }
 
   checkIfAlreadyLoggedIn()

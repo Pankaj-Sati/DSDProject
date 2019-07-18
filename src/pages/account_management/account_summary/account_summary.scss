@@ -36,4 +36,12 @@ account_summary {
     min-height: 48px;
     min-width: 48px;
   }
+
+  ion-modal
+  {
+    top: 30% !important;
+    padding: 10px;
+    background: transparent !important;
+    overflow-y: scroll;
+  }
 }

@@ -76,8 +76,8 @@ page-main {
   }
 
   .profileName {
-    padding:2px;
-    background-color:map-get($colors,primary);
+    padding: 2px;
+    background-color: map-get($colors,primary);
   }
 
   .menuSubItem:last-child {
@@ -86,10 +86,14 @@ page-main {
     }
   }
 
-//---------------Reminder Model Classes------------//
-
-//---------------Reminder Model Classes Ends------------//
-
+  ion-modal {
+    top: 30% !important;
+    padding: 10px;
+    background: transparent !important;
+    overflow-y: scroll;
+  }
+  //---------------Reminder Model Classes------------//
+  //---------------Reminder Model Classes Ends------------//
   //--------Splash Screen ANimation-----------//
   .splash {
     position: absolute;

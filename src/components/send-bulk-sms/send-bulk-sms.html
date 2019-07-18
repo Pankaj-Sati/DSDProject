@@ -1,0 +1,54 @@
+<ion-header>
+
+  <ion-navbar>
+
+    <ion-row>
+      <ion-col col-2 style="margin:auto;text-align:center;">
+
+        <ion-icon name="close" (click)="dismissPage()" style="color:white;zoom:1.5;"></ion-icon>
+
+      </ion-col>
+      <ion-col col-10 style="text-align:left">
+        <ion-title>Send Bulk SMS</ion-title>
+      </ion-col>
+
+    </ion-row>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-item no-lines>
+    <ion-label style="color:unset" stacked><b>Client(s) <span class="required_field">*</span></b></ion-label>
+    <ion-select interface="action-sheet">
+      <ion-option *ngFor="let client of clientList" (ionSelect)="addClient(client)" [value]="client.id">{{client.client_name}}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <div style="margin-top:10px;">
+    <ion-chip style="margin:2px;" *ngFor="let selectedClient of selectedClients;let i=index;">
+      <ion-label>{{selectedClient.client_name}}</ion-label>
+      <ion-icon class="chipIcon" (click)="removeClient(i)" name="close-circle"></ion-icon>
+    </ion-chip>
+  </div>
+
+  <ion-item no-lines>
+    <ion-label style="color:unset" stacked><b>SMS Text <span class="required_field">*</span></b></ion-label>
+    <ion-textarea required [(ngModel)]="sms_body"></ion-textarea>
+  </ion-item>
+
+
+
+  <ion-row style="text-align: center;margin-top:20px;">
+    <ion-col col-6>
+      <button class="closeButton" icon-start round ion-button (click)="dismissPage()"><ion-icon name="close"></ion-icon>Close</button>
+    </ion-col>
+    <ion-col col-6>
+      <button icon-start round ion-button [disabled]="sms_body==null || sms_body.length==0 || selectedClients==null || selectedClients.length==0" (click)="sendSMS()"><ion-icon name="mail"></ion-icon>Send</button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
+

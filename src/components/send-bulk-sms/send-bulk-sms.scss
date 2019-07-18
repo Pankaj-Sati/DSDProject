@@ -1,0 +1,19 @@
+send-bulk-sms {
+  .toolbar-background {
+    background-color: map-get($colors,primary);
+  }
+
+  .closeButton {
+    background-color: red;
+    color: white;
+  }
+
+  .required_field {
+    color: red;
+  }
+
+  .chipIcon {
+    color: red;
+    background-color: transparent;
+  }
+}

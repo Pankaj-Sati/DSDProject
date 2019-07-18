@@ -1,0 +1,32 @@
+export class AccountSummary
+{
+  id;
+  ref_id;
+  hearingRow_id;
+  payment_mode;
+  card_holder_name;
+  card_exp_month;
+  card_exp_year;
+  name;
+  bank_name;
+  account_holder_name;
+  branch_code;
+  account_no;
+  csc;
+  card_no;
+  branch_no;
+  hearing_amount;
+  total_given_amount;
+  total_overdue_amount;
+  total_amount;
+  remark;
+  created_on;
+  created_by;
+  updated_on;
+  update_by;
+  del_on;
+  del_by;
+  status;
+  usedFor;
+  case_no;
+}

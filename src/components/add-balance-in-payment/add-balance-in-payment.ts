@@ -5,7 +5,7 @@ import { LoadingController, ToastController, ViewController } from 'ionic-angula
 
 import { User } from '../../models/login_user.model';
 
-import { ClientDetails } from '../../models/client.model';
+import { ClientDetails, Client } from '../../models/client.model';
 
 
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
@@ -18,7 +18,8 @@ import { MyStorageProvider } from '../../providers/my-storage/my-storage';
 })
 export class AddBalanceInPaymentComponent
 {
-  passedClient: ClientDetails;
+  passedClientDetails: ClientDetails;
+  passedClientID;
   loggedInUser: User;
 
   amount;
@@ -47,7 +48,8 @@ export class AddBalanceInPaymentComponent
 
   ionViewDidLoad()
   {
-    this.passedClient = this.navParams.get('client');
+    this.passedClientID = this.navParams.get('clientID');
+    this.passedClientDetails = this.navParams.get('clientDetails');
   }
 
   dismissPage()
@@ -67,7 +69,7 @@ export class AddBalanceInPaymentComponent
     let loadingSuccessful = false;//To know whether loading timeout happened or not
 
     let body = new FormData();
-    body.append('cid', String(this.passedClient.id));
+    body.append('cid', String(this.passedClientID));
     body.append('session_id', String(this.loggedInUser.id));
     body.append('bAmount', this.amount);
     body.append('balanceRemark', this.remarks);

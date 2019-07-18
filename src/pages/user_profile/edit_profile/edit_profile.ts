@@ -386,8 +386,8 @@ export class EditProfilePage
 
       body.append("full_name", this.userForm.value.u_name);
       body.append("email", this.userForm.value.u_email);
-      body.append("contact", this.userForm.value.u_contact);
-      body.append("alt", this.userForm.value.u_alt);
+      body.append("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
+      body.append("alt", String(this.userForm.value.u_alt).replace(/\D+/g,''));
       body.append("gender", this.userForm.value.u_gender);
       body.append("date_of_birth", this.userForm.value.u_dob);
       body.append("country", this.userForm.value.u_country);
@@ -489,8 +489,8 @@ export class EditProfilePage
 
           "full_name": this.userForm.value.u_name,
           "email": this.userForm.value.u_email,
-          "contact": this.userForm.value.u_contact,
-          "alt": this.userForm.value.u_alt,
+          "contact": String(this.userForm.value.u_contact).replace(/\D+/g,''),
+          "alt": String(this.userForm.value.u_alt).replace(/\D+/g,''),
           "gender": this.userForm.value.u_gender,
           "date_of_birth": this.userForm.value.u_dob,
           "country": this.userForm.value.u_country,
@@ -519,27 +519,43 @@ export class EditProfilePage
         transferSuccessful = true;
         console.log("Image upload server reply");
         console.log(data);
-
-        if (data)
+        loader.dismiss();
+        if(data)
         {
-          if (JSON.parse(data["_body"])['code'] > 400)
+          try
           {
-            //Error returned from server
-            this.presentToast(JSON.parse(data["_body"])['message']);
-            loader.dismiss();
-            return;
+            console.log('Parsing-------');
+
+            let response = JSON.parse(data["response"]);
+            
+            console.log(response);
+            if (response.code != 200)
+            {
+              //Error returned from server
+              this.presentToast(response.message);
+              return;
+            }
+            else
+            {
+              //successful
+              this.updateSuccessful = true;
+              this.presentToast(response.message);
+              loader.dismiss();
+              return;
+            }
           }
-          else
+          catch (err)
           {
-            //successful
-            this.updateSuccessful = true;
-            this.presentToast(JSON.parse(data["_body"])['message']);
+            console.log('Parsing unsuccessful-------');
+            console.log(err);
+            this.presentToast("Failed!! Server returned an error");
             loader.dismiss();
-            return;
           }
+          
         }
         else
         {
+          console.log('Not in If (data)');
           this.presentToast("Failed!! Server returned an error");
           loader.dismiss();
         }
@@ -548,7 +564,8 @@ export class EditProfilePage
       {
 
         console.log(err);
-        transferSuccessful = true;
+          transferSuccessful = true;
+          console.log('In err=>');
         this.presentToast("Failed!! Server returned an error");
         loader.dismiss();
 
@@ -558,6 +575,7 @@ export class EditProfilePage
 
           transferSuccessful = true;
           console.log(err);
+          console.log('In catch(err=>');
           this.presentToast("Failed!! Server returned an error");
           loader.dismiss();
 
@@ -569,7 +587,7 @@ export class EditProfilePage
         console.log(data);
         if (!transferSuccessful)
         {
-          this.presentToast("Failure!! Check your internet connection");
+          this.presentToast("Timeout!! Check your internet connection");
         }
       });
     }

@@ -61,6 +61,7 @@ import { AdvocateListProvider } from '../providers/advocate-list/advocate-list';
 import { ApiValuesProvider } from '../providers/api-values/api-values';
 import { ClientEntityRelationshipProvider } from '../providers/client-entity-relationship/client-entity-relationship';
 import { CountryProvider } from '../providers/country/country';
+import { CaseTypeProvider } from '../providers/case-type/case-type';
 
 
 @NgModule({
@@ -166,7 +167,8 @@ import { CountryProvider } from '../providers/country/country';
     WebView,
     InAppBrowser,
     ClientEntityRelationshipProvider,
-    CountryProvider
+    CountryProvider,
+    CaseTypeProvider
   ],
   exports: [ComponentsModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]

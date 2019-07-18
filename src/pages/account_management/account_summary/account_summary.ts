@@ -1,5 +1,19 @@
-import {Component} from '@angular/core';
-import {Events} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
+import { Http, Headers, RequestOptions } from "@angular/http";
+import { LoadingController } from "ionic-angular";
+import "rxjs/add/operator/map";
+import { MenuController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
+import { Events } from 'ionic-angular';
+
+import { UserAccount } from '../../../models/user_account.model';
+import { SingleUserAccountPage } from '../single_user_account/single_user_account';
+import { ApiValuesProvider } from '../../../providers/api-values/api-values';
+import { AdvocateListProvider } from '../../../providers/advocate-list/advocate-list';
+
+import {AccountSummaryDetailsComponent } from '../../../components/account-summary-details/account-summary-details';
+import { AccountSummary} from '../../../models/account_summary.model'
 
 @Component({
 	selector: 'account_summary',
@@ -8,10 +22,10 @@ import {Events} from 'ionic-angular';
 
 export class AccountSummaryPage
 {
-	a_pay_mode:string;
-	a_pay_status:string;
-	c_pay_from:string;
-	c_pay_to:string;
+	a_pay_mode:string='';
+	a_pay_status:string='';
+	c_pay_from:string='';
+	c_pay_to:string='';
 
   setDetailVisible: boolean = false;
   blurAmount: string = '';
@@ -20,18 +34,116 @@ export class AccountSummaryPage
   detailAccount: AccountSummary;
 
 
-	constructor(public events:Events)
-	{
-      this.accounts = [
+  constructor(
+    public modalCtrl: ModalController,
+    public advocateListProvider: AdvocateListProvider,
+    public events: Events,
+    public apiValue: ApiValuesProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    private http: Http,
+    public loading: LoadingController,
+    public toastCtrl: ToastController,
+    public menuCtrl: MenuController) 
+  {
+    this.fetchData();
+  }
 
-        new AccountSummary("Client 1", "154", new Date() + "", "Payment By Cash", 4000, 3000),
-        new AccountSummary("Client 2", "15423", new Date()+"", "Cash", 4000, 3000),
-        new AccountSummary("Client 3", "1we54", new Date() + "", "REGISTRATION CHARGES", 4000, 3000),
-        new AccountSummary("Client 4", "121354", new Date()+"", "Cash", 4000, 3000),
-        
-      ];
-	}
-	
+  fetchData()
+  {
+    
+    this.accounts = [];
+
+    const loader = this.loading.create({
+
+      content: 'Loading...',
+      duration: 15000
+
+    });
+
+    let loadingSuccessful = false; //To know whether the loader ended successfully or timeout occured
+
+    loader.present().then(() =>
+    {
+      /*http://myamenbizzapp.com/dsd/api_work/account_summary.php?payment_mode=REGISTRATION CHARGES
+       * &payment_status=Outstanding&from_date=2019-07-03
+       * &to_date=2019-07-17
+       */
+      let body = new FormData();
+
+      body.append('payment_mode', this.a_pay_mode);
+      body.append('payment_status', this.a_pay_status);
+      body.append('from_date', this.c_pay_from);
+      body.append('to_date', this.c_pay_to);
+
+      this.http.post(this.apiValue.baseURL + "/account_summary.php", body, null)
+        .subscribe(response =>
+        {
+          loadingSuccessful = true;
+          loader.dismiss();
+          if (response)
+          {
+            console.log(response);
+
+            try
+            {
+              let data = JSON.parse(response['_body']);
+
+              if ('code' in data)
+              {
+                this.showToast(data.message);
+                return;
+              }
+              else
+              {
+                this.accounts = data;
+
+              }
+            }
+            catch (err)
+            {
+              console.log(err);
+              this.showToast('Failure!!! Error in response');
+            }
+
+          }
+          else
+          {
+            this.showToast('Failure!!! Error in response');
+          }
+        },
+          error =>
+          {
+            loadingSuccessful = true;
+            this.showToast('Failed to get data from server');
+            loader.dismiss();
+          });
+
+    });
+
+    loader.onDidDismiss(() =>
+    {
+
+      if (!loadingSuccessful)
+      {
+        this.showToast('Timeout!!! Server did not respond');
+      }
+
+    });
+
+  }
+
+  showToast(text)
+  {
+    const toast = this.toastCtrl.create({
+      message: text,
+      duration: 3000
+    });
+
+    toast.present();
+  }
+
 	searchClient()
 	{
 		this.events.publish('mainSearch','ds'); //This event is defined in app.component.ts file
@@ -43,46 +155,24 @@ export class AccountSummaryPage
     this.blurAmount = '';
   }
 
-  showDetails(account)
+  showDetails(account: AccountSummary)
   {
 
-    if (this.setDetailVisible == true) {
-      //Already Visible
+    let data =
+    {
+      accountDetails:account
+    };
+    const modal = this.modalCtrl.create(AccountSummaryDetailsComponent, data);
 
-      //Set it to false so that the div hides and don't do anything
-      this.hideDetails();
-      return;
-    }
-
-    this.setDetailVisible = true;
+    modal.present();
     this.blurAmount = 'blurDiv';
-    this.detailAccount = account;
+
+    modal.onDidDismiss(() =>
+    {
+      this.blurAmount = '';
+    });
 
   }
 }
 
-class AccountSummary
-{
-  client_name: string;
-  alien_no: string;
-  date: string;
-  payment_mode: string;
-  payment_overdue: number;
-  amount: number;
 
-  constructor(name: string,
-    alien_no: string,
-    date: string,
-    payment_mode: string,
-    payment_overdue: number,
-    amount: number) {
-
-    this.client_name = name;
-    this.alien_no = alien_no;
-    this.date = date;
-    this.payment_mode = payment_mode;
-    this.payment_overdue = payment_overdue;
-    this.amount = amount;
-
-  }
-}
