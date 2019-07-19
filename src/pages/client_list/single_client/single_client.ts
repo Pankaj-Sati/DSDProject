@@ -314,7 +314,7 @@ export class SingleClientPage
     let options = new RequestOptions({ headers: header });
 
     let body = new FormData();
-    body.append('rowID', this.clientDetails.id);
+    body.append('rowID', String(this.client.id));
     body.append('session_id', this.loggedInUser.id);
 
     this.http.get(this.apiValue.baseURL + "/client_delete.php?rowID=" + this.clientDetails.id + "& session_id=" + this.loggedInUser.id)

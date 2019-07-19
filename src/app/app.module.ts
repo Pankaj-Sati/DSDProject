@@ -63,6 +63,8 @@ import { ClientEntityRelationshipProvider } from '../providers/client-entity-rel
 import { CountryProvider } from '../providers/country/country';
 import { CaseTypeProvider } from '../providers/case-type/case-type';
 
+import { NotificationsModule } from '../pages/notifications/new_format/notification.module';
+
 
 @NgModule({
   declarations: [
@@ -111,7 +113,8 @@ import { CaseTypeProvider } from '../providers/case-type/case-type';
          SearchHeaderPageModule,
     ComponentsModule,
     BrMaskerModule,
-    SingleClientModule
+    SingleClientModule,
+    NotificationsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

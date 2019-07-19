@@ -48,11 +48,17 @@
 
    
 
-    <ion-row>
-      <ion-col style="text-align: center">
-        <button ion-button round icon-start end (click)="fetchData()"><ion-icon name="search"></ion-icon>Filter</button>
-      </ion-col>
-    </ion-row>
+      <ion-row>
+        <ion-col col-4 style="text-align: right">
+          <button ion-button round icon-start end (click)="fetchData()"><ion-icon name="search"></ion-icon>Filter</button>
+        </ion-col>
+        <ion-col col-4 style="text-align: center">
+          <button ion-button round icon-start end (click)="notificationList()"><ion-icon name="list"></ion-icon>List</button>
+        </ion-col>
+        <ion-col col-4 style="text-align: left">
+          <button ion-button round icon-start end (click)="addNotification()"><ion-icon name="add"></ion-icon>Add</button>
+        </ion-col>
+      </ion-row>
 
 
     <br><br>

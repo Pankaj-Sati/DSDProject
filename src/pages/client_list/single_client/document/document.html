@@ -19,7 +19,7 @@
 <ion-content>
   <ion-row>
     <ion-col style="text-align:center;">
-      <button ion-button icon-start><ion-icon name="cloud-download"></ion-icon>Download All</button>
+      <button ion-button icon-start (click)="downloadMultipleDoc()"><ion-icon name="cloud-download"></ion-icon>{{selectedDocList.length==0?'Download All':'Download Selected'}}</button>
       <button icon-start ion-button (click)="takeImage()"><ion-icon name="add"></ion-icon>Add New</button>
     </ion-col>
   </ion-row>
@@ -27,7 +27,7 @@
   <ion-row>
     <ion-col style="text-align:center;">
       <ion-label><b>Selected File:</b>{{selected_file_name}}</ion-label>
-      <button icon-start ion-button  (click)="uploadFile()"><ion-icon name="cloud-upload"></ion-icon>Upload</button>
+      <button icon-start ion-button [disabled]="(selected_file_name==undefined || selected_file_name.length==0)" (click)="uploadFile()"><ion-icon name="cloud-upload"></ion-icon>Upload</button>
     </ion-col>
   </ion-row>
 
@@ -35,15 +35,19 @@
 
 
   <div *ngFor="let doc of doc_list;let i=index">
-    <ion-card class="simpleCard" (click)="getDocument(doc)">
+    <ion-card class="{{isDocumentSelected(doc)?'simpleCardSelected':'simpleCard'}}">
 
       <ion-row style="padding-left: 5px;">
+
+        <ion-checkbox (ionChange)="documentSelected(doc)" style="margin:auto;" col-1>
+          <ion-icon name="document" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-checkbox>
 
         <ion-col style="margin:auto;" col-1>
           <ion-icon name="document" color="primary" style="zoom: 1.2;"></ion-icon>
         </ion-col>
 
-        <ion-col style="margin:auto;" col-7>
+        <ion-col style="margin:auto;" col-6>
           <ion-row>
             <ion-col style="text-align:left;">
               <b>{{doc.documents}} </b>
@@ -52,7 +56,7 @@
 
         </ion-col>
 
-        <ion-col style="margin:auto;float:right" col-4>
+        <ion-col style="margin:auto;float:right" col-3>
           <ion-row>
             <ion-col>
               {{doc.created_on | date :  "MMM d,y"}}
@@ -61,7 +65,7 @@
 
         </ion-col>
 
-        <ion-col style="margin:auto;" col-1>
+        <ion-col style="margin:auto;" col-1 (click)="getDocument(doc)">
           <ion-icon name="download" color="primary" style="zoom: 1.2;"></ion-icon>
         </ion-col>
 

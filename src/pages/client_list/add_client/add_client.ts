@@ -101,12 +101,12 @@ export class AddClientPage
         c_cm_assigned: new FormControl('', Validators.compose([Validators.required])),
 
         //Defendant Details
-        c_defendent_name: new FormControl('', Validators.compose([Validators.required])),
+        c_defendent_name: new FormControl(''),
 			c_defendent_alias:new FormControl(''),
         c_defendent_manager: new FormControl(''),
 
-        c_reg_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])),
-        c_decided_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')]))
+       // c_reg_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])),
+       // c_decided_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')]))
 
 		});
 
@@ -292,8 +292,8 @@ export class AddClientPage
         body.append('case_desc', this.addClientForm.value.c_case_description);
         body.append('op_alias', this.addClientForm.value.c_defendent_alias);
         body.append('op_adv_name', this.addClientForm.value.c_defendent_manager);
-        body.append('registration_fee', this.addClientForm.value.c_reg_fee);
-        body.append('decided_fee', this.addClientForm.value.c_decided_fee);
+        //body.append('registration_fee', this.addClientForm.value.c_reg_fee);
+        //body.append('decided_fee', this.addClientForm.value.c_decided_fee);
         body.append('alias', this.addClientForm.value.c_alias);
       body.append('contact', String(this.addClientForm.value.c_contact).replace(/\D+/g, ''));
       body.append('alternate_number', String(this.addClientForm.value.c_alt_no).replace(/\D+/g,''));

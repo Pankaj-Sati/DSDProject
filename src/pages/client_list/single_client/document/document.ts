@@ -25,6 +25,9 @@ declare var cordova: any;
 export class ClientDocumentsPage
 {
   doc_list: ClientDocuments[] = [];
+
+  selectedDocList: ClientDocuments[] = [];
+
   passed_client_id;
   selected_file_name: string; //If user wanted to add a new file to upload
   lastImage; //Last selected Image
@@ -78,6 +81,89 @@ export class ClientDocumentsPage
     };
     const modal = this.modalCtrl.create(DownloadDocumentsComponent, data);
     modal.present();
+  }
+
+  downloadMultipleDoc()
+  {
+    if (this.doc_list.length == 0)
+    {
+      return;
+    }
+
+
+    if (this.selectedDocList.length == 0)
+    {
+      //download all
+      var data =
+      {
+        document: this.makeDocString(this.doc_list)
+      };
+    }
+
+    else
+    {
+      //Download selected
+      var data =
+      {
+        document: this.makeDocString(this.selectedDocList)
+      };
+    }
+
+    const modal = this.modalCtrl.create(DownloadDocumentsComponent, data);
+    modal.present();
+  }
+
+  makeDocString(docArray: ClientDocuments[]): string
+  {
+    //To make a comma seperated string out of the documents to be downloaded
+    let str:string = '';
+    for (let i = 0; i < docArray.length; i++)
+    {
+      if (i == docArray.length - 1)
+      {
+        str = str + docArray[i].documents;
+      }
+      else
+      {
+        str = str + docArray[i].documents + ',';
+      }
+    }
+    return str;
+  }
+
+  documentSelected(doc: ClientDocuments)
+  {
+    console.log('---In Document Selected---');
+   
+    let index = this.selectedDocList.findIndex(document => document.id == doc.id);
+    console.log('index=' + index);
+    if (index>=0)
+    {
+      //Found. Therefore delete
+      this.selectedDocList.splice(index, 1);
+    }
+    else
+    {
+      //Not Found. Therefore add
+      this.selectedDocList.push(doc);
+    }
+    
+    console.log(this.selectedDocList);
+    
+  }
+
+  isDocumentSelected(doc: ClientDocuments)
+  {
+    let result: ClientDocuments = this.selectedDocList.find(document => document.id == doc.id);
+    console.log('Result='+result);
+    if (result == null || result == undefined || result.id.length==0)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
   }
 
   fetchData()

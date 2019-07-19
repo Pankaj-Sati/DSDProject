@@ -12,6 +12,9 @@ import { NotificationDetailsComponent } from '../../components/notification-deta
 
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
 
+import { AddNotificationPage } from './new_format/add_notification/add_notification';
+import { NotificationListPage } from './new_format/notification_list/notification_list';
+
 @Component({
   selector: 'page-notifications',
   templateUrl: 'notifications.html'
@@ -149,6 +152,15 @@ export class NotificationsPage
 		
 
     }
-	
+
+  addNotification()
+  {
+    this.navCtrl.push(AddNotificationPage);
+  }
+
+  notificationList()
+  {
+    this.navCtrl.push(NotificationListPage);
+  }
    
 }

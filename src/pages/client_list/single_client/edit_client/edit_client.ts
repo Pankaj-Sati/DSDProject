@@ -102,12 +102,12 @@ export class EditClientPage
       c_cm_assigned: new FormControl('', Validators.compose([Validators.required])),
 
       //Defendant Details
-      c_defendent_name: new FormControl('', Validators.compose([Validators.required])),
+      c_defendent_name: new FormControl(''),
       c_defendent_alias: new FormControl(''),
       c_defendent_manager: new FormControl(''),
 
-      c_reg_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])),
-      c_decided_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')]))
+     // c_reg_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])),
+     // c_decided_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')]))
 
     });
 
@@ -186,8 +186,8 @@ export class EditClientPage
     this.editClientForm.controls.c_defendent_alias.setValue(this.passedClientDetails.defendentAlias);
     this.editClientForm.controls.c_defendent_manager.setValue(this.passedClientDetails.op_adv_name);
 
-    this.editClientForm.controls.c_reg_fee.setValue(this.passedClientDetails.registration_fee);
-    this.editClientForm.controls.c_decided_fee.setValue(this.passedClientDetails.decided_fee);
+    //this.editClientForm.controls.c_reg_fee.setValue(this.passedClientDetails.registration_fee);
+    //this.editClientForm.controls.c_decided_fee.setValue(this.passedClientDetails.decided_fee);
 
     this.editClientForm.updateValueAndValidity();
   }
@@ -759,8 +759,8 @@ export class EditClientPage
     url = url + '&' + 'case_desc='+ this.editClientForm.value.c_case_description;
     url = url + '&' + 'op_alias='+ this.editClientForm.value.c_defendent_alias;
     url = url + '&' + 'op_adv_name='+ this.editClientForm.value.c_defendent_manager;
-    url = url + '&' + 'registration_fee='+ this.editClientForm.value.c_reg_fee;
-    url = url + '&' + 'decided_fee='+ this.editClientForm.value.c_decided_fee;
+    //url = url + '&' + 'registration_fee='+ this.editClientForm.value.c_reg_fee;
+    //url = url + '&' + 'decided_fee='+ this.editClientForm.value.c_decided_fee;
     url = url + '&' + 'alias='+ this.editClientForm.value.c_alias;
     url = url + '&' + 'contact='+ String(this.editClientForm.value.c_contact).replace(/\D+/g, '');
     url = url + '&' + 'alternate_number='+ String(this.editClientForm.value.c_alt_no).replace(/\D+/g, '');
