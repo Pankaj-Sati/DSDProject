@@ -1,12 +1,4 @@
-smslist {
-  .fullPage {
-    width: 100%;
-    height: 100%;
-    position: sticky;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.3);
-  }
-
+reminder_list {
   .simpleCard {
     background-color: #efefef;
     border-radius: 2%;
@@ -19,12 +11,12 @@ smslist {
     overflow: hidden;
   }
 
-  .smsDetails {
+  .reminderDetails {
     margin: 10px;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   }
 
-  .smsDetails ion-label {
+  .reminderDetails ion-label {
     margin: 0px;
   }
 

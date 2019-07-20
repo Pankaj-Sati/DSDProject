@@ -16,6 +16,8 @@ import {User } from '../../models/login_user.model';
 
 import { Events } from 'ionic-angular';
 
+import {SignUpPage } from '../sign-up/sign-up';
+
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -233,6 +235,11 @@ export class LoginPage
 		
 
     }
+    }
+
+  signUp()
+  {
+    this.navCtrl.push(SignUpPage);
   }
 }
 

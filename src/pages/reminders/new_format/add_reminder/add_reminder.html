@@ -1,19 +1,19 @@
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
-    <ion-title>Add Notification</ion-title>
+    <ion-title>Add Reminder</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content style="margin-top: 10px;">
   <ion-item no-lines>
     <ion-label stacked>Date (MM-DD-YYYY)</ion-label>
-    <ion-datetime required displayFormat="MM-DD-YYYY" [(ngModel)]="n_date" placeholder="Select Date"></ion-datetime>
+    <ion-datetime required displayFormat="MM-DD-YYYY" [(ngModel)]="r_date" placeholder="Select Date"></ion-datetime>
   </ion-item>
 
   <ion-item no-lines>
     <ion-label stacked>Time (24 Hours)</ion-label>
-    <ion-datetime displayFormat="HH:mm" required [(ngModel)]="n_time" placeholder="Select Time"></ion-datetime>
+    <ion-datetime displayFormat="HH:mm" required [(ngModel)]="r_time" placeholder="Select Time"></ion-datetime>
   </ion-item>
 
 
@@ -33,12 +33,12 @@
 
   <ion-item no-lines>
     <ion-label stacked>Subject</ion-label>
-    <ion-input required [(ngModel)]="n_subject" placeholder="Enter Subject"></ion-input>
+    <ion-input required [(ngModel)]="r_subject" placeholder="Enter Subject"></ion-input>
   </ion-item>
 
   <ion-item no-lines>
     <ion-label stacked>Description</ion-label>
-    <ion-textarea required [(ngModel)]="n_description" placeholder=""></ion-textarea>
+    <ion-textarea required [(ngModel)]="r_description" placeholder=""></ion-textarea>
   </ion-item>
 
   <ion-row>
@@ -47,7 +47,7 @@
     </ion-col>
 
     <ion-col col-6 style="text-align:left;">
-      <button ion-button icon-start [disabled]="n_subject.length==0 || n_description.length==0 || n_date.length==0" (click)="addNotification()"><ion-icon name="add"></ion-icon>Add</button>
+      <button ion-button icon-start [disabled]="r_subject.length==0 || r_description.length==0 || r_date.length==0" (click)="addReminder()"><ion-icon name="add"></ion-icon>Add</button>
 
     </ion-col>
 

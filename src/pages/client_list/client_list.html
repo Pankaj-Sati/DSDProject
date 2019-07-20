@@ -90,50 +90,55 @@
 
   <br><br>
 
-  <div *ngIf="clients!=null && clients.length>0">
-    <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let client of clients" (click)="viewClient(client)">
+      <div *ngIf="clients!=null && clients.length>0">
 
-      <ion-row style="padding-left: 5px;">
+        <ion-item no-lines style="min-height:unset;margin-top:20px;">
+          <ion-label style="text-align:right;font-size:14px;color:#808080;margin:0px;">Total Clients:{{clients.length+1}}</ion-label>
+        </ion-item>
 
-        <ion-col style="margin:auto;" col-1>
-          <ion-icon name="contact" color="primary" style="zoom: 1.2;"></ion-icon>
-        </ion-col>
+        <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let client of clients" (click)="viewClient(client)">
 
-        <ion-col style="margin:auto;" col-4>
-          <ion-row>
-            <ion-col style="text-align:left;">
-             <b> {{client.client_name}} </b>
+          <ion-row style="padding-left: 5px;">
+
+            <ion-col style="margin:auto;" col-1>
+              <ion-icon name="contact" color="primary" style="zoom: 1.2;"></ion-icon>
             </ion-col>
+
+            <ion-col style="margin:auto;" col-4>
+              <ion-row>
+                <ion-col style="text-align:left;">
+                  <b> {{client.client_name}} </b>
+                </ion-col>
+              </ion-row>
+
+            </ion-col>
+
+            <ion-col style="margin:auto;" col-3>
+              <ion-row>
+                <ion-col>
+                  {{client.stage}}
+                </ion-col>
+              </ion-row>
+
+            </ion-col>
+
+            <ion-col style="margin:auto;" col-3>
+              <ion-row>
+                <ion-col>
+                  {{client.case_type}}
+                </ion-col>
+              </ion-row>
+
+            </ion-col>
+
+            <ion-col style="margin:auto;" col-1>
+              <ion-icon name="more" color="primary" style="zoom: 1.2;"></ion-icon>
+            </ion-col>
+
           </ion-row>
 
-        </ion-col>
-
-        <ion-col style="margin:auto;" col-3>
-          <ion-row>
-            <ion-col>
-              {{client.stage}}
-            </ion-col>
-          </ion-row>
-
-        </ion-col>
-
-        <ion-col style="margin:auto;" col-3>
-          <ion-row>
-            <ion-col>
-              {{client.case_type}}
-            </ion-col>
-          </ion-row>
-
-        </ion-col>
-
-        <ion-col style="margin:auto;" col-1>
-          <ion-icon name="more" color="primary" style="zoom: 1.2;"></ion-icon>
-        </ion-col>
-
-      </ion-row>
-
-    </ion-card>
-  </div>
+        </ion-card>
+      </div>
 
   <div *ngIf="clients==undefined || clients==null ||clients.length==0">
     <no-record-found></no-record-found>

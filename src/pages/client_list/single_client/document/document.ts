@@ -7,6 +7,7 @@ import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-nati
 import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Chooser } from '@ionic-native/chooser';
 
 import {DownloadDocumentsComponent } from '../../../../components/download-documents/download-documents';
 import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
@@ -49,7 +50,8 @@ export class ClientDocumentsPage
     public modalCtrl: ModalController,
       public fileTransfer: FileTransfer,
     private camera: Camera,
-    public myStorage: MyStorageProvider
+    public myStorage: MyStorageProvider,
+    public fileChooser: Chooser
 
     )
   {
@@ -292,6 +294,34 @@ export class ClientDocumentsPage
     alert.present();
 
 
+  }
+
+  takeFile()
+  {
+    console.log('In Take File()');
+    this.fileChooser.getFile('*')
+      .then(file =>
+      {
+        if (file)
+        {
+          console.log('File selected');
+          console.log('File Name=' + file.name);
+          console.log('Data URI=' + file.dataURI);
+          console.log('Data=' + file.data);
+          console.log('Media Type=' + file.mediaType);
+          console.log('URI=' + file.uri);
+
+          this.lastImage = file.uri;
+          this.selected_file_name = file.name;
+          this.uploadFile();
+        }
+        else
+        {
+          console.log('File Chooser Cancelled');
+        }
+        
+      })
+      .catch((error: any) => console.error(error));
   }
 
   getImage(source)

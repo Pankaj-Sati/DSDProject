@@ -4,10 +4,10 @@
 	      <ion-icon name="menu"></ion-icon>
 	    </button>
 	    
-	    <ion-row center style="text-align: center;vertical-align: middle;">
+	    <ion-row center style="text-align: left;vertical-align: middle;">
 	      <ion-col>
-	         <ion-title style="text-align: center;height: 100%;vertical-align: middle;">
-	           Bulk Emails
+	         <ion-title style="text-align: left;height: 100%;vertical-align: middle;">
+	           Bulk SMS
 	         </ion-title>
 
 	      </ion-col>
@@ -24,7 +24,6 @@
 <ion-content>
 
   <div [className]="blurAmount">
-    <ion-scroll scrollY="true">
 
       <ion-list>
         <ion-item>
@@ -117,7 +116,6 @@
       <div *ngIf="smsList==null || smsList==undefined || smsList.length==0">
         <no-record-found></no-record-found>
       </div>
-    </ion-scroll>
   </div>
 
 </ion-content>

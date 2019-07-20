@@ -9,24 +9,19 @@ import { ToastController } from 'ionic-angular';
 import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
 
-import { Client } from '../../../../models/client.model';
-import { User } from '../../../../models/login_user.model';
+
+import {NewReminder} from '../../../../models/reminder.model';
 
 @Component({
-  selector: 'add_notification',
-  templateUrl:'add_notification.html'
+  selector: 'reminder_list',
+  templateUrl:'reminder_list.html'
 })
-export class AddNotificationPage
+export class ReminderListPage
 {
-  n_date: string = String(new Date());
-  n_time: string = String(new Date());
-  n_subject: string='';
-  n_description: string = '';
-  clientList: Client[] = [];
-  selectedClients: Client[] = [];
+  reminderList: NewReminder[] = [];
+  visibility: boolean[] = [];
 
-  constructor(
-    public events: Events,
+  constructor(public events: Events,
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
@@ -38,24 +33,21 @@ export class AddNotificationPage
     public menuCtrl: MenuController,
     public myStorage: MyStorageProvider)
   {
-    this.fetchData();
+    this.reminderList = [
+      { id: 1, date: '12-06-2019', subject: 'My Subject', description: 'Descridjkndjkn', user: 'My User1, 23', created_date: '08-05-2019', action: 'Number 1' },
+      { id: 2, date: '12-06-2019', subject: 'My Subject3', description: '213Descridjkndjkn', user: 'My 23User1, 23', created_date: '08-05-2019', action: 'Number 1' },
+      { id: 3, date: '12-06-2019', subject: 'My Subject8', description: '213Descridjkndjkn', user: 'My 23User1, 23', created_date: '08-05-2019', action: 'Number 1' },
+      { id: 4, date: '12-06-2019', subject: 'My Subject980', description: '21fdfdgfdg3Descridjkndjkn', user: 'My 23User1, 23', created_date: '08-05-2019', action: 'Number 1' },
+      ]
   }
+  
 
-  addNotification()
-  {
-
-  }
-
-  goBack()
-  {
-    this.navCtrl.pop();
-  }
 
   fetchData()
   {
 
     var headers = new Headers();
-    this.clientList = [];
+    this.reminderList = [];
 
     headers.append("Accept", "application/json");
 
@@ -91,7 +83,7 @@ export class AddNotificationPage
           }
           else
           {
-            this.clientList = serverReply;
+            this.reminderList = serverReply;
           }
 
 
@@ -128,18 +120,10 @@ export class AddNotificationPage
     toast.present();
   }
 
-  addClient(client: Client)
+  showDetails(notification, $event, i)
   {
-    this.selectedClients.push(client);
-    let index = this.clientList.findIndex(clientInList => clientInList.id == client.id);
-    this.clientList.splice(index, 1); //Remove the selected client from client list
+    
+    this.visibility[i] = !this.visibility[i];
   }
 
-  removeClient(index)
-  {
-    let client = this.selectedClients[index];
-    this.selectedClients.splice(index, 1); //Delete 1 element at index
-
-    this.clientList.push(client); //Add the removed client back to the client list
-  }
 }

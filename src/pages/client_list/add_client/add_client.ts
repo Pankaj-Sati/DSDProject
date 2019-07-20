@@ -256,10 +256,10 @@ export class AddClientPage
       console.log("-----Entity Data---");
       console.log(this.addClientForm.value.entity);
       console.log(JSON.stringify(this.addClientForm.value.entity));
-	
+	    /*
 	       
       let body = new FormData();  //Data to be sent to the server
-      /*
+     
                         http://myamenbizzapp.com/dsd/api_work/add_client.php?
                         case_type=5&case_no=115&case_category=New
                         &adv_assign=13&op_full_name=SunakshiSingh
@@ -274,54 +274,56 @@ export class AddClientPage
                         &notes=dummytext&b_state=jkljkljljkj&b_city=kjkkljkjlj
                         &b_pin_code=kjkkljkjlj&b_streetNoName=FSDFSDD
                         &session_id=1&relationship[]=[{"e_name":"Entity1","e_alias":"","e_contact":"89723","e_alt_no":"238","e_email":"entity1@gmails.com","e_notes":"dsd","e_country":"UnitedStates","e_street":"Street1","e_city":"NY","e_state":"State1","e_zipcode":"78234","e_country_billing":"UnitedStates","e_street_billing":"jsdh","e_city_billing":"sds","e_state_billing":"fdsgjfd","e_zipcode_billing":"23213","e_relationship":"Father"},{"e_name":"Entity2","e_alias":"","e_contact":"89546723","e_alt_no":"64238","e_email":"entity2@gmails.com","e_notes":"dsd","e_country":"UnitedStates","e_street":"Street2","e_city":"NY","e_state":"State2","e_zipcode":"78234","e_country_billing":"UnitedStates","e_street_billing":"jsdh","e_city_billing":"sds","e_state_billing":"fdsgjfd","e_zipcode_billing":"23213","e_relationship":"Father"}]
-&case_reg_date=13-07-2019    
-       */
-      body.append('case_type', this.addClientForm.value.c_case_type);
-        body.append('case_no', this.addClientForm.value.c_alien_no);
-        body.append('case_category', this.addClientForm.value.c_case_category);
-        body.append('adv_assign', this.addClientForm.value.c_cm_assigned);
-        body.append('op_full_name', this.addClientForm.value.c_defendent_name);
-        body.append('full_name', this.addClientForm.value.c_name);
-        body.append('p_streetNoName', this.addClientForm.value.c_street);
-        body.append('p_city', this.addClientForm.value.c_city);
-        body.append('p_state', this.addClientForm.value.c_state);
-        body.append('p_pin_code', this.addClientForm.value.c_zipcode);
-        body.append('p_country', this.addClientForm.value.c_country);
-        body.append('filing_adv_name', this.addClientForm.value.c_filing_cm);
-        body.append('client_type', this.addClientForm.value.c_client_type);
-        body.append('case_desc', this.addClientForm.value.c_case_description);
-        body.append('op_alias', this.addClientForm.value.c_defendent_alias);
-        body.append('op_adv_name', this.addClientForm.value.c_defendent_manager);
-        //body.append('registration_fee', this.addClientForm.value.c_reg_fee);
-        //body.append('decided_fee', this.addClientForm.value.c_decided_fee);
-        body.append('alias', this.addClientForm.value.c_alias);
-      body.append('contact', String(this.addClientForm.value.c_contact).replace(/\D+/g, ''));
-      body.append('alternate_number', String(this.addClientForm.value.c_alt_no).replace(/\D+/g,''));
-        body.append('email', this.addClientForm.value.c_email);
-        body.append('notes', this.addClientForm.value.c_notes);
-        body.append('b_state', this.addClientForm.value.c_state_billing);
-        body.append('b_city', this.addClientForm.value.c_city_billing);
-        body.append('b_pin_code', this.addClientForm.value.c_zipcode_billing);
-      body.append('b_streetNoName', this.addClientForm.value.c_street_billing);
-      body.append('case_reg_date', this.addClientForm.value.c_date);
-      body.append('session_id', this.loggedInUser.id);
+                          &case_reg_date=13-07-2019    
+     
+          body.set('case_type', this.addClientForm.value.c_case_type);
+          body.set('case_no', this.addClientForm.value.c_alien_no);
+          body.set('case_category', this.addClientForm.value.c_case_category);
+          body.set('adv_assign', this.addClientForm.value.c_cm_assigned);
+          body.set('op_full_name', this.addClientForm.value.c_defendent_name);
+          body.set('full_name', this.addClientForm.value.c_name);
+          body.set('p_streetNoName', this.addClientForm.value.c_street);
+          body.set('p_city', this.addClientForm.value.c_city);
+          body.set('p_state', this.addClientForm.value.c_state);
+          body.set('p_pin_code', this.addClientForm.value.c_zipcode);
+          body.set('p_country', this.addClientForm.value.c_country);
+          body.set('filing_adv_name', this.addClientForm.value.c_filing_cm);
+          body.set('client_type', this.addClientForm.value.c_client_type);
+          body.set('case_desc', this.addClientForm.value.c_case_description);
+          body.set('op_alias', this.addClientForm.value.c_defendent_alias);
+          body.set('op_adv_name', this.addClientForm.value.c_defendent_manager);
+            //body.append('registration_fee', this.addClientForm.value.c_reg_fee);
+            //body.append('decided_fee', this.addClientForm.value.c_decided_fee);
+          body.set('alias', this.addClientForm.value.c_alias);
+          body.set('contact', String(this.addClientForm.value.c_contact).replace(/\D+/g, ''));
+          body.set('alternate_number', String(this.addClientForm.value.c_alt_no).replace(/\D+/g,''));
+          body.set('email', this.addClientForm.value.c_email);
+          body.set('notes', this.addClientForm.value.c_notes);
+          body.set('b_state', this.addClientForm.value.c_state_billing);
+          body.set('b_city', this.addClientForm.value.c_city_billing);
+          body.set('b_pin_code', this.addClientForm.value.c_zipcode_billing);
+          body.set('b_streetNoName', this.addClientForm.value.c_street_billing);
+          body.set('case_reg_date', this.addClientForm.value.c_date);
+          body.set('session_id', this.loggedInUser.id);
 
-      if (this.totalEntities > 0)
-      {
-        for (let i = 0; i < this.totalEntities; i++)
-        {
-          this.addClientForm.get('entity')['controls'][i].controls.e_contact.setValue(String(this.addClientForm.get('entity')['controls'][i].value.e_contact).replace(/\D+/g,''));
-          this.addClientForm.get('entity')['controls'][i].controls.e_alt_no.setValue(String(this.addClientForm.get('entity')['controls'][i].value.e_alt_no).replace(/\D+/g,''));
+          if (this.totalEntities > 0)
+          {
+            for (let i = 0; i < this.totalEntities; i++)
+            {
+              this.addClientForm.get('entity')['controls'][i].controls.e_contact.setValue(String(this.addClientForm.get('entity')['controls'][i].value.e_contact).replace(/\D+/g,''));
+              this.addClientForm.get('entity')['controls'][i].controls.e_alt_no.setValue(String(this.addClientForm.get('entity')['controls'][i].value.e_alt_no).replace(/\D+/g,''));
 
-        }
-        body.append('relationship[]', JSON.stringify(this.addClientForm.value.entity));
-        body.append('client_group', 'ENTITY');
-      }
-      else
-      {
-        body.append('relationship[]','');
-        body.append('client_group','INDIVIDUAL');
-      }
+            }
+            body.set('relationship[]', JSON.stringify(this.addClientForm.value.entity));
+            body.set('client_group', 'ENTITY');
+          }
+          else
+          {
+            body.set('relationship[]','');
+            body.set('client_group','INDIVIDUAL');
+          }
+
+      */
 
       console.log(this.addClientForm);
 			         
@@ -337,7 +339,7 @@ export class AddClientPage
 		   loader.present().then(() => 
 			{
 
-		   this.http.post(this.apiValue.baseURL+"/add_client.php",body,null) //Http request returns an observable
+       this.http.get(this.makeSubmitURL()) //Http request returns an observable
 
 		   .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
 					  
@@ -561,5 +563,74 @@ export class AddClientPage
     this.showEachEntityDetails.splice(index, 1);//Remove from the visibility array
     this.addEntityForm.removeAt(index); //Remove 1 item at the index from the array
     this.totalEntities--;
+  }
+
+  makeSubmitURL(): string
+  {
+    let url = this.apiValue.baseURL + '/add_client.php?';
+
+    url = url + 'case_type=' + this.addClientForm.value.c_case_type;
+
+    url = url + '&case_no=' + this.addClientForm.value.c_alien_no;
+    url = url + '&case_category=' + this.addClientForm.value.c_case_category;
+
+    url = url + '&' + 'adv_assign=' + this.addClientForm.value.c_cm_assigned;
+    url = url + '&' + 'op_full_name=' + this.addClientForm.value.c_defendent_name;
+    url = url + '&' + 'full_name=' + this.addClientForm.value.c_name;
+
+    url = url + '&' + 'p_streetNoName=' + this.addClientForm.value.c_street;
+    url = url + '&' + 'p_city=' + this.addClientForm.value.c_city;
+    url = url + '&' + 'p_state=' + this.addClientForm.value.c_state;
+    url = url + '&' + 'p_pin_code=' + this.addClientForm.value.c_zipcode;
+    url = url + '&' + 'p_country=' + this.addClientForm.value.c_country;
+    url = url + '&' + 'filing_adv_name=' + this.addClientForm.value.c_filing_cm;
+    url = url + '&' + 'client_type=' + this.addClientForm.value.c_client_type;
+    url = url + '&' + 'case_desc=' + this.addClientForm.value.c_case_description;
+    url = url + '&' + 'op_alias=' + this.addClientForm.value.c_defendent_alias;
+    url = url + '&' + 'op_adv_name=' + this.addClientForm.value.c_defendent_manager;
+    //url = url + '&' + 'registration_fee='+ this.addClientForm.value.c_reg_fee;
+    //url = url + '&' + 'decided_fee='+ this.addClientForm.value.c_decided_fee;
+
+    url = url + '&' + 'alias=' + this.addClientForm.value.c_alias;
+    url = url + '&' + 'contact=' + String(this.addClientForm.value.c_contact).replace(/\D+/g, '');
+    url = url + '&' + 'alternate_number=' + String(this.addClientForm.value.c_alt_no).replace(/\D+/g, '');
+    url = url + '&' + 'email=' + this.addClientForm.value.c_email;
+    url = url + '&' + 'notes=' + this.addClientForm.value.c_notes;
+    url = url + '&' + 'b_state=' + this.addClientForm.value.c_state_billing;
+    url = url + '&' + 'b_city=' + this.addClientForm.value.c_city_billing;
+    url = url + '&' + 'b_pin_code=' + this.addClientForm.value.c_zipcode_billing;
+    url = url + '&' + 'b_streetNoName=' + this.addClientForm.value.c_street_billing;
+    url = url + '&' + 'case_reg_date=' + this.addClientForm.value.c_date;
+
+    url = url + '&' + 'session_id=' + this.loggedInUser.id;
+
+    if (this.hasRelation && this.totalEntities > 0)
+    {
+      for (let i = 0; i < this.totalEntities; i++)
+      {
+        //Changing the contact number br-masker
+        this.addClientForm.get('entity')['controls'][i].controls.e_contact.setValue(String(this.addClientForm.get('entity')['controls'][i].value.e_contact).replace(/\D+/g, ''));
+        this.addClientForm.get('entity')['controls'][i].controls.e_alt_no.setValue(String(this.addClientForm.get('entity')['controls'][i].value.e_alt_no).replace(/\D+/g, ''));
+
+      }
+
+      console.log("-----Client Data---");
+      console.log(this.addClientForm.value);
+      console.log("-----Entity Data---");
+      console.log(this.addClientForm.value.entity);
+      console.log(JSON.stringify(this.addClientForm.value.entity));
+
+      url = url + '&' + 'relationship[]=' + JSON.stringify(this.addClientForm.value.entity);
+      url = url + '&' + 'client_group=' + 'ENTITY';
+    }
+    else
+    {
+      url = url + '&' + 'relationship[]=' + '';
+      url = url + '&' + 'client_group=' + 'INDIVIDUAL';
+    }
+
+    console.log('------Generated URL------')
+    console.log(url);
+    return url;
   }
 }

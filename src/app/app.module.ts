@@ -62,8 +62,10 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
 import { ClientEntityRelationshipProvider } from '../providers/client-entity-relationship/client-entity-relationship';
 import { CountryProvider } from '../providers/country/country';
 import { CaseTypeProvider } from '../providers/case-type/case-type';
-
+import { Chooser } from '@ionic-native/chooser';
+import { SignUpPageModule} from '../pages/sign-up/sign-up.module';
 import { NotificationsModule } from '../pages/notifications/new_format/notification.module';
+import { RemindersModule } from '../pages/reminders/new_format/reminders.module';
 
 
 @NgModule({
@@ -114,7 +116,9 @@ import { NotificationsModule } from '../pages/notifications/new_format/notificat
     ComponentsModule,
     BrMaskerModule,
     SingleClientModule,
-    NotificationsModule
+    NotificationsModule,
+    SignUpPageModule,
+    RemindersModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -171,7 +175,8 @@ import { NotificationsModule } from '../pages/notifications/new_format/notificat
     InAppBrowser,
     ClientEntityRelationshipProvider,
     CountryProvider,
-    CaseTypeProvider
+    CaseTypeProvider,
+    Chooser
   ],
   exports: [ComponentsModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]

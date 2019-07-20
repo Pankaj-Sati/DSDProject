@@ -512,7 +512,7 @@ export class EditProfilePage
       let transferSuccessful = false; //To know whether timeout occured or not
 
       loader.present();
-
+      
       transfer.upload(this.lastImage, this.apiValue.baseURL + '/profile.php', options).then(data =>
       {
 

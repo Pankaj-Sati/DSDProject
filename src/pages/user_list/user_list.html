@@ -42,114 +42,120 @@
   </ion-row>
 
    <br> <br>
-	<div style="overflow-x:auto">
-<!--
+        <div style="overflow-x:auto">
+          <!--
 
-		<table>
-	
-			<tr>
-			
-				<th><b>S.No.</b></th>
-		
-				<th class="greaterSize"><b>Image</b></th>
+      <table>
 
+        <tr>
 
-				<th class="greaterSize"><b>Name (Username)</b></th>
+          <th><b>S.No.</b></th>
 
-				<th class="greaterSize"><b>Email</b></th>
-
-				<th class="greaterSize"><b>Contact No.</b></th>
-
-				<th><b>User Type</b></th>
+          <th class="greaterSize"><b>Image</b></th>
 
 
-				<th><b>Status</b></th>
+          <th class="greaterSize"><b>Name (Username)</b></th>
 
-			</tr>
-	
+          <th class="greaterSize"><b>Email</b></th>
 
-				<tr *ngFor="let user of users;let i=index" (click)="viewSingleUser(user.id)">
+          <th class="greaterSize"><b>Contact No.</b></th>
 
-						<td> {{i+1}}</td>
-						// <td> <button ion-button (click)="viewSingleUser(user.id)">View User</button> </td> 
-
-						<td class="greaterSize"> <img alt="No Image" src="http://jagdambasoftwaresolutions.com/dsd/upload/{{user.profile_img}}" width="96px" height="96px"/></td>
-
-						<td class="greaterSize">{{user.name}}({{user.username}})</td>
-
-						<td class="greaterSize">{{user.email}}</td>
-
-						<td class="greaterSize">{{user.contact}}</td>
-						<td [ngSwitch]="user.usertype_id"> 
-								<span *ngSwitchCase="2">ADMIN</span>
-								<span *ngSwitchDefault>Normal User</span>
-						</td>						
-						<td [ngSwitch]="user.status"> 
-								<span *ngSwitchCase="0">Active</span>
-								<span *ngSwitchDefault>Unknown State</span>
-						</td>
+          <th><b>User Type</b></th>
 
 
-				</tr>
-		   </table>
-		-->
+          <th><b>Status</b></th>
 
-	<ion-card style="background-color: #efefef;border-radius: 2%"  *ngFor="let user of users;let i=index" (click)="viewSingleUser(user.id)" >
-		<ion-row>
-			<ion-col col-4 style='text-align: center;'>
-				<ion-row row-3 style='text-align: center;' class="profile-picture">
-						<img alt="No Image"*ngIf="user.profile_img.length!=0" src="{{apiValue.baseImageFolder}}{{user.profile_img}}" />
-						<img alt="No Image"*ngIf="user.profile_img.length==0" src="assets/imgs/user.png" />
+        </tr>
 
-				</ion-row>
-				<ion-row row-1 style='text-align: center;' >
-					<ion-col>
-						<span [ngSwitch]="user.usertype_id"> 
-								<span *ngSwitchCase="2">ADMIN</span>
-								<span *ngSwitchDefault>Normal User</span>
-					</span>
-					</ion-col>
-					
-				</ion-row>
-			</ion-col>
-			<ion-col col-6 style="vertical-align: middle;">
 
-				<ion-row>
-					<ion-col style="display: flex;">
-						<h3 style="flex:1;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"><ion-icon name="person"></ion-icon><b>{{user.name}}({{user.username}})</b></h3>
-					</ion-col>
-				</ion-row>
-				<ion-row>
-					<ion-col style="display: flex;">
-						<h3 style="text-overflow: ellipsis; flex:1;white-space: nowrap;overflow: hidden;"><ion-icon name="mail"></ion-icon>{{user.email}}</h3>
-					</ion-col>
-				</ion-row>
-				<ion-row>
-					<ion-col>
-						<h3><ion-icon name="call"></ion-icon>Tel: {{user.contact}}</h3>
-					</ion-col>
-				</ion-row>
-			
-			</ion-col>
-			<ion-col col-2 style="text-align: right">
-				<ion-row>
-					<ion-col>
-						<span [ngSwitch]="user.status"> 
+          <tr *ngFor="let user of users;let i=index" (click)="viewSingleUser(user.id)">
 
-								<span *ngSwitchCase="0" style="color: green;font-size: 0.8em">
-									
-									Active
-								</span>
-								<span *ngSwitchDefault style="font-size: 0.8em; text-overflow: ellipsis; white-space: nowrap; flex:1;overflow: hidden;">
-									
-									Unknown State
-								</span>
-						</span>
-					</ion-col>
-				</ion-row>
-			</ion-col>
-		</ion-row>
-	</ion-card>
-	</div>
+              <td> {{i+1}}</td>
+              // <td> <button ion-button (click)="viewSingleUser(user.id)">View User</button> </td>
+
+              <td class="greaterSize"> <img alt="No Image" src="http://jagdambasoftwaresolutions.com/dsd/upload/{{user.profile_img}}" width="96px" height="96px"/></td>
+
+              <td class="greaterSize">{{user.name}}({{user.username}})</td>
+
+              <td class="greaterSize">{{user.email}}</td>
+
+              <td class="greaterSize">{{user.contact}}</td>
+              <td [ngSwitch]="user.usertype_id">
+                  <span *ngSwitchCase="2">ADMIN</span>
+                  <span *ngSwitchDefault>Normal User</span>
+              </td>
+              <td [ngSwitch]="user.status">
+                  <span *ngSwitchCase="0">Active</span>
+                  <span *ngSwitchDefault>Unknown State</span>
+              </td>
+
+
+          </tr>
+         </table>
+      -->
+
+          <div *ngIf="users!=null && users!=undefined">
+            <ion-item no-lines style="min-height:unset;margin-top:20px;">
+              <ion-label style="text-align:right;font-size:14px;color:#808080;margin:0px;">Total Users:{{users.length+1}}</ion-label>
+            </ion-item>
+
+            <ion-card style="background-color: #efefef;border-radius: 2%" *ngFor="let user of users;let i=index" (click)="viewSingleUser(user.id)">
+              <ion-row>
+                <ion-col col-4 style='text-align: center;'>
+                  <ion-row row-3 style='text-align: center;' class="profile-picture">
+                    <img alt="No Image" *ngIf="user.profile_img.length!=0" src="{{apiValue.baseImageFolder}}{{user.profile_img}}" />
+                    <img alt="No Image" *ngIf="user.profile_img.length==0" src="assets/imgs/user.png" />
+
+                  </ion-row>
+                  <ion-row row-1 style='text-align: center;'>
+                    <ion-col>
+                      <span [ngSwitch]="user.usertype_id">
+                        <span *ngSwitchCase="2">ADMIN</span>
+                        <span *ngSwitchDefault>Normal User</span>
+                      </span>
+                    </ion-col>
+
+                  </ion-row>
+                </ion-col>
+                <ion-col col-6 style="vertical-align: middle;">
+
+                  <ion-row>
+                    <ion-col style="display: flex;">
+                      <h3 style="flex:1;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"><ion-icon name="person"></ion-icon><b>{{user.name}}({{user.username}})</b></h3>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col style="display: flex;">
+                      <h3 style="text-overflow: ellipsis; flex:1;white-space: nowrap;overflow: hidden;"><ion-icon name="mail"></ion-icon>{{user.email}}</h3>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <h3><ion-icon name="call"></ion-icon>Tel: {{user.contact}}</h3>
+                    </ion-col>
+                  </ion-row>
+
+                </ion-col>
+                <ion-col col-2 style="text-align: right">
+                  <ion-row>
+                    <ion-col>
+                      <span [ngSwitch]="user.status">
+
+                        <span *ngSwitchCase="0" style="color: green;font-size: 0.8em">
+
+                          Active
+                        </span>
+                        <span *ngSwitchDefault style="font-size: 0.8em; text-overflow: ellipsis; white-space: nowrap; flex:1;overflow: hidden;">
+
+                          Unknown State
+                        </span>
+                      </span>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </div>
+        </div>
 
 </ion-content>

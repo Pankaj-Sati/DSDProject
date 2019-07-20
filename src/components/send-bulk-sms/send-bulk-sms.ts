@@ -219,11 +219,16 @@ export class SendBulkSmsComponent
   addClient(client: Client)
   {
     this.selectedClients.push(client);
+    let index = this.clientList.findIndex(clientInList => clientInList.id == client.id);
+    this.clientList.splice(index, 1); //Remove the selected client from client list
   }
 
   removeClient(index)
   {
-    this.selectedClients.splice(index,1); //Delete 1 element at index
+    let client = this.selectedClients[index];
+    this.selectedClients.splice(index, 1); //Delete 1 element at index
+
+    this.clientList.push(client); //Add the removed client back to the client list
   }
 
   getSelectedClientsParameters(): string

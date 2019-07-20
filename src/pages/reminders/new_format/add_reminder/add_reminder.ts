@@ -13,15 +13,15 @@ import { Client } from '../../../../models/client.model';
 import { User } from '../../../../models/login_user.model';
 
 @Component({
-  selector: 'add_notification',
-  templateUrl:'add_notification.html'
+  selector: 'add_reminder',
+  templateUrl:'add_reminder.html'
 })
-export class AddNotificationPage
+export class AddReminderPage
 {
-  n_date: string = String(new Date());
-  n_time: string = String(new Date());
-  n_subject: string='';
-  n_description: string = '';
+  r_date: string = String(new Date());
+  r_time: string = String(new Date());
+  r_subject: string='';
+  r_description: string = '';
   clientList: Client[] = [];
   selectedClients: Client[] = [];
 
@@ -41,7 +41,7 @@ export class AddNotificationPage
     this.fetchData();
   }
 
-  addNotification()
+  addReminder()
   {
 
   }
