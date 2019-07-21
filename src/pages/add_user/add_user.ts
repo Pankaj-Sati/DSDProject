@@ -30,7 +30,9 @@ export class AddUserPage
   win: any = window;
   lastImage: string;
 
-  loggedInUser:User;
+  loggedInUser: User;
+
+  isImageChanged: boolean = false;
 
   constructor(public myStorage:MyStorageProvider,
     public filePath: FilePath, 
@@ -149,6 +151,7 @@ export class AddUserPage
 
              
               this.userForm.value.u_profile_img = this.win.Ionic.WebView.convertFileSrc(imageData);
+              this.isImageChanged = true;
               // this.userForm.value.u_profile_img=this.webView.convertFileSrc(imageData);
             })
 
@@ -167,7 +170,8 @@ export class AddUserPage
           var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
           this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
    
-          this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
+          this.userForm.value.u_profile_img = this.win.Ionic.WebView.convertFileSrc(imageData);
+          this.isImageChanged = true;
           
 
         }
@@ -216,74 +220,6 @@ export class AddUserPage
 
 		//The following code will run only if the details entered are valid
 
-		
-		var headers = new Headers();
-     let options = new RequestOptions({ headers: headers });
-
-
-
-	   /* let data = {
-
-		    full_name: this.u_name,
-			email: this.u_email,
-			contact: this.u_contact,
-			alt: this.u_alt,
-			gender: this.u_gender,
-			date_of_birth: this.u_dob,
-			country: this.u_country,
-			state: this.u_state,
-			city: this.u_city,
-			pincode: this.u_pincode,
-			fax: this.u_fax,
-			street: this.u_street,
-		   	street_name: this.u_street_name,
-			apartment: this.u_apartment,
-			user_type: this.u_user_type,
-		    profile_image:'shabnam_saifi.jpg'
-
-		 };
-		 */
-      let body = new FormData();
-      body.append("full_name", this.userForm.value.u_name);
-      body.append("email", this.userForm.value.u_email);
-      body.append("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
-
-      console.log('Contact value Sent=' + String(this.userForm.value.u_contact).replace(/\D+/g, ''));
-
-      body.append("alt",''+String(this.userForm.value.u_alt).replace(/\D+/g, ''));
-      body.append("gender", this.userForm.value.u_gender);
-      body.append("date_of_birth", this.userForm.value.u_dob);
-      body.append("country", this.userForm.value.u_country);
-      body.append("state", this.userForm.value.u_state);
-      body.append("city", this.userForm.value.u_city);
-      body.append("pincode", this.userForm.value.u_pincode);
-      body.append("fax", this.userForm.value.u_fax);
-      body.append("street", this.userForm.value.u_street);
-      body.append("user_type", this.userForm.value.u_user_type);
-      body.append("profile_image",'');
-      body.append("session_id",this.loggedInUser.id);
-
-		
-		/* body.append("full_name","Sudhanshu");
-		body.append("email","ghsan@gmail.com");
-		body.append("contact",9897367892);
-		body.append("alt",9872658974);
-		body.append("gender","Male");
-		body.append("date_of_birth","2000-10-10");
-		body.append("country",321);
-		body.append("state","saddsd");
-		body.append("city","sdwiewqmsd");
-		body.append("pincode",76787);
-		body.append("fax",8626756389);
-		body.append("street",34);
-		body.append("street_name","Kamal Namgew");
-		body.append("apartment","Unisd wewq");
-		body.append("user_type",2);
-		body.append(" profile_image",'shabnam_saifi.jpg'); 
-		
-				console.log("PRinting Body");
-		console.log(body); 
-		*/
 		let loader = this.loading.create({
 
           content: "Adding user please wait…",
@@ -292,42 +228,147 @@ export class AddUserPage
 		 });
 
     let loadingSuccessful = false; //To know whether timeout occured
-		loader.present().then(() => 
-		{
+      loader.present().then(() => 
+      {
+        if (!this.isImageChanged || this.lastImage == undefined || this.lastImage.length == 0)
+        {
+          var headers = new Headers();
+          let options = new RequestOptions({ headers: headers });
 
-	   this.http.post(this.apiValue.baseURL+"/add_user",body,options) //Http request returns an observable
+          console.log("DOB:" + this.userForm.value.u_dob);
+          let body = new FormData();
+          body.set("full_name", this.userForm.value.u_name);
+          body.set("email", this.userForm.value.u_email);
+          body.set("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
 
-	   .map(response => response.json()) ////To make it easy to read from observable
+          console.log('Contact value Sent=' + String(this.userForm.value.u_contact).replace(/\D+/g, ''));
 
-	   .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
-				  
-       {
-         loadingSuccessful = true;
-		   		loader.dismiss()
-				
-				console.log(serverReply);
-		   	
-		   		const toast = this.toastCtrl.create({
-							  message: serverReply.message,
-							  duration: 3000
-							});
-							toast.present();
-			 
-		   		if('code' in serverReply && serverReply.code==200) 
-					{
-              //Successfully created user
-              this.navCtrl.pop();
-					}
-			   });
+          body.set("alt", '' + String(this.userForm.value.u_alt).replace(/\D+/g, ''));
+          body.set("gender", this.userForm.value.u_gender);
+          body.set("date_of_birth", this.userForm.value.u_dob);
+          body.set("country", this.userForm.value.u_country);
+          body.set("state", this.userForm.value.u_state);
+          body.set("city", this.userForm.value.u_city);
+          body.set("pincode", this.userForm.value.u_pincode);
+          body.set("fax", this.userForm.value.u_fax);
+          body.set("street", this.userForm.value.u_street);
+          body.set("user_type", this.userForm.value.u_user_type);
+          body.set("profile_image", '');
+          body.set("session_id", this.loggedInUser.id);
 
-        }, error =>
+
+          this.http.post(this.apiValue.baseURL + "/add_user", body, options) //Http request returns an observable
+            .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
+
+            {
+              loadingSuccessful = true;
+              loader.dismiss()
+
+              console.log(serverReply);
+
+              if (serverReply)
+              {
+                try
+                {
+                  let response = JSON.parse(serverReply['_body']);
+
+                  this.presentToast(response.message);
+
+                  if ('code' in response && response.code == 200) 
+                  {
+                    //Successfully created user
+                    this.navCtrl.pop();
+                  }
+                }
+                catch (err)
+                {
+                  this.presentToast('Failed to create user ');
+                }
+              }
+              else
+              {
+                this.presentToast('Failed to create user ');
+              }
+
+
+
+            }, error =>
+              {
+                loadingSuccessful = true;
+                loader.dismiss();
+                this.presentToast('Failed to add user');
+
+
+              });
+        }
+
+        else
+        {
+          //Image has been changed, so we will send image with values
+
+          let transfer: FileTransferObject = this.fileTransfer.create();
+
+          let filename = this.lastImage.substr(this.lastImage.lastIndexOf('/') + 1);
+          var options =
           {
+            fileKey: "profile_image",
+            fileName: filename,
+            chunkedMode: false,
+            mimeType: "multipart/form-data",
+            params: {
+
+              "full_name": this.userForm.value.u_name,
+              "email": this.userForm.value.u_email,
+              "contact": this.userForm.value.u_contact,
+              "alt": this.userForm.value.u_alt,
+              "gender": this.userForm.value.u_gender,
+              "date_of_birth": this.userForm.value.u_dob,
+              "country": this.userForm.value.u_country,
+              "state": this.userForm.value.u_state,
+              "city": this.userForm.value.u_city,
+              "pincode": this.userForm.value.u_pincode,
+              "fax": this.userForm.value.u_fax,
+              "street": this.userForm.value.u_street,
+              "user_type": this.userForm.value.u_user_type,
+              "session_id": this.loggedInUser.id
+            }
+          };
+
+          transfer.upload(this.lastImage, this.apiValue.baseURL + "/add_user", options).then(data =>
+          {
+
             loadingSuccessful = true;
-            loader.dismiss();
-            this.presentToast('Failed to add user');
+            console.log("Image upload server reply");
+            console.log(data);
 
-
+            if (data)
+            {
+              if (JSON.parse(data["_body"])['code'] > 400)
+              {
+                //Error returned from server
+                this.presentToast(JSON.parse(data["_body"])['message']);
+                loader.dismiss();
+                return;
+              }
+              else
+              {
+                //successful
+                this.presentToast(JSON.parse(data["_body"])['message']);
+                loader.dismiss();
+                this.navCtrl.pop();
+                return;
+              }
+            }
+            else
+            {
+              this.presentToast("Failed!! Server returned an error");
+              loader.dismiss();
+            }
           });
+
+        }
+
+      });
 
       loader.onDidDismiss(() =>
       {

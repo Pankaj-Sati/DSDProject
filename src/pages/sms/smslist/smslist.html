@@ -53,9 +53,11 @@
   <br>
   <hr>
   <br>
-  <ion-item no-lines style="min-height:unset;">
-    <ion-label style="text-align:right;font-size:14px;color:#808080;margin:0px;">Total SMS:{{smsList.length+1}}</ion-label>
-  </ion-item>
+ 
+    <ion-item no-lines style="min-height:unset;" *ngIf="sms_list!=undefined && sms_list!=null">
+      <ion-label style="text-align:right;font-size:14px;color:#808080;margin:0px;">Total SMS:{{sms_list.length+1}}</ion-label>
+    </ion-item>
+
   <div *ngFor="let sms of sms_list;let i=index">
     <ion-card class="simpleCard" (click)="showDetails(sms,$event,i)">
 

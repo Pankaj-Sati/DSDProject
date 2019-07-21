@@ -5,12 +5,10 @@
     "\\src\\app",
     "\\src\\pages",
     "\\src\\pages\\client_list",
-    "\\src\\pages\\client_list\\single_client",
-    "\\src\\pages\\client_list\\single_client\\document",
-    "\\src\\pages\\notifications\\new_format",
-    "\\src\\pages\\notifications\\new_format\\add_notification",
-    "\\src\\pages\\notifications\\new_format\\notification_list"
+    "\\src\\pages\\login",
+    "\\src\\pages\\sign-up",
+    "\\src\\pages\\sign-up\\signup_success"
   ],
-  "SelectedNode": "\\src\\pages\\client_list\\single_client\\document\\document.ts",
+  "SelectedNode": "\\src\\pages\\sign-up\\sign-up.ts",
   "PreviewInSolutionExplorer": false
 }

@@ -79,7 +79,7 @@ export class ClientDocumentsPage
     }
 
     let data = {
-      document: document.documents
+      document: document.directory_id +'/'+document.documents
     };
     const modal = this.modalCtrl.create(DownloadDocumentsComponent, data);
     modal.present();
@@ -123,11 +123,11 @@ export class ClientDocumentsPage
     {
       if (i == docArray.length - 1)
       {
-        str = str + docArray[i].documents;
+        str = str + docArray[i].directory_id + '/' + docArray[i].documents;
       }
       else
       {
-        str = str + docArray[i].documents + ',';
+        str = str + docArray[i].directory_id + '/' +docArray[i].documents + ',';
       }
     }
     return str;

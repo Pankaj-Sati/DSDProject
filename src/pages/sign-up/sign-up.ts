@@ -14,6 +14,7 @@ import { CaseType } from '../../models/case_type.model';
 import { AdvocateDropdown } from '../../models/ advocate.model';
 import { Client } from '../../models/client.model';
 
+import { SignupSuccessPage } from './signup_success/signup_success';
 
 
 @IonicPage()
@@ -142,77 +143,37 @@ export class SignUpPage
 
     //The following code will run only if the details entered are valid
 
-
     var headers = new Headers();
     let options = new RequestOptions({ headers: headers });
 
-
-
-    /* let data = {
-
-         full_name: this.u_name,
-         email: this.u_email,
-         contact: this.u_contact,
-         alt: this.u_alt,
-         gender: this.u_gender,
-         date_of_birth: this.u_dob,
-         country: this.u_country,
-         state: this.u_state,
-         city: this.u_city,
-         pincode: this.u_pincode,
-         fax: this.u_fax,
-         street: this.u_street,
-               street_name: this.u_street_name,
-         apartment: this.u_apartment,
-         user_type: this.u_user_type,
-         profile_image:'shabnam_saifi.jpg'
-
-      };
-      */
     let body = new FormData();
-    body.append("full_name", this.userForm.value.u_name);
-    body.append("email", this.userForm.value.u_email);
-    body.append("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
+    body.set("existing_user", this.isNew?'0':'1'); //For new client, value will be 0 i.e. false and for existing client, value will be 1 i.e. true
+
+    //Details
+    body.set("full_name", this.userForm.value.u_name);
+    body.set("email", this.userForm.value.u_email);
+    body.set("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
 
     console.log('Contact value Sent=' + String(this.userForm.value.u_contact).replace(/\D+/g, ''));
 
-    body.append("alt", '' + String(this.userForm.value.u_alt).replace(/\D+/g, ''));
-    body.append("gender", this.userForm.value.u_gender);
-    body.append("date_of_birth", this.userForm.value.u_dob);
-    body.append("country", this.userForm.value.u_country);
-    body.append("state", this.userForm.value.u_state);
-    body.append("city", this.userForm.value.u_city);
-    body.append("pincode", this.userForm.value.u_pincode);
-    body.append("fax", this.userForm.value.u_fax);
-    body.append("street", this.userForm.value.u_street);
-    body.append("user_type", this.userForm.value.u_user_type);
-    body.append("profile_image", '');
+    body.set("alternate_number", '' + String(this.userForm.value.u_alt).replace(/\D+/g, ''));
+    body.set("dob", this.userForm.value.u_dob);
+
+    body.set("p_country", this.userForm.value.u_country);
+    body.set("p_state", this.userForm.value.u_state);
+    body.set("p_city", this.userForm.value.u_city);
+    body.set("p_pin_code", this.userForm.value.u_pincode);
+   
+    body.set("p_streetNoName", this.userForm.value.u_street);
+    
+    body.set("case_type", this.userForm.value.u_case_type);
+    body.set("case_no", this.userForm.value.u_alien);
+    body.set("adv_assign", this.userForm.value.u_case_manager);
   
 
-
-    /* body.append("full_name","Sudhanshu");
-    body.append("email","ghsan@gmail.com");
-    body.append("contact",9897367892);
-    body.append("alt",9872658974);
-    body.append("gender","Male");
-    body.append("date_of_birth","2000-10-10");
-    body.append("country",321);
-    body.append("state","saddsd");
-    body.append("city","sdwiewqmsd");
-    body.append("pincode",76787);
-    body.append("fax",8626756389);
-    body.append("street",34);
-    body.append("street_name","Kamal Namgew");
-    body.append("apartment","Unisd wewq");
-    body.append("user_type",2);
-    body.append(" profile_image",'shabnam_saifi.jpg'); 
-	
-            console.log("PRinting Body");
-    console.log(body); 
-    */
     let loader = this.loading.create({
 
-      content: "Adding user please wait…",
+      content: "Registering…",
       duration: 15000
 
     });
@@ -221,7 +182,7 @@ export class SignUpPage
     loader.present().then(() => 
     {
 
-      this.http.post(this.apiValue.baseURL + "/add_user", body, options) //Http request returns an observable
+      this.http.post(this.apiValue.baseURL + "/signup_client.php", body, options) //Http request returns an observable
 
         .map(response => response.json()) ////To make it easy to read from observable
 
@@ -241,8 +202,15 @@ export class SignUpPage
 
           if ('code' in serverReply && serverReply.code == 200) 
           {
-            //Successfully created user
-            this.navCtrl.pop();
+            //Successfully created user/client
+
+            let data =
+            {
+              email: this.userForm.value.u_email,
+              contact: this.userForm.value.u_contact
+            };
+
+            this.navCtrl.setRoot(SignupSuccessPage,data);
           }
         });
 
@@ -250,7 +218,7 @@ export class SignUpPage
       {
         loadingSuccessful = true;
         loader.dismiss();
-        this.presentToast('Failed to add user');
+        this.presentToast('Failed to register');
 
 
       });
