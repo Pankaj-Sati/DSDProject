@@ -66,7 +66,7 @@
     <div *ngIf="reminders!=undefined && reminders != null">
 
       <ion-item no-lines style="min-height:unset;margin-top:20px;">
-        <ion-label style="text-align:right;font-size:14px;color:#808080;margin:0px;">Total Reminders:{{reminders.length+1}}</ion-label>
+        <ion-label style="text-align:right;font-size:14px;color:#808080;margin:0px;">Total Reminders:{{reminders.length}}</ion-label>
       </ion-item>
 
       <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let reminder of reminders" (click)="showDetails(reminder)">

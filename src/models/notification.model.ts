@@ -3,11 +3,16 @@ export class NewNotification
   //Updated Format of the notifcation
 
   id;
-  date;
+  ref_id;
   subject;
-  description;
-  user;
-  created_date;
-  action;
+  notificationDate;
+  notificationTime;
+  dics;
+  created_by;
+  created_on;
+  del_by;
+  del_on;
+  status;
+  clientName;
 
 }

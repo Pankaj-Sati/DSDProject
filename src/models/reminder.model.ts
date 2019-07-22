@@ -18,11 +18,16 @@ export class NewReminder
   //Updated Format of the reminder
 
   id;
-  date;
+  ref_id;
+  reminderDate;
+  reminderTime;
   subject;
-  description;
-  user;
-  created_date;
-  action;
+  disc;
+  created_by;
+  created_on;
+  del_by;
+  del_on;
+  status;
+  clientName;
 
 }

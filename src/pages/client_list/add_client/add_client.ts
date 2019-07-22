@@ -8,11 +8,14 @@ import "rxjs/add/operator/map";
 
 import { User } from '../../../models/login_user.model';
 import { CaseType } from '../../../models/case_type.model';
+import { EntityType } from '../../../models/entity_type.model';
 
 import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
 import { CaseTypeProvider } from '../../../providers/case-type/case-type';
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
 import { ClientEntityRelationshipProvider } from '../../../providers/client-entity-relationship/client-entity-relationship';
+import { EntityTypeProvider } from '../../../providers/entity-type/entity-type';
+
 
 @Component({
   selector: 'add_client',
@@ -32,6 +35,8 @@ export class AddClientPage
   loggedInUser: User;
 
   caseTypeList: CaseType[] = [];
+
+  entityTypeList: EntityType[] = [];
 
   showCaseDetails: boolean = true;
   showPersonalDetails: boolean = false;
@@ -62,10 +67,13 @@ export class AddClientPage
     public toastCtrl: ToastController,
     private http: Http,
     public loading: LoadingController,
-    public relationshipProvider: ClientEntityRelationshipProvider
+    public relationshipProvider: ClientEntityRelationshipProvider,
+    public entityTypeProvider: EntityTypeProvider
   )
-	{
-      this.addClientForm = this.formBuilder.group({
+  {
+    this.entityTypeList = this.entityTypeProvider.getList();
+
+    this.addClientForm = this.formBuilder.group({
 
         //Case details
 			c_case_type:new FormControl('',Validators.compose([Validators.required])),
@@ -516,6 +524,7 @@ export class AddClientPage
   {
     let newEntity: FormGroup = new FormBuilder().group({
 
+      e_type: new FormControl('', Validators.required),
       e_relationship: new FormControl('', Validators.required),
 
       //personal Details

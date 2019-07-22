@@ -23,4 +23,8 @@ reminder_list {
   .detailLabel {
     color: map-get($colors,primary);
   }
+
+  .delButton {
+    background-color: map-get($colors,danger);
+  }
 }

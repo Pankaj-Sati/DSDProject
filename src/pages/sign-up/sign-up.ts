@@ -183,9 +183,6 @@ export class SignUpPage
     {
 
       this.http.post(this.apiValue.baseURL + "/signup_client.php", body, options) //Http request returns an observable
-
-        .map(response => response.json()) ////To make it easy to read from observable
-
         .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
 
         {
@@ -194,24 +191,48 @@ export class SignUpPage
 
           console.log(serverReply);
 
-          const toast = this.toastCtrl.create({
-            message: serverReply.message,
-            duration: 3000
-          });
-          toast.present();
-
-          if ('code' in serverReply && serverReply.code == 200) 
+          if (serverReply)
           {
-            //Successfully created user/client
-
-            let data =
+            try
             {
-              email: this.userForm.value.u_email,
-              contact: this.userForm.value.u_contact
-            };
+              let response = JSON.parse(serverReply['_body']);
 
-            this.navCtrl.setRoot(SignupSuccessPage,data);
+              this.presentToast(response.message);
+
+              if ('code' in response && response.code == 200) 
+              {
+                //Successfully created user/client
+
+                let data =
+                {
+                  email: this.userForm.value.u_email,
+                  contact: this.userForm.value.u_contact
+                };
+
+                this.navCtrl.setRoot(SignupSuccessPage, data);
+              }
+              else
+              {
+                this.presentToast('Failed!! Server returned an error');
+              }
+
+            }
+            catch (err)
+            {
+              console.log(err);
+              this.presentToast('Failed!! Server returned an error');
+            }
           }
+          else
+          {
+            this.presentToast('Failed!! Server returned an error');
+          }
+          
+        }, error =>
+          {
+            loadingSuccessful = true;
+            loader.dismiss();
+            this.presentToast('Failed to register');
         });
 
     }, error =>

@@ -25,6 +25,8 @@ export class AddNotificationPage
   clientList: Client[] = [];
   selectedClients: Client[] = [];
 
+  loggedInUser: User;
+
   constructor(
     public events: Events,
     public navCtrl: NavController,
@@ -38,13 +40,10 @@ export class AddNotificationPage
     public menuCtrl: MenuController,
     public myStorage: MyStorageProvider)
   {
+    this.loggedInUser = this.myStorage.getParameters();
     this.fetchData();
   }
 
-  addNotification()
-  {
-
-  }
 
   goBack()
   {
@@ -118,6 +117,104 @@ export class AddNotificationPage
 
 
   }
+
+  addNotification()
+  {
+    const loader = this.loading.create({
+
+      content: 'Adding...',
+      duration: 15000
+    });
+    let loadingSuccessful = false;//To know whether timeout occured or not
+
+    loader.present().then(() =>
+    {
+
+      let body = new FormData();
+
+      body.append('notificationDate', this.n_date);
+      body.append('notificationTime', this.n_time);
+      body.append('subject', this.n_subject);
+      body.append('disc', this.n_description);
+      body.append('client', this.getSelectedClientsParameters());
+      body.append('session_id', this.loggedInUser.id);
+
+      this.http.post(this.apiValue.baseURL + '/add_notification.php', body, null)
+        .subscribe(response =>
+        {
+          console.log(response);
+          loadingSuccessful = true;
+          loader.dismiss();
+          if (response)
+          {
+            try
+            {
+              let data = JSON.parse(response['_body']);
+              if (('code' in data) && data.code > 400)
+              {
+                //error
+                this.showToast(data.message);
+
+                return;
+              }
+              else
+              {
+                //Success
+                this.showToast(data.message);
+                this.navCtrl.getPrevious().data.reload = true;
+                this.navCtrl.pop();
+
+                return;
+              }
+            }
+            catch (err)
+            {
+              console.log(err);
+              this.showToast('Failure!!!');
+            }
+          }
+          else
+          {
+
+            this.showToast('Failure!!!');
+          }
+
+        }, error =>
+          {
+            loadingSuccessful = true;
+            console.log(error);
+            loader.dismiss();
+          });
+    });
+
+    loader.onDidDismiss(() =>
+    {
+
+      if (!loadingSuccessful)
+      {
+        this.showToast('Failure!!! Server did not respond');
+      }
+    });
+
+  }
+
+getSelectedClientsParameters(): string
+{
+  let param: string = '';
+  for (let i = 0; i < this.selectedClients.length; i++)
+  {
+
+    param = param + this.selectedClients[i].id;
+
+    if (i < this.selectedClients.length - 1)
+    {
+      param = param + ","
+    }
+
+  }
+
+  return param;
+}
 
   showToast(text)
   {

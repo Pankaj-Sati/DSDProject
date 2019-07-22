@@ -75,8 +75,8 @@
   <ion-item [ngClass]="{'error':! userForm.controls.u_country.valid,'valid':(userForm.controls.u_country.touched && userForm.controls.u_country.valid)}" [class.invalid]="! userForm.controls.u_country.valid">
 
     <ion-label stacked>Country <span class="requiredField">*</span></ion-label>
-    <ion-select  formControlName="u_country" name="country">
-      <ion-option value="321">United States</ion-option>
+    <ion-select interface="popover" formControlName="u_country" name="country">
+      <ion-option value="UnitedStates">United States</ion-option>
     </ion-select>
   </ion-item>
   

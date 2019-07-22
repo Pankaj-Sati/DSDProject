@@ -319,8 +319,8 @@ export class AddUserPage
 
               "full_name": this.userForm.value.u_name,
               "email": this.userForm.value.u_email,
-              "contact": this.userForm.value.u_contact,
-              "alt": this.userForm.value.u_alt,
+              "contact": String(this.userForm.value.u_contact).replace(/\D+/g, ''),
+              "alt": String(this.userForm.value.u_alt).replace(/\D+/g,''),
               "gender": this.userForm.value.u_gender,
               "date_of_birth": this.userForm.value.u_dob,
               "country": this.userForm.value.u_country,
@@ -343,27 +343,49 @@ export class AddUserPage
 
             if (data)
             {
-              if (JSON.parse(data["_body"])['code'] > 400)
+              try
               {
-                //Error returned from server
-                this.presentToast(JSON.parse(data["_body"])['message']);
-                loader.dismiss();
-                return;
+                let response = JSON.parse(data["response"]);
+                if (response.code > 400)
+                {
+                  //Error returned from server
+                  this.presentToast(response.message);
+                  loader.dismiss();
+                  return;
+                }
+                else
+                {
+                  //successful
+                  this.presentToast(response.message);
+                  loader.dismiss();
+                  this.navCtrl.pop();
+                  return;
+                }
               }
-              else
+              catch (err)
               {
-                //successful
-                this.presentToast(JSON.parse(data["_body"])['message']);
+                this.presentToast("Failed!! Server returned an error");
                 loader.dismiss();
-                this.navCtrl.pop();
-                return;
               }
+              
             }
             else
             {
               this.presentToast("Failed!! Server returned an error");
               loader.dismiss();
             }
+          }, err =>
+          {
+              console.log(err);
+              loadingSuccessful = true;
+              this.presentToast("Failed!! Server returned an error");
+              loader.dismiss();
+
+          }).catch(error =>
+          {
+            loadingSuccessful = true;
+            loader.dismiss();
+            this.presentToast("Failed to send data");
           });
 
         }

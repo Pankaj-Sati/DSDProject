@@ -41,11 +41,6 @@
 
       <div *ngIf="showCaseDetails">
 
-        <ion-row>
-          <ion-col>
-
-          </ion-col>
-        </ion-row>
 
         <ion-item *ngIf="clientDetails.case_type!=null && clientDetails.case_type.length>0">
           <ion-label><b>Case Type:</b><span class='info'>{{clientDetails.case_type}}</span> </ion-label>
@@ -233,6 +228,11 @@
               <span style="font-size:18px; font-weight:500">Entity:{{i+1}}</span>
             </ion-item>
 
+            <ion-item no-lines *ngIf="entity.entity_type!=null && entity.entity_type.length>0">
+              <ion-label><b>Type:</b><span class='info'>{{entity.entity_type}}</span></ion-label>
+
+            </ion-item>
+
             <ion-item no-lines *ngIf="entity.relationship!=null && entity.relationship.length>0">
               <ion-label><b>Relationship:</b><span class='info'>{{entity.relationship}}</span></ion-label>
 
@@ -334,7 +334,7 @@
               <ion-label><b>Country:</b><span class='info'>{{entity.country}}</span></ion-label>
 
             </ion-item>
-
+            <hr />
           </div>
         </div>
 

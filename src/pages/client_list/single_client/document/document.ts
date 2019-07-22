@@ -33,6 +33,8 @@ export class ClientDocumentsPage
   selected_file_name: string; //If user wanted to add a new file to upload
   lastImage; //Last selected Image
   loggedInUser: User;
+
+  uploadProgress;
  
   constructor
     (
@@ -138,7 +140,6 @@ export class ClientDocumentsPage
     console.log('---In Document Selected---');
    
     let index = this.selectedDocList.findIndex(document => document.id == doc.id);
-    console.log('index=' + index);
     if (index>=0)
     {
       //Found. Therefore delete
@@ -157,7 +158,7 @@ export class ClientDocumentsPage
   isDocumentSelected(doc: ClientDocuments)
   {
     let result: ClientDocuments = this.selectedDocList.find(document => document.id == doc.id);
-    console.log('Result='+result);
+    
     if (result == null || result == undefined || result.id.length==0)
     {
       return false;
@@ -299,15 +300,15 @@ export class ClientDocumentsPage
   takeFile()
   {
     console.log('In Take File()');
-    this.fileChooser.getFile('*')
+    this.fileChooser.getFile('')
       .then(file =>
       {
         if (file)
         {
           console.log('File selected');
           console.log('File Name=' + file.name);
-          console.log('Data URI=' + file.dataURI);
-          console.log('Data=' + file.data);
+         // console.log('Data URI=' + file.dataURI);
+         // console.log('Data=' + file.data);
           console.log('Media Type=' + file.mediaType);
           console.log('URI=' + file.uri);
 
@@ -414,9 +415,11 @@ export class ClientDocumentsPage
 
   uploadFile()
   {
-       let transfer: FileTransferObject = this.fileTransfer.create();
+    let transfer: FileTransferObject = this.fileTransfer.create();
+    this.uploadProgress = '';
 
-      let filename = this.lastImage.substr(this.lastImage.lastIndexOf('/') + 1);
+    let filename = this.selected_file_name;
+    console.log('File Name='+filename);
       var options =
       {
         fileKey: "doc",
@@ -433,10 +436,14 @@ export class ClientDocumentsPage
         }
       };
 
+    let loaderContent = '<ion-row">'+
+      '<ion-col style="text-align:center" >"Uploading...</ion-col>'+
+        '</ion-row>';
+
     let loader = this.loadingCtrl.create({
 
-        content: "Uploading...",
-        duration: 25000
+      content: loaderContent,
+        duration: 30000
       });
 
       let transferSuccessful = false; //To know whether timeout occured or not
@@ -453,20 +460,33 @@ export class ClientDocumentsPage
 
         if (data)
         {
-          if (JSON.parse(data["_body"])['code'] > 400)
+          try
           {
-            //Error returned from server
-            this.presentToast(JSON.parse(data["_body"])['message']);
+            let response = JSON.parse(data["response"]);
+            if (response.code > 400)
+            {
+              //Error returned from server
+              this.presentToast(response.message);
+              loader.dismiss();
+              return;
+            }
+            else
+            {
+              //Success
+              this.presentToast(response.message);
+              this.fetchData();
+              loader.dismiss();
+              return;
+            }
+          }
+          catch (err)
+          {
+            console.log(err);
+            this.presentToast('Error in response');
             loader.dismiss();
             return;
           }
-          else
-          {
-            
-            this.presentToast(JSON.parse(data["_body"])['message']);
-            loader.dismiss();
-            return;
-          }
+          
         }
         else
         {
@@ -492,6 +512,13 @@ export class ClientDocumentsPage
           loader.dismiss();
 
         });
+
+    transfer.onProgress(progress =>
+    {
+      
+      this.uploadProgress = Math.round((progress.loaded / progress.total) * 100);
+      console.log("Progress="+this.uploadProgress);
+    });
 
       loader.onDidDismiss((data) =>
       {

@@ -30,7 +30,7 @@ export class SingleUserPage
 		this.user_type=new UserType();
 
 
-		this.fetchData();
+	
 
     }
 
@@ -38,9 +38,18 @@ export class SingleUserPage
     {
     		//This method is called when the page loads for the first time
     		this.passed_user_id=this.navParams.get('id'); //Get the id field passed from the user_list page
-    		console.log("Id received="+this.passed_user_id);
+      console.log("Id received=" + this.passed_user_id);
+      this.fetchData();
 
     }
+
+  ionViewDidEnter()
+  {
+    if(this.navParams.data.reload)
+    {
+      this.fetchData();
+    }
+  }
 
 
     fetchData()

@@ -16,6 +16,9 @@ import { AdvocateDropdown } from '../../../../models/ advocate.model';
 
 import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
 import { ClientEntityRelationshipProvider } from '../../../../providers/client-entity-relationship/client-entity-relationship';
+import { EntityTypeProvider } from '../../../../providers/entity-type/entity-type';
+import { EntityType } from '../../../../models/entity_type.model';
+
 
 @Component
   ({
@@ -50,6 +53,8 @@ export class EditClientPage
 
   caseTypeList: CaseType[]=[];
 
+  entityTypeList: EntityType[] = [];
+
   hasRelation: boolean = false;
 
   constructor(
@@ -63,9 +68,13 @@ export class EditClientPage
     public toastCtrl: ToastController,
     private http: Http,
     public loading: LoadingController,
-    public relationshipProvider: ClientEntityRelationshipProvider
+    public relationshipProvider: ClientEntityRelationshipProvider,
+    public entityTypeProvider: EntityTypeProvider
   )
   {
+
+    this.entityTypeList = this.entityTypeProvider.getList();
+
     this.editClientForm = this.formBuilder.group({
 
       //Case details
@@ -203,6 +212,7 @@ export class EditClientPage
 
   setPassedEntityDetails(entity: Entity,index)
   {
+    this.editClientForm.get('entity')['controls'][index].controls.e_type.setValue(entity.entity_type);
     this.editClientForm.get('entity')['controls'][index].controls.e_relationship.setValue(entity.relationship);
 
     //personal Details
@@ -278,6 +288,7 @@ export class EditClientPage
           for (let i = 0; i < this.totalEntities; i++)
           {
             this.setEntityValidatorsNull(i, 'e_relationship');
+            this.setEntityValidatorsNull(i, 'e_type');
             this.setEntityValidatorsNull(i, 'e_name');
             this.setEntityValidatorsNull(i, 'e_alias');
             this.setEntityValidatorsNull(i, 'e_contact');
@@ -516,6 +527,7 @@ export class EditClientPage
   {
     let newEntity: FormGroup = new FormBuilder().group({
 
+      e_type: new FormControl('', Validators.required),
       e_relationship: new FormControl('', Validators.required),
 
       //personal Details

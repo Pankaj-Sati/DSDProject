@@ -25,6 +25,8 @@ export class AddReminderPage
   clientList: Client[] = [];
   selectedClients: Client[] = [];
 
+  loggedInUser: User;
+
   constructor(
     public events: Events,
     public navCtrl: NavController,
@@ -38,12 +40,111 @@ export class AddReminderPage
     public menuCtrl: MenuController,
     public myStorage: MyStorageProvider)
   {
+    this.loggedInUser = this.myStorage.getParameters();
+
     this.fetchData();
   }
 
   addReminder()
   {
+    const loader = this.loading.create({
 
+      content: 'Adding...',
+      duration: 15000
+    });
+    let loadingSuccessful = false;//To know whether timeout occured or not
+
+    loader.present().then(() =>
+    {
+
+      let body = new FormData();
+
+      body.append('reminderDate', this.r_date);
+      body.append('reminderTime', this.r_time);
+      body.append('subject', this.r_subject);
+      body.append('disc', this.r_description);
+      body.append('client', this.getSelectedClientsParameters());
+      body.append('session_id', this.loggedInUser.id);
+
+      //http://dsdlawfirm.com/dsd/api_work/add_reminder.php?disc=test app disc rr gg
+    //& reminderDate=2019 - 07 - 27 & reminderTime=21: 00
+    //& subject=test subject RRg & client=111 & session_id=1
+
+      this.http.post(this.apiValue.baseURL + '/add_reminder.php', body, null)
+        .subscribe(response =>
+        {
+          console.log(response);
+          loadingSuccessful = true;
+          loader.dismiss();
+          if (response)
+          {
+            try
+            {
+              let data = JSON.parse(response['_body']);
+              if (('code' in data) && data.code > 400)
+              {
+                //error
+                this.showToast(data.message);
+
+                return;
+              }
+              else
+              {
+                //Success
+                this.showToast(data.message);
+                this.navCtrl.getPrevious().data.reload = true;
+                this.navCtrl.pop();
+
+                return;
+              }
+            }
+            catch (err)
+            {
+              console.log(err);
+              this.showToast('Failure!!!');
+            }
+          }
+          else
+          {
+
+            this.showToast('Failure!!!');
+          }
+
+        }, error =>
+          {
+            loadingSuccessful = true;
+            console.log(error);
+            loader.dismiss();
+          });
+    });
+
+    loader.onDidDismiss(() =>
+    {
+
+      if (!loadingSuccessful)
+      {
+        this.showToast('Failure!!! Server did not respond');
+      }
+    });
+
+  }
+
+  getSelectedClientsParameters(): string
+  {
+    let param: string = '';
+    for (let i = 0; i < this.selectedClients.length; i++)
+    {
+
+      param = param + this.selectedClients[i].id;
+
+      if (i < this.selectedClients.length - 1)
+      {
+        param = param + ","
+      }
+
+    }
+
+    return param;
   }
 
   goBack()

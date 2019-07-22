@@ -70,7 +70,7 @@
     <div *ngIf="notifications!=undefined && notifications != null">
 
       <ion-item no-lines style="min-height:unset;margin-top:20px;">
-        <ion-label style="text-align:right;font-size:14px;color:#808080;margin:0px;">Total Notifications:{{notifications.length+1}}</ion-label>
+        <ion-label style="text-align:right;font-size:14px;color:#808080;margin:0px;">Total Notifications:{{notifications.length}}</ion-label>
       </ion-item>
 
       <ion-card style="background-color: #efefef;border-radius: 2%; text-align: center;" *ngFor="let notification of notifications" (click)="showDetails(notification)">

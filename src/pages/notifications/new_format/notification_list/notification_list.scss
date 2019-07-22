@@ -20,8 +20,11 @@ notification_list {
     margin: 0px;
   }
 
-  .detailLabel
-   {
-    color:map-get($colors,primary);
+  .detailLabel {
+    color: map-get($colors,primary);
+  }
+
+  .delButton {
+    background-color: map-get($colors,danger);
   }
 }

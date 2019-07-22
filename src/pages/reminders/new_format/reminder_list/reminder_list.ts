@@ -9,8 +9,10 @@ import { ToastController } from 'ionic-angular';
 import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
 
+import { AddReminderPage} from '../add_reminder/add_reminder';
 
-import {NewReminder} from '../../../../models/reminder.model';
+import { NewReminder } from '../../../../models/reminder.model';
+import { User } from '../../../../models/login_user.model';
 
 @Component({
   selector: 'reminder_list',
@@ -20,6 +22,12 @@ export class ReminderListPage
 {
   reminderList: NewReminder[] = [];
   visibility: boolean[] = [];
+
+  from_date = '';
+  to_date = '';
+  search_string = '';
+
+  loggedInUser: User;
 
   constructor(public events: Events,
     public navCtrl: NavController,
@@ -33,21 +41,27 @@ export class ReminderListPage
     public menuCtrl: MenuController,
     public myStorage: MyStorageProvider)
   {
-    this.reminderList = [
-      { id: 1, date: '12-06-2019', subject: 'My Subject', description: 'Descridjkndjkn', user: 'My User1, 23', created_date: '08-05-2019', action: 'Number 1' },
-      { id: 2, date: '12-06-2019', subject: 'My Subject3', description: '213Descridjkndjkn', user: 'My 23User1, 23', created_date: '08-05-2019', action: 'Number 1' },
-      { id: 3, date: '12-06-2019', subject: 'My Subject8', description: '213Descridjkndjkn', user: 'My 23User1, 23', created_date: '08-05-2019', action: 'Number 1' },
-      { id: 4, date: '12-06-2019', subject: 'My Subject980', description: '21fdfdgfdg3Descridjkndjkn', user: 'My 23User1, 23', created_date: '08-05-2019', action: 'Number 1' },
-      ]
+
+    this.loggedInUser = this.myStorage.getParameters();
+
+    this.fetchData();
+    
   }
   
-
+  ionViewDidEnter()
+  {
+    if (this.navParams.data.reload)
+    {
+      this.fetchData();
+    }
+  }
 
   fetchData()
   {
 
     var headers = new Headers();
     this.reminderList = [];
+    this.visibility = [];
 
     headers.append("Accept", "application/json");
 
@@ -55,6 +69,11 @@ export class ReminderListPage
 
     let options = new RequestOptions({ headers: headers });
     let body = new FormData();
+    body.set('session_id', this.loggedInUser.id);
+    body.set('from_date', this.from_date);
+    body.set('to_date', this.to_date);
+    body.set('search', this.search_string);
+
 
     let loader = this.loading.create({
 
@@ -66,7 +85,7 @@ export class ReminderListPage
     loader.present().then(() => 
     {
 
-      this.http.post(this.apiValue.baseURL + "/client_list.php", body, null) //Http request returns an observable
+      this.http.post(this.apiValue.baseURL + "/remindersList.php", body, null) //Http request returns an observable
 
         .map(response => response.json()) ////To make it easy to read from observable
 
@@ -84,6 +103,10 @@ export class ReminderListPage
           else
           {
             this.reminderList = serverReply;
+            for (let i = 0; i < this.reminderList.length; i++)
+            {
+              this.visibility[i] = false;
+            }
           }
 
 
@@ -124,6 +147,115 @@ export class ReminderListPage
   {
     
     this.visibility[i] = !this.visibility[i];
+  }
+
+  addReminder()
+  {
+    this.navCtrl.push(AddReminderPage);
+  }
+
+  deleteReminderAlert(reminder: NewReminder)
+  {
+    const alert = this.alertCtrl.create(
+      {
+        message: 'Delete this note?',
+        title: 'Attention!',
+        buttons: [{
+
+          text: 'Confirm',
+          handler: () =>
+          {
+            console.log("Delete  Confirm");
+            this.deleteReminder(reminder);
+          }
+
+        },
+        {
+          text: "Cancel",
+          handler: () =>
+          {
+            console.log("Delete Cancelled");
+          }
+        }
+        ],
+
+      });
+    alert.present();
+
+  }
+
+  deleteReminder(reminder: NewReminder)
+  {
+    const loader = this.loading.create({
+
+      content: 'Deleting...',
+      duration: 15000
+    });
+    let loadingSuccessful = false;//To know whether timeout occured or not
+
+    loader.present().then(() =>
+    {
+      //http://dsdlawfirm.com/dsd/api_work/delete_reminder.php?session_id=1&rowId=2
+
+      let body = new FormData();
+
+      body.set('rowId', reminder.id);
+
+      body.set('session_id', this.loggedInUser.id);
+
+      this.http.post(this.apiValue.baseURL + '/delete_reminder.php', body, null)
+        .subscribe(response =>
+        {
+          console.log(response);
+          loadingSuccessful = true;
+          loader.dismiss();
+          if (response)
+          {
+            try
+            {
+              let data = JSON.parse(response['_body']);
+              if (('code' in data) && data.code > 400)
+              {
+                //error
+                this.showToast(data.message);
+              }
+              else
+              {
+                //Success
+                this.showToast(data.message);
+                this.fetchData();
+
+              }
+            }
+            catch (err)
+            {
+              console.log(err);
+              this.showToast('Failure!!!');
+            }
+          }
+          else
+          {
+
+            this.showToast('Failure!!!');
+          }
+
+        }, error =>
+          {
+            loadingSuccessful = true;
+            console.log(error);
+            loader.dismiss();
+          });
+    });
+
+    loader.onDidDismiss(() =>
+    {
+
+      if (!loadingSuccessful)
+      {
+        this.showToast('Failure!!! Server did not respond');
+      }
+    });
+
   }
 
 }

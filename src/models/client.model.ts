@@ -109,6 +109,7 @@ export class Entity
   registration_fee;
   decided_fee;
   user_type;
+  entity_type;
 }
 
 

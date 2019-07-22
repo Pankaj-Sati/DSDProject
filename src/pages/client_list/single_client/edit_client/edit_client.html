@@ -276,6 +276,13 @@
 
               <div *ngIf="showEachEntityDetails[i]">
 
+                <ion-item no-lines ngClass="{'error':editClientForm.get('entity').controls[i].e_type.touched && !editClientForm.get('entity').controls[i].e_type.valid,'valid':(editClientForm.get('entity').controls[i].e_type.touched && editClientForm.get('entity').controls[i].e_type.valid)}" class.invalid="editClientForm.get('entity').controls[i].e_type.dirty && ! editClientForm.get('entity').controls[i].e_type.valid">
+                  <ion-label stacked><b>Type <span class="mandatory_field"> *</span></b></ion-label>
+                  <ion-select required interface="popover" formControlName="e_type" placeholder="Select entity type">
+                    <ion-option *ngFor="let entityType of entityTypeList" value="{{entityType.value}}">{{entityType.name}}</ion-option>
+                  </ion-select>
+                </ion-item>
+
                 <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_relationship.valid,'valid':(editClientForm.get('entity').controls[i].e_relationship.touched && editClientForm.get('entity').controls[i].e_relationship.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_relationship.valid">
                   <ion-label stacked><b>Relationship <span class="mandatory_field"> *</span></b></ion-label>
                   <ion-select required interface="popover" formControlName="e_relationship" placeholder="Select a Relationship">
@@ -415,8 +422,13 @@
             <ion-input formControlName="c_filing_cm"></ion-input>
           </ion-item>
 
+          <ion-item no-lines>
+
+            <ion-label><b>Case Manager Assigned To:</b> {{passedClientDetails.caseManagerName}}</ion-label>
+
+          </ion-item>
           <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_cm_assigned.valid,'valid':(editClientForm.controls.c_cm_assigned.touched && editClientForm.controls.c_cm_assigned.valid)}" [class.invalid]="! editClientForm.controls.c_cm_assigned.valid">
-            <ion-label stacked><b>Case Manager Assigned To <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-label stacked><b>Change Case Manager <span class="mandatory_field"> *</span></b></ion-label>
             <ion-select interface="popover" required formControlName="c_cm_assigned" placeholder="Select Case Manager">
               <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}} ({{advocate.id}})</ion-option>
             </ion-select>

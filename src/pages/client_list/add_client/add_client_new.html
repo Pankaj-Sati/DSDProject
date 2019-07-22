@@ -274,6 +274,13 @@
 
             <div *ngIf="showEachEntityDetails[i]">
 
+              <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_type.touched && !addClientForm.get('entity').controls[i].e_type.valid,'valid':(addClientForm.get('entity').controls[i].e_type.touched && addClientForm.get('entity').controls[i].e_type.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_type.dirty && ! addClientForm.get('entity').controls[i].e_type.valid">
+                <ion-label stacked><b>Type <span class="mandatory_field"> *</span></b></ion-label>
+                <ion-select required interface="popover" formControlName="e_type" placeholder="Select entity type">
+                  <ion-option *ngFor="let entityType of entityTypeList" value="{{entityType.value}}">{{entityType.name}}</ion-option>
+                </ion-select>
+              </ion-item>
+
               <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_relationship.touched && !addClientForm.get('entity').controls[i].e_relationship.valid,'valid':(addClientForm.get('entity').controls[i].e_relationship.touched && addClientForm.get('entity').controls[i].e_relationship.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_relationship.dirty && ! addClientForm.get('entity').controls[i].e_relationship.valid">
                 <ion-label stacked><b>Relationship <span class="mandatory_field"> *</span></b></ion-label>
                 <ion-select required interface="popover" formControlName="e_relationship" placeholder="Select a Relationship">

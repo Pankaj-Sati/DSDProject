@@ -13,6 +13,9 @@ import { ApiValuesProvider } from '../../../providers/api-values/api-values';
 import { Storage } from '@ionic/storage';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 
+import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
+import {User } from '../../../models/login_user.model';
+
 declare var cordova:any;
 
 @Component({
@@ -26,7 +29,7 @@ export class UpdateUserPage
 
 	user:any=null;
 
-  loggedInUserId;
+  loggedInUser: User;
 
 	passed_uid:string;
 
@@ -39,16 +42,34 @@ export class UpdateUserPage
 	lastImage:string;
 	
 
-	constructor(public webView:WebView,public storage:Storage,public file:File,public platform:Platform,public filePath:FilePath,public fileTransfer:FileTransfer,public formBuilder:FormBuilder,public apiValue:ApiValuesProvider,private camera: Camera,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController, public menuCtrl: MenuController) 
-	{
-			this.userForm=this.formBuilder.group({
+  constructor(public webView: WebView,
+    public storage: Storage,
+    public file: File,
+    public platform: Platform,
+    public filePath: FilePath,
+    public fileTransfer: FileTransfer,
+    public formBuilder: FormBuilder,
+    public apiValue: ApiValuesProvider,
+    private camera: Camera,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    private http: Http,
+    public loading: LoadingController,
+    public toastCtrl: ToastController,
+    public myStorage: MyStorageProvider,
+    public menuCtrl: MenuController) 
+  {
+
+    this.loggedInUser = this.myStorage.getParameters();
+    this.userForm=this.formBuilder.group({
 
 			u_profile_img:new FormControl(''),
 			u_name:new FormControl('',Validators.compose([Validators.required])),
 			
-              u_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
-              u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
-              u_alt: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
+      u_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
+      u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
+      u_alt: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
 			u_gender: new FormControl('',Validators.compose([Validators.required])),
 			u_dob:new FormControl('',Validators.compose([Validators.required])),
 			u_country: new FormControl('',Validators.compose([Validators.required])),
@@ -61,13 +82,7 @@ export class UpdateUserPage
 			
             });
 
-      this.storage.get("id").then((value) => {
-
-        this.loggedInUserId = value;
-        console.log("Logged In User ID:" + value);
-      });
 	}
-
 
 	ionViewDidLoad()
     {
@@ -77,7 +92,7 @@ export class UpdateUserPage
     		this.fetchData();
     }
 
-    takeImage()
+  takeImage()
     {
 
     	console.log("In take Image()");
@@ -200,9 +215,7 @@ export class UpdateUserPage
 		});
 	}
 
-
-
-    isValid(email) 
+  isValid(email) 
     {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
@@ -277,11 +290,8 @@ export class UpdateUserPage
 								this.userForm.controls.u_city.setValue(this.user.city);
 								this.userForm.controls.u_state.setValue(this.user.state);
 								this.userForm.controls.u_pincode.setValue(this.user.zipCode);
-					
-								if(this.user.country!=null && this.user.country.toLowerCase()=='united states')
-								{
-									this.userForm.controls.u_country.setValue("321"); //In template the country name is coded in select option
-								}
+					      this.userForm.controls.u_country.setValue(this.user.country); //In template the country name is coded in select option
+								
 								this.userForm.controls.u_fax.setValue(this.user.fax);
 								this.userForm.controls.u_user_type.setValue(this.user.usertype_id);
 								if(this.user.profile_img!=null && this.user.profile_img!=undefined && this.user.profile_img.length>0)
@@ -302,7 +312,7 @@ export class UpdateUserPage
 
     }
 
-    submitData()
+  submitData()
     {
 
       console.log("Image changed" + this.isImageChanged);
@@ -315,26 +325,26 @@ export class UpdateUserPage
 				let options = new RequestOptions({ headers: headers });
 
 				let body = new FormData();
-				body.append("uid",this.passed_uid);
-				body.append("full_name",this.userForm.value.u_name);
-				body.append("email",this.userForm.value.u_email);
-        body.append("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
-				body.append("alt",String(this.userForm.value.u_alt).replace(/\D+/g,''));
-				body.append("gender",this.userForm.value.u_gender);
-				body.append("date_of_birth",this.userForm.value.u_dob);
-				body.append("country",this.userForm.value.u_country);
-				body.append("state",this.userForm.value.u_state);
-				body.append("city",this.userForm.value.u_city);
-				body.append("pincode",this.userForm.value.u_pincode);
-				body.append("fax",this.userForm.value.u_fax);
-				body.append("street",this.userForm.value.u_street);
-		        body.append("user_type", this.userForm.value.u_user_type);
-		        body.append("session_id", this.loggedInUserId);
+              body.set("uid",this.passed_uid);
+              body.set("full_name",this.userForm.value.u_name);
+              body.set("email",this.userForm.value.u_email);
+              body.set("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
+              body.set("alt",String(this.userForm.value.u_alt).replace(/\D+/g,''));
+              body.set("gender",this.userForm.value.u_gender);
+              body.set("date_of_birth",this.userForm.value.u_dob);
+              body.set("country",this.userForm.value.u_country);
+              body.set("state",this.userForm.value.u_state);
+              body.set("city",this.userForm.value.u_city);
+              body.set("pincode",this.userForm.value.u_pincode);
+              body.set("fax",this.userForm.value.u_fax);
+              body.set("street",this.userForm.value.u_street);
+              body.set("user_type", this.userForm.value.u_user_type);
+              body.set("session_id", this.loggedInUser.id);
 
 				if(this.userForm.value.u_profile_img!=null && this.userForm.value.u_profile_img.length>0)
-				{
-					 this.base64Image =this.userForm.value.u_profile_img;
-					 body.append(" profile_image",this.base64Image);
+        {
+                  //Setting the value to the previous one. If this is not done, API may change a previous profile image to null.
+            body.set("profile_image", this.userForm.value.u_profile_img);
 				}
 			
 
@@ -355,23 +365,44 @@ export class UpdateUserPage
 			{
 
 		   this.http.post(this.apiValue.baseURL+"/update_user",body,options) //Http request returns an observable
-
-		   .map(response => response.json()) ////To make it easy to read from observable
-
 		   .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
 					  
 				{ 
-			   		console.log(serverReply);
-			   		loadingSuccessful=true;
-			   		loader.dismiss();
-					
-			   		this.presentToast(serverReply.message);
+             loadingSuccessful = true;
+             loader.dismiss()
+
+             console.log(serverReply);
+
+             if (serverReply)
+             {
+               try
+               {
+                 let response = JSON.parse(serverReply['_body']);
+
+                 this.presentToast(response.message);
+
+                 if ('code' in response && response.code == 200) 
+                 {
+                   //Successfully updated the user
+                   this.navCtrl.getPrevious().data.reload = true;
+                   this.navCtrl.pop();
+                 }
+               }
+               catch (err)
+               {
+                 this.presentToast('Failed!!! Server returned an error');
+               }
+             }
+             else
+             {
+               this.presentToast('Failed!!! Server returned an error');
+             }
 			
 
 	  		 },error=>{
 	  		 	loadingSuccessful=true;
 			   		loader.dismiss();
-			   		this.presentToast('Failed to upadte user');
+			   		this.presentToast('Failed to update user');
 	  		 });
 		   });
 
@@ -401,8 +432,8 @@ export class UpdateUserPage
 					"uid":this.passed_uid,
 					"full_name":this.userForm.value.u_name,
 					"email":this.userForm.value.u_email,
-					"contact":this.userForm.value.u_contact,
-					"alt":this.userForm.value.u_alt,
+           "contact": String(this.userForm.value.u_contact).replace(/\D+/g, ''),
+            "alt": String(this.userForm.value.u_alt).replace(/\D+/g, ''),
 					"gender":this.userForm.value.u_gender,
 					"date_of_birth":this.userForm.value.u_dob,
 					"country":this.userForm.value.u_country,
@@ -412,7 +443,7 @@ export class UpdateUserPage
 					"fax":this.userForm.value.u_fax,
 					"street":this.userForm.value.u_street,
           "user_type": this.userForm.value.u_user_type,
-          "session_id": this.loggedInUserId
+          "session_id": this.loggedInUser.id
 				}
 			};
 
@@ -432,28 +463,40 @@ export class UpdateUserPage
 				console.log("Image upload server reply");
 				console.log(data);
 
-				if(data)
-				{
-					if(JSON.parse(data["_body"])['code']>400)
-					{
-						//Error returned from server
-						this.presentToast(JSON.parse(data["_body"])['message']);
-						loader.dismiss();
-						return;
-					}
-					else
-					{
-						//successful
-						this.presentToast(JSON.parse(data["_body"])['message']);
-						loader.dismiss();
-						return;
-					}
-				}
-				else
-				{
-					this.presentToast("Failed!! Server returned an error");
-					loader.dismiss();
-				}
+            if (data)
+            {
+              try
+              {
+                let response = JSON.parse(data["response"]);
+                if (response.code > 400)
+                {
+                  //Error returned from server
+                  this.presentToast(response.message);
+                  loader.dismiss();
+                  return;
+                }
+                else
+                {
+                  //successful
+                  this.presentToast(response.message);
+                  loader.dismiss();
+                  this.navCtrl.getPrevious().data.reload = true;
+                  this.navCtrl.pop();
+                  return;
+                }
+              }
+              catch (err)
+              {
+                this.presentToast("Failed!! Server returned an error");
+                loader.dismiss();
+              }
+
+            }
+            else
+            {
+              this.presentToast("Failed!! Server returned an error");
+              loader.dismiss();
+            }
 
 			},err=>{
 
@@ -485,7 +528,7 @@ export class UpdateUserPage
 
     }
     
-    presentToast(text)
+  presentToast(text)
     {
     	const toast=this.toastCtrl.create({
 

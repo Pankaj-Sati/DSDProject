@@ -18,10 +18,18 @@ import { ClientNote } from '../../../../models/client_notes.model';
 export class NotesListPage
 {
   notes_list: ClientNote[] = [];
+  case_history_list = [];
   noteDetail: ClientNote;
   passed_client_id;
-  n_search: string = '';//Search string
-  visibility: boolean[] = [];
+
+  n_search: string = '';//Search string for notes
+  c_search: string = '';//Search string for case history
+
+  visibilityNotes: boolean[] = []; //For changing detailed visibility of each note
+  visibilityCaseHistory: boolean[] = []; //For changing detailed visibility of each case history
+
+  public showCaseHistory: boolean = true;
+  public showNotes: boolean = false;
 
 
   constructor
@@ -49,38 +57,30 @@ export class NotesListPage
     this.fetchData();
   }
 
+  ionViewDidEnter()
+  {
+    console.log('---Ion View Did Enter---');
+    if (this.navParams.data.reload)
+    {
+      this.fetchData();
+    }
+  }
 
   showDetails(smsSelected, showEvent, i)
   {
-    /*
-    let option: PopoverOptions = {
- 
-    };
-    const popover = this.popoverCtrl.create(SmsDetailComponent, { sms: smsSelected }, option);
+    this.visibilityNotes[i] = !this.visibilityNotes[i];
+  }
 
-    popover.present({
-      ev: showEvent
-    });
-    */
-
-    /*
-    let options: ModalOptions = {
-     
-    };
-    const modal = this.modalCtrl.create(SmsDetailComponent, { sms: smsSelected });
-    modal.present();
-    */
-
-    this.visibility[i] = !this.visibility[i];
-
-
+  showCaseHistoryDetails(caseHistorySelected, showEvent, i)
+  {
+    this.visibilityCaseHistory[i] = !this.visibilityCaseHistory[i];
   }
 
   fetchData()
   {
 
     this.notes_list = [];
-    this.visibility = [];
+    this.visibilityNotes = [];
 
     const loader = this.loadingCtrl.create({
 
@@ -122,7 +122,91 @@ export class NotesListPage
                 this.notes_list = data;
                 for (let i = 0; i < this.notes_list.length; i++)
                 {
-                  this.visibility[i] = false;
+                  this.visibilityNotes[i] = false;
+                }
+
+              }
+            }
+            catch (err)
+            {
+              console.log(err);
+              this.showToast('Failure!!! Error in response');
+            }
+
+          }
+          else
+          {
+            this.showToast('Failure!!! Error in response');
+          }
+        },
+          error =>
+          {
+            loadingSuccessful = true;
+            this.showToast('Failed to get data from server');
+            loader.dismiss();
+          });
+
+    });
+
+    loader.onDidDismiss(() =>
+    {
+
+      if (!loadingSuccessful)
+      {
+        this.showToast('Error!!! Server did not respond');
+      }
+
+    });
+
+  }
+
+  fetchCaseHistoryData()
+  {
+
+    this.case_history_list = [];
+    this.visibilityCaseHistory = [];
+
+    const loader = this.loadingCtrl.create({
+
+      content: 'Loading...',
+      duration: 15000
+
+    });
+
+    let loadingSuccessful = false; //To know whether the loader ended successfully or timeout occured
+
+    loader.present().then(() =>
+    {
+
+      let body = new FormData();
+
+      body.append('cid', this.passed_client_id);
+      body.append('search', this.c_search);
+
+      this.http.post(this.apiValues.baseURL + "/view_client_notes.php", body, null)
+        .subscribe(response =>
+        {
+          loadingSuccessful = true;
+          loader.dismiss();
+          if (response)
+          {
+            console.log(response);
+
+            try
+            {
+              let data = JSON.parse(response['_body']);
+
+              if ('code' in data)
+              {
+                this.showToast(data.message);
+                return;
+              }
+              else
+              {
+                this.case_history_list = data;
+                for (let i = 0; i < this.case_history_list.length; i++)
+                {
+                  this.visibilityCaseHistory[i] = false;
                 }
 
               }
@@ -170,6 +254,10 @@ export class NotesListPage
     toast.present();
   }
 
+  fetchCaseHistory()
+  {
+
+  }
 
   addNotes()
   {
@@ -177,6 +265,26 @@ export class NotesListPage
       client_id: this.passed_client_id
     }
     this.navCtrl.push(AddNotesPage, data);
+  }
+
+  addCaseHistory()
+
+  {
+
+  }
+
+  toggleShowMore(id)
+  {
+    if (id == 0)
+    {
+      //Toggle case history
+      this.showCaseHistory = !this.showCaseHistory;
+    }
+    else
+    {
+      //Toggle notes
+      this.showNotes = !this.showNotes;
+    }
   }
 }
 
