@@ -5,8 +5,8 @@ import { LoadingController } from "ionic-angular";
 import "rxjs/add/operator/map";
 import {MenuController} from 'ionic-angular';
 
-import { RemindersPage } from '../reminders/reminders';
-import { NotificationsPage } from '../notifications/notifications';
+import { ReminderListPage } from '../reminders/new_format/reminder_list/reminder_list';
+import { NotificationListPage } from '../notifications/new_format/notification_list/notification_list';
 import { AddClientPage } from '../client_list/add_client/add_client';
 import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
@@ -30,7 +30,17 @@ export class DashboardPage
 	total_clients:string;
 	showSearch:boolean;
 
-  constructor(public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public events: Events, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController, public storage: Storage, public toastCtrl: ToastController)
+  constructor(public myStorage: MyStorageProvider,
+    public apiValue: ApiValuesProvider,
+    public events: Events,
+    public menuCtrl: MenuController,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    private http: Http,
+    public loading: LoadingController,
+    public storage: Storage,
+    public toastCtrl: ToastController)
 	{
 		this.menuCtrl.enable(true);
 		this.menuCtrl.swipeEnable(true);
@@ -77,12 +87,12 @@ export class DashboardPage
 	
 	openRemindersList()
 	{
-		this.navCtrl.push(RemindersPage);
+		this.navCtrl.push(ReminderListPage);
 	}
 	
 	openNotificationsList()
 	{
-		this.navCtrl.push(NotificationsPage);
+		this.navCtrl.push(NotificationListPage);
 	}
 
 	searchClient()
@@ -103,10 +113,6 @@ export class DashboardPage
 	   var headers = new Headers();
       console.log("Loading ...");
 
-       headers.append("Accept", "application/json");
-
-       headers.append("Content-Type", "application/json" );
-
        let options = new RequestOptions({ headers: headers });
 
   
@@ -119,9 +125,9 @@ export class DashboardPage
 
 		let loadingSuccessful=false;//To know whether loader ended due to timeout
 
-		 let data = { //Data to be sent to the server
+      let data = new FormData();
+      data.set('session_id', this.loggedInUser.id);
 
-         };
 	   loader.present().then(() => 
 		{
 

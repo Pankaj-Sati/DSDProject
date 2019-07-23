@@ -56,6 +56,11 @@ export class ReminderListPage
     }
   }
 
+  searchClient()
+  {
+    this.events.publish('mainSearch', 'ds'); //This event is defined in app.component.ts file
+  }
+
   fetchData()
   {
 

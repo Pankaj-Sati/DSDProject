@@ -66,6 +66,7 @@ import { Chooser } from '@ionic-native/chooser';
 import { SignUpPageModule} from '../pages/sign-up/sign-up.module';
 import { NotificationsModule } from '../pages/notifications/new_format/notification.module';
 import { RemindersModule } from '../pages/reminders/new_format/reminders.module';
+import { ForgotPasswordPageModule } from '../pages/forgot-password/forgot-password.module';
 import { EntityTypeProvider } from '../providers/entity-type/entity-type';
 
 
@@ -119,7 +120,8 @@ import { EntityTypeProvider } from '../providers/entity-type/entity-type';
     SingleClientModule,
     NotificationsModule,
     SignUpPageModule,
-    RemindersModule
+    RemindersModule,
+    ForgotPasswordPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

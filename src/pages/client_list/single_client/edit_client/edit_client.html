@@ -141,8 +141,8 @@
           </ion-item>
 
           <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_email.valid,'valid':(editClientForm.controls.c_email.touched && editClientForm.controls.c_email.valid)}" [class.invalid]=" !editClientForm.controls.c_email.valid">
-            <ion-label stacked><b>Email Id <span class="mandatory_field"> *</span></b></ion-label>
-            <ion-input type="email" required formControlName="c_email" placeholder="Enter email"></ion-input>
+            <ion-label stacked><b>Email Id</b></ion-label>
+            <ion-input type="email" formControlName="c_email" placeholder="Enter email"></ion-input>
           </ion-item>
 
           <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_notes.valid,'valid':(editClientForm.controls.c_notes.touched && editClientForm.controls.c_notes.valid)}" [class.invalid]="! editClientForm.controls.c_notes.valid">
@@ -186,7 +186,7 @@
 
           <!----------Billing Address----------->
           <ion-item no-lines>
-            <ion-label><b>Billing Address</b><span style="float:right;font-size:12px;margin:inherit;">Same as Permanent Address</span><ion-checkbox style="float:right;margin:inherit" (click)="setBillingAddressSame()"></ion-checkbox> </ion-label>
+            <ion-label><b>Mailing Address</b><span style="float:right;font-size:12px;margin:inherit;">Same as Permanent Address</span><ion-checkbox style="float:right;margin:inherit" (click)="setBillingAddressSame()"></ion-checkbox> </ion-label>
           </ion-item>
 
           <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_street_billing.valid,'valid':(editClientForm.controls.c_street_billing.touched && editClientForm.controls.c_street_billing.valid)}" [class.invalid]="! editClientForm.controls.c_street_billing.valid">
@@ -311,8 +311,8 @@
                 </ion-item>
 
                 <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_email.valid,'valid':(editClientForm.get('entity').controls[i].e_email.touched && editClientForm.get('entity').controls[i].e_email.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_email.valid">
-                  <ion-label stacked><b>Email Id <span class="mandatory_field"> *</span></b></ion-label>
-                  <ion-input type="email" required formControlName="e_email" placeholder="Enter email"></ion-input>
+                  <ion-label stacked><b>Email Id</b></ion-label>
+                  <ion-input type="email" formControlName="e_email" placeholder="Enter email"></ion-input>
                 </ion-item>
 
                 <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_notes.valid,'valid':(editClientForm.get('entity').controls[i].e_notes.touched && editClientForm.get('entity').controls[i].e_notes.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_notes.valid">
@@ -356,7 +356,7 @@
 
                 <!----------Billing Address----------->
                 <ion-item no-lines>
-                  <ion-label><b>Billing Address</b><span style="float:right;font-size:12px;margin:inherit;">Same as Permanent Address</span><ion-checkbox style="float:right;margin:inherit" (click)="setBillingAddressSameForEntity(i)"></ion-checkbox> </ion-label>
+                  <ion-label><b>Mailing Address</b><span style="float:right;font-size:12px;margin:inherit;">Same as Permanent Address</span><ion-checkbox style="float:right;margin:inherit" (click)="setBillingAddressSameForEntity(i)"></ion-checkbox> </ion-label>
                 </ion-item>
 
                 <ion-item no-lines ngClass="{'error': !editClientForm.get('entity').controls[i].e_street_billing.valid,'valid':(editClientForm.get('entity').controls[i].e_street_billing.touched && editClientForm.get('entity').controls[i].e_street_billing.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_street_billing.valid">

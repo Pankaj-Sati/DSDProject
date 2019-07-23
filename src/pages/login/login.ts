@@ -16,7 +16,8 @@ import {User } from '../../models/login_user.model';
 
 import { Events } from 'ionic-angular';
 
-import {SignUpPage } from '../sign-up/sign-up';
+import { SignUpPage } from '../sign-up/sign-up';
+import { ForgotPasswordPage } from '../forgot-password/forgot-password';
 
 @Component({
   selector: 'page-login',
@@ -200,8 +201,8 @@ export class LoginPage
 
            user.id = serverReply.id;
            user.name = serverReply.name;
-           user.email = serverReply.email;
-           user.id = serverReply.usertype_id;
+          user.email = serverReply.email;
+          user.user_type_id = serverReply.usertype_id;
            user.profile_img = serverReply.profile_img;
 
            this.myStorage.setParameters(user);
@@ -240,6 +241,11 @@ export class LoginPage
   signUp()
   {
     this.navCtrl.push(SignUpPage);
+  }
+
+  forgotPassword()
+  {
+    this.navCtrl.push(ForgotPasswordPage);
   }
 }
 

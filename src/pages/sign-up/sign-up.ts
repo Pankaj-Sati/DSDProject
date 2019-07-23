@@ -96,8 +96,8 @@ export class SignUpPage
       u_name: new FormControl('', Validators.compose([Validators.required])),
       u_dob: new FormControl('', Validators.compose([Validators.required])),
       u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
-      u_alt: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
-      u_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
+      u_alt: new FormControl('', Validators.compose([Validators.pattern(/^$|^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
+      u_email: new FormControl('', Validators.compose([Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
       u_street: new FormControl('', Validators.compose([Validators.required])),
       u_city: new FormControl('', Validators.compose([Validators.required])),
       u_state: new FormControl('', Validators.compose([Validators.required])),
@@ -211,10 +211,7 @@ export class SignUpPage
 
                 this.navCtrl.setRoot(SignupSuccessPage, data);
               }
-              else
-              {
-                this.presentToast('Failed!! Server returned an error');
-              }
+              
 
             }
             catch (err)

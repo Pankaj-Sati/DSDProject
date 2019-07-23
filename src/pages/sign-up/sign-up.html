@@ -73,7 +73,7 @@
       </ion-item>
 
       <ion-item no-lines [ngClass]="{'error':userForm.controls.u_email.touched && ! userForm.controls.u_email.valid,'valid':(userForm.controls.u_email.touched && userForm.controls.u_email.valid)}" [class.invalid]="userForm.controls.u_email.touched && ! userForm.controls.u_email.valid">
-        <ion-label style="color:unset;">Email <span class="requiredField">*</span>:</ion-label>
+        <ion-label style="color:unset;">Email:</ion-label>
         <ion-input type="email" formControlName="u_email" name="email"></ion-input>
       </ion-item>
 

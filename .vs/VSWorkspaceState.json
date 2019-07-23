@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components",
+    "\\src\\app",
+    "\\src\\models",
     "\\src\\pages",
-    "\\src\\pages\\add_user",
-    "\\src\\pages\\sign-up\\signup_success",
-    "\\src\\pages\\sms\\bulkemail",
-    "\\src\\pages\\sms\\smslist",
-    "\\src\\pages\\user_list",
-    "\\src\\pages\\user_list\\update_user"
+    "\\src\\pages\\client_list",
+    "\\src\\pages\\client_list\\add_client",
+    "\\src\\pages\\client_list\\single_client",
+    "\\src\\pages\\client_list\\single_client\\edit_client",
+    "\\src\\providers"
   ],
-  "SelectedNode": "\\src\\pages\\add_user\\add_user.ts",
+  "SelectedNode": "\\config.xml",
   "PreviewInSolutionExplorer": false
 }

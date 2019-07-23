@@ -140,8 +140,8 @@
         </ion-item>
 
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_email.touched && !addClientForm.controls.c_email.valid,'valid':(addClientForm.controls.c_email.touched && addClientForm.controls.c_email.valid)}" [class.invalid]="addClientForm.controls.c_email.dirty && ! addClientForm.controls.c_email.valid">
-          <ion-label stacked><b>Email Id <span class="mandatory_field"> *</span></b></ion-label>
-          <ion-input type="email" required formControlName="c_email" placeholder="Enter email"></ion-input>
+          <ion-label stacked><b>Email Id</b></ion-label>
+          <ion-input type="email" formControlName="c_email" placeholder="Enter email"></ion-input>
         </ion-item>
 
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_notes.touched && !addClientForm.controls.c_notes.valid,'valid':(addClientForm.controls.c_notes.touched && addClientForm.controls.c_notes.valid)}" [class.invalid]="addClientForm.controls.c_notes.dirty && ! addClientForm.controls.c_notes.valid">
@@ -185,7 +185,7 @@
 
         <!----------Billing Address----------->
         <ion-item no-lines>
-          <ion-label><b>Billing Address</b><span style="float:right;font-size:12px;margin:inherit;">Same as Permanent Address</span><ion-checkbox style="float:right;margin:inherit" (click)="setBillingAddressSame()"></ion-checkbox> </ion-label>
+          <ion-label><b>Mailing Address</b><span style="float:right;font-size:12px;margin:inherit;">Same as Permanent Address</span><ion-checkbox style="float:right;margin:inherit" (click)="setBillingAddressSame()"></ion-checkbox> </ion-label>
         </ion-item>
 
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_street_billing.touched && !addClientForm.controls.c_street_billing.valid,'valid':(addClientForm.controls.c_street_billing.touched && addClientForm.controls.c_street_billing.valid)}" [class.invalid]="addClientForm.controls.c_street_billing.dirty && ! addClientForm.controls.c_street_billing.valid">
@@ -309,8 +309,8 @@
               </ion-item>
 
               <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_email.touched && !addClientForm.get('entity').controls[i].e_email.valid,'valid':(addClientForm.get('entity').controls[i].e_email.touched && addClientForm.get('entity').controls[i].e_email.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_email.dirty && ! addClientForm.get('entity').controls[i].e_email.valid">
-                <ion-label stacked><b>Email Id <span class="mandatory_field"> *</span></b></ion-label>
-                <ion-input type="email" required formControlName="e_email" placeholder="Enter email"></ion-input>
+                <ion-label stacked><b>Email Id</b></ion-label>
+                <ion-input type="email" formControlName="e_email" placeholder="Enter email"></ion-input>
               </ion-item>
 
               <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_notes.touched && !addClientForm.get('entity').controls[i].e_notes.valid,'valid':(addClientForm.get('entity').controls[i].e_notes.touched && addClientForm.get('entity').controls[i].e_notes.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_notes.dirty && ! addClientForm.get('entity').controls[i].e_notes.valid">
@@ -354,7 +354,7 @@
 
               <!----------Billing Address----------->
               <ion-item no-lines>
-                <ion-label><b>Billing Address</b><span style="float:right;font-size:12px;margin:inherit;">Same as Permanent Address</span><ion-checkbox style="float:right;margin:inherit" (click)="setBillingAddressSameForEntity(i)"></ion-checkbox> </ion-label>
+                <ion-label><b>Mailing Address</b><span style="float:right;font-size:12px;margin:inherit;">Same as Permanent Address</span><ion-checkbox style="float:right;margin:inherit" (click)="setBillingAddressSameForEntity(i)"></ion-checkbox> </ion-label>
               </ion-item>
 
               <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_street_billing.touched && !addClientForm.get('entity').controls[i].e_street_billing.valid,'valid':(addClientForm.get('entity').controls[i].e_street_billing.touched && addClientForm.get('entity').controls[i].e_street_billing.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_street_billing.dirty && ! addClientForm.get('entity').controls[i].e_street_billing.valid">

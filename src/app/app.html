@@ -30,8 +30,15 @@
    
    <div class="center">
 
-    <img class="roundImg" [src]="u_img"/>
+     <ion-row>
+       <ion-col style="padding:0px;">
+         <img class="profileImg" *ngIf="loggedInUser!=undefined && loggedInUser!=null && loggedInUser.profile_img!=null && loggedInUser.profile_img!=undefined && loggedInUser.profile_img.length>0" src="{{u_img}}" />
 
+         <img class="profileImg" *ngIf="loggedInUser==undefined || loggedInUser==null || loggedInUser.profile_img==null || loggedInUser.profile_img.length==0" src="assets/imgs/generic_user.png" />
+
+       </ion-col>
+     </ion-row>
+   
     <ion-row align-items-center style="padding:2px; background-color: #488aff" (click)="viewProfile()">
 
       <ion-col col-10>
@@ -80,11 +87,11 @@
    
   </ion-content>
 
-  <ion-footer style="margin:0px;min-height:64px;padding:5px;" class="footer" (click)='openLink()'>
+  <ion-footer class="footer" (click)='openLink()'>
     <h6 style="text-align: center;margin:0px;">Developed By:</h6>
 
     <h5 style="text-align: center;margin:0px;">
-      <span class="item" style="color:steelblue;">
+      <span class="item">
         <u>Maze Technologies LLC.</u>
       </span>
     </h5>

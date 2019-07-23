@@ -147,7 +147,8 @@ export class ViewProfilePage
 
   getCountryName(id)
   {
-    return this.country.getCountryName(id);
+   // return this.country.getCountryName(id);
+    return id;
   }
 
     getUserId()
