@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content style='background-image:url(assets/imgs/building.jpg);background-size: cover;overflow-y:scroll'>
 
   <ion-item no-lines class="profile-item">
     <div class="profile-picture">
@@ -33,24 +33,24 @@
 
     <ion-list>
 
-      <ion-item no-lines [ngClass]="{'error':userForm.controls.u_name.touched && ! userForm.controls.u_name.valid,'valid':(userForm.controls.u_name.touched && userForm.controls.u_name.valid)}" [class.invalid]="userForm.controls.u_name.touched && ! userForm.controls.u_name.valid">
+      <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_name.touched && ! userForm.controls.u_name.valid,'valid':(userForm.controls.u_name.touched && userForm.controls.u_name.valid)}" [class.invalid]="userForm.controls.u_name.touched && ! userForm.controls.u_name.valid">
 
-        <ion-label style="color:unset;">Full Name <span class="requiredField">*</span>:</ion-label>
+        <ion-label style="color:white;">Full Name <span class="requiredField">*</span>:</ion-label>
         <ion-input type="text" formControlName="u_name" name="full_name"></ion-input>
       </ion-item>
 
 
-      <ion-item no-lines [ngClass]="{'error':userForm.controls.u_dob.touched && ! userForm.controls.u_dob.valid,'valid':(userForm.controls.u_dob.touched && userForm.controls.u_dob.valid)}" [class.invalid]="userForm.controls.u_dob.touched && !userForm.controls.u_dob.valid">
+      <ion-item no-lines class="transparentBG" [ngClass]="{'error':userForm.controls.u_dob.touched && ! userForm.controls.u_dob.valid,'valid':(userForm.controls.u_dob.touched && userForm.controls.u_dob.valid)}" [class.invalid]="userForm.controls.u_dob.touched && !userForm.controls.u_dob.valid">
 
-        <ion-label style="color:unset;">Date Of Birth <span class="requiredField">*</span>:</ion-label>
+        <ion-label style="color:white;">Date Of Birth <span class="requiredField">*</span>:</ion-label>
         <ion-datetime displayFormat="MMM DD YY" placeholder="Select" formControlName="u_dob" name="date_of_birth"></ion-datetime>
       </ion-item>
 
 
       <ion-row>
         <ion-col col-10 style="padding:0px;">
-          <ion-item no-lines style="padding-left: 0px;margin-left: 15px;" [ngClass]="{'error':userForm.controls.u_alien.touched && ! userForm.controls.u_alien.valid,'valid':(userForm.controls.u_alien.touched && userForm.controls.u_alien.valid)}" [class.invalid]="userForm.controls.u_alien.touched && ! userForm.controls.u_alien.valid">
-            <ion-label style="color:unset;">Alien No.:</ion-label>
+          <ion-item class="transparentBG"  no-lines style="padding-left: 0px;margin-left: 15px;" [ngClass]="{'error':userForm.controls.u_alien.touched && ! userForm.controls.u_alien.valid,'valid':(userForm.controls.u_alien.touched && userForm.controls.u_alien.valid)}" [class.invalid]="userForm.controls.u_alien.touched && ! userForm.controls.u_alien.valid">
+            <ion-label style="color:white;">Alien No.:</ion-label>
             <ion-input type="text" formControlName="u_alien"></ion-input>
           </ion-item>
         </ion-col>
@@ -62,64 +62,64 @@
 
 
 
-      <ion-item no-lines [ngClass]="{'error':userForm.controls.u_contact.touched && !userForm.controls.u_contact.valid,'valid':(userForm.controls.u_contact.touched && userForm.controls.u_contact.valid)}" [class.invalid]="userForm.controls.u_contact.touched && !userForm.controls.u_contact.valid">
-        <ion-label style="color:unset;">Contact No. <span class="requiredField">*</span>:</ion-label>
+      <ion-item class="transparentBG"  no-lines [ngClass]="{'error':userForm.controls.u_contact.touched && !userForm.controls.u_contact.valid,'valid':(userForm.controls.u_contact.touched && userForm.controls.u_contact.valid)}" [class.invalid]="userForm.controls.u_contact.touched && !userForm.controls.u_contact.valid">
+        <ion-label style="color:white;">Contact No. <span class="requiredField">*</span>:</ion-label>
         <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" formControlName="u_contact" name="contact"></ion-input>
       </ion-item>
 
-      <ion-item no-lines [ngClass]="{'error':userForm.controls.u_alt.touched && ! userForm.controls.u_alt.valid,'valid':(userForm.controls.u_alt.touched && userForm.controls.u_alt.valid)}" [class.invalid]="userForm.controls.u_alt.touched && ! userForm.controls.u_alt.valid">
-        <ion-label style="color:unset;">Alternative No.:</ion-label>
+      <ion-item class="transparentBG"  no-lines [ngClass]="{'error':userForm.controls.u_alt.touched && ! userForm.controls.u_alt.valid,'valid':(userForm.controls.u_alt.touched && userForm.controls.u_alt.valid)}" [class.invalid]="userForm.controls.u_alt.touched && ! userForm.controls.u_alt.valid">
+        <ion-label style="color:white;">Alternative No.:</ion-label>
         <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" formControlName="u_alt" name="alt"></ion-input>
       </ion-item>
 
-      <ion-item no-lines [ngClass]="{'error':userForm.controls.u_email.touched && ! userForm.controls.u_email.valid,'valid':(userForm.controls.u_email.touched && userForm.controls.u_email.valid)}" [class.invalid]="userForm.controls.u_email.touched && ! userForm.controls.u_email.valid">
-        <ion-label style="color:unset;">Email:</ion-label>
+      <ion-item class="transparentBG"  no-lines [ngClass]="{'error':userForm.controls.u_email.touched && ! userForm.controls.u_email.valid,'valid':(userForm.controls.u_email.touched && userForm.controls.u_email.valid)}" [class.invalid]="userForm.controls.u_email.touched && ! userForm.controls.u_email.valid">
+        <ion-label style="color:white;">Email:</ion-label>
         <ion-input type="email" formControlName="u_email" name="email"></ion-input>
       </ion-item>
 
-      <ion-item no-lines [ngClass]="{'error':userForm.controls.u_street.touched && !userForm.controls.u_street.valid,'valid':(userForm.controls.u_street.touched && userForm.controls.u_street.valid)}" [class.invalid]="userForm.controls.u_street.touched && ! userForm.controls.u_street.valid">
+      <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_street.touched && !userForm.controls.u_street.valid,'valid':(userForm.controls.u_street.touched && userForm.controls.u_street.valid)}" [class.invalid]="userForm.controls.u_street.touched && ! userForm.controls.u_street.valid">
 
-        <ion-label style="color:unset;">Address <span class="requiredField">*</span>:</ion-label>
+        <ion-label style="color:white;">Address <span class="requiredField">*</span>:</ion-label>
         <ion-input type="text" formControlName="u_street" name="street"></ion-input>
       </ion-item>
 
-      <ion-item no-lines [ngClass]="{'error':userForm.controls.u_state.touched && ! userForm.controls.u_state.valid,'valid':(userForm.controls.u_state.touched && userForm.controls.u_state.valid)}" [class.invalid]="userForm.controls.u_state.touched && ! userForm.controls.u_state.valid">
+      <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_state.touched && ! userForm.controls.u_state.valid,'valid':(userForm.controls.u_state.touched && userForm.controls.u_state.valid)}" [class.invalid]="userForm.controls.u_state.touched && ! userForm.controls.u_state.valid">
 
-        <ion-label style="color:unset;">State <span class="requiredField">*</span>:</ion-label>
+        <ion-label style="color:white;">State <span class="requiredField">*</span>:</ion-label>
         <ion-input type="text" formControlName="u_state" name="state"></ion-input>
       </ion-item>
 
-      <ion-item no-lines [ngClass]="{'error':userForm.controls.u_city.touched && ! userForm.controls.u_city.valid,'valid':(userForm.controls.u_city.touched && userForm.controls.u_city.valid)}" [class.invalid]="userForm.controls.u_city.touched && ! userForm.controls.u_city.valid">
+      <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_city.touched && ! userForm.controls.u_city.valid,'valid':(userForm.controls.u_city.touched && userForm.controls.u_city.valid)}" [class.invalid]="userForm.controls.u_city.touched && ! userForm.controls.u_city.valid">
 
-        <ion-label style="color:unset;">City or Town <span class="requiredField">*</span>:</ion-label>
+        <ion-label style="color:white;">City or Town <span class="requiredField">*</span>:</ion-label>
         <ion-input type="text" formControlName="u_city" name="city"></ion-input>
       </ion-item>
 
-      <ion-item no-lines [ngClass]="{'error':userForm.controls.u_country.touched && ! userForm.controls.u_country.valid,'valid':(userForm.controls.u_country.touched && userForm.controls.u_country.valid)}" [class.invalid]="userForm.controls.u_country.touched && ! userForm.controls.u_country.valid">
+      <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_country.touched && ! userForm.controls.u_country.valid,'valid':(userForm.controls.u_country.touched && userForm.controls.u_country.valid)}" [class.invalid]="userForm.controls.u_country.touched && ! userForm.controls.u_country.valid">
 
-        <ion-label style="color:unset;">Country <span class="requiredField">*</span>:</ion-label>
+        <ion-label style="color:white;">Country <span class="requiredField">*</span>:</ion-label>
         <ion-select formControlName="u_country" name="country">
           <ion-option value="UnitedStates">United States</ion-option>
         </ion-select>
       </ion-item>
 
-      <ion-item no-lines [ngClass]="{'error':userForm.controls.u_pincode.touched && ! userForm.controls.u_pincode.valid,'valid':( userForm.controls.u_pincode.touched && userForm.controls.u_pincode.valid)}" [class.invalid]="userForm.controls.u_pincode.touched && ! userForm.controls.u_pincode.valid">
+      <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_pincode.touched && ! userForm.controls.u_pincode.valid,'valid':( userForm.controls.u_pincode.touched && userForm.controls.u_pincode.valid)}" [class.invalid]="userForm.controls.u_pincode.touched && ! userForm.controls.u_pincode.valid">
 
-        <ion-label style="color:unset;">Zip code <span class="requiredField">*</span>:</ion-label>
+        <ion-label style="color:white;">Zip code <span class="requiredField">*</span>:</ion-label>
         <ion-input type="number" formControlName="u_pincode" name="pincode"></ion-input>
       </ion-item>
 
-      <ion-item no-lines [ngClass]="{'error':userForm.controls.u_case_type.touched && ! userForm.controls.u_case_type.valid,'valid':( userForm.controls.u_case_type.touched && userForm.controls.u_case_type.valid)}" [class.invalid]="userForm.controls.u_case_type.touched && ! userForm.controls.u_case_type.valid">
+      <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_case_type.touched && ! userForm.controls.u_case_type.valid,'valid':( userForm.controls.u_case_type.touched && userForm.controls.u_case_type.valid)}" [class.invalid]="userForm.controls.u_case_type.touched && ! userForm.controls.u_case_type.valid">
 
-        <ion-label style="color:unset;">Case Type:</ion-label>
+        <ion-label style="color:white;">Case Type:</ion-label>
         <ion-select interface="popover" placeholder="Select" formControlName="u_case_type">
           <ion-option *ngFor="let caseType of caseTypeList" value="{{caseType.id}}">{{caseType.case_type}}</ion-option>
         </ion-select>
       </ion-item>
 
-      <ion-item *ngIf="!isNew" no-lines [ngClass]="{'error':userForm.controls.u_case_manager.touched && ! userForm.controls.u_case_manager.valid,'valid':( userForm.controls.u_case_manager.touched && userForm.controls.u_case_manager.valid)}" [class.invalid]="userForm.controls.u_case_manager.touched && ! userForm.controls.u_case_manager.valid">
+      <ion-item class="transparentBG" *ngIf="!isNew" no-lines [ngClass]="{'error':userForm.controls.u_case_manager.touched && ! userForm.controls.u_case_manager.valid,'valid':( userForm.controls.u_case_manager.touched && userForm.controls.u_case_manager.valid)}" [class.invalid]="userForm.controls.u_case_manager.touched && ! userForm.controls.u_case_manager.valid">
 
-        <ion-label style="color:unset;">Case Manager</ion-label>
+        <ion-label style="color:white;">Case Manager</ion-label>
         <ion-select interface="action-sheet" placeholder="Select" formControlName="u_case_manager">
           <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}} ({{advocate.id}})</ion-option>
         </ion-select>

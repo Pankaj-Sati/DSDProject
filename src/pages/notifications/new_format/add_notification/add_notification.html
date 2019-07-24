@@ -16,41 +16,44 @@
     <ion-datetime displayFormat="HH:mm" required [(ngModel)]="n_time" placeholder="Select Time"></ion-datetime>
   </ion-item>
 
+  <div *ngIf="loggedInUser!=undefined && loggedInUser!=null && loggedInUser.user_type_id!=5">
+    <!--Currently hardcoding user access for client type=5 i.e CLIENT-->
 
-  <ion-item no-lines>
-    <ion-label stacked>Client(s)</ion-label>
-    <ion-select interface="action-sheet">
-      <ion-option *ngFor="let client of clientList" (ionSelect)="addClient(client)" [value]="client.id">{{client.client_name}}</ion-option>
-    </ion-select>
-  </ion-item>
+    <ion-item no-lines>
+      <ion-label stacked>Client(s)</ion-label>
+      <ion-select interface="action-sheet">
+        <ion-option *ngFor="let client of clientList" (ionSelect)="addClient(client)" [value]="client.id">{{client.client_name}}</ion-option>
+      </ion-select>
+    </ion-item>
 
-  <div style="margin-top:10px;">
-    <ion-chip style="margin:2px;" *ngFor="let selectedClient of selectedClients;let i=index;">
-      <ion-label>{{selectedClient.client_name}}</ion-label>
-      <ion-icon class="chipIcon" (click)="removeClient(i)" name="close-circle"></ion-icon>
-    </ion-chip>
-  </div>
+    <div style="margin-top:10px;">
+      <ion-chip style="margin:2px;" *ngFor="let selectedClient of selectedClients;let i=index;">
+        <ion-label>{{selectedClient.client_name}}</ion-label>
+        <ion-icon class="chipIcon" (click)="removeClient(i)" name="close-circle"></ion-icon>
+      </ion-chip>
+    </div>
+    </div>
 
-  <ion-item no-lines>
-    <ion-label stacked>Subject</ion-label>
-    <ion-input required [(ngModel)]="n_subject" placeholder="Enter Subject"></ion-input>
-  </ion-item>
+    <ion-item no-lines>
+      <ion-label stacked>Subject</ion-label>
+      <ion-input required [(ngModel)]="n_subject" placeholder="Enter Subject"></ion-input>
+    </ion-item>
 
-  <ion-item no-lines>
-    <ion-label stacked>Description</ion-label>
-    <ion-textarea required [(ngModel)]="n_description" placeholder=""></ion-textarea>
-  </ion-item>
+    <ion-item no-lines>
+      <ion-label stacked>Description</ion-label>
+      <ion-textarea required [(ngModel)]="n_description" placeholder=""></ion-textarea>
+    </ion-item>
 
-  <ion-row>
-    <ion-col col-6 style="text-align:right;">
-      <button ion-button (click)="goBack()" icon-start><ion-icon name="arrow-back"></ion-icon>Back</button>
-    </ion-col>
+    <ion-row>
+      <ion-col col-6 style="text-align:right;">
+        <button ion-button (click)="goBack()" icon-start><ion-icon name="arrow-back"></ion-icon>Back</button>
+      </ion-col>
 
-    <ion-col col-6 style="text-align:left;">
-      <button ion-button icon-start [disabled]="n_subject.length==0 || n_description.length==0 || n_date.length==0" (click)="addNotification()"><ion-icon name="add"></ion-icon>Add</button>
+      <ion-col col-6 style="text-align:left;">
+        <button ion-button icon-start [disabled]="n_subject.length==0 || n_description.length==0 || n_date.length==0" (click)="addNotification()"><ion-icon name="add"></ion-icon>Add</button>
 
-    </ion-col>
+      </ion-col>
 
-  </ion-row>
+    </ion-row>
 
 </ion-content>

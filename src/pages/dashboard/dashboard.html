@@ -31,7 +31,7 @@
             <ion-searchbar showCancelButton animated cancel-button-icon (ionCancel)="hideSearch()" (search)="searchClient()" placeholder="Allien no. | Docket No. | index No." ></ion-searchbar>
       </ion-toolbar>
   -->
-    <div class="area mainBackgroundColor" >
+    <div class="area mainBackgroundColor">
       <ul class="circles">
         <li></li>
         <li></li>
@@ -45,116 +45,97 @@
         <li></li>
       </ul>
 
+      <ion-row>
+        <ion-col>
+          <ion-icon menuToggle name="menu" class="toolbarMenuIcon"></ion-icon>
+
+        </ion-col>
+
+        <ion-col style="text-align:right;">
+          <ion-icon (click)="searchClient()" size="large" class="toolbarMenuIcon" name="search"></ion-icon>
+
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col style="text-align:center;">
+          <h3 style="font-weight: 700;color:  $textColor;font-size:2.5em;margin:0px;">Dalbir's Law Firm</h3>
+          <br />
+          <img src="assets/imgs/logo.png" style="max-width:192px; max-height:192px; object-fit: contain;" />
+
+        </ion-col>
+      </ion-row>
+      <br />
+      <br />
+      <ion-row>
+        <ion-col col-6 style="text-align:center;">
+          <h4 style="color: $textColor;font-size:1.2em;font-weight:700;">Reminders</h4>
+          <h5 style="color: $textColor;font-size:2em;">{{total_reminders}}</h5>
+          <span (click)="openRemindersList()">
+            <button ion-button class="headerButtons"><ion-icon class="headerText" name="bulb"></ion-icon></button>
+            <h6 class="headerText">See All</h6>
+          </span>
+        </ion-col>
+
+        <ion-col col-6 style="text-align:center;">
+          <h4 style="color: $textColor;font-size:1.2em;font-weight:700;">Notifications</h4>
+          <h5 style="color: $textColor;font-size:2em;">{{total_notifications}}</h5>
+          <span (click)="openNotificationsList()">
+            <button ion-button class="headerButtons"><ion-icon class="headerText" name="notifications"></ion-icon></button>
+            <h6 class="headerText">See All</h6>
+          </span>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
+
+      <!--Currently hardcoding access for admin users-->
+      <ion-card-header class="headerContent">
+        Clients
+        <ion-icon name="contacts" end></ion-icon>
+      </ion-card-header>
+
+      <ion-card-content>
+
         <ion-row>
           <ion-col>
-            <ion-icon menuToggle name="menu" class="toolbarMenuIcon"></ion-icon>
-
+            Total Clients: <b>{{total_clients}}</b><br>
           </ion-col>
-
-          <ion-col style="text-align:right;">
-            <ion-icon (click)="searchClient()" size="large" class="toolbarMenuIcon" name="search"></ion-icon>
-
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col style="text-align:center;">
-            <h3 style="font-weight: 700;color:  $textColor;font-size:2.5em;margin:0px;">Dalbir's Law Firm</h3>
-            <br />
-            <img src="assets/imgs/logo.png" style="max-width:192px; max-height:192px; object-fit: contain;" />
-
-          </ion-col>
-        </ion-row>
-      <br />
-      <br />
-        <ion-row>
-          <ion-col col-6 style="text-align:center;">
-            <h4 style="color: $textColor;font-size:1.2em;font-weight:700;">Reminders</h4>
-            <h5 style="color: $textColor;font-size:2em;">{{total_reminders}}</h5>
-            <span (click)="openRemindersList()">
-              <button ion-button class="headerButtons"><ion-icon class="headerText" name="bulb"></ion-icon></button>
-              <h6 class="headerText">See All</h6>
-            </span>
-          </ion-col>
-
-          <ion-col col-6 style="text-align:center;">
-            <h4 style="color: $textColor;font-size:1.2em;font-weight:700;">Notifications</h4>
-            <h5 style="color: $textColor;font-size:2em;">{{total_notifications}}</h5>
-            <span (click)="openNotificationsList()">
-              <button ion-button class="headerButtons"><ion-icon class="headerText" name="notifications"></ion-icon></button>
-              <h6 class="headerText">See All</h6>
-            </span>
-          </ion-col>
-        </ion-row>
-      </div>
-
-    <ion-card class="dashboardCard">
-    
-  <ion-card-header class="headerContent">
-    Clients
-    <ion-icon name="contacts" end></ion-icon>
-  </ion-card-header>
-
-  <ion-card-content>
-
-    <ion-row>
-      <ion-col>
-        Total Clients: <b>{{total_clients}}</b><br>
-      </ion-col>
-      <ion-col style="text-align: right">
-        <button ion-button (click)="addClient()" style="background-color: #033054">Add a Client</button>
-      </ion-col>
-    </ion-row>
-  </ion-card-content>
-
-      
-  <!--
-      <ion-card-content style="padding: 8px;">
-        <ion-row>
-          <ion-col col-4>
-            <div style="margin: auto;display: grid;height:100%">
-              <ion-row>
-                <ion-col col-12 style="display: grid;text-align:center;">
-                  <h3 style="margin:auto;font-size:8em;font-weight:900;">{{total_clients}}</h3>
-                </ion-col>
-              </ion-row>
-            </div>
-
-          </ion-col>
-
-          <ion-col col-8>
-            <div style="margin:auto;display: grid;height: 100%;">
-              <ion-row>
-                <ion-col col-2 style="margin:auto;">
-                  
-                  <ion-icon name="contacts" style="margin:auto;zoom:1.5;"></ion-icon>
-                  
-                </ion-col>
-                <ion-col col-10 style="margin:auto;">
-                  <ion-label style="font-size: 18px;font-weight: 600;">Clients</ion-label>
-                </ion-col>
-              </ion-row>
-
-              <ion-row>
-                <ion-col>
-
-                  <button ion-button style="background-color: #f93822ff" (click)="addClient()">Add a Client</button>
-
-                </ion-col>
-              
-              </ion-row>
-            </div>
+          <ion-col style="text-align: right">
+            <button ion-button (click)="addClient()" style="background-color: #033054">Add a Client</button>
           </ion-col>
         </ion-row>
       </ion-card-content>
-      -->
+
 
     </ion-card>
 
-      <div #frame style="overflow:scroll !important;-webkit-overflow-scrolling:touch !important">
-        <iframe src="https://teamup.com/ks2rhut82mmf7dftjj" class="iframe" style="width:100%;min-height:360px;margin-top:20px" scrolling="yes"></iframe>
-      </div>
+    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5">
+
+      <!--Currently hardcoding access for a non-admin user-->
+      <ion-card-header class="headerContent">
+        Book Appointment
+        <ion-icon name="bookmark" end></ion-icon>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-row>
+          
+          <ion-col style="text-align: right">
+            <button ion-button (click)="bookAppointment()" style="background-color: #033054">Book an Appointment</button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+
+
+    </ion-card>
+
+    <div #frame style="overflow:scroll !important;-webkit-overflow-scrolling:touch !important">
+      <iframe src="https://teamup.com/ks2rhut82mmf7dftjj" class="iframe" style="width:100%;min-height:360px;margin-top:20px" scrolling="yes"></iframe>
+    </div>
 
 
 
-</ion-content>
+  </ion-content>

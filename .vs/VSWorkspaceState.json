@@ -2,14 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app",
-    "\\src\\models",
+    "\\src\\assets",
     "\\src\\pages",
     "\\src\\pages\\client_list",
-    "\\src\\pages\\client_list\\add_client",
-    "\\src\\pages\\client_list\\single_client",
-    "\\src\\pages\\client_list\\single_client\\edit_client",
-    "\\src\\providers"
+    "\\src\\pages\\login",
+    "\\src\\pages\\notifications\\new_format",
+    "\\src\\pages\\notifications\\new_format\\add_notification",
+    "\\src\\pages\\reminders\\new_format",
+    "\\src\\pages\\user_profile\\change_password"
   ],
   "SelectedNode": "\\config.xml",
   "PreviewInSolutionExplorer": false

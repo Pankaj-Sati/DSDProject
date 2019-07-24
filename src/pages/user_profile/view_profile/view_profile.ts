@@ -46,7 +46,9 @@ export class ViewProfilePage
     this.getUserId(); //We will fetch the user id from local storage which we saved at the time of login
     this.fetchData();    
   }
-    
+
+
+
     fetchData()
     {
       console.log("User ID to fetch is=" + this.loggedInUser.id);
@@ -181,7 +183,7 @@ export class ViewProfilePage
 
   ionViewDidEnter()
   {
-    if (this.navParams.data.updated)
+    if (this.navParams.data.reload)
     {
       this.fetchData();
     }

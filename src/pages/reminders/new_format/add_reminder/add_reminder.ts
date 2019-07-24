@@ -27,6 +27,7 @@ export class AddReminderPage
 
   loggedInUser: User;
 
+
   constructor(
     public events: Events,
     public navCtrl: NavController,
@@ -41,7 +42,7 @@ export class AddReminderPage
     public myStorage: MyStorageProvider)
   {
     this.loggedInUser = this.myStorage.getParameters();
-
+  
     this.fetchData();
   }
 

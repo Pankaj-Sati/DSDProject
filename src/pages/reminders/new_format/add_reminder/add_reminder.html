@@ -16,19 +16,21 @@
     <ion-datetime displayFormat="HH:mm" required [(ngModel)]="r_time" placeholder="Select Time"></ion-datetime>
   </ion-item>
 
+  <div *ngIf="loggedInUser!=undefined && loggedInUser!=null && loggedInUser.user_type_id!=5">
+    <!--Currently hardcoding user access for client type=5 i.e CLIENT-->
+    <ion-item no-lines>
+      <ion-label stacked>Client(s)</ion-label>
+      <ion-select interface="action-sheet">
+        <ion-option *ngFor="let client of clientList" (ionSelect)="addClient(client)" [value]="client.id">{{client.client_name}}</ion-option>
+      </ion-select>
+    </ion-item>
 
-  <ion-item no-lines>
-    <ion-label stacked>Client(s)</ion-label>
-    <ion-select interface="action-sheet">
-      <ion-option *ngFor="let client of clientList" (ionSelect)="addClient(client)" [value]="client.id">{{client.client_name}}</ion-option>
-    </ion-select>
-  </ion-item>
-
-  <div style="margin-top:10px;">
-    <ion-chip style="margin:2px;" *ngFor="let selectedClient of selectedClients;let i=index;">
-      <ion-label>{{selectedClient.client_name}}</ion-label>
-      <ion-icon class="chipIcon" (click)="removeClient(i)" name="close-circle"></ion-icon>
-    </ion-chip>
+    <div style="margin-top:10px;">
+      <ion-chip style="margin:2px;" *ngFor="let selectedClient of selectedClients;let i=index;">
+        <ion-label>{{selectedClient.client_name}}</ion-label>
+        <ion-icon class="chipIcon" (click)="removeClient(i)" name="close-circle"></ion-icon>
+      </ion-chip>
+    </div>
   </div>
 
   <ion-item no-lines>

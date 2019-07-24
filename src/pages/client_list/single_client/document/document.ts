@@ -14,6 +14,7 @@ import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
 
 import { ClientDocuments } from '../../../../models/client_document.model';
+import { ClientDetails } from '../../../../models/client.model';
 import { User } from '../../../../models/login_user.model';
 
 declare var cordova: any;
@@ -28,8 +29,10 @@ export class ClientDocumentsPage
   doc_list: ClientDocuments[] = [];
 
   selectedDocList: ClientDocuments[] = [];
-
+ 
   passed_client_id;
+  passed_advocate_id;
+  passed_client_name;
   selected_file_name: string; //If user wanted to add a new file to upload
   lastImage; //Last selected Image
   loggedInUser: User;
@@ -65,8 +68,13 @@ export class ClientDocumentsPage
     console.log('Client Documents: ionViewDidLoad');
 
     this.passed_client_id = this.navParams.get('client_id');
+    this.passed_advocate_id = this.navParams.get('advocate_id');
+    this.passed_client_name = this.navParams.get('client_name');
+
 
     console.log('Client Id Received:' + this.passed_client_id);
+
+    console.log('Advocate Received:' + this.passed_advocate_id);
     this.fetchData();
   }
 
@@ -430,7 +438,8 @@ export class ClientDocumentsPage
 
           "cid": this.passed_client_id,
           "folder_id": this.passed_client_id, //On server, a folder is created with the name=Client ID to store all doucments of that client in it 
-
+          "advocate_id": this.passed_advocate_id,
+          "client_name": this.passed_client_name,
           "session_id": this.loggedInUser.id
 
         }

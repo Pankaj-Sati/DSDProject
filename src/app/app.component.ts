@@ -22,6 +22,7 @@ import {SettingCaseTypePage} from '../pages/settings/casetype/casetype';
 import {SMSBulkEmailPage} from '../pages/sms/bulkemail/bulkemail';
 import { SMSListPage } from '../pages/sms/smslist/smslist';
 import { SingleClientPage } from '../pages/client_list/single_client/single_client';
+import { AppointmentListPage } from '../pages/appointment-list/appointment-list';
 
 import {SearchHeaderPage} from '../pages/search-header/search-header';
 import { ApiValuesProvider } from '../providers/api-values/api-values';
@@ -184,8 +185,9 @@ export class MyApp {
         { title: 'Reminders', icon: 'clock', iconColor: 'appRemindersIcon', component: ReminderListPage, subs: null, hasSub: false },
 
         { title: 'Notifications', icon: 'notifications', iconColor: 'appNotificationIcon', component: NotificationListPage, subs: null, hasSub: false },
+        { title: 'Appointments', icon: 'bookmark', iconColor: 'appNotificationIcon', component: AppointmentListPage, subs: null, hasSub: false },
 
-        // { title: 'Case Study', icon: 'paper', iconColor: 'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
+        { title: 'Case Study', icon: 'paper', iconColor: 'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
 
         //{ title: 'File Test', icon:'paper', component: HelloIonicPage,subs:null,hasSub:false },
 
@@ -196,6 +198,9 @@ export class MyApp {
     }
     else
     {
+      this.clientPages = [
+        { title: 'Client List', icon: 'people', iconColor: 'cornflowerblue', component: ClientListPage },
+      ];
       console.log('-In else LoggedIn USer-');
       // set our app's pages granting access to every module
       this.pages = [
@@ -217,6 +222,7 @@ export class MyApp {
         { title: 'Reminders', icon: 'clock', iconColor: 'appRemindersIcon', component: ReminderListPage, subs: null, hasSub: false },
 
         { title: 'Notifications', icon: 'notifications', iconColor: 'appNotificationIcon', component: NotificationListPage, subs: null, hasSub: false },
+        { title: 'Appointments', icon: 'bookmark', iconColor: 'appNotificationIcon', component: AppointmentListPage, subs: null, hasSub: false },
 
         { title: 'Case Study', icon: 'paper', iconColor: 'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
 

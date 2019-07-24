@@ -383,7 +383,9 @@ export class SingleClientPage
   clientDocuments()
   {
     let data = {
-      client_id: this.client.id
+      client_id: this.client.id,
+      advocate_id: this.client.adv_assign,
+      client_name: this.client.client_name
     };
     this.navCtrl.push(ClientDocumentsPage, data);
   }

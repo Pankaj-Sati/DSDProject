@@ -4,7 +4,7 @@ import { Http, Headers, RequestOptions } from "@angular/http";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Validators, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { LoadingController } from "ionic-angular";
-import { ToastController } from 'ionic-angular';
+import { ToastController, Events } from 'ionic-angular';
 import "rxjs/add/operator/map";
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer'
 import { FilePath } from '@ionic-native/file-path';
@@ -49,6 +49,7 @@ export class EditProfilePage
 
 
   constructor(public webView: WebView,
+    public events: Events,
     public storage: Storage,
     public file: File,
     public platform: Platform,
@@ -349,7 +350,7 @@ export class EditProfilePage
     this.userForm.controls.u_contact.setValue(this.user.contact);
     this.userForm.controls.u_alt.setValue(this.user.alternate_number);
 
-    this.userForm.controls.u_gender.setValue(this.user.gender.toLowerCase());
+    this.userForm.controls.u_gender.setValue(this.user.gender);
     var date = this.user.dob.split(" ");
     this.userForm.controls.u_dob.setValue(date[0]);
     this.userForm.controls.u_address.setValue(this.user.permanent_address);
@@ -396,8 +397,8 @@ export class EditProfilePage
       body.append("pincode", this.userForm.value.u_pincode);
       body.append("fax", this.userForm.value.u_fax);
       body.append("address", this.userForm.value.u_address);
-    
-      body.append("profile_image", this.userForm.value.u_profile_img);
+
+      body.append("profile_image", this.user.profile_img); //Not changing the profile image
     
 
       let loader = this.loading.create({
@@ -438,6 +439,10 @@ export class EditProfilePage
                 {
                   //Successful
                   this.updateSuccessful = true;
+
+                  this.updateLoginUserParameters();
+                  this.navCtrl.getPrevious().data.reload = true;
+                  this.navCtrl.pop();
                   this.presentToast(response.message);
                 }
               }
@@ -539,8 +544,11 @@ export class EditProfilePage
             {
               //successful
               this.updateSuccessful = true;
+              this.navCtrl.getPrevious().data.reload = true;
+
               this.presentToast(response.message);
               loader.dismiss();
+              this.navCtrl.pop();
               return;
             }
           }
@@ -595,6 +603,20 @@ export class EditProfilePage
 
   }
 
+  updateLoginUserParameters()
+  {
+    this.loggedInUser.name = this.userForm.value.u_name;
+    this.loggedInUser.email = this.userForm.value.u_email;
+    if (this.isImageChanged)
+    {
+      this.loggedInUser.profile_img = this.apiValue.baseImageFolder+this.lastImage.substr(this.lastImage.lastIndexOf('/') + 1);
+    }
+
+    this.myStorage.setParameters(this.loggedInUser);
+
+    this.events.publish('loggedIn');
+  }
+
   presentToast(text)
   {
     const toast = this.toastCtrl.create({
@@ -605,17 +627,7 @@ export class EditProfilePage
     toast.present();
   }
 
-  ionIonViewWillLeave()
-  {
-    //User wants to go back
-
-    if (this.updateSuccessful)
-    {
-      //Upon successful update, we will ask view profile page to reload itself
-
-      this.navCtrl.getPrevious().data.updated = true;
-    }
-  }
+ 
 
 
 

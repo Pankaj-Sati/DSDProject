@@ -15,7 +15,7 @@ export class CountryProvider
 {
 
   countryList = [
-    { id: '231', name: 'United States' }
+    { id: 'UnitedStates', name: 'United States' }
   ];
 
   constructor()

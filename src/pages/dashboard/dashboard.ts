@@ -8,6 +8,8 @@ import {MenuController} from 'ionic-angular';
 import { ReminderListPage } from '../reminders/new_format/reminder_list/reminder_list';
 import { NotificationListPage } from '../notifications/new_format/notification_list/notification_list';
 import { AddClientPage } from '../client_list/add_client/add_client';
+import { BookAppointmentPage } from '../book-appointment/book-appointment';
+
 import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
 import { ToastController } from 'ionic-angular';
@@ -84,7 +86,10 @@ export class DashboardPage
 		  });
 	}
 
-	
+  bookAppointment()
+  {
+    this.navCtrl.push(BookAppointmentPage);
+  }
 	openRemindersList()
 	{
 		this.navCtrl.push(ReminderListPage);

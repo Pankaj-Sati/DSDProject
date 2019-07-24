@@ -27,9 +27,9 @@
 
         <div style="padding:10px; color: white">
 
-         <img style="border:2px solid white; padding:2px; border-radius: 100%;margin:5px 10px" [src]="apiValue.baseImageFolder+user.profile_img" alt="No image Found" width="144px" height="144px" /> 
+         <img *ngIf="user!=undefined && user!=null && user.profile_img!=null && user.profile_img!=undefined && user.profile_img.length>0" style="border:2px solid white; padding:2px; border-radius: 100%;margin:5px 10px" [src]="apiValue.baseImageFolder+user.profile_img" alt="No image Found" width="144px" height="144px" /> 
 
-          <!-- <img style="border-radius: 100%;margin:5px 10px" *ngIf="u_image==null || u_image.length==0;" src="assets/imgs/user.png" alt="No image Found" width="144px" height="144px" /> -->
+          <img *ngIf="user==undefined || user==null || user.profile_img==undefined || user.profile_img==null || user.profile_img.length==0 " style="border-radius: 100%;margin:5px 10px" src="assets/imgs/user.png" alt="No image Found" width="144px" height="144px" />
 
          <h2 class="profile-name dark">{{user.name}}</h2>
          <div class="profile-info">{{user.email}}</div>
