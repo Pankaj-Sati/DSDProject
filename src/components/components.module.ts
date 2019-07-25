@@ -17,6 +17,7 @@ import { AccountSummaryDetailsComponent } from './account-summary-details/accoun
 import { DownloadDocumentsComponent } from './download-documents/download-documents';
 import { BulkSmsDetailComponent } from './bulk-sms-detail/bulk-sms-detail';
 import { SendBulkSmsComponent } from './send-bulk-sms/send-bulk-sms';
+import { ProgressBarComponent } from './progress-bar/progress-bar';
 
 @NgModule({
 	declarations: [ClientDetailsComponent,
@@ -34,7 +35,8 @@ import { SendBulkSmsComponent } from './send-bulk-sms/send-bulk-sms';
     AccountSummaryDetailsComponent,
     DownloadDocumentsComponent,
     BulkSmsDetailComponent,
-    SendBulkSmsComponent],
+    SendBulkSmsComponent,
+    ProgressBarComponent],
   imports: [IonicPageModule.forChild(ClientDetailActionsComponent), CommonModule],
   entryComponents: [ClientDetailsComponent,
     RemindersDetailComponent,
@@ -51,7 +53,8 @@ import { SendBulkSmsComponent } from './send-bulk-sms/send-bulk-sms';
     AccountSummaryDetailsComponent,
     DownloadDocumentsComponent,
     BulkSmsDetailComponent,
-    SendBulkSmsComponent
+    SendBulkSmsComponent,
+    ProgressBarComponent
   ],
 	exports: [ClientDetailsComponent,
     NoRecordFoundComponent,
@@ -68,7 +71,8 @@ import { SendBulkSmsComponent } from './send-bulk-sms/send-bulk-sms';
     AccountSummaryDetailsComponent,
     DownloadDocumentsComponent,
     BulkSmsDetailComponent,
-    SendBulkSmsComponent],
+    SendBulkSmsComponent,
+    ProgressBarComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ComponentsModule {}

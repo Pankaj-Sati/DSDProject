@@ -1,0 +1,72 @@
+<!--
+  Generated template for the BookAppointmentAtLoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Book Appointment</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content style='background-image:url(assets/imgs/building.jpg);background-size: cover;overflow:scroll;'>
+
+  <ion-item no-lines class="profile-item">
+    <div class="profile-picture">
+      <img src="assets/imgs/logo.png" style="background-color:gray;background-image: linear-gradient(#48c6ef , #6f86d6);"><br><br>
+
+    </div>
+  </ion-item>
+
+  <form [formGroup]="userForm">
+
+    <ion-list>
+
+      <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_name.touched && ! userForm.controls.u_name.valid,'valid':(userForm.controls.u_name.touched && userForm.controls.u_name.valid)}" [class.invalid]="userForm.controls.u_name.dirty && ! userForm.controls.u_name.valid">
+
+        <ion-label style="color:white;">Full Name <span class="requiredField">*</span>:</ion-label>
+        <ion-input type="text" formControlName="u_name" name="full_name"></ion-input>
+      </ion-item>
+
+
+      <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_contact.touched && !userForm.controls.u_contact.valid,'valid':(userForm.controls.u_contact.touched && userForm.controls.u_contact.valid)}" [class.invalid]="userForm.controls.u_contact.dirty && !userForm.controls.u_contact.valid">
+        <ion-label style="color:white;">Contact No. <span class="requiredField">*</span>:</ion-label>
+        <ion-input type="tel" [brmasker]="{mask:'(000)-000-0000', len:14, type:'number'}" formControlName="u_contact" name="contact"></ion-input>
+      </ion-item>
+
+      <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_email.touched && ! userForm.controls.u_email.valid,'valid':(userForm.controls.u_email.touched && userForm.controls.u_email.valid)}" [class.invalid]="userForm.controls.u_email.dirty && ! userForm.controls.u_email.valid">
+        <ion-label style="color:white;">Email:</ion-label>
+        <ion-input type="email" formControlName="u_email" name="email"></ion-input>
+      </ion-item>
+
+
+      <ion-item no-lines class="transparentBG" [ngClass]="{'error':userForm.controls.u_date.touched && ! userForm.controls.u_date.valid,'valid':(userForm.controls.u_date.touched && userForm.controls.u_date.valid)}" [class.invalid]="userForm.controls.u_date.dirty && !userForm.controls.u_date.valid">
+
+        <ion-label style="color:white;">Date<span class="requiredField">*</span>:</ion-label>
+        <ion-datetime displayFormat="MMM DD YY" placeholder="Select" formControlName="u_date" name="date_of_appointment"></ion-datetime>
+      </ion-item>
+
+      <ion-item no-lines class="transparentBG" [ngClass]="{'error':userForm.controls.u_time.touched && ! userForm.controls.u_time.valid,'valid':(userForm.controls.u_time.touched && userForm.controls.u_time.valid)}" [class.invalid]="userForm.controls.u_time.dirty && !userForm.controls.u_time.valid">
+
+        <ion-label style="color:white;">Time<span class="requiredField">*</span>:</ion-label>
+        <ion-datetime displayFormat="HH:mm" placeholder="Select" formControlName="u_time" name="time_of_appointment"></ion-datetime>
+      </ion-item>
+
+      <ion-item no-lines class="transparentBG" [ngClass]="{'error':userForm.controls.u_remark.touched && ! userForm.controls.u_remark.valid,'valid':(userForm.controls.u_remark.touched && userForm.controls.u_remark.valid)}" [class.invalid]="userForm.controls.u_remark.dirty && !userForm.controls.u_remark.valid">
+
+        <ion-label style="color:white;">Remark:</ion-label>
+        <ion-textarea formControlName="u_remark" name="remark_in_appointment"></ion-textarea>
+      </ion-item>
+
+    </ion-list>
+
+
+
+    <ion-row>
+      <ion-col style="text-align: center;padding:5px 32px;">
+        <button ion-button round icon-end style="width:100%;" [disabled]="! userForm.valid" (click)="submitData()">Book Appointment<ion-icon name="bookmark"></ion-icon></button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

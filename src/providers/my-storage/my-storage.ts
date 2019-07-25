@@ -28,7 +28,8 @@ export class MyStorageProvider
       name: user.name,
       email: user.email,
       user_type_id: user.user_type_id,
-      profile_img: user.profile_img
+      profile_img: user.profile_img,
+      contact: user.contact,
 
     }));
   }

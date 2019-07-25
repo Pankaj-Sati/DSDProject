@@ -23,6 +23,8 @@ import {SMSBulkEmailPage} from '../pages/sms/bulkemail/bulkemail';
 import { SMSListPage } from '../pages/sms/smslist/smslist';
 import { SingleClientPage } from '../pages/client_list/single_client/single_client';
 import { AppointmentListPage } from '../pages/appointment-list/appointment-list';
+import { EditProfilePage } from '../pages/user_profile/edit_profile/edit_profile';
+import { ClientDocumentsPage } from '../pages/client_list/single_client/document/document';
 
 import {SearchHeaderPage} from '../pages/search-header/search-header';
 import { ApiValuesProvider } from '../providers/api-values/api-values';
@@ -168,13 +170,15 @@ export class MyApp {
 
       this.pages = [
 
-        { title: 'Dashboard', icon: 'home', iconColor: 'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
+        { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
 
         // { title: 'Settings', icon: 'settings', iconColor: 'appSettingIcon', component: null, subs: this.settingPages, hasSub: false },
 
         // { title: 'Users', icon: 'contacts', iconColor: 'appUsersIcon', component: null, subs: this.userPages, hasSub: false },
 
-        { title: 'Case Management', icon: 'filing', iconColor: 'appCaseIcon', component: null, subs: this.clientPages, hasSub: false },
+      //  { title: 'Case Management', icon: 'filing', iconColor: 'appCaseIcon', component: null, subs: this.clientPages, hasSub: false },
+
+        { title: 'Edit Profile', icon: 'people', iconColor: 'appCaseIcon', component: EditProfilePage, subs: null, hasSub: false },
 
 
         // { title: 'Account Management', icon: 'archive', iconColor: 'appAccountIcon', component: null, subs: this.accountManagementPages, hasSub: false },
@@ -185,9 +189,12 @@ export class MyApp {
         { title: 'Reminders', icon: 'clock', iconColor: 'appRemindersIcon', component: ReminderListPage, subs: null, hasSub: false },
 
         { title: 'Notifications', icon: 'notifications', iconColor: 'appNotificationIcon', component: NotificationListPage, subs: null, hasSub: false },
-        { title: 'Appointments', icon: 'bookmark', iconColor: 'appNotificationIcon', component: AppointmentListPage, subs: null, hasSub: false },
 
-        { title: 'Case Study', icon: 'paper', iconColor: 'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
+        { title: 'Appointments', icon: 'bookmark', iconColor: 'appAppointmentIcon', component: AppointmentListPage, subs: null, hasSub: false },
+
+        { title: 'My Documents', icon: 'document', iconColor: 'appDocumentsIcon', component: ClientDocumentsPage, subs: null, hasSub: false },
+
+       // { title: 'Case Study', icon: 'paper', iconColor: 'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
 
         //{ title: 'File Test', icon:'paper', component: HelloIonicPage,subs:null,hasSub:false },
 
@@ -205,7 +212,7 @@ export class MyApp {
       // set our app's pages granting access to every module
       this.pages = [
 
-        { title: 'Dashboard', icon: 'home', iconColor: 'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
+        { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
 
         { title: 'Settings', icon: 'settings', iconColor: 'appSettingIcon', component: null, subs: this.settingPages, hasSub: false },
 
@@ -222,7 +229,8 @@ export class MyApp {
         { title: 'Reminders', icon: 'clock', iconColor: 'appRemindersIcon', component: ReminderListPage, subs: null, hasSub: false },
 
         { title: 'Notifications', icon: 'notifications', iconColor: 'appNotificationIcon', component: NotificationListPage, subs: null, hasSub: false },
-        { title: 'Appointments', icon: 'bookmark', iconColor: 'appNotificationIcon', component: AppointmentListPage, subs: null, hasSub: false },
+
+        { title: 'Appointments', icon: 'bookmark', iconColor: 'appAppointmentIcon', component: AppointmentListPage, subs: null, hasSub: false },
 
         { title: 'Case Study', icon: 'paper', iconColor: 'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
 
@@ -335,11 +343,33 @@ export class MyApp {
       client.id = Number(this.loggedInUser.id);
       let data =
       {
-        clientPassed:client
-      }
+        clientPassed: client
+      };
       this.nav.setRoot(SingleClientPage, data);
       return;
     }
+
+    if (page.component == EditProfilePage)
+    {
+      let data =
+      {
+        user_id: this.loggedInUser.id
+      };
+      this.nav.setRoot(EditProfilePage, data);
+      return;
+    }
+
+    if (page.component == ClientDocumentsPage)
+    {
+      let data =
+      {
+        client_id: this.loggedInUser.id,
+        client_name: this.loggedInUser.name
+      };
+      this.nav.setRoot(ClientDocumentsPage, data);
+      return;
+    }
+
     this.nav.setRoot(page.component);
   }
 

@@ -12,7 +12,8 @@
         </ion-title>
 
       </ion-col>
-      <ion-col style="text-align: right;">
+      <!--------------Currently hardcoding search access control for client (user_type_id=5)--------------->
+      <ion-col style="text-align: right;" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
 
         <ion-icon (click)="searchClient()" size="large" style="color:white;zoom:1.4;padding-right:10px" name="search"></ion-icon>
 
@@ -47,12 +48,19 @@
     <ion-input placeholder="Filter by Client Name | Description | Subject" [(ngModel)]="search_string"></ion-input>
   </ion-item>
 
-  <ion-row>
+  <!--------------Currently hardcoding add Reminder access control for client (user_type_id=5)--------------->
+  <ion-row *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
     <ion-col col-6 style="text-align:right;">
       <button ion-button>Search</button>
     </ion-col>
     <ion-col col-6 style="text-align:left;">
       <button ion-button icon-start (click)="addReminder()"><ion-icon name="add"></ion-icon>Add</button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5">
+    <ion-col style="text-align:center;">
+      <button ion-button (click)="fetchData()" icon-start><ion-icon name="search"></ion-icon>Search</button>
     </ion-col>
   </ion-row>
 
@@ -150,7 +158,8 @@
         </ion-col>
       </ion-row>
 
-      <ion-row>
+      <!--------------Currently hardcoding add Notification access control for client (user_type_id=5)--------------->
+      <ion-row *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
         <ion-col style="text-align:center;">
           <button ion-button class="delButton" round icon-start (click)="deleteReminderAlert(reminder)"><ion-icon name="trash"></ion-icon>Delete</button>
         </ion-col>

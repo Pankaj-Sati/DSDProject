@@ -4,8 +4,7 @@ page-login {
 
   ion-content {
     .scroll-content {
-      background-image: linear-gradient(rgba(142, 142, 142, 0.22), rgba(0, 128, 236, 0.3));
-      
+      background-image: linear-gradient(rgba(142, 142, 142, 0.22), rgba(0, 128, 236, 0.5));
       height: 100%;
     }
   }
@@ -59,6 +58,24 @@ page-login {
   .error > .item-inner {
     border-bottom-color: red !important;
     border-bottom: 1px solid red !important;
-   
+  }
+
+  .forgotPass {
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+    background-color: #00000075;
+  }
+
+  .bookAppointmentBtn {
+    width: 100%;
+    background-color: map-get($colors,secondary);
+  }
+
+  .forgotButton {
+    width: 100%;
+    background-color: transparent;
+    box-shadow: unset;
+    text-decoration: underline;
   }
 }

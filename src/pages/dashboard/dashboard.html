@@ -51,7 +51,8 @@
 
         </ion-col>
 
-        <ion-col style="text-align:right;">
+        <!--------------Currently hardcoding search access control for client (user_type_id=5)--------------->
+        <ion-col style="text-align:right;" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
           <ion-icon (click)="searchClient()" size="large" class="toolbarMenuIcon" name="search"></ion-icon>
 
         </ion-col>
@@ -112,8 +113,7 @@
     </ion-card>
 
     <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5">
-
-      <!--Currently hardcoding access for a non-admin user-->
+      <!--Currently hardcoding access for a client user-->
       <ion-card-header class="headerContent">
         Book Appointment
         <ion-icon name="bookmark" end></ion-icon>
@@ -122,17 +122,35 @@
       <ion-card-content>
 
         <ion-row>
-          
+
           <ion-col style="text-align: right">
             <button ion-button (click)="bookAppointment()" style="background-color: #033054">Book an Appointment</button>
           </ion-col>
         </ion-row>
       </ion-card-content>
-
-
     </ion-card>
 
-    <div #frame style="overflow:scroll !important;-webkit-overflow-scrolling:touch !important">
+    <ion-card class="dashboardCard" style="background-color:#3F51B5" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5">
+      <!--Currently hardcoding access for a client user-->
+      <ion-card-header class="headerContent">
+        My Documents
+        <ion-icon name="document" end></ion-icon>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-row>
+
+          <ion-col style="text-align: right">
+            <button ion-button (click)="documentsList()" style="background-color: #033054">View / Upload</button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+
+    <!--------------Currently hardcoding Calender access control for client (user_type_id=5)--------------->
+
+    <div *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5" #frame style="overflow:scroll !important;-webkit-overflow-scrolling:touch !important">
       <iframe src="https://teamup.com/ks2rhut82mmf7dftjj" class="iframe" style="width:100%;min-height:360px;margin-top:20px" scrolling="yes"></iframe>
     </div>
 

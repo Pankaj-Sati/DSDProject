@@ -47,6 +47,7 @@ import {SingleUserAccountPage} from '../pages/account_management/single_user_acc
 import { SearchHeaderPageModule } from '../pages/search-header/search-header.module';
 import { BookAppointmentPageModule } from '../pages/book-appointment/book-appointment.module';
 import { AppointmentListPageModule } from '../pages/appointment-list/appointment-list.module';
+import { BookAppointmentAtLoginPageModule } from '../pages/book-appointment-at-login/book-appointment-at-login.module';
 
 
 import { ComponentsModule } from '../components/components.module';
@@ -125,7 +126,8 @@ import { EntityTypeProvider } from '../providers/entity-type/entity-type';
     RemindersModule,
     ForgotPasswordPageModule,
     BookAppointmentPageModule,
-    AppointmentListPageModule
+    AppointmentListPageModule,
+    BookAppointmentAtLoginPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

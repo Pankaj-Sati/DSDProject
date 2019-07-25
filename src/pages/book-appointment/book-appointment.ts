@@ -80,8 +80,10 @@ export class BookAppointmentPage
     body.set('a_time', this.a_time);
     body.set('a_remark', this.a_description);
     body.set('client_name', this.loggedInUser.name);
+    body.set('contact', this.loggedInUser.contact);
     body.set('a_advocate', this.a_advocate);
-   
+
+    console.log(this.loggedInUser);
 
     this.http.post(this.apiValue.baseURL + '/book_appointment.php', body, null)
       .subscribe(response =>
@@ -99,6 +101,8 @@ export class BookAppointmentPage
             {
               //Success
               this.showToast(data.message);
+              this.navCtrl.getPrevious().data.reload = true;
+              this.navCtrl.pop();
             }
             else
             {

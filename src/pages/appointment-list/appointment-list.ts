@@ -28,7 +28,7 @@ export class AppointmentListPage
   from_date: string = '';
   to_date: string = '';
   search_string: string = '';
-  case_manager: string = '';
+  case_manager= '';
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -47,6 +47,14 @@ export class AppointmentListPage
   ionViewDidLoad()
   {
     console.log('ionViewDidLoad AppointmentListPage');
+  }
+
+  ionViewDidEnter()
+  {
+    if(this.navParams.data.reload)
+    {
+      this.fetchData();
+    }
   }
 
   searchClient()
@@ -115,6 +123,11 @@ export class AppointmentListPage
     body.set('to_date', this.to_date);
     body.set('search_string', this.search_string);
     body.set('a_advocate', this.case_manager);
+
+    console.log('Selected Case Manger' + this.case_manager);
+    console.log('Search String' + this.search_string);
+    console.log('From Date' + this.from_date);
+    console.log('To Date' + this.to_date);
 
 
     let loader = this.loading.create({

@@ -18,6 +18,7 @@ import { Events } from 'ionic-angular';
 
 import { SignUpPage } from '../sign-up/sign-up';
 import { ForgotPasswordPage } from '../forgot-password/forgot-password';
+import { BookAppointmentAtLoginPage } from '../book-appointment-at-login/book-appointment-at-login';
 
 @Component({
   selector: 'page-login',
@@ -201,9 +202,10 @@ export class LoginPage
 
            user.id = serverReply.id;
            user.name = serverReply.name;
-          user.email = serverReply.email;
-          user.user_type_id = serverReply.usertype_id;
+           user.email = serverReply.email;
+           user.user_type_id = serverReply.usertype_id;
            user.profile_img = serverReply.profile_img;
+           user.contact = serverReply.contact;
 
            this.myStorage.setParameters(user);
 
@@ -246,6 +248,11 @@ export class LoginPage
   forgotPassword()
   {
     this.navCtrl.push(ForgotPasswordPage);
+  }
+
+  bookAppointment()
+  {
+    this.navCtrl.push(BookAppointmentAtLoginPage);
   }
 }
 

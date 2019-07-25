@@ -12,7 +12,8 @@
         </ion-title>
 
       </ion-col>
-      <ion-col style="text-align: right;">
+      <!--------------Currently hardcoding search access control for client (user_type_id=5)--------------->
+      <ion-col style="text-align: right;" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
 
         <ion-icon (click)="searchClient()" size="large" style="color:white;zoom:1.4;padding-right:10px" name="search"></ion-icon>
 

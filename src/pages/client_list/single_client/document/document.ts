@@ -37,26 +37,26 @@ export class ClientDocumentsPage
   lastImage; //Last selected Image
   loggedInUser: User;
 
-  uploadProgress;
+  uploadProgress:any='0';
  
   constructor
     (
       public loadingCtrl: LoadingController,
       public toastCtrl: ToastController,
-    public http: Http,
-    public alertCtrl: AlertController,
+      public http: Http,
+      public alertCtrl: AlertController,
       public apiValues: ApiValuesProvider,
       public navCtrl: NavController,
       public navParams: NavParams,
       public inAppBrowser: InAppBrowser,
       public file: File,
       public platform: Platform,
-    public filePath: FilePath,
-    public modalCtrl: ModalController,
+      public filePath: FilePath,
+      public modalCtrl: ModalController,
       public fileTransfer: FileTransfer,
-    private camera: Camera,
-    public myStorage: MyStorageProvider,
-    public fileChooser: Chooser
+      private camera: Camera,
+      public myStorage: MyStorageProvider,
+      public fileChooser: Chooser
 
     )
   {
@@ -457,7 +457,7 @@ export class ClientDocumentsPage
 
       let transferSuccessful = false; //To know whether timeout occured or not
 
-      loader.present();
+      //loader.present();
     
     //this.apiValues.baseURL + '/client_doc_upload.php'
     transfer.upload(this.lastImage, this.apiValues.baseURL + '/client_doc_upload.php', options).then(data =>
@@ -466,7 +466,7 @@ export class ClientDocumentsPage
         transferSuccessful = true;
         console.log("Image upload server reply");
         console.log(data);
-
+        //loader.dismiss(); 
         if (data)
         {
           try
@@ -476,7 +476,7 @@ export class ClientDocumentsPage
             {
               //Error returned from server
               this.presentToast(response.message);
-              loader.dismiss();
+             
               return;
             }
             else
@@ -484,7 +484,7 @@ export class ClientDocumentsPage
               //Success
               this.presentToast(response.message);
               this.fetchData();
-              loader.dismiss();
+             
               return;
             }
           }
@@ -492,7 +492,7 @@ export class ClientDocumentsPage
           {
             console.log(err);
             this.presentToast('Error in response');
-            loader.dismiss();
+           
             return;
           }
           
@@ -500,7 +500,7 @@ export class ClientDocumentsPage
         else
         {
           this.presentToast("Failed!! Server returned an error");
-          loader.dismiss();
+         
         }
 
       }, err =>
@@ -509,7 +509,7 @@ export class ClientDocumentsPage
           console.log(err);
           transferSuccessful = true;
           this.presentToast("Failed!! Server returned an error");
-          loader.dismiss();
+          //loader.dismiss();
 
         })
         .catch(err =>
@@ -518,7 +518,7 @@ export class ClientDocumentsPage
           transferSuccessful = true;
           console.log(err);
           this.presentToast("Failed!! Server returned an error");
-          loader.dismiss();
+         // loader.dismiss();
 
         });
 

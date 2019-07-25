@@ -2,7 +2,22 @@
   <ion-navbar>
     <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
 
-    <ion-title>Notification List</ion-title>
+    <ion-row center style="text-align: left;vertical-align: middle;">
+      <ion-col>
+        <ion-title style="text-align: left;height: 100%;vertical-align: middle;">
+          Notifications
+        </ion-title>
+
+      </ion-col>
+
+      <!--------------Currently hardcoding search access control for client (user_type_id=5)--------------->
+      <ion-col style="text-align: right;" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
+
+        <ion-icon (click)="searchClient()" size="large" style="color:white;zoom:1.4;padding-right:10px" name="search"></ion-icon>
+
+      </ion-col>
+    </ion-row>
+
   </ion-navbar>
 </ion-header>
 
@@ -30,12 +45,19 @@
     <ion-input placeholder="Filter by Client Name | Description | Subject" [(ngModel)]="search_string"></ion-input>
   </ion-item>
 
-  <ion-row>
+  <!--------------Currently hardcoding add Notification access control for client (user_type_id=5)--------------->
+  <ion-row *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
     <ion-col col-6 style="text-align:right;">
       <button ion-button (click)="fetchData()" icon-start><ion-icon name="search"></ion-icon>Search</button>
     </ion-col>
     <ion-col col-6 style="text-align:left;">
       <button ion-button icon-start (click)="addNotification()"><ion-icon name="add"></ion-icon>Add</button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5">
+    <ion-col style="text-align:center;">
+      <button ion-button (click)="fetchData()" icon-start><ion-icon name="search"></ion-icon>Search</button>
     </ion-col>
   </ion-row>
 
@@ -131,7 +153,8 @@
         </ion-col>
       </ion-row>
 
-      <ion-row>
+      <!--------------Currently hardcoding add Notification access control for client (user_type_id=5)--------------->
+      <ion-row *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
         <ion-col style="text-align:center;">
           <button ion-button class="delButton" round icon-start (click)="deleteNotificationAlert(notification)"><ion-icon name="trash"></ion-icon>Delete</button>
         </ion-col>

@@ -105,8 +105,7 @@ export class EditProfilePage
     this.passed_uid = this.navParams.get('user_id'); //Get the id field passed from the user_list page
     console.log("Id received=" + this.passed_uid);
     console.log(this.user);
-    this.setFormValues();
-
+    
     if (this.passed_uid == null)
     {
       this.presentToast('No user id received');
@@ -114,9 +113,13 @@ export class EditProfilePage
     }
 
 
-    if (this.user == undefined && this.user == null)
+    if (this.user == undefined || this.user == null)
     {
       this.fetchData();
+    }
+    else
+    {
+      this.setFormValues();
     }
     
 
@@ -285,7 +288,7 @@ export class EditProfilePage
       loader.present().then(() => 
       {
 
-        this.http.post(this.apiValue.baseURL + "/user_view/" + this.passed_uid, body, options) //Http request returns an observable
+        this.http.post(this.apiValue.baseURL + "/profile.php", body, options) //Http request returns an observable
 
           .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
 
@@ -311,6 +314,7 @@ export class EditProfilePage
               {
                 this.user = response;
                 this.setFormValues();
+                console.log(this.user);
               }
             }
             else
@@ -345,14 +349,25 @@ export class EditProfilePage
 
   setFormValues()
   {
+    console.log('In set Form Values');
+    console.log(this.user);
     this.userForm.controls.u_name.setValue(this.user.name);
+   
+
     this.userForm.controls.u_email.setValue(this.user.email);
     this.userForm.controls.u_contact.setValue(this.user.contact);
     this.userForm.controls.u_alt.setValue(this.user.alternate_number);
 
     this.userForm.controls.u_gender.setValue(this.user.gender);
-    var date = this.user.dob.split(" ");
-    this.userForm.controls.u_dob.setValue(date[0]);
+    this.userForm.controls.u_dob.setValue(this.user.dob);
+
+    if (this.user.dob != undefined && this.user.dob != null)
+    {
+      let dob = String(this.user.dob).split(' '); //Split using space
+      this.userForm.controls.u_dob.setValue(dob[0]);
+
+    }
+    this.userForm.controls.u_dob.setValue(this.user.dob);
     this.userForm.controls.u_address.setValue(this.user.permanent_address);
     this.userForm.controls.u_city.setValue(this.user.city);
     this.userForm.controls.u_state.setValue(this.user.state);
@@ -367,6 +382,7 @@ export class EditProfilePage
       this.userForm.controls.u_profile_img.setValue(this.apiValue.baseImageFolder + this.user.profile_img);
 
     }
+    this.userForm.updateValueAndValidity();
   }
 
   submitData()
@@ -441,8 +457,12 @@ export class EditProfilePage
                   this.updateSuccessful = true;
 
                   this.updateLoginUserParameters();
-                  this.navCtrl.getPrevious().data.reload = true;
-                  this.navCtrl.pop();
+                  if (this.navCtrl.canGoBack())
+                  {
+                    this.navCtrl.getPrevious().data.reload = true;
+                    this.navCtrl.pop();
+                  }
+                  
                   this.presentToast(response.message);
                 }
               }

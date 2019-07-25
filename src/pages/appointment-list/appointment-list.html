@@ -12,7 +12,8 @@
         </ion-title>
 
       </ion-col>
-      <ion-col style="text-align: right;">
+      <!--------------Currently hardcoding search access control for client (user_type_id=5)--------------->
+      <ion-col style="text-align: right;" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
 
         <ion-icon (click)="searchClient()" size="large" style="color:white;zoom:1.4;padding-right:10px" name="search"></ion-icon>
 
@@ -44,7 +45,8 @@
 
   <ion-item no-lines>
     <ion-label stacked><b>Case Manager</b></ion-label>
-    <ion-select interface="popover" required [(ngModel)]="a_advocate" placeholder="Select Case Manager">
+    <ion-select interface="popover" required [(ngModel)]="case_manager" placeholder="Select Case Manager">
+      <ion-option value="">All</ion-option>
       <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}} ({{advocate.id}})</ion-option>
     </ion-select>
   </ion-item>
@@ -56,7 +58,7 @@
 
   <ion-row>
     <ion-col col-6 style="text-align:right;">
-      <button ion-button>Search</button>
+      <button ion-button (click)="fetchData()">Search</button>
     </ion-col>
     <ion-col col-6 style="text-align:left;">
       <button ion-button icon-start (click)="bookAppointment()"><ion-icon name="add"></ion-icon>Book</button>

@@ -9,6 +9,7 @@ import { ReminderListPage } from '../reminders/new_format/reminder_list/reminder
 import { NotificationListPage } from '../notifications/new_format/notification_list/notification_list';
 import { AddClientPage } from '../client_list/add_client/add_client';
 import { BookAppointmentPage } from '../book-appointment/book-appointment';
+import { ClientDocumentsPage } from '../client_list/single_client/document/document';
 
 import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
@@ -213,6 +214,16 @@ export class DashboardPage
 
     }
 
+  documentsList()
+  {
+    let data =
+    {
+      client_id: this.loggedInUser.id,
+      client_name: this.loggedInUser.name
+    };
+    this.navCtrl.push(ClientDocumentsPage, data);
+    return;
+  }
 	
    
 }

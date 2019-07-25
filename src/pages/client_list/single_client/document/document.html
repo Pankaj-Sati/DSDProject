@@ -21,7 +21,8 @@
   <ion-row *ngIf="selected_file_name!=undefined && selected_file_name.length>0">
     <ion-col style="text-align:center;">
       <ion-label><b>Selected File:</b>{{selected_file_name}}</ion-label>
-      <button icon-start ion-button [disabled]="(selected_file_name==undefined || selected_file_name.length==0)" (click)="uploadFile()"><ion-icon name="cloud-upload"></ion-icon>Upload</button>
+      <button icon-start ion-button [disabled]="(selected_file_name==undefined || selected_file_name.length==0)" (click)="uploadFile()"><ion-icon name="cloud-upload"></ion-icon>Upload</button><br />
+      <progress-bar [progress]="uploadProgress"></progress-bar>
     </ion-col>
   </ion-row>
 
