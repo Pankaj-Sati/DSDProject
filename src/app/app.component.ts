@@ -29,6 +29,7 @@ import { ClientDocumentsPage } from '../pages/client_list/single_client/document
 import {SearchHeaderPage} from '../pages/search-header/search-header';
 import { ApiValuesProvider } from '../providers/api-values/api-values';
 import { MyStorageProvider } from '../providers/my-storage/my-storage';
+import { StateListProvider } from '../providers/state-list/state-list';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { LoadingController, ToastController } from 'ionic-angular';
@@ -89,12 +90,14 @@ export class MyApp {
     public inAppBrowser: InAppBrowser,
     public caseTypeProvider: CaseTypeProvider,
     public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public stateListProvider: StateListProvider
   ) 
   {
 
     this.initializeApp();
     this.getCaseTypeList();
+    this.getStateList();
     this.checkIfAlreadyLoggedIn();
     this.showSearch=false;
 
@@ -116,6 +119,14 @@ export class MyApp {
 
       this.showSearch=! this.showSearch;
     });
+
+    events.subscribe('getStateList', (data) =>
+    {
+      //This event can be used to get the state list if it is not found
+      this.getStateList();
+    });
+
+
     //set subPages
     this.settingPages = [
       { title: 'User Type', icon: 'bowtie', iconColor:'cadetblue', component: SettingUserTypePage },
@@ -269,6 +280,41 @@ export class MyApp {
         const toast = this.toastCtrl.create({
           message: 'Timeout!!! Server Did Not Respond',
           duration:3000
+        });
+        toast.present();
+      }
+    });
+
+
+  }
+
+  getStateList()
+  {
+    const loader = this.loadingCtrl.create(
+      {
+        content: 'Loading...',
+        duration: 10000
+      });
+    loader.present();
+
+    let loadingSuccessful = false; //To know whether timeout occured or not
+    this.stateListProvider.fetchList();
+
+    this.events.subscribe('get_states', (result) =>
+    {
+
+      loadingSuccessful = true;
+      loader.dismiss(); //Dismiss the loader whether the result was a success or a failure
+    });
+
+    loader.onDidDismiss(() =>
+    {
+      if (!loadingSuccessful)
+      {
+        //Timeout
+        const toast = this.toastCtrl.create({
+          message: 'Timeout!!! Server Did Not Respond',
+          duration: 3000
         });
         toast.present();
       }

@@ -149,8 +149,14 @@
           <ion-label><b>Appartment:</b><span class='info'>{{clientDetails.apt}}</span></ion-label>
 
         </ion-item>
-        <ion-item no-lines *ngIf="clientDetails.streetNoName!=null && clientDetails.streetNoName.length>0">
-          <ion-label><b>Street:</b><span class='info'>{{clientDetails.streetNoName}}</span></ion-label>
+
+        <ion-item no-lines *ngIf="clientDetails.permanent_addressLine1!=null && clientDetails.permanent_addressLine1.length>0">
+          <ion-label><b>Address 1:</b><span class='info'>{{clientDetails.permanent_addressLine1}}</span></ion-label>
+
+        </ion-item>
+
+        <ion-item no-lines *ngIf="clientDetails.permanent_addressLine2!=null && clientDetails.permanent_addressLine2.length>0">
+          <ion-label><b>Address 2:</b><span class='info'>{{clientDetails.permanent_addressLine2}}</span></ion-label>
 
         </ion-item>
 
@@ -180,8 +186,13 @@
           <div class="innerLabel"><b>Mailing Address</b></div>
         </ion-item>
         <hr />
-        <ion-item no-lines *ngIf="clientDetails.streetNoNameB!=null && clientDetails.streetNoNameB.length>0">
-          <ion-label><b>Street:</b><span class='info'>{{clientDetails.streetNoNameB}}</span></ion-label>
+        <ion-item no-lines *ngIf="clientDetails.mailing_addressLine1!=null && clientDetails.mailing_addressLine1.length>0">
+          <ion-label><b>Address 1:</b><span class='info'>{{clientDetails.mailing_addressLine1}}</span></ion-label>
+
+        </ion-item>
+
+        <ion-item no-lines *ngIf="clientDetails.mailing_addressLine2!=null && clientDetails.mailing_addressLine2.length>0">
+          <ion-label><b>Address 2:</b><span class='info'>{{clientDetails.mailing_addressLine2}}</span></ion-label>
 
         </ion-item>
 
@@ -280,8 +291,13 @@
 
             </ion-item>
 
-            <ion-item no-lines *ngIf="entity.streetNoName!=null && entity.streetNoName.length>0">
-              <ion-label><b>Street:</b><span class='info'>{{entity.streetNoName}}</span></ion-label>
+            <ion-item no-lines *ngIf="entity.permanent_addressLine1!=null && entity.permanent_addressLine1.length>0">
+              <ion-label><b>Address 1:</b><span class='info'>{{entity.permanent_addressLine1}}</span></ion-label>
+
+            </ion-item>
+
+            <ion-item no-lines *ngIf="entity.permanent_addressLine2!=null && entity.permanent_addressLine2.length>0">
+              <ion-label><b>Address 2:</b><span class='info'>{{entity.permanent_addressLine2}}</span></ion-label>
 
             </ion-item>
 
@@ -310,8 +326,14 @@
             <ion-item no-lines>
               <div class="innerLabel"><b>Mailing Address</b></div>
             </ion-item>
-            <ion-item no-lines *ngIf="entity.streetNoNameB!=null && entity.streetNoNameB.length>0">
-              <ion-label><b>Street:</b><span class='info'>{{entity.streetNoNameB}}</span></ion-label>
+
+            <ion-item no-lines *ngIf="entity.mailing_addressLine1!=null && entity.mailing_addressLine1.length>0">
+              <ion-label><b>Address 1:</b><span class='info'>{{entity.mailing_addressLine1}}</span></ion-label>
+
+            </ion-item>
+
+            <ion-item no-lines *ngIf="entity.mailing_addressLine2!=null && entity.mailing_addressLine2.length>0">
+              <ion-label><b>Address 2:</b><span class='info'>{{entity.mailing_addressLine2}}</span></ion-label>
 
             </ion-item>
 

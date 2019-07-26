@@ -40,9 +40,26 @@
     </ion-col>
   </ion-row>
 
-  <ion-row style="margin-top:50px;">
+  <ion-row>
+    <ion-col style="text-align: center;">
+      <h4 style="color:red;font-size: 15px;">{{result}}</h4>
+    </ion-col>
+  </ion-row>
+
+  <ion-row style="margin-top:35px; color:white">
+    <ion-col col-3>
+      <hr style="background-color:white;" />
+    </ion-col>
+    <ion-col col-6 style="text-align:center;">
+      <b>For Free Consultation</b>
+    </ion-col>
+    <ion-col col-3>
+      <hr style="background-color:white;" />
+    </ion-col>
+  </ion-row>
+  <ion-row>
     <ion-col style="text-align: center;padding:5px 32px;">
-      <button ion-button round icon-end class="bookAppointmentBtn" (click)="bookAppointment()">Book Appointment<ion-icon name="bookmark"></ion-icon></button>
+      <button ion-button round icon-end class="bookAppointmentBtn" (click)="bookAppointment()">Book An Appointment<ion-icon name="bookmark"></ion-icon></button>
     </ion-col>
   </ion-row>
 
@@ -54,10 +71,6 @@
 
 
 
-  <ion-row>
-    <ion-col style="text-align: center;">
-      <h4 style="color:red;font-size: 15px;">{{result}}</h4>
-    </ion-col>
-  </ion-row>
+
 
 </ion-content>

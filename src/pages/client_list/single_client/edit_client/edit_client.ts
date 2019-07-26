@@ -1,5 +1,5 @@
-import {Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
 import { Http, Headers, RequestOptions, Response } from "@angular/http";
 import { LoadingController } from "ionic-angular";
 import { ToastController } from 'ionic-angular';
@@ -15,9 +15,12 @@ import { Client, ClientDetails, Entity } from '../../../../models/client.model';
 import { AdvocateDropdown } from '../../../../models/ advocate.model';
 
 import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
-import { ClientEntityRelationshipProvider } from '../../../../providers/client-entity-relationship/client-entity-relationship';
+import { ClientEntityRelationshipProvider} from '../../../../providers/client-entity-relationship/client-entity-relationship';
 import { EntityTypeProvider } from '../../../../providers/entity-type/entity-type';
 import { EntityType } from '../../../../models/entity_type.model';
+
+import { StateListProvider } from '../../../../providers/state-list/state-list';
+import { State } from '../../../../models/state.model';
 
 
 @Component
@@ -27,6 +30,9 @@ import { EntityType } from '../../../../models/entity_type.model';
 })
 export class EditClientPage
 {
+
+  stateList: State[] = [];
+
   advocate_list: any=[];
   passedClient: Client;
   passedClientDetails: ClientDetails;
@@ -47,6 +53,7 @@ export class EditClientPage
 
   isBillingAndPermanentAddressSame: boolean = false;
   isBillingAndPermanentAddressSameForEntity: boolean[] = [];
+
   totalEntities: number = 0;
 
   relationshipList: any;
@@ -69,11 +76,21 @@ export class EditClientPage
     private http: Http,
     public loading: LoadingController,
     public relationshipProvider: ClientEntityRelationshipProvider,
-    public entityTypeProvider: EntityTypeProvider
+    public entityTypeProvider: EntityTypeProvider,
+    public stateListProvider: StateListProvider,
+    public events: Events
   )
   {
 
     this.entityTypeList = this.entityTypeProvider.getList();
+
+    //------------------Gettting State List from Provider---------//
+
+    this.stateList = this.stateListProvider.stateList;
+    if (this.stateList == undefined || this.stateList.length == 0)
+    {
+      this.events.publish('getStateList'); //This event is subscribed to in the app.component page
+    }
 
     this.editClientForm = this.formBuilder.group({
 
@@ -93,12 +110,14 @@ export class EditClientPage
       c_email: new FormControl('', Validators.compose([Validators.pattern(/^$|^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
       c_notes: new FormControl(''),
       c_country: new FormControl('', Validators.compose([Validators.required])),
-      c_street: new FormControl('', Validators.compose([Validators.required])),
+      c_address1: new FormControl('', Validators.compose([Validators.required])),
+      c_address2: new FormControl(''),
       c_city: new FormControl('', Validators.compose([Validators.required])),
       c_state: new FormControl('', Validators.compose([Validators.required])),
       c_zipcode: new FormControl('', Validators.compose([Validators.required])),
       c_country_billing: new FormControl('', Validators.compose([Validators.required])),
-      c_street_billing: new FormControl('', Validators.compose([Validators.required])),
+      c_address1_billing: new FormControl('', Validators.compose([Validators.required])),
+      c_address2_billing: new FormControl(''),
       c_city_billing: new FormControl('', Validators.compose([Validators.required])),
       c_state_billing: new FormControl('', Validators.compose([Validators.required])),
       c_zipcode_billing: new FormControl('', Validators.compose([Validators.required])),
@@ -119,6 +138,9 @@ export class EditClientPage
      // c_decided_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')]))
 
     });
+
+    this.editClientForm.controls.c_country.setValue('United States');
+    this.editClientForm.controls.c_country_billing.setValue('United States');
 
 
     if (this.caseTypeProvider.isEmpty)
@@ -169,14 +191,18 @@ export class EditClientPage
     this.editClientForm.controls.c_alt_no.setValue(this.passedClientDetails.alternate_number);
     this.editClientForm.controls.c_email.setValue(this.passedClientDetails.email);
     this.editClientForm.controls.c_notes.setValue(this.passedClientDetails.notes);
-    this.editClientForm.controls.c_country.setValue(this.passedClientDetails.country);
-    this.editClientForm.controls.c_street.setValue(this.passedClientDetails.streetNoName);
+   // this.editClientForm.controls.c_country.setValue(this.passedClientDetails.country);
+    this.editClientForm.controls.c_address1.setValue(this.passedClientDetails.permanent_addressLine1);
+    this.editClientForm.controls.c_address2.setValue(this.passedClientDetails.permanent_addressLine2);
+
     this.editClientForm.controls.c_city.setValue(this.passedClientDetails.city);
     this.editClientForm.controls.c_state.setValue(this.passedClientDetails.state);
     this.editClientForm.controls.c_zipcode.setValue(this.passedClientDetails.zipCode);
 
-    this.editClientForm.controls.c_country_billing.setValue(this.passedClientDetails.country);
-    this.editClientForm.controls.c_street_billing.setValue(this.passedClientDetails.streetNoNameB);
+   // this.editClientForm.controls.c_country_billing.setValue(this.passedClientDetails.country);
+    this.editClientForm.controls.c_address1_billing.setValue(this.passedClientDetails.mailing_addressLine1);
+    this.editClientForm.controls.c_address2_billing.setValue(this.passedClientDetails.mailing_addressLine2);
+
     this.editClientForm.controls.c_city_billing.setValue(this.passedClientDetails.cityB);
     this.editClientForm.controls.c_state_billing.setValue(this.passedClientDetails.stateB);
     this.editClientForm.controls.c_zipcode_billing.setValue(this.passedClientDetails.zipCodeB);
@@ -235,11 +261,12 @@ export class EditClientPage
     this.editClientForm.get('entity')['controls'][index].controls.e_notes.setValue(entity.notes);
     this.editClientForm.get('entity')['controls'][index].controls.e_notes.updateValueAndValidity();
 
-    this.editClientForm.get('entity')['controls'][index].controls.e_country.setValue(entity.country);
-    this.editClientForm.get('entity')['controls'][index].controls.e_country.updateValueAndValidity();
+   
+    this.editClientForm.get('entity')['controls'][index].controls.e_address1.setValue(entity.permanent_addressLine1);
+    this.editClientForm.get('entity')['controls'][index].controls.e_address1.updateValueAndValidity();
 
-    this.editClientForm.get('entity')['controls'][index].controls.e_street.setValue(entity.streetNoName);
-    this.editClientForm.get('entity')['controls'][index].controls.e_street.updateValueAndValidity();
+    this.editClientForm.get('entity')['controls'][index].controls.e_address2.setValue(entity.permanent_addressLine2);
+    this.editClientForm.get('entity')['controls'][index].controls.e_address2.updateValueAndValidity();
 
     this.editClientForm.get('entity')['controls'][index].controls.e_city.setValue(entity.city);
     this.editClientForm.get('entity')['controls'][index].controls.e_city.updateValueAndValidity();
@@ -250,11 +277,11 @@ export class EditClientPage
     this.editClientForm.get('entity')['controls'][index].controls.e_zipcode.setValue(entity.zipCode);
     this.editClientForm.get('entity')['controls'][index].controls.e_zipcode.updateValueAndValidity();
 
-    this.editClientForm.get('entity')['controls'][index].controls.e_country_billing.setValue(entity.country);
-    this.editClientForm.get('entity')['controls'][index].controls.e_country_billing.updateValueAndValidity();
+    this.editClientForm.get('entity')['controls'][index].controls.e_address1_billing.setValue(entity.mailing_addressLine1);
+    this.editClientForm.get('entity')['controls'][index].controls.e_address1_billing.updateValueAndValidity();
 
-    this.editClientForm.get('entity')['controls'][index].controls.e_street_billing.setValue(entity.streetNoNameB);
-    this.editClientForm.get('entity')['controls'][index].controls.e_street_billing.updateValueAndValidity();
+    this.editClientForm.get('entity')['controls'][index].controls.e_address2_billing.setValue(entity.mailing_addressLine2);
+    this.editClientForm.get('entity')['controls'][index].controls.e_address2_billing.updateValueAndValidity();
 
     this.editClientForm.get('entity')['controls'][index].controls.e_city_billing.setValue(entity.cityB);
     this.editClientForm.get('entity')['controls'][index].controls.e_city_billing.updateValueAndValidity();
@@ -296,12 +323,14 @@ export class EditClientPage
             this.setEntityValidatorsNull(i, 'e_email');
             this.setEntityValidatorsNull(i, 'e_notes');
             this.setEntityValidatorsNull(i, 'e_country');
-            this.setEntityValidatorsNull(i, 'e_street');
+            this.setEntityValidatorsNull(i, 'e_address1');
+            this.setEntityValidatorsNull(i, 'e_address2');
             this.setEntityValidatorsNull(i, 'e_city');
             this.setEntityValidatorsNull(i, 'e_state');
             this.setEntityValidatorsNull(i, 'e_zipcode');
             this.setEntityValidatorsNull(i, 'e_country_billing');
-            this.setEntityValidatorsNull(i, 'e_street_billing');
+            this.setEntityValidatorsNull(i, 'e_address1_billing');
+            this.setEntityValidatorsNull(i, 'e_address2_billing');
             this.setEntityValidatorsNull(i, 'e_city_billing');
             this.setEntityValidatorsNull(i, 'e_state_billing');
             this.setEntityValidatorsNull(i, 'e_zipcode_billing');
@@ -491,8 +520,11 @@ export class EditClientPage
     this.editClientForm.controls.c_country_billing.setValue(this.editClientForm.value.c_country);
     this.editClientForm.controls.c_country_billing.updateValueAndValidity();
 
-    this.editClientForm.controls.c_street_billing.setValue(this.editClientForm.value.c_street);
-    this.editClientForm.controls.c_street_billing.updateValueAndValidity();
+    this.editClientForm.controls.c_address1_billing.setValue(this.editClientForm.value.c_address1);
+    this.editClientForm.controls.c_address1_billing.updateValueAndValidity();
+
+    this.editClientForm.controls.c_address2_billing.setValue(this.editClientForm.value.c_address2);
+    this.editClientForm.controls.c_address2_billing.updateValueAndValidity();
 
     this.editClientForm.controls.c_city_billing.setValue(this.editClientForm.value.c_city);
     this.editClientForm.controls.c_city_billing.updateValueAndValidity();
@@ -510,8 +542,11 @@ export class EditClientPage
     this.editClientForm.get('entity')['controls'][i].controls.e_country_billing.setValue(this.editClientForm.get('entity')['controls'][i].value.e_country);
     this.editClientForm.get('entity')['controls'][i].controls.e_country_billing.updateValueAndValidity();
 
-    this.editClientForm.get('entity')['controls'][i].controls.e_street_billing.setValue(this.editClientForm.get('entity')['controls'][i].value.e_street);
-    this.editClientForm.get('entity')['controls'][i].controls.e_street_billing.updateValueAndValidity();
+    this.editClientForm.get('entity')['controls'][i].controls.e_address1_billing.setValue(this.editClientForm.get('entity')['controls'][i].value.e_address1);
+    this.editClientForm.get('entity')['controls'][i].controls.e_address1_billing.updateValueAndValidity();
+
+    this.editClientForm.get('entity')['controls'][i].controls.e_address2_billing.setValue(this.editClientForm.get('entity')['controls'][i].value.e_address2);
+    this.editClientForm.get('entity')['controls'][i].controls.e_address2_billing.updateValueAndValidity();
 
     this.editClientForm.get('entity')['controls'][i].controls.e_city_billing.setValue(this.editClientForm.get('entity')['controls'][i].value.e_city);
     this.editClientForm.get('entity')['controls'][i].controls.e_city_billing.updateValueAndValidity();
@@ -538,17 +573,23 @@ export class EditClientPage
       e_email: new FormControl('', Validators.compose([Validators.pattern(/^$|^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
       e_notes: new FormControl(''),
       e_country: new FormControl('', Validators.compose([Validators.required])),
-      e_street: new FormControl('', Validators.compose([Validators.required])),
+      e_address1: new FormControl('', Validators.compose([Validators.required])),
+      e_address2: new FormControl(''),
       e_city: new FormControl('', Validators.compose([Validators.required])),
       e_state: new FormControl('', Validators.compose([Validators.required])),
       e_zipcode: new FormControl('', Validators.compose([Validators.required])),
       e_country_billing: new FormControl('', Validators.compose([Validators.required])),
-      e_street_billing: new FormControl('', Validators.compose([Validators.required])),
+      e_address1_billing: new FormControl('', Validators.compose([Validators.required])),
+      e_address2_billing: new FormControl(''),
       e_city_billing: new FormControl('', Validators.compose([Validators.required])),
       e_state_billing: new FormControl('', Validators.compose([Validators.required])),
       e_zipcode_billing: new FormControl('', Validators.compose([Validators.required])),
 
     });
+
+    newEntity.controls.e_country.setValue('United States');
+    newEntity.controls.e_country_billing.setValue('United States');
+
     return newEntity
   }
 
@@ -604,84 +645,6 @@ export class EditClientPage
 
     let body = new FormData();  //Data to be sent to the server
 
-    /*
-     * http://myamenbizzapp.com/dsd/api_work/edit_client.php?case_type=1&case_no=115
-     * &case_category=New&adv_assign=13&op_full_name=SunakshiSingh
-     * &full_name=Papu pagel&p_streetNoName=GulmoharStreetNo-2&p_city=delhi
-     * &p_state=delhi&p_pin_code=686867897&p_country=UnitedStates
-     * &client_group=ENTITY&filing_adv_name=Ram kumar&client_type=Test1
-     * &case_desc=dummytext edit&op_alias=Rahul Singh edit&op_adv_name=kukkke edit
-     * &registration_fee=20001&decided_fee=10001&alias=DDRRRRedit
-     * &contact=9591020010&alternate_number=9504599999&email=aakrammdd@gamil.com
-     * &notes=dummytext edit&b_state=jkljkljljkj edit&b_city=kjkkljkjlj edit
-     * &b_pin_code=kjkkljkjlj edit&b_streetNoName=FSDFSDD edit&session_id=1
-     * &relationship[]=[{"e_name":"Gurdeep singh","e_alias":"","e_contact":"89723","e_alt_no":"238","e_email":"entitygurdeep1@gmails.com","e_notes":"dsd","e_country":"UnitedStates","e_street":"Street1","e_city":"NY","e_state":"State1","e_zipcode":"78234","e_country_billing":"UnitedStates","e_street_billing":"jsdh","e_city_billing":"sds","e_state_billing":"fdsgjfd","e_zipcode_billing":"23213","e_relationship":"Father"},{"e_name":"Ritcha Singh","e_alias":"","e_contact":"89546723","e_alt_no":"64238","e_email":"entityRitcha2@gmails.com","e_notes":"dsd","e_country":"UnitedStates","e_street":"Street2","e_city":"NY","e_state":"State2","e_zipcode":"78234","e_country_billing":"UnitedStates","e_street_billing":"jsdh","e_city_billing":"sds","e_state_billing":"fdsgjfd","e_zipcode_billing":"23213","e_relationship":"Father"}]
-     * &cid=112&case_reg_date=15-07-2019
-     
-     */
-    /*
-    body.append('case_type', this.editClientForm.value.c_case_type);
-    body.append('case_no', this.editClientForm.value.c_alien_no);
-    body.append('case_category', this.editClientForm.value.c_case_category);
-    body.append('adv_assign', this.editClientForm.value.c_cm_assigned);
-    body.append('op_full_name', this.editClientForm.value.c_defendent_name);
-    body.append('full_name', this.editClientForm.value.c_name);
-    
-    body.append('p_streetNoName', this.editClientForm.value.c_street);
-    body.append('p_city', this.editClientForm.value.c_city);
-    body.append('p_state', this.editClientForm.value.c_state);
-    body.append('p_pin_code', this.editClientForm.value.c_zipcode);
-    body.append('p_country', this.editClientForm.value.c_country);
-    body.append('filing_adv_name', this.editClientForm.value.c_filing_cm);
-    body.append('client_type', this.editClientForm.value.c_client_type);
-    body.append('case_desc', this.editClientForm.value.c_case_description);
-    body.append('op_alias', this.editClientForm.value.c_defendent_alias);
-    body.append('op_adv_name', this.editClientForm.value.c_defendent_manager);
-    body.append('registration_fee', this.editClientForm.value.c_reg_fee);
-    body.append('decided_fee', this.editClientForm.value.c_decided_fee);
-    body.append('alias', this.editClientForm.value.c_alias);
-    body.append('contact', String(this.editClientForm.value.c_contact).replace(/\D+/g, ''));
-    body.append('alternate_number', String(this.editClientForm.value.c_alt_no).replace(/\D+/g, ''));
-    body.append('email', this.editClientForm.value.c_email);
-    body.append('notes', this.editClientForm.value.c_notes);
-    body.append('b_state', this.editClientForm.value.c_state_billing);
-    body.append('b_city', this.editClientForm.value.c_city_billing);
-    body.append('b_pin_code', this.editClientForm.value.c_zipcode_billing);
-    body.append('b_streetNoName', this.editClientForm.value.c_street_billing);
-    body.append('case_reg_date', this.editClientForm.value.c_date);
-
-    body.append('cid', String(this.passedClient.id));
-    body.append('session_id', this.loggedInUser.id);
-
-    if (this.hasRelation && this.totalEntities > 0)
-    {
-      for (let i = 0; i < this.totalEntities; i++)
-      {
-        //Changing the contact number br-masker
-        this.editClientForm.get('entity')['controls'][i].controls.e_contact.setValue(String(this.editClientForm.get('entity')['controls'][i].value.e_contact).replace(/\D+/g, ''));
-        this.editClientForm.get('entity')['controls'][i].controls.e_alt_no.setValue(String(this.editClientForm.get('entity')['controls'][i].value.e_alt_no).replace(/\D+/g, ''));
-
-      }
-
-      console.log("-----Client Data---");
-      console.log(this.editClientForm.value);
-      console.log("-----Entity Data---");
-      console.log(this.editClientForm.value.entity);
-      console.log(JSON.stringify(this.editClientForm.value.entity));
-
-      body.append('relationship[]', JSON.stringify(this.editClientForm.value.entity));
-      body.append('client_group', 'ENTITY');
-    }
-    else
-    {
-      body.append('relationship[]', '');
-      body.append('client_group', 'INDIVIDUAL');
-    }
-
-
-    // client_group:ENTITY
-
-*/
 
     let loader = this.loading.create({
 
@@ -761,7 +724,9 @@ export class EditClientPage
     url = url + '&' + 'op_full_name='+ this.editClientForm.value.c_defendent_name;
     url = url + '&' + 'full_name='+ this.editClientForm.value.c_name;
 
-    url = url + '&' + 'p_streetNoName='+ this.editClientForm.value.c_street;
+    url = url + '&' + 'p_address1=' + this.editClientForm.value.c_address1;
+    url = url + '&' + 'p_address2=' + this.editClientForm.value.c_address2;
+
     url = url + '&' + 'p_city='+ this.editClientForm.value.c_city;
     url = url + '&' + 'p_state='+this.editClientForm.value.c_state;
     url = url + '&' + 'p_pin_code='+this.editClientForm.value.c_zipcode;
@@ -781,7 +746,8 @@ export class EditClientPage
     url = url + '&' + 'b_state='+ this.editClientForm.value.c_state_billing;
     url = url + '&' + 'b_city='+ this.editClientForm.value.c_city_billing;
     url = url + '&' + 'b_pin_code='+ this.editClientForm.value.c_zipcode_billing;
-    url = url + '&' + 'b_streetNoName='+this.editClientForm.value.c_street_billing;
+    url = url + '&' + 'b_address1=' + this.editClientForm.value.c_address1_billing;
+    url = url + '&' + 'b_address2=' + this.editClientForm.value.c_address2_billing;
     url = url + '&' + 'case_reg_date='+ this.editClientForm.value.c_date;
 
     url = url + '&' + 'cid='+ String(this.passedClient.id);

@@ -9,6 +9,15 @@ page-sign-up {
     border-bottom: 1px solid #32db64 !important;
   }
 
+  .passwordField {
+    color: red;
+    font-size: 12px;
+    margin: auto;
+    font-weight: 600;
+    overflow: unset;
+    white-space: normal;
+  }
+
   ion-content {
     .scroll-content {
       background-color: #00000078;
@@ -16,8 +25,7 @@ page-sign-up {
     }
   }
 
-  ion-input
-  {
+  ion-input {
     color: white;
   }
 

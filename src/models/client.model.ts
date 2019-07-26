@@ -61,6 +61,10 @@ export class ClientDetails
   registration_fee;
   decided_fee;
   user_type;
+  mailing_addressLine1;
+  mailing_addressLine2;
+  permanent_addressLine1;
+  permanent_addressLine2;
 }
 
 export class Entity
@@ -110,6 +114,10 @@ export class Entity
   decided_fee;
   user_type;
   entity_type;
+  mailing_addressLine1;
+  mailing_addressLine2;
+  permanent_addressLine1;
+  permanent_addressLine2;
 }
 
 

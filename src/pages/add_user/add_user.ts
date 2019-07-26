@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Platform, Events } from 'ionic-angular';
 import {Http, Headers, RequestOptions}  from "@angular/http";
 import { LoadingController } from "ionic-angular";
 import "rxjs/add/operator/map";
@@ -14,8 +14,12 @@ import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-nati
 import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
 
-import {MyStorageProvider} from '../../providers/my-storage/my-storage';
-import {User} from '../../models/login_user.model';
+import { MyStorageProvider } from '../../providers/my-storage/my-storage';
+
+import { User } from '../../models/login_user.model';
+
+import { StateListProvider } from '../../providers/state-list/state-list';
+import {State} from '../../models/state.model';
 
 declare var cordova: any;
 
@@ -29,6 +33,8 @@ export class AddUserPage
   userForm: FormGroup;
   win: any = window;
   lastImage: string;
+
+  stateList: State[] = [];
 
   loggedInUser: User;
 
@@ -49,19 +55,30 @@ export class AddUserPage
     public loading: LoadingController, 
     public toastCtrl: ToastController, 
     public storage: Storage, 
-    public menuCtrl: MenuController) 
+    public menuCtrl: MenuController,
+    public stateListProvider: StateListProvider,
+    public events: Events) 
 	{
 		this.menuCtrl.enable(true);
       this.menuCtrl.swipeEnable(true);
 
-      this.loggedInUser=this.myStorage.getParameters();
+    this.loggedInUser = this.myStorage.getParameters();
+
+    //------------------Gettting State List from Provider---------//
+
+    this.stateList = this.stateListProvider.stateList;
+    if (this.stateList == undefined || this.stateList.length == 0)
+    {
+      this.events.publish('getStateList'); //This event is subscribed to in the app.component page
+    }
+
 
       this.userForm = this.formBuilder.group({
 
         u_profile_img: new FormControl(''),
         u_name: new FormControl('', Validators.compose([Validators.required])),
 
-        u_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
+        u_email: new FormControl('', Validators.compose([Validators.pattern(/^$|^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
         u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
         u_alt: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
         u_gender: new FormControl('', Validators.compose([Validators.required])),
@@ -71,10 +88,13 @@ export class AddUserPage
         u_city: new FormControl('', Validators.compose([Validators.required])),
         u_pincode: new FormControl('', Validators.compose([Validators.required])),
         u_fax: new FormControl(''),
-        u_street: new FormControl('', Validators.compose([Validators.required])),
+        u_address1: new FormControl('', Validators.compose([Validators.required])),
+        u_address2: new FormControl(''),
         u_user_type: new FormControl('', Validators.compose([Validators.required]))
 
       });
+
+      this.userForm.controls.u_country.setValue('United States');
 
 	}
 
@@ -251,7 +271,10 @@ export class AddUserPage
           body.set("city", this.userForm.value.u_city);
           body.set("pincode", this.userForm.value.u_pincode);
           body.set("fax", this.userForm.value.u_fax);
-          body.set("street", this.userForm.value.u_street);
+
+          body.set("address1", this.userForm.value.u_address1);
+          body.set("address2", this.userForm.value.u_address2);
+
           body.set("user_type", this.userForm.value.u_user_type);
           body.set("profile_image", '');
           body.set("session_id", this.loggedInUser.id);
@@ -328,9 +351,12 @@ export class AddUserPage
               "city": this.userForm.value.u_city,
               "pincode": this.userForm.value.u_pincode,
               "fax": this.userForm.value.u_fax,
-              "street": this.userForm.value.u_street,
-              "user_type": this.userForm.value.u_user_type,
+              "address1": this.userForm.value.u_address1,
+              "address2": this.userForm.value.u_address2,
+               "user_type": this.userForm.value.u_user_type,
               "session_id": this.loggedInUser.id
+
+              
             }
           };
 

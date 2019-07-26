@@ -71,6 +71,7 @@ import { NotificationsModule } from '../pages/notifications/new_format/notificat
 import { RemindersModule } from '../pages/reminders/new_format/reminders.module';
 import { ForgotPasswordPageModule } from '../pages/forgot-password/forgot-password.module';
 import { EntityTypeProvider } from '../providers/entity-type/entity-type';
+import { StateListProvider } from '../providers/state-list/state-list';
 
 
 @NgModule({
@@ -186,7 +187,8 @@ import { EntityTypeProvider } from '../providers/entity-type/entity-type';
     CountryProvider,
     CaseTypeProvider,
     Chooser,
-    EntityTypeProvider
+    EntityTypeProvider,
+    StateListProvider
   ],
   exports: [ComponentsModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]

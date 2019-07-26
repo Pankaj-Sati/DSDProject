@@ -26,4 +26,6 @@ export class UserDetails
   country;
   profile_img;
   uname; //Whether it is SuperAdmin, Admin client etc.
+  permanent_addressLine1;
+  permanent_addressLine2;
 }

@@ -14,6 +14,9 @@ import { ApiValuesProvider } from '../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
 import { CountryProvider } from '../../../providers/country/country';
 
+import { StateListProvider } from '../../../providers/state-list/state-list';
+import { State } from '../../../models/state.model';
+
 import { User, UserDetails } from '../../../models/login_user.model';
 
 import { Storage } from '@ionic/storage';
@@ -27,7 +30,7 @@ declare var cordova: any;
 })
 export class EditProfilePage
 {
-
+  stateList: State[] = [];
 
   user: UserDetails; //To store the details of the user
 
@@ -66,8 +69,19 @@ export class EditProfilePage
     public toastCtrl: ToastController,
     public myStorage: MyStorageProvider,
     public menuCtrl: MenuController,
-    public countryProvider: CountryProvider) 
+    public countryProvider: CountryProvider,
+    public stateListProvider: StateListProvider) 
   {
+
+    //------------------Gettting State List from Provider---------//
+
+    this.stateList = this.stateListProvider.stateList;
+    if (this.stateList == undefined || this.stateList.length == 0)
+    {
+      this.events.publish('getStateList'); //This event is subscribed to in the app.component page
+    }
+
+
     this.userForm = this.formBuilder.group({
 
       u_profile_img: new FormControl(''),
@@ -83,10 +97,13 @@ export class EditProfilePage
       u_city: new FormControl('', Validators.compose([Validators.required])),
       u_pincode: new FormControl('', Validators.compose([Validators.required])),
       u_fax: new FormControl(''),
-      u_address: new FormControl('', Validators.compose([Validators.required])),
+      u_address1: new FormControl('', Validators.compose([Validators.required])),
+      u_address2: new FormControl(''),
       u_user_type: new FormControl('', Validators.compose([Validators.required]))
 
     });
+
+    this.userForm.controls.u_country.setValue('United States');
 
     this.loggedInUser = this.myStorage.getParameters();
     this.loggedInUserId = this.loggedInUser.id;
@@ -368,7 +385,9 @@ export class EditProfilePage
 
     }
     this.userForm.controls.u_dob.setValue(this.user.dob);
-    this.userForm.controls.u_address.setValue(this.user.permanent_address);
+    this.userForm.controls.u_address1.setValue(this.user.permanent_addressLine1);
+    this.userForm.controls.u_address2.setValue(this.user.permanent_addressLine2);
+
     this.userForm.controls.u_city.setValue(this.user.city);
     this.userForm.controls.u_state.setValue(this.user.state);
     this.userForm.controls.u_pincode.setValue(this.user.pincode);
@@ -412,7 +431,8 @@ export class EditProfilePage
       body.append("city", this.userForm.value.u_city);
       body.append("pincode", this.userForm.value.u_pincode);
       body.append("fax", this.userForm.value.u_fax);
-      body.append("address", this.userForm.value.u_address);
+      body.append("address1", this.userForm.value.u_address1);
+      body.append("address2", this.userForm.value.u_address2);
 
       body.append("profile_image", this.user.profile_img); //Not changing the profile image
     

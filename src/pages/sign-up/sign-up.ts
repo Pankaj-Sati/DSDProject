@@ -10,9 +10,12 @@ import { FormControl, FormBuilder, FormGroup, Validators } from "@angular/forms"
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
 
 import { CaseTypeProvider } from '../../providers/case-type/case-type';
+import { StateListProvider } from '../../providers/state-list/state-list';
+
 import { CaseType } from '../../models/case_type.model';
 import { AdvocateDropdown } from '../../models/ advocate.model';
 import { Client } from '../../models/client.model';
+import { State } from '../../models/state.model';
 
 import { SignupSuccessPage } from './signup_success/signup_success';
 
@@ -27,6 +30,7 @@ export class SignUpPage
 
   userForm: FormGroup;
   caseTypeList: CaseType[] = [];
+  stateList: State[]=[];
   isNew: boolean = true;
   advocate_list: AdvocateDropdown[] = [];
 
@@ -42,11 +46,12 @@ export class SignUpPage
     public loading: LoadingController,
     public toastCtrl: ToastController,
     public caseTypeProvider: CaseTypeProvider,
-    public events: Events
+    public events: Events,
+    public stateListProvider: StateListProvider
   ) 
   {
     
-    //-------Getting Case type list from Provider----------
+    //-------Getting Case type list from Provider----------//
 
     this.caseTypeList = this.caseTypeProvider.caseTypeList;
     if (this.caseTypeList.length == 0)
@@ -90,15 +95,25 @@ export class SignUpPage
       
     }
 
+    //------------------Gettting State List from Provider---------//
+
+    this.stateList = this.stateListProvider.stateList;
+    if (this.stateList == undefined || this.stateList.length == 0)
+    {
+      this.events.publish('getStateList'); //This event is subscribed to in the app.component page
+    }
+
     this.userForm = this.formBuilder.group({
 
       
       u_name: new FormControl('', Validators.compose([Validators.required])),
+      u_password: new FormControl('', Validators.compose([Validators.pattern(/^$|^[a-zA-Z0-9_.-]{6,20}$/)])),
       u_dob: new FormControl('', Validators.compose([Validators.required])),
       u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       u_alt: new FormControl('', Validators.compose([Validators.pattern(/^$|^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       u_email: new FormControl('', Validators.compose([Validators.pattern(/^$|^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
-      u_street: new FormControl('', Validators.compose([Validators.required])),
+      u_address1: new FormControl('', Validators.compose([Validators.required])),
+      u_address2: new FormControl(''),
       u_city: new FormControl('', Validators.compose([Validators.required])),
       u_state: new FormControl('', Validators.compose([Validators.required])),
       u_pincode: new FormControl('', Validators.compose([Validators.required])),
@@ -109,6 +124,9 @@ export class SignUpPage
       u_case_manager: new FormControl('')
 
     });
+
+    this.userForm.controls.u_country.setValue('United States');
+    this.userForm.controls.u_country.setValue('United States');
 
   }
 
@@ -151,6 +169,8 @@ export class SignUpPage
 
     //Details
     body.set("full_name", this.userForm.value.u_name);
+    body.set("password", this.userForm.value.u_password);
+
     body.set("email", this.userForm.value.u_email);
     body.set("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
 
@@ -164,7 +184,10 @@ export class SignUpPage
     body.set("p_city", this.userForm.value.u_city);
     body.set("p_pin_code", this.userForm.value.u_pincode);
    
-    body.set("p_streetNoName", this.userForm.value.u_street);
+    body.set("p_address1", this.userForm.value.u_address1);
+
+    body.set("p_address2",this.userForm.value.u_address2);
+
     
     body.set("case_type", this.userForm.value.u_case_type);
     body.set("case_no", this.userForm.value.u_alien);
@@ -197,8 +220,6 @@ export class SignUpPage
             {
               let response = JSON.parse(serverReply['_body']);
 
-              this.presentToast(response.message);
-
               if ('code' in response && response.code == 200) 
               {
                 //Successfully created user/client
@@ -210,6 +231,11 @@ export class SignUpPage
                 };
 
                 this.navCtrl.setRoot(SignupSuccessPage, data);
+                this.presentToast(response.message);
+              }
+              else
+              {
+                this.presentAlert(response.message);
               }
               
 
@@ -217,26 +243,26 @@ export class SignUpPage
             catch (err)
             {
               console.log(err);
-              this.presentToast('Failed!! Server returned an error');
+              this.presentAlert('Failed!! Server returned an error');
             }
           }
           else
           {
-            this.presentToast('Failed!! Server returned an error');
+            this.presentAlert('Failed!! Server returned an error');
           }
           
         }, error =>
           {
             loadingSuccessful = true;
             loader.dismiss();
-            this.presentToast('Failed to register');
+            this.presentAlert('Failed to register');
         });
 
     }, error =>
       {
         loadingSuccessful = true;
         loader.dismiss();
-        this.presentToast('Failed to register');
+        this.presentAlert('Failed to register');
 
 
       });
@@ -245,7 +271,7 @@ export class SignUpPage
     {
       if (!loadingSuccessful)
       {
-        this.presentToast('Timeout!!! Server did not respond');
+        this.presentAlert('Timeout!!! Server did not respond');
       }
     });
   }
@@ -256,7 +282,7 @@ export class SignUpPage
       message: text,
       title: 'Error!',
       buttons: [{
-        text: 'ok'
+        text: 'OK'
       }]
     });
     alert.present();
