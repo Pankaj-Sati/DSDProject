@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
-import { NavParams, NavController } from 'ionic-angular';
+import { NavParams, NavController, Platform } from 'ionic-angular';
 import { LoadingController, ToastController, ViewController } from 'ionic-angular';
 
 import { User } from '../../models/login_user.model';
@@ -34,11 +34,22 @@ export class AddBalanceInPaymentComponent
       public apiValues: ApiValuesProvider,
     public myStorage: MyStorageProvider,
     public viewCtrl: ViewController,
-      public http: Http
+    public http: Http,
+    public platform: Platform
   )
   {
     console.log('Hello AddBalanceInPaymentComponent Component');
     this.loggedInUser = this.myStorage.getParameters();
+
+    this.platform.ready().then(() =>
+    {
+      //When the platform becomes available
+
+      this.platform.registerBackButtonAction(() =>
+      {
+        this.dismissPage();
+      });
+    });
     
   }
 

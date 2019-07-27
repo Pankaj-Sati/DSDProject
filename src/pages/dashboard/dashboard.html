@@ -89,7 +89,7 @@
       </ion-row>
     </div>
 
-    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
+    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5 && loggedInUser.user_type_id!=4">
 
       <!--Currently hardcoding access for admin users-->
       <ion-card-header class="headerContent">
@@ -127,6 +127,26 @@
             <button ion-button (click)="bookAppointment()" style="background-color: #033054">Book an Appointment</button>
           </ion-col>
         </ion-row>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==4">
+      <!--Currently hardcoding access for a Advocate user-->
+      <ion-card-header class="headerContent">
+        Appointments <ion-icon name="bookmark" end></ion-icon>
+      </ion-card-header>
+
+      <ion-card-content>
+       
+            <ion-row>
+              <ion-col>
+                Total Appointments: <b> {{total_appointments}}</b><br>
+              </ion-col>
+
+              <ion-col style="text-align: right">
+                <button ion-button (click)="viewAppointments()" style="background-color: #033054">View </button>
+              </ion-col>
+            </ion-row>
       </ion-card-content>
     </ion-card>
 

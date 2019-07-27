@@ -6,6 +6,12 @@ page-appointment-list {
     text-align: center;
   }
 
+  .simpleTitleCard {
+    background-color: map-get($colors,primary);
+    border-radius: 2%;
+    text-align: center;
+  }
+
   .simpleCard ion-col {
     text-overflow: ellipsis;
     flex: 1;

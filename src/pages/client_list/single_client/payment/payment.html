@@ -5,11 +5,11 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-row>
-      <ion-col col-7 style="text-align:left">
+      <ion-col col-7 style="text-align:left;margin:auto;">
         <ion-title>Payments</ion-title>
       </ion-col>
-      <ion-col col-5 style="margin:auto;" *ngIf="showAddBalance" (click)="addBalance()">
-       <ion-title style="float:right;margin-right:10px;color:white;font-size:16px;"> <ion-icon name="add" style="color:white;zoom:1;padding:5px;"></ion-icon>Add Balance</ion-title>
+      <ion-col col-5 style="margin:auto;padding:0px;" *ngIf="showAddBalance" (click)="addBalance()">
+       <ion-label style="float:right;margin-right:10px;color:white;font-size:16px;"> <ion-icon name="add" style="color:white;zoom:1;padding:5px;"></ion-icon>Create Invoice</ion-label> <!--Add balance Label was changed to create invoice-->
       </ion-col>
     </ion-row>
 
@@ -17,7 +17,7 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="clientDetails!=null && clientDetails!=undefined && paymentDetails!=null && paymentDetails!=undefined">
+  <div [class]="blurAmount" *ngIf="clientDetails!=null && clientDetails!=undefined && paymentDetails!=null && paymentDetails!=undefined">
     <ion-row>
       <ion-col col-6>
         <ion-row>
@@ -53,14 +53,19 @@
       <ion-col col-6>
         <ion-row>
           <ion-col>
-            <b>Total Balance</b>
+            <b>Total Fee</b>
           </ion-col>
         </ion-row>
 
         <ion-row>
-          <ion-col>
-            {{paymentDetails.total_given_amount}}
+          <ion-col *ngIf="paymentDetails.total_given_amount!=undefined && paymentDetails.total_given_amount.length>0">
+            {{paymentDetails.total_given_amount | currency:'USD'}}
           </ion-col>
+
+          <ion-col *ngIf="paymentDetails.total_given_amount==undefined || paymentDetails.total_given_amount==null || paymentDetails.total_given_amount.length==0">
+            N/A
+          </ion-col>
+
         </ion-row>
       </ion-col>
 
@@ -72,8 +77,11 @@
         </ion-row>
 
         <ion-row>
-          <ion-col>
-            {{paymentDetails.outstandingamount}}
+          <ion-col *ngIf="paymentDetails.outstandingamount!=undefined && paymentDetails.outstandingamount.length>0">
+            {{paymentDetails.outstandingamount | currency:'USD'}}
+          </ion-col>
+          <ion-col *ngIf="paymentDetails.outstandingamount==undefined || paymentDetails.outstandingamount==null || paymentDetails.outstandingamount.length==0">
+            N/A
           </ion-col>
         </ion-row>
       </ion-col>
@@ -89,8 +97,11 @@
         </ion-row>
 
         <ion-row>
-          <ion-col>
-            {{paymentDetails.amount}}
+          <ion-col *ngIf="paymentDetails.amount!=undefined && paymentDetails.amount.length>0">
+            {{paymentDetails.amount | currency:'USD'}}
+          </ion-col>
+          <ion-col *ngIf="paymentDetails.amount==undefined || paymentDetails.amount==null || paymentDetails.amount.length==0">
+            N/A
           </ion-col>
         </ion-row>
       </ion-col>

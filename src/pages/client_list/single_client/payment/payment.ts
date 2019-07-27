@@ -32,6 +32,8 @@ export class ClientPaymentPage
   passedClientID;
   loggedInUser: User;
 
+  blurAmount: string = ''; //To add a blurr class when model is opened
+
   constructor
     (
     public loadingCtrl: LoadingController,
@@ -158,7 +160,7 @@ export class ClientPaymentPage
       }
       else
       {
-      this.show_add_button_text="Add Payment"
+      this.show_add_button_text="Record Payment"
       }
   }
 
@@ -392,11 +394,13 @@ export class ClientPaymentPage
       clientID: this.passedClientID,
       clientDetails: this.clientDetails
     }
-    const modal=this.modalCtrl.create(AddBalanceInPaymentComponent, data);
+    const modal = this.modalCtrl.create(AddBalanceInPaymentComponent, data);
+    this.blurAmount = 'blurDiv';
     modal.present();
 
     modal.onDidDismiss(() =>
     {
+      this.blurAmount = '';
       this.fetchPaymentDetails();
     });
   }

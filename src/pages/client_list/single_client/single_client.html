@@ -53,12 +53,11 @@
 
         </ion-item>
 
-        <ion-item no-lines *ngIf="clientDetails.client_type!=null && clientDetails.client_type.length>0">
-          <ion-label><b>Client Type:</b><span class='info'>{{clientDetails.client_type}}</span></ion-label>
-
-
-        </ion-item>
-
+        <!--
+          <ion-item no-lines *ngIf="clientDetails.client_type!=null && clientDetails.client_type.length>0">
+            <ion-label><b>Client Type:</b><span class='info'>{{clientDetails.client_type}}</span></ion-label>
+          </ion-item>
+        -->
         <ion-item no-lines *ngIf="clientDetails.case_category!=null && clientDetails.case_category.length>0">
           <ion-label><b>Case Category:</b><span class='info'>{{clientDetails.case_category}}</span></ion-label>
 
@@ -121,10 +120,12 @@
 
         </ion-item>
 
+        <!--
         <ion-item no-lines *ngIf="clientDetails.notes!=null && clientDetails.notes.length>0">
           <ion-label><b>Notes:</b><span class='info'>{{clientDetails.notes}}</span></ion-label>
 
         </ion-item>
+       -->
       </div>
 
       <!--------------------Permanent Address Details--------------------->
@@ -275,10 +276,13 @@
 
             </ion-item>
 
+            <!--
             <ion-item no-lines *ngIf="entity.notes!=null && entity.notes.length>0">
               <ion-label><b>Notes:</b><span class='info'>{{entity.notes}}</span></ion-label>
 
             </ion-item>
+
+             -->
             <br />
             <!--Permanent Address -->
             <ion-item>

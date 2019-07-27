@@ -37,7 +37,9 @@ export class ClientDocumentsPage
   lastImage; //Last selected Image
   loggedInUser: User;
 
-  uploadProgress:any='0';
+  uploadProgress: any = '0';
+
+  blurAmount: string = ''; //To set blurr background class when modal opens
  
   constructor
     (
@@ -92,7 +94,13 @@ export class ClientDocumentsPage
       document: document.directory_id +'/'+document.documents
     };
     const modal = this.modalCtrl.create(DownloadDocumentsComponent, data);
+    this.blurAmount = 'blurDiv';
     modal.present();
+
+    modal.onDidDismiss(() =>
+    {
+      this.blurAmount = '';
+    });
   }
 
   downloadMultipleDoc()
@@ -108,7 +116,8 @@ export class ClientDocumentsPage
       //download all
       var data =
       {
-        document: this.makeDocString(this.doc_list)
+        document: this.makeDocString(this.doc_list),
+        documentData: this.doc_list
       };
     }
 
@@ -117,12 +126,19 @@ export class ClientDocumentsPage
       //Download selected
       var data =
       {
-        document: this.makeDocString(this.selectedDocList)
+        document: this.makeDocString(this.selectedDocList),
+        documentData: this.selectedDocList
       };
     }
 
     const modal = this.modalCtrl.create(DownloadDocumentsComponent, data);
+    this.blurAmount = 'blurDiv';
     modal.present();
+
+    modal.onDidDismiss(() =>
+    {
+      this.blurAmount = '';
+    });
   }
 
   makeDocString(docArray: ClientDocuments[]): string
@@ -322,7 +338,9 @@ export class ClientDocumentsPage
 
           this.lastImage = file.uri;
           this.selected_file_name = file.name;
+          this.presentToast('Uploading...');
           this.uploadFile();
+         
         }
         else
         {
@@ -483,6 +501,7 @@ export class ClientDocumentsPage
             {
               //Success
               this.presentToast(response.message);
+              this.selected_file_name = ''; //To hide the upload button and content
               this.fetchData();
              
               return;

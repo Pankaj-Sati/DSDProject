@@ -97,7 +97,7 @@ export class EditClientPage
       //Case details
       c_case_type: new FormControl('', Validators.compose([Validators.required])),
       c_alien_no: new FormControl('', Validators.compose([Validators.required])),
-      c_client_type: new FormControl('', Validators.compose([Validators.required])),
+      c_client_type: new FormControl(''),
       c_case_category: new FormControl('', Validators.compose([Validators.required])),
       c_case_description: new FormControl(''),
       c_date: new FormControl('', Validators.compose([Validators.required])),
@@ -587,9 +587,6 @@ export class EditClientPage
 
     });
 
-    newEntity.controls.e_country.setValue('United States');
-    newEntity.controls.e_country_billing.setValue('United States');
-
     return newEntity
   }
 
@@ -597,6 +594,9 @@ export class EditClientPage
   {
 
     let newEntity: FormGroup = this.initializeEntityForm();
+    newEntity.controls.e_country.setValue('United States');
+    newEntity.controls.e_country_billing.setValue('United States');
+    console.log('New Entity Copuntry Value'+newEntity.value.e_country_billing);
     this.addEntityForm = this.editClientForm.get('entity') as FormArray;
     this.addEntityForm.push(newEntity);
     this.showEntityDetails = true;

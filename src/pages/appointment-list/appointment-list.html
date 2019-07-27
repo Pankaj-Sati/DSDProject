@@ -45,7 +45,7 @@
 
   <ion-item no-lines>
     <ion-label stacked><b>Case Manager</b></ion-label>
-    <ion-select interface="popover" required [(ngModel)]="case_manager" placeholder="Select Case Manager">
+    <ion-select [disabled]="loggedInUser != undefined && loggedInUser.user_type_id == '4'" interface="popover" required [(ngModel)]="case_manager" placeholder="Select Case Manager">
       <ion-option value="">All</ion-option>
       <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}} ({{advocate.id}})</ion-option>
     </ion-select>
@@ -69,6 +69,44 @@
     <ion-label style="text-align:right;font-size:14px;color:#808080;margin:0px;">Total Appointments:{{appointment_list.length}}</ion-label>
   </ion-item>
 
+  <ion-card class="simpleTitleCard">
+
+    <ion-row style="padding-left: 5px;color:white;text-align:center;">
+
+      <ion-col style="margin:auto;white-space:unset;overflow:unset;" col-4>
+        <ion-row>
+          <ion-col style="text-align:center;">
+            <b>Client Name</b>
+            <ion-icon name="arrow-dropdown"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+      </ion-col>
+
+      <ion-col style="margin:auto;white-space:unset;overflow:unset;" col-4>
+        <ion-row>
+          <ion-col style="text-align:center;">
+            Case Manager
+            <ion-icon name="arrow-dropdown"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+      </ion-col>
+
+      <ion-col style="margin:auto;" col-4>
+        <ion-row>
+          <ion-col style="text-align:center;">
+            Date
+            <ion-icon name="arrow-dropdown"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+      </ion-col>
+
+    </ion-row>
+
+  </ion-card>
+
   <div *ngFor="let appointment of appointment_list;let i=index;">
 
     <ion-card class="simpleCard" (click)="showDetails(appointment,$event,i)">
@@ -80,9 +118,21 @@
         </ion-col>
 
         <ion-col style="margin:auto;white-space:unset;overflow:unset;" col-4>
-          <ion-row>
+          <ion-row *ngIf="appointment.clientName!=undefined && appointment.clientName!=null && appointment.clientName.length>0">
             <ion-col style="text-align:left;">
               <b>{{appointment.clientName}}</b>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="(appointment.clientName==undefined || appointment.clientName==null )&& appointment.name!=undefined && appointment.name!=null">
+            <ion-col style="text-align:left;">
+              <b>{{appointment.name}}</b>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="appointment.name==undefined || appointment.name==null">
+            <ion-col style="text-align:left;">
+              <b>Appointment</b>
             </ion-col>
           </ion-row>
 
@@ -138,7 +188,8 @@
         <ion-col col-6>
           <ion-item no-lines>
             <ion-label class="detailLabel" stacked>Client</ion-label>
-            <ion-label style="overflow:unset;white-space:unset;">{{appointment.clientName}}</ion-label>
+            <ion-label style="overflow:unset;white-space:unset;" *ngIf="appointment.clientName!=undefined && appointment.clientName!=null && appointment.clientName.length>0">{{appointment.clientName}}</ion-label>
+            <ion-label style="overflow:unset;white-space:unset;" *ngIf="(appointment.clientName==undefined || appointment.clientName==null )&& appointment.name!=undefined && appointment.name!=null">{{appointment.name}}</ion-label>
           </ion-item>
         </ion-col>
 
@@ -170,12 +221,12 @@
       </ion-row>
 
       <!-- --------------------Delete----------------------------
-    <ion-row>
-      <ion-col style="text-align:center;">
-        <button ion-button class="delButton" round icon-start (click)="deleteReminderAlert(reminder)"><ion-icon name="trash"></ion-icon>Delete</button>
-      </ion-col>
-    </ion-row>
-  -->
+        <ion-row>
+          <ion-col style="text-align:center;">
+            <button ion-button class="delButton" round icon-start (click)="deleteReminderAlert(reminder)"><ion-icon name="trash"></ion-icon>Delete</button>
+          </ion-col>
+        </ion-row>
+      -->
 
       <ion-row>
         <ion-col style="text-align:center;">

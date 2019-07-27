@@ -53,6 +53,7 @@
           <ion-input type="text" required formControlName="c_alien_no" placeholder="Enter Alien No."></ion-input>
         </ion-item>
 
+        <!--
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_client_type.touched && !addClientForm.controls.c_client_type.valid,'valid':(addClientForm.controls.c_client_type.touched && addClientForm.controls.c_client_type.valid)}" [class.invalid]="addClientForm.controls.c_client_type.dirty && ! addClientForm.controls.c_client_type.valid">
           <ion-label stacked>Client Type <span class="mandatory_field"> *</span></ion-label>
           <ion-select interface="popover" formControlName="c_client_type" placeholder="Select Client Type">
@@ -60,7 +61,7 @@
             <ion-option value="Apposite From Case filer">Apposite From Case filer</ion-option>
           </ion-select>
         </ion-item>
-
+         -->
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_case_category.touched && !addClientForm.controls.c_case_category.valid,'valid':(addClientForm.controls.c_case_category.touched && addClientForm.controls.c_case_category.valid)}" [class.invalid]="addClientForm.controls.c_case_category.dirty && ! addClientForm.controls.c_case_category.valid">
           <ion-label stacked>Case Category <span class="mandatory_field"> *</span></ion-label>
           <ion-select interface="popover" formControlName="c_case_category" placeholder="Select Case Category">
@@ -146,11 +147,12 @@
           <ion-input type="email" formControlName="c_email" placeholder="Enter email"></ion-input>
         </ion-item>
 
-        <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_notes.touched && !addClientForm.controls.c_notes.valid,'valid':(addClientForm.controls.c_notes.touched && addClientForm.controls.c_notes.valid)}" [class.invalid]="addClientForm.controls.c_notes.dirty && ! addClientForm.controls.c_notes.valid">
-          <ion-label stacked><b>Notes</b></ion-label>
-          <ion-input type="text" formControlName="c_notes" placeholder="Enter notes"></ion-input>
-        </ion-item>
-
+        <!--
+          <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_notes.touched && !addClientForm.controls.c_notes.valid,'valid':(addClientForm.controls.c_notes.touched && addClientForm.controls.c_notes.valid)}" [class.invalid]="addClientForm.controls.c_notes.dirty && ! addClientForm.controls.c_notes.valid">
+            <ion-label stacked><b>Notes</b></ion-label>
+            <ion-input type="text" formControlName="c_notes" placeholder="Enter notes"></ion-input>
+          </ion-item>
+      -->
         <hr>
         <!----------Permanant Address----------->
         <ion-item no-lines>
@@ -239,12 +241,12 @@
       <ion-row>
         <ion-col col-6 style="text-align:right;">
           <ion-radio slot="start" value="false" [checked]="!hasRelation" (click)="changeRelation(false)"></ion-radio>
-          <span>Individual</span>
+          <span>Applicant</span>
         </ion-col>
 
         <ion-col col-6 style="text-align:left;">
           <ion-radio slot="start" value="true" [checked]="hasRelation" (click)="changeRelation(true)"></ion-radio>
-          <span>Relations</span>
+          <span>Petitioner</span>
         </ion-col>
       </ion-row>
 
@@ -326,12 +328,12 @@
                 <ion-label stacked><b>Email Id</b></ion-label>
                 <ion-input type="email" formControlName="e_email" placeholder="Enter email"></ion-input>
               </ion-item>
-
-              <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_notes.touched && !addClientForm.get('entity').controls[i].e_notes.valid,'valid':(addClientForm.get('entity').controls[i].e_notes.touched && addClientForm.get('entity').controls[i].e_notes.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_notes.dirty && ! addClientForm.get('entity').controls[i].e_notes.valid">
-                <ion-label stacked><b>Notes</b></ion-label>
-                <ion-input type="text" formControlName="e_notes" placeholder="Enter notes"></ion-input>
-              </ion-item>
-
+              <!--
+                <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_notes.touched && !addClientForm.get('entity').controls[i].e_notes.valid,'valid':(addClientForm.get('entity').controls[i].e_notes.touched && addClientForm.get('entity').controls[i].e_notes.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_notes.dirty && ! addClientForm.get('entity').controls[i].e_notes.valid">
+                  <ion-label stacked><b>Notes</b></ion-label>
+                  <ion-input type="text" formControlName="e_notes" placeholder="Enter notes"></ion-input>
+                </ion-item>
+              -->
               <hr>
               <!----------Permanant Address----------->
               <ion-item no-lines>
@@ -384,7 +386,7 @@
 
               <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_address2_billing.touched && !addClientForm.get('entity').controls[i].e_address2_billing.valid,'valid':(addClientForm.get('entity').controls[i].e_address2_billing.touched && addClientForm.get('entity').controls[i].e_address2_billing.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_address2_billing.dirty && ! addClientForm.get('entity').controls[i].e_address2_billing.valid">
                 <ion-label stacked><b>Address 2</b></ion-label>
-                <ion-input [disabled]="isBillingAndPermanentAddressSameForEntity[i]" type="text"  formControlName="e_address2_billing" placeholder="Enter Address"></ion-input>
+                <ion-input [disabled]="isBillingAndPermanentAddressSameForEntity[i]" type="text" formControlName="e_address2_billing" placeholder="Enter Address"></ion-input>
               </ion-item>
 
               <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_city_billing.touched && !addClientForm.get('entity').controls[i].e_city_billing.valid,'valid':(addClientForm.get('entity').controls[i].e_city_billing.touched && addClientForm.get('entity').controls[i].e_city_billing.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_city_billing.dirty && ! addClientForm.get('entity').controls[i].e_city_billing.valid">
