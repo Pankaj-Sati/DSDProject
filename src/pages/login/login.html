@@ -18,12 +18,12 @@
   <br />
   <br />
   <ion-item no-lines style="color:unset;" class="transparentBG" (tap)="isCorrectUser=true;" [ngClass]="isCorrectUser?'sad':'error'">
-    <ion-label class="transparentBG" style="color:unset" fixed>Username</ion-label>
+    <ion-label class="transparentBG" style="color:unset">Username/Contact:</ion-label>
     <ion-input class="transparentBG" type="text" [(ngModel)]="login_username" name="username"></ion-input>
   </ion-item>
 
   <ion-item no-lines style="color:unset;" class="transparentBG" (tap)="isCorrectPass=true;" [ngClass]="isCorrectPass?'sad':'error'">
-    <ion-label class="transparentBG" style="color:unset" fixed>Password</ion-label>
+    <ion-label class="transparentBG" style="color:unset" fixed>Password:</ion-label>
     <ion-input class="transparentBG" type="password" [(ngModel)]="login_password" name="password"></ion-input>
   </ion-item>
 

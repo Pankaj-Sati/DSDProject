@@ -53,8 +53,11 @@ export class DashboardPage
         this.checkIfAlreadyLoggedIn();
         this.showSearch=false;
         this.events.publish('loggedIn');
-        this.events.publish('newPage','DSD Test1');
-    }
+    this.events.publish('newPage', 'DSD Test1');
+
+   
+  }
+
 	
 	checkIfAlreadyLoggedIn()
 	{
@@ -192,9 +195,6 @@ export class DashboardPage
 							this.total_clients=serverReply;
 						}
 						
-						loader.dismiss();
-						
-
 
 				   },error=>{
 			   		loadingSuccessful=true;

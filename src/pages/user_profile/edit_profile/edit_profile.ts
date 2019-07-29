@@ -209,8 +209,9 @@ export class EditProfilePage
               this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
 
               this.isImageChanged = true; //We have got our image successfully;
-              this.userForm.value.u_profile_img = this.win.Ionic.WebView.convertFileSrc(imageData);
-              // this.userForm.value.u_profile_img=this.webView.convertFileSrc(imageData);
+              this.userForm.controls.u_profile_img.setValue(this.win.Ionic.WebView.convertFileSrc(imageData));
+              this.userForm.controls.u_profile_img.updateValueAndValidity();
+              
             })
 
             .catch(error =>
@@ -230,8 +231,10 @@ export class EditProfilePage
           var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
           this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
           this.isImageChanged = true; //We have got our image successfully;
-          // this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
-          this.userForm.value.u_profile_img = this.webView.convertFileSrc(imageData);
+          this.userForm.controls.u_profile_img.setValue(this.win.Ionic.WebView.convertFileSrc(imageData));
+          this.userForm.controls.u_profile_img.updateValueAndValidity();
+
+          
 
         }
       }
@@ -417,22 +420,22 @@ export class EditProfilePage
       let options = new RequestOptions({ headers: headers });
 
       let body = new FormData();
-      body.append("mode", 'edit');
-      body.append("session_user_id", this.loggedInUser.id);
+      body.set("mode", 'edit');
+      body.set("session_user_id", this.loggedInUser.id);
 
-      body.append("full_name", this.userForm.value.u_name);
-      body.append("email", this.userForm.value.u_email);
-      body.append("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
-      body.append("alt", String(this.userForm.value.u_alt).replace(/\D+/g,''));
-      body.append("gender", this.userForm.value.u_gender);
-      body.append("date_of_birth", this.userForm.value.u_dob);
-      body.append("country", this.userForm.value.u_country);
-      body.append("state", this.userForm.value.u_state);
-      body.append("city", this.userForm.value.u_city);
-      body.append("pincode", this.userForm.value.u_pincode);
-      body.append("fax", this.userForm.value.u_fax);
-      body.append("address1", this.userForm.value.u_address1);
-      body.append("address2", this.userForm.value.u_address2);
+      body.set("full_name", this.userForm.value.u_name);
+      body.set("email", this.userForm.value.u_email);
+      body.set("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
+      body.set("alt", String(this.userForm.value.u_alt).replace(/\D+/g,''));
+      body.set("gender", this.userForm.value.u_gender);
+      body.set("date_of_birth", this.userForm.value.u_dob);
+      body.set("country", this.userForm.value.u_country);
+      body.set("state", this.userForm.value.u_state);
+      body.set("city", this.userForm.value.u_city);
+      body.set("pincode", this.userForm.value.u_pincode);
+      body.set("fax", this.userForm.value.u_fax);
+      body.set("address1", this.userForm.value.u_address1);
+      body.set("address2", this.userForm.value.u_address2);
 
       body.append("profile_image", this.user.profile_img); //Not changing the profile image
     
@@ -476,7 +479,7 @@ export class EditProfilePage
                   //Successful
                   this.updateSuccessful = true;
 
-                  this.updateLoginUserParameters();
+                  this.updateLoginUserParameters(response.profile_img);
                   if (this.navCtrl.canGoBack())
                   {
                     this.navCtrl.getPrevious().data.reload = true;
@@ -543,7 +546,9 @@ export class EditProfilePage
           "city": this.userForm.value.u_city,
           "pincode": this.userForm.value.u_pincode,
           "fax": this.userForm.value.u_fax,
-          "address": this.userForm.value.u_address,
+          "address1": this.userForm.value.u_address1,
+          "address2": this.userForm.value.u_address2,
+         
           
         }
       };
@@ -584,11 +589,15 @@ export class EditProfilePage
             {
               //successful
               this.updateSuccessful = true;
-              this.navCtrl.getPrevious().data.reload = true;
-
               this.presentToast(response.message);
+              this.updateLoginUserParameters(response.profile_img);
               loader.dismiss();
-              this.navCtrl.pop();
+
+              if (this.navCtrl.canGoBack())
+              {
+                this.navCtrl.getPrevious().data.reload = true;
+                this.navCtrl.pop();
+              }
               return;
             }
           }
@@ -643,14 +652,12 @@ export class EditProfilePage
 
   }
 
-  updateLoginUserParameters()
+  updateLoginUserParameters(profileImage)
   {
     this.loggedInUser.name = this.userForm.value.u_name;
     this.loggedInUser.email = this.userForm.value.u_email;
-    if (this.isImageChanged)
-    {
-      this.loggedInUser.profile_img = this.apiValue.baseImageFolder+this.lastImage.substr(this.lastImage.lastIndexOf('/') + 1);
-    }
+    this.loggedInUser.profile_img = profileImage;
+    
 
     this.myStorage.setParameters(this.loggedInUser);
 

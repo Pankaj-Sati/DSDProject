@@ -82,6 +82,7 @@ export class UpdateUserPage
     this.userForm=this.formBuilder.group({
 
 			u_profile_img:new FormControl(''),
+
 			u_name:new FormControl('',Validators.compose([Validators.required])),
 			
       u_email: new FormControl('', Validators.compose([Validators.pattern(/^$|^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
@@ -177,7 +178,9 @@ export class UpdateUserPage
 		          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
 
 		          this.isImageChanged=true; //We have got our image successfully;
-		         this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
+                
+              this.userForm.controls.u_profile_img.setValue(this.win.Ionic.WebView.convertFileSrc(imageData));
+              this.userForm.controls.u_profile_img.updateValueAndValidity();
 		         // this.userForm.value.u_profile_img=this.webView.convertFileSrc(imageData);
 		        })
 
@@ -197,8 +200,9 @@ export class UpdateUserPage
 		      var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
 		      this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
 		      this.isImageChanged=true; //We have got our image successfully;
-		      // this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
-                this.userForm.value.u_profile_img = this.webView.convertFileSrc(imageData);
+          this.userForm.controls.u_profile_img.setValue(this.win.Ionic.WebView.convertFileSrc(imageData));
+          this.userForm.controls.u_profile_img.updateValueAndValidity();
+              
                
 		    }
 		 }
@@ -512,8 +516,12 @@ export class UpdateUserPage
                   //successful
                   this.presentToast(response.message);
                   loader.dismiss();
-                  this.navCtrl.getPrevious().data.reload = true;
-                  this.navCtrl.pop();
+                  if (this.navCtrl.canGoBack())
+                  {
+                    this.navCtrl.getPrevious().data.reload = true;
+                    this.navCtrl.pop();
+                  }
+                 
                   return;
                 }
               }

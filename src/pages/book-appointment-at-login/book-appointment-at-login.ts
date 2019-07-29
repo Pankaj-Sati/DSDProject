@@ -8,6 +8,7 @@ import { ToastController } from 'ionic-angular';
 
 import { FormControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
+import { DatePipe } from '@angular/common';
 
 @IonicPage()
 @Component({
@@ -105,9 +106,13 @@ export class BookAppointmentAtLoginPage
 
               if ('code' in response && response.code == 200) 
               {
-                //Successfully created user/client
+                //Successfully booked appointment
 
-                this.presentAlert('Your appointment has been confirmed on date' + this.userForm.value.u_date);
+                let pipe = new DatePipe('en-US');
+                let appointmentDate = pipe.transform(this.userForm.value.u_date + " " + this.userForm.value.u_time,'MMM, dd yyyy HH:mm');
+
+                this.presentAlert('Your appointment has been confirmed on date ' + this.userForm.value.u_date);
+                this.navCtrl.pop();
               }
               else
               {

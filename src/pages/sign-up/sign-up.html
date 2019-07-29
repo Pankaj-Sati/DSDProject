@@ -54,7 +54,7 @@
       <ion-item no-lines class="transparentBG" [ngClass]="{'error':userForm.controls.u_dob.touched && ! userForm.controls.u_dob.valid,'valid':(userForm.controls.u_dob.touched && userForm.controls.u_dob.valid)}" [class.invalid]="userForm.controls.u_dob.touched && !userForm.controls.u_dob.valid">
 
         <ion-label style="color:white;">Date Of Birth <span class="requiredField">*</span>:</ion-label>
-        <ion-datetime displayFormat="MMM DD YY" placeholder="Select" formControlName="u_dob" name="date_of_birth"></ion-datetime>
+        <ion-datetime displayFormat="MMM DD YYYY" placeholder="Select" formControlName="u_dob" name="date_of_birth"></ion-datetime>
       </ion-item>
 
       <ion-item class="transparentBG" no-lines style="padding-left: 0px;margin-left: 15px;" [ngClass]="{'error':userForm.controls.u_alien.touched && ! userForm.controls.u_alien.valid,'valid':(userForm.controls.u_alien.touched && userForm.controls.u_alien.valid)}" [class.invalid]="userForm.controls.u_alien.touched && ! userForm.controls.u_alien.valid">
