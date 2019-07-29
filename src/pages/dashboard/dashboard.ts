@@ -3,7 +3,8 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import {Http, Headers, RequestOptions}  from "@angular/http";
 import { LoadingController } from "ionic-angular";
 import "rxjs/add/operator/map";
-import {MenuController} from 'ionic-angular';
+import { MenuController } from 'ionic-angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { ReminderListPage } from '../reminders/new_format/reminder_list/reminder_list';
 import { NotificationListPage } from '../notifications/new_format/notification_list/notification_list';
@@ -45,7 +46,8 @@ export class DashboardPage
     private http: Http,
     public loading: LoadingController,
     public storage: Storage,
-    public toastCtrl: ToastController)
+    public toastCtrl: ToastController,
+    public inAppBrowser: InAppBrowser)
 	{
 		this.menuCtrl.enable(true);
 		this.menuCtrl.swipeEnable(true);
@@ -265,6 +267,11 @@ export class DashboardPage
   {
     this.navCtrl.push(AppointmentListPage);
   }
-	
+
+  openWebsite()
+  {
+    let url = 'http://dsdlawfirm.com';
+    this.inAppBrowser.create(url,'_system');
+  }
    
 }

@@ -1,5 +1,5 @@
 
-  <ion-content>
+  <ion-content class="area" >
     <!--
     <ion-toolbar *ngIf="showSearch">
             <ion-searchbar showCancelButton animated cancel-button-icon (ionCancel)="hideSearch()" (search)="searchClient()" placeholder="Allien no. | Docket No. | index No." ></ion-searchbar>
@@ -61,27 +61,43 @@
         </ion-col>
       </ion-row>
 
-      <!-- Documetns and Appointment in grid layout
-          <ion-row>
-            <ion-col col-6 style="text-align:center;">
-              <h4 style="color: $textColor;font-size:1.2em;font-weight:700;">Book Appointment</h4>
+      <!-- Documetns and Appointment in grid layout only for CLIENT(User Type Id=5) -->
 
-              <span (click)="openRemindersList()">
-                <button ion-button class="headerButtons"><ion-icon class="headerText" name="bookmark"></ion-icon></button>
-                <h6 class="headerText">Book Now</h6>
-              </span>
-            </ion-col>
+      <div *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5">
+        <ion-row>
+          <ion-col col-6 style="text-align:center;">
+            <h4 style="color: $textColor;font-size:1.2em;font-weight:700;">Book Appointment</h4>
 
-            <ion-col col-6 style="text-align:center;">
-              <h4 style="color: $textColor;font-size:1.2em;font-weight:700;">My Documents</h4>
+            <span (click)="bookAppointment()">
+              <button ion-button class="headerButtons"><ion-icon class="headerText" name="bookmark"></ion-icon></button>
+              <h6 class="headerText">Book Now</h6>
+            </span>
+          </ion-col>
 
-              <span (click)="openNotificationsList()">
-                <button ion-button class="headerButtons"><ion-icon class="headerText" name="paper"></ion-icon></button>
-                <h6 class="headerText">See All</h6>
-              </span>
-            </ion-col>
-          </ion-row>
-      -->
+          <ion-col col-6 style="text-align:center;">
+            <h4 style="color: $textColor;font-size:1.2em;font-weight:700;">My Documents</h4>
+
+            <span (click)="documentsList()">
+              <button ion-button class="headerButtons"><ion-icon class="headerText" name="paper"></ion-icon></button>
+              <h6 class="headerText">See All</h6>
+            </span>
+          </ion-col>
+        </ion-row>
+
+        <ion-row style="text-align:center;">
+          <ion-col style="text-align:center;">
+            <h4 style="color: $textColor;font-size:1.2em;font-weight:700;">Website</h4>
+
+            <span (click)="openWebsite()">
+              <button ion-button class="headerButtons"><ion-icon class="headerText" name="at"></ion-icon></button>
+              <h6 class="headerText">Visit</h6>
+            </span>
+          </ion-col> 
+        </ion-row>
+
+      </div>
+      
+
 
     </div>
 
@@ -108,8 +124,9 @@
 
     </ion-card>
 
+    <!--
     <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5">
-      <!--Currently hardcoding access for a client user-->
+      <!--Currently hardcoding access for a client user
       <ion-card-header class="headerContent">
         Book Appointment
         <ion-icon name="bookmark" end></ion-icon>
@@ -126,6 +143,7 @@
       </ion-card-content>
     </ion-card>
 
+    -->
 
     <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==4">
       <!--Currently hardcoding access for a Advocate user-->
@@ -147,8 +165,9 @@
       </ion-card-content>
     </ion-card>
 
+    <!--
     <ion-card class="dashboardCard" style="background-color:#3F51B5" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5">
-      <!--Currently hardcoding access for a client user -->
+      <!--Currently hardcoding access for a client user 
       <ion-card-header class="headerContent">
         My Documents
         <ion-icon name="document" end></ion-icon>
@@ -164,12 +183,12 @@
         </ion-row>
       </ion-card-content>
     </ion-card>
-
+    -->
 
     <!--------------Currently hardcoding Calender access control for client (user_type_id=5)--------------->
 
     <div *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5" #frame style="overflow:scroll !important;-webkit-overflow-scrolling:touch !important">
-      <iframe src="https://teamup.com/ks2rhut82mmf7dftjj" class="iframe" style="width:100%;min-height:360px;margin-top:20px" scrolling="yes"></iframe>
+      <iframe src="https://teamup.com/ksqn86pa626r69dvzg" class="iframe" style="width:100%;min-height:360px;margin-top:20px" scrolling="yes"></iframe>
     </div>
 
 

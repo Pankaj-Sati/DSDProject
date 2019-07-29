@@ -108,10 +108,12 @@ export class BookAppointmentAtLoginPage
               {
                 //Successfully booked appointment
 
+                this.registerAppointmentInCalendar();
+
                 let pipe = new DatePipe('en-US');
                 let appointmentDate = pipe.transform(this.userForm.value.u_date + " " + this.userForm.value.u_time,'MMM, dd yyyy HH:mm');
 
-                this.presentAlert('Your appointment has been confirmed on date ' + this.userForm.value.u_date);
+                this.presentAlert('Your appointment has been confirmed on date ' + appointmentDate);
                 this.navCtrl.pop();
               }
               else
@@ -146,6 +148,85 @@ export class BookAppointmentAtLoginPage
         this.presentAlert('Failed to book appointment');
 
 
+      });
+
+    loader.onDidDismiss(() =>
+    {
+      if (!loadingSuccessful)
+      {
+        this.presentAlert('Timeout!!! Server did not respond');
+      }
+    });
+  }
+
+
+  registerAppointmentInCalendar()
+  {
+    var headers: Headers = this.apiValue.calendarHeaders;
+
+    let options = new RequestOptions({ headers: headers });
+
+    let pipe = new DatePipe('en-US');
+    let appointmentDate = pipe.transform(this.userForm.value.u_date + " " + this.userForm.value.u_time, 'MMM, dd yyyy HH:mm');
+
+    let date = pipe.transform(this.userForm.value.u_date ,"MMM, dd yyyy");
+
+    let appointmentContent = 'Client: '+this.userForm.value.u_name+' booked an appointment for today as a free consultation\n';
+    appointmentContent += 'Date: ' + date +'\n';
+    appointmentContent += 'Time(24 Hours): ' + this.userForm.value.u_time+'\n';
+    appointmentContent += 'Contact No.: ' + this.userForm.value.u_contact+'\n';
+    appointmentContent += 'Remark: ' + this.userForm.value.u_remark+'\n';
+
+    console.log('Appointment Content=' + appointmentContent);
+
+    let body = {
+
+      "subcalendar_id": this.apiValue.MAIN_APPOINTMENT_CALANDER,
+      "start_dt": this.userForm.value.u_date + "T" + this.userForm.value.u_time+":00",
+      "end_dt": this.userForm.value.u_date + "T18:00:00",
+          "all_day": false,
+            "rrule": "",
+              "title": "New Appointment",
+            "who": this.userForm.value.u_name ,
+                  "location": "USA",
+      "notes": appointmentContent
+    
+    };
+
+    console.log('body');
+    console.log(body);
+
+    let loader = this.loading.create({
+
+      content: "Loading…",
+      duration: 15000
+
+    });
+
+    let loadingSuccessful = false; //To know whether timeout occured
+    loader.present().then(() => 
+    {
+
+      this.http.post(this.apiValue.ADD_EVENT_URL, body, options) //Http request returns an observable
+        .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
+
+        {
+          loadingSuccessful = true;
+          loader.dismiss()
+
+          console.log(serverReply);
+
+        }, error =>
+          {
+            loadingSuccessful = true;
+            loader.dismiss();
+            
+          });
+
+    }, error =>
+      {
+        loadingSuccessful = true;
+        loader.dismiss();
       });
 
     loader.onDidDismiss(() =>

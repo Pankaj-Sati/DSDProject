@@ -215,11 +215,18 @@ export class AppointmentListPage
     this.visibility[i] = !this.visibility[i];
   }
 
-  viewClient()
+  viewClient(appointment)
   {
-    //Currently harcoding access right to a usertype= Client
+    
     let client: Client = new Client();
-    client.id = Number(this.loggedInUser.id);
+    client.id = appointment.ref_id;
+    //Currently harcoding access right to a usertype= Client
+    if (Number(this.loggedInUser.user_type_id) == 5)
+    {
+      client.id = Number(this.loggedInUser.id); //Client can only view his profile
+    }
+    
+   
     let data =
     {
       clientPassed: client
