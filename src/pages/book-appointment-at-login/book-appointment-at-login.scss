@@ -20,18 +20,28 @@ page-book-appointment-at-login {
     color: white;
   }
 
-  ion-textarea
-  {
-    color:white;
+  ion-textarea {
+    color: white;
   }
 
   ion-datetime {
     color: white;
   }
 
+  .dateTime ion-datetime {
+    padding: 0px;
+  }
+
+  .dateTime .label {
+    flex: initial;
+  }
+
+
   ion-select {
     color: white;
   }
+
+
 
   .transparentBG {
     background-color: transparent;

@@ -42,13 +42,13 @@
       </ion-item>
 
 
-      <ion-item no-lines class="transparentBG" [ngClass]="{'error':userForm.controls.u_date.touched && ! userForm.controls.u_date.valid,'valid':(userForm.controls.u_date.touched && userForm.controls.u_date.valid)}" [class.invalid]="userForm.controls.u_date.dirty && !userForm.controls.u_date.valid">
+      <ion-item no-lines class="transparentBG dateTime" [ngClass]="{'error':userForm.controls.u_date.touched && ! userForm.controls.u_date.valid,'valid':(userForm.controls.u_date.touched && userForm.controls.u_date.valid)}" [class.invalid]="userForm.controls.u_date.dirty && !userForm.controls.u_date.valid">
 
         <ion-label style="color:white;">Date<span class="requiredField">*</span>:</ion-label>
         <ion-datetime displayFormat="MMM DD YYYY" placeholder="Select" formControlName="u_date" name="date_of_appointment"></ion-datetime>
       </ion-item>
 
-      <ion-item no-lines class="transparentBG" [ngClass]="{'error':userForm.controls.u_time.touched && ! userForm.controls.u_time.valid,'valid':(userForm.controls.u_time.touched && userForm.controls.u_time.valid)}" [class.invalid]="userForm.controls.u_time.dirty && !userForm.controls.u_time.valid">
+      <ion-item no-lines class="transparentBG dateTime" [ngClass]="{'error':userForm.controls.u_time.touched && ! userForm.controls.u_time.valid,'valid':(userForm.controls.u_time.touched && userForm.controls.u_time.valid)}" [class.invalid]="userForm.controls.u_time.dirty && !userForm.controls.u_time.valid">
 
         <ion-label style="color:white;">Time (24 Hours)<span class="requiredField">*</span>:</ion-label>
         <ion-datetime displayFormat="HH:mm" minuteValues="0,5,10,15,20,25,30,35,40,45,50,55" placeholder="Select" formControlName="u_time" name="time_of_appointment"></ion-datetime>

@@ -24,8 +24,7 @@ page-main {
     margin-right: auto;
   }
 
-  .nameLabel
-  {
+  .nameLabel {
     margin: 5px;
     color: white;
     overflow: hidden;
@@ -106,6 +105,20 @@ page-main {
     padding: 10px;
     background: transparent !important;
     overflow-y: scroll;
+  }
+
+  .item-select .label //to ensure that any dropdown value will align itself left with the label just like other input types does
+  {
+    flex: initial;
+  }
+
+  .item-datetime .label //to ensure that any dropdown value will align itself left with the label just like other input types does
+  {
+    flex: initial;
+  }
+
+  ion-datetime {
+    padding: 0px;
   }
   //---------------Reminder Model Classes------------//
   //---------------Reminder Model Classes Ends------------//

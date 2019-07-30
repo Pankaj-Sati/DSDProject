@@ -3,8 +3,7 @@ add_client {
     color: red;
   }
 
-  .detailsRow
-  {
+  .detailsRow {
     border-bottom: 1px solid gray;
     background-color: #ffd07a;
     margin: 5px;
@@ -41,6 +40,8 @@ add_client {
     border-bottom-color: red !important;
     border-bottom: 1px solid red !important;
   }
+
+  
 
   .valid > .item-inner {
     border-bottom-color: #32db64 !important;

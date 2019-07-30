@@ -257,8 +257,12 @@
           <ion-col col-6>
             <ion-label style="font-size:1em "><b>Entities:<span style="margin-left:10px;">{{totalEntities}}</span></b></ion-label>
           </ion-col>
-          <ion-col col-4 class="completeIconCol" (click)="addEntities()">
+          <ion-col col-2 class="completeIconCol" (click)="addEntities()">
             <ion-icon name="add-circle" class="completeIcon" style="color:unset"></ion-icon>Add
+          </ion-col>
+
+          <ion-col col-2 class="completeIconCol">
+            <ion-icon name="done-all" class="completeIcon" [color]="addClientForm.controls.entity.valid?'success':'invalid'"></ion-icon>
           </ion-col>
 
           <ion-col col-2 class="detailIconCol" (click)="toggleShowMore(5)">
@@ -269,7 +273,7 @@
         </ion-row>
         <div *ngIf="showEntityDetails" formArrayName="entity" style="padding:10px;">
 
-          <div *ngFor="let eachEntityForm of addClientForm.controls.entity.controls;let i=index" [formGroupName]="i" [class]="showEachEntityDetails[i]?'eachEntity grayBorder':'eachEntity'">
+          <div *ngFor="let eachEntityForm of addClientForm.controls.entity.controls;let i=index;" [formGroupName]="i" [class]="showEachEntityDetails[i]?'eachEntity grayBorder':'eachEntity'">
 
             <!--Making the card-->
 
@@ -304,7 +308,8 @@
                 </ion-select>
               </ion-item>
 
-              <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_name.touched && !addClientForm.get('entity').controls[i].e_name.valid,'valid':(addClientForm.get('entity').controls[i].e_name.touched && addClientForm.get('entity').controls[i].e_name.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_name.dirty && ! addClientForm.get('entity').controls[i].e_name.valid">
+
+              <ion-item no-lines  ngClass="{'error':eachEntityForm.controls.e_name.touched && ! eachEntityForm.controls.e_name.valid),'valid':(eachEntityForm.controls.e_name.touched && eachEntityForm.controls.e_name.valid)}" class.invalid="eachEntityForm.controls.e_name.dirty && ! eachEntityForm.controls.e_name.valid">
                 <ion-label stacked><b>Full Name <span class="mandatory_field"> *</span></b></ion-label>
                 <ion-input type="text" required formControlName="e_name" placeholder="Enter Name"></ion-input>
               </ion-item>

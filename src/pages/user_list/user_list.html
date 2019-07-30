@@ -96,7 +96,7 @@
 
           <div *ngIf="users!=null && users!=undefined">
             <ion-item no-lines style="min-height:unset;margin-top:20px;">
-              <ion-label style="text-align:right;font-size:14px;color:#808080;margin:0px;">Total Users:{{users.length+1}}</ion-label>
+              <ion-label style="text-align:right;font-size:14px;color:#808080;margin:0px;">Total Users:{{users.length}}</ion-label>
             </ion-item>
 
             <ion-card style="background-color: #efefef;border-radius: 2%" *ngFor="let user of users;let i=index" (click)="viewSingleUser(user.id)">

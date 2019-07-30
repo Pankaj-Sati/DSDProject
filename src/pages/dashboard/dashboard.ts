@@ -273,5 +273,11 @@ export class DashboardPage
     let url = 'http://dsdlawfirm.com';
     this.inAppBrowser.create(url,'_system');
   }
+
+  checkCaseStatus()
+  {
+    let url = ' https://egov.uscis.gov/casestatus/landing.do';
+    this.inAppBrowser.create(url, '_system');
+  }
    
 }

@@ -415,6 +415,7 @@ export class AddClientPage
   toggleShowMoreEntity(index)
   {
     this.showEachEntityDetails[index] = !this.showEachEntityDetails[index];
+    this.logData(index,'e_name');
   }
 
   setBillingAddressSame()
@@ -518,8 +519,6 @@ export class AddClientPage
   {
 
     let newEntity: FormGroup = this.initializeEntityForm();
-
-
     this.addEntityForm = this.addClientForm.get('entity') as FormArray;
     this.addEntityForm.push(newEntity);
     this.showEntityDetails = true;
@@ -609,5 +608,29 @@ export class AddClientPage
     console.log('------Generated URL------')
     console.log(url);
     return url;
+  }
+
+  logData(i,field)
+  {
+    console.log('---In logData()---');
+    console.log(field);
+    let form: FormArray = <FormArray>(this.addClientForm.get('entity')['controls'][i]);
+    console.log(form);
+    console.log(this.addClientForm.controls.entity.controls);
+
+    console.log('For each entity');
+
+    for (let eachForm of this.addClientForm.controls.entity.controls)
+    {
+      console.log(eachForm);
+      console.log(eachForm.controls.e_name.valid);
+      console.log('After casting');
+      eachForm = <FormArray>eachForm;
+      console.log(eachForm);
+      console.log(eachForm.controls);
+      console.log(eachForm.controls.e_name.valid);
+
+    }
+   
   }
 }
