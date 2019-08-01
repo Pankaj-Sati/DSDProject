@@ -206,6 +206,7 @@ export class LoginPage
            user.user_type_id = serverReply.usertype_id;
            user.profile_img = serverReply.profile_img;
            user.contact = serverReply.contact;
+           user.calendar_link = serverReply.calendar_link;
 
            this.myStorage.setParameters(user);
 

@@ -6,6 +6,7 @@ export class User //To show Basic details for displaying in the home screen
   user_type_id: string;
   profile_img: string;
   contact: string;
+  calendar_link;
 }
 
 export class UserDetails

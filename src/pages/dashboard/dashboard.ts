@@ -5,6 +5,7 @@ import { LoadingController } from "ionic-angular";
 import "rxjs/add/operator/map";
 import { MenuController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { ReminderListPage } from '../reminders/new_format/reminder_list/reminder_list';
 import { NotificationListPage } from '../notifications/new_format/notification_list/notification_list';
@@ -34,7 +35,8 @@ export class DashboardPage
 	total_notifications:string;
 	total_clients:string;
 	total_appointments:string;
-	showSearch:boolean;
+  showSearch: boolean;
+  calendarLink: SafeResourceUrl;
 
   constructor(public myStorage: MyStorageProvider,
     public apiValue: ApiValuesProvider,
@@ -47,15 +49,35 @@ export class DashboardPage
     public loading: LoadingController,
     public storage: Storage,
     public toastCtrl: ToastController,
+    public sanitizer: DomSanitizer,
     public inAppBrowser: InAppBrowser)
-	{
+  {
+    
 		this.menuCtrl.enable(true);
 		this.menuCtrl.swipeEnable(true);
 			
-        this.checkIfAlreadyLoggedIn();
-        this.showSearch=false;
-        this.events.publish('loggedIn');
+    this.checkIfAlreadyLoggedIn();
+
+    
+    this.showSearch=false;
+    this.events.publish('loggedIn');
     this.events.publish('newPage', 'DSD Test1');
+
+    console.log('----IFrame Link-------');
+    if (Number(this.loggedInUser.user_type_id) == 4 && this.loggedInUser.calendar_link != undefined)
+    {
+      
+      this.calendarLink = this.sanitizer.bypassSecurityTrustResourceUrl(this.loggedInUser.calendar_link);
+      console.log(this.calendarLink);
+    }
+    else
+    {
+     
+      this.calendarLink = this.sanitizer.bypassSecurityTrustResourceUrl("https://teamup.com/ksqn86pa626r69dvzg");
+      console.log(this.calendarLink);
+
+    }
+    
 
    
   }
@@ -66,7 +88,7 @@ export class DashboardPage
 
       this.loggedInUser = this.myStorage.getParameters();
 
-      if (this.loggedInUser != null && this.loggedInUser.id.length > 0)
+      if (this.loggedInUser != undefined && this.loggedInUser.id.length > 0)
 			{
 				  //User already exists, fetch data
 
