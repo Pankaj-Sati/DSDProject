@@ -41,7 +41,7 @@
       </ion-item>
 
       <ion-item [ngClass]="{'error':! userForm.controls.u_email.valid,'valid':(userForm.controls.u_email.touched && userForm.controls.u_email.valid)}" [class.invalid]="! userForm.controls.u_email.valid">
-        <ion-label stacked>Email <span class="requiredField">*</span></ion-label>
+        <ion-label stacked>Email <span class="requiredField">*</span> <span class="requiredField">*</span></ion-label>
         <ion-input type="email" formControlName="u_email" name="email"></ion-input>
       </ion-item>
 

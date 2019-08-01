@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { LoadingController, ToastController } from 'ionic-angular';
+import { LoadingController, ToastController,AlertController } from 'ionic-angular';
 
 import { User } from '../../models/login_user.model';
 import { Client } from '../../models/client.model';
@@ -32,6 +32,7 @@ export class AppointmentListPage
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    public alertCtrl: AlertController,
     public myStorage: MyStorageProvider,
     public loading: LoadingController,
     public toastCtrl: ToastController,
@@ -232,6 +233,100 @@ export class AppointmentListPage
       clientPassed: client
     }
     this.navCtrl.push(SingleClientPage,data);
+  }
+
+  deleteAppointmentAlert(appointment)
+  {
+    const alert = this.alertCtrl.create({
+
+      title: 'Attention!!!',
+      message: 'Delete this Appointment?',
+      buttons: [{
+        text: 'Cancel',
+        role: 'Cancel',
+        handler: () =>
+        {
+          alert.dismiss();
+        }
+      }, {
+
+          text: 'Confirm',
+          handler: () =>
+          {
+            this.deleteAppointment(appointment);
+          }
+
+        }]
+
+    });
+    alert.present();
+
+  }
+
+  deleteAppointment(appointment)
+  {
+
+    const loader = this.loading.create({
+      content: 'Cancelling Appointment...',
+      duration:15000
+    });
+    let loadingSuccessful = false; //To know whether timeout occured
+    loader.present();
+
+    let body = new FormData();
+    body.set('appointment_id', appointment.id);
+    body.set('session_id', this.loggedInUser.id);
+    this.http.post(this.apiValue.baseURL + '/delete_appointment.php', body, null)
+      .subscribe(response =>
+      {
+        loadingSuccessful = true;
+        console.log(response);
+        loader.dismiss();
+
+        if (response)
+        {
+          try
+          {
+            let data = JSON.parse(response['_body']);
+            if ('code' in data && data.code == 200)
+            {
+              //Success
+              this.showToast(data.message);
+              this.fetchData();
+            }
+            else
+            {
+              //Failure
+              this.showToast(data.message);
+            }
+          }
+          catch (err)
+          {
+            console.log(err);
+            console.log('---Parsing Error---');
+            this.showToast('Failure! error in server response');
+          }
+        }
+        else
+        {
+          this.showToast('Failure! error in server response');
+        }
+
+      }, error =>
+        {
+          loadingSuccessful = true;
+          console.log(error);
+          loader.dismiss();
+          this.showToast('Failure! error in server response');
+        });
+
+    loader.onDidDismiss(() =>
+    {
+      if (!loadingSuccessful)
+      {
+        this.showToast('Timeout!!! Server did not respond');
+      }
+    });
   }
 
 }

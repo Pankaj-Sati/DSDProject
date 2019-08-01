@@ -130,7 +130,7 @@
             </ion-col>
           </ion-row>
 
-          <ion-row *ngIf="appointment.name==undefined || appointment.name==null">
+          <ion-row *ngIf="(appointment.clientName==undefined || appointment.clientName==null ) && (appointment.name==undefined || appointment.name==null)">
             <ion-col style="text-align:left;">
               <b>Appointment</b>
             </ion-col>
@@ -220,15 +220,15 @@
         </ion-col>
       </ion-row>
 
-      <!-- --------------------Delete----------------------------
-        <ion-row>
-          <ion-col style="text-align:center;">
-            <button ion-button class="delButton" round icon-start (click)="deleteReminderAlert(reminder)"><ion-icon name="trash"></ion-icon>Delete</button>
-          </ion-col>
-        </ion-row>
-      -->
-
+      <!-- --------------------Delete---------------------------->
       <ion-row>
+        <ion-col style="text-align:center;">
+          <button ion-button class="delButton" round icon-start (click)="deleteAppointmentAlert(appointment)"><ion-icon name="trash"></ion-icon>Cancel Appointment</button>
+        </ion-col>
+      </ion-row>
+
+      <!-----------------View Client Details (Client is not authorized to view/edit his details so we will not show View button to him)-->
+      <ion-row *ngIf="loggedInUser != undefined && loggedInUser.user_type_id!= 5">
         <ion-col style="text-align:center;">
           <button ion-button round icon-start (click)="viewClient(appointment)"><ion-icon name="eye"></ion-icon>View Client</button>
         </ion-col>

@@ -41,7 +41,7 @@
       </ion-item>
 
       <ion-item [ngClass]="{'error':userForm.controls.u_email.touched && ! userForm.controls.u_email.valid,'valid':(userForm.controls.u_email.touched && userForm.controls.u_email.valid)}" [class.invalid]="userForm.controls.u_email.touched && ! userForm.controls.u_email.valid">
-        <ion-label stacked>Email</ion-label>
+        <ion-label stacked>Email <span class="requiredField">*</span></ion-label>
         <ion-input type="email" formControlName="u_email" name="email"></ion-input>
       </ion-item>
 
@@ -69,7 +69,7 @@
       <ion-item [ngClass]="{'error':userForm.controls.u_dob.touched && ! userForm.controls.u_dob.valid,'valid':(userForm.controls.u_dob.touched && userForm.controls.u_dob.valid)}" [class.invalid]="userForm.controls.u_dob.touched && !userForm.controls.u_dob.valid">
 
         <ion-label stacked>Date Of Birth <span class="requiredField">*</span></ion-label>
-        <ion-datetime displayFormat="MMM DD YY" formControlName="u_dob" name="date_of_birth"></ion-datetime>
+        <ion-datetime displayFormat="MMM DD YYYY" formControlName="u_dob" name="date_of_birth"></ion-datetime>
       </ion-item>
 
       <ion-item [ngClass]="{'error':userForm.controls.u_address1.touched && !userForm.controls.u_address1.valid,'valid':(userForm.controls.u_address1.touched && userForm.controls.u_address1.valid)}" [class.invalid]="userForm.controls.u_address1.touched && ! userForm.controls.u_address1.valid">

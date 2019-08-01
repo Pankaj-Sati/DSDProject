@@ -309,7 +309,7 @@
               </ion-item>
 
 
-              <ion-item no-lines  ngClass="{'error':eachEntityForm.controls.e_name.touched && ! eachEntityForm.controls.e_name.valid),'valid':(eachEntityForm.controls.e_name.touched && eachEntityForm.controls.e_name.valid)}" class.invalid="eachEntityForm.controls.e_name.dirty && ! eachEntityForm.controls.e_name.valid">
+              <ion-item no-lines  ngClass="{'error':addClientForm.get('entity').controls[i].e_name.touched && !addClientForm.get('entity').controls[i].e_name.valid,'valid':(addClientForm.get('entity').controls[i].e_name.touched && addClientForm.get('entity').controls[i].e_name.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_name.dirty && ! addClientForm.get('entity').controls[i].e_name.valid">
                 <ion-label stacked><b>Full Name <span class="mandatory_field"> *</span></b></ion-label>
                 <ion-input type="text" required formControlName="e_name" placeholder="Enter Name"></ion-input>
               </ion-item>

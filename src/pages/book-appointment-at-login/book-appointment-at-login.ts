@@ -108,8 +108,6 @@ export class BookAppointmentAtLoginPage
               {
                 //Successfully booked appointment
 
-                this.registerAppointmentInCalendar();
-
                 let pipe = new DatePipe('en-US');
                 let appointmentDate = pipe.transform(this.userForm.value.u_date + " " + this.userForm.value.u_time,'MMM, dd yyyy HH:mm');
 
@@ -162,6 +160,9 @@ export class BookAppointmentAtLoginPage
 
   registerAppointmentInCalendar()
   {
+
+    //Server should add appointment in calendar. But this function can be used to add it from here
+
     var headers: Headers = this.apiValue.calendarHeaders;
 
     let options = new RequestOptions({ headers: headers });
