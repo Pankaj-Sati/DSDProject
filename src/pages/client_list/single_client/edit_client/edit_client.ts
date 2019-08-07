@@ -6,6 +6,7 @@ import { ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import "rxjs/add/operator/map";
 
+
 import { User } from '../../../../models/login_user.model';
 import { CaseType } from '../../../../models/case_type.model';
 
@@ -78,7 +79,8 @@ export class EditClientPage
     public relationshipProvider: ClientEntityRelationshipProvider,
     public entityTypeProvider: EntityTypeProvider,
     public stateListProvider: StateListProvider,
-    public events: Events
+    public events: Events,
+
   )
   {
 
@@ -104,6 +106,7 @@ export class EditClientPage
 
       //personal Details
       c_name: new FormControl('', Validators.compose([Validators.required])),
+      c_lastname: new FormControl(''),
       c_alias: new FormControl(''),
       c_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       c_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
@@ -186,7 +189,9 @@ export class EditClientPage
       
     //personal Details
     this.editClientForm.controls.c_name.setValue(this.passedClientDetails.name);
+    this.editClientForm.controls.c_lastname.setValue(this.passedClientDetails.lastname);
     this.editClientForm.controls.c_alias.setValue(this.passedClientDetails.alias);
+    
     this.editClientForm.controls.c_contact.setValue(this.passedClientDetails.contact);
     this.editClientForm.controls.c_alt_no.setValue(this.passedClientDetails.alternate_number);
     this.editClientForm.controls.c_email.setValue(this.passedClientDetails.email);
@@ -245,6 +250,9 @@ export class EditClientPage
     
     this.editClientForm.get('entity')['controls'][index].controls.e_name.setValue(entity.name);
     this.editClientForm.get('entity')['controls'][index].controls.e_name.updateValueAndValidity();
+
+    this.editClientForm.get('entity')['controls'][index].controls.e_lastname.setValue(entity.lastname);
+    this.editClientForm.get('entity')['controls'][index].controls.e_lastname.updateValueAndValidity();
 
     this.editClientForm.get('entity')['controls'][index].controls.e_alias.setValue(entity.alias);
     this.editClientForm.get('entity')['controls'][index].controls.e_alias.updateValueAndValidity();
@@ -579,6 +587,7 @@ export class EditClientPage
 
       //personal Details
       e_name: new FormControl('', Validators.compose([Validators.required])),
+      e_lastname: new FormControl(''),
       e_alias: new FormControl(''),
       e_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       e_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
@@ -734,7 +743,8 @@ export class EditClientPage
 
     url = url + '&' + 'adv_assign='+ this.editClientForm.value.c_cm_assigned;
     url = url + '&' + 'op_full_name='+ this.editClientForm.value.c_defendent_name;
-    url = url + '&' + 'full_name='+ this.editClientForm.value.c_name;
+    url = url + '&' + 'first_name='+ this.editClientForm.value.c_name;
+    url = url + '&' + 'last_name='+ this.editClientForm.value.c_lastname;
 
     url = url + '&' + 'p_address1=' + this.editClientForm.value.c_address1;
     url = url + '&' + 'p_address2=' + this.editClientForm.value.c_address2;

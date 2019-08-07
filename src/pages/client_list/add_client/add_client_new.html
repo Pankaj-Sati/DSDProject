@@ -123,8 +123,13 @@
       <div *ngIf="showPersonalDetails">
 
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_name.touched && !addClientForm.controls.c_name.valid,'valid':(addClientForm.controls.c_name.touched && addClientForm.controls.c_name.valid)}" [class.invalid]="addClientForm.controls.c_name.dirty && ! addClientForm.controls.c_name.valid">
-          <ion-label stacked><b>Full Name <span class="mandatory_field"> *</span></b></ion-label>
+          <ion-label stacked><b>First Name <span class="mandatory_field"> *</span></b></ion-label>
           <ion-input type="text" required formControlName="c_name" placeholder="Enter Name"></ion-input>
+        </ion-item>
+
+        <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_lastname.touched && !addClientForm.controls.c_lastname.valid,'valid':(addClientForm.controls.c_lastname.touched && addClientForm.controls.c_lastname.valid)}" [class.invalid]="addClientForm.controls.c_lastname.dirty && ! addClientForm.controls.c_lastname.valid">
+          <ion-label stacked><b>Last Name</b></ion-label>
+          <ion-input type="text" formControlName="c_lastname" placeholder="Enter Name"></ion-input>
         </ion-item>
 
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_alias.touched && !addClientForm.controls.c_alias.valid,'valid':(addClientForm.controls.c_alias.touched && addClientForm.controls.c_alias.valid)}" [class.invalid]="addClientForm.controls.c_alias.dirty && ! addClientForm.controls.c_alias.valid">
@@ -148,11 +153,11 @@
         </ion-item>
 
         <!--
-          <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_notes.touched && !addClientForm.controls.c_notes.valid,'valid':(addClientForm.controls.c_notes.touched && addClientForm.controls.c_notes.valid)}" [class.invalid]="addClientForm.controls.c_notes.dirty && ! addClientForm.controls.c_notes.valid">
-            <ion-label stacked><b>Notes</b></ion-label>
-            <ion-input type="text" formControlName="c_notes" placeholder="Enter notes"></ion-input>
-          </ion-item>
-      -->
+      <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_notes.touched && !addClientForm.controls.c_notes.valid,'valid':(addClientForm.controls.c_notes.touched && addClientForm.controls.c_notes.valid)}" [class.invalid]="addClientForm.controls.c_notes.dirty && ! addClientForm.controls.c_notes.valid">
+        <ion-label stacked><b>Notes</b></ion-label>
+        <ion-input type="text" formControlName="c_notes" placeholder="Enter notes"></ion-input>
+      </ion-item>
+  -->
         <hr>
         <!----------Permanant Address----------->
         <ion-item no-lines>
@@ -309,9 +314,14 @@
               </ion-item>
 
 
-              <ion-item no-lines  ngClass="{'error':addClientForm.get('entity').controls[i].e_name.touched && !addClientForm.get('entity').controls[i].e_name.valid,'valid':(addClientForm.get('entity').controls[i].e_name.touched && addClientForm.get('entity').controls[i].e_name.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_name.dirty && ! addClientForm.get('entity').controls[i].e_name.valid">
-                <ion-label stacked><b>Full Name <span class="mandatory_field"> *</span></b></ion-label>
+              <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_name.touched && !addClientForm.get('entity').controls[i].e_name.valid,'valid':(addClientForm.get('entity').controls[i].e_name.touched && addClientForm.get('entity').controls[i].e_name.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_name.dirty && ! addClientForm.get('entity').controls[i].e_name.valid">
+                <ion-label stacked><b>First Name <span class="mandatory_field"> *</span></b></ion-label>
                 <ion-input type="text" required formControlName="e_name" placeholder="Enter Name"></ion-input>
+              </ion-item>
+
+              <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_lastname.touched && !addClientForm.get('entity').controls[i].e_lastname.valid,'valid':(addClientForm.get('entity').controls[i].e_lastname.touched && addClientForm.get('entity').controls[i].e_lastname.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_lastname.dirty && ! addClientForm.get('entity').controls[i].e_lastname.valid">
+                <ion-label stacked><b>Last Name</b></ion-label>
+                <ion-input type="text"  formControlName="e_lastname" placeholder="Enter Name"></ion-input>
               </ion-item>
 
               <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_alias.touched && !addClientForm.get('entity').controls[i].e_alias.valid,'valid':(addClientForm.get('entity').controls[i].e_alias.touched && addClientForm.get('entity').controls[i].e_alias.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_alias.dirty && ! addClientForm.get('entity').controls[i].e_alias.valid">
@@ -334,11 +344,11 @@
                 <ion-input type="email" formControlName="e_email" placeholder="Enter email"></ion-input>
               </ion-item>
               <!--
-                <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_notes.touched && !addClientForm.get('entity').controls[i].e_notes.valid,'valid':(addClientForm.get('entity').controls[i].e_notes.touched && addClientForm.get('entity').controls[i].e_notes.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_notes.dirty && ! addClientForm.get('entity').controls[i].e_notes.valid">
-                  <ion-label stacked><b>Notes</b></ion-label>
-                  <ion-input type="text" formControlName="e_notes" placeholder="Enter notes"></ion-input>
-                </ion-item>
-              -->
+    <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_notes.touched && !addClientForm.get('entity').controls[i].e_notes.valid,'valid':(addClientForm.get('entity').controls[i].e_notes.touched && addClientForm.get('entity').controls[i].e_notes.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_notes.dirty && ! addClientForm.get('entity').controls[i].e_notes.valid">
+      <ion-label stacked><b>Notes</b></ion-label>
+      <ion-input type="text" formControlName="e_notes" placeholder="Enter notes"></ion-input>
+    </ion-item>
+  -->
               <hr>
               <!----------Permanant Address----------->
               <ion-item no-lines>

@@ -200,8 +200,15 @@ export class LoginPage
 						
             let user: User=new User();
 
-           user.id = serverReply.id;
-           user.name = serverReply.name;
+                    user.id = serverReply.id;
+                    if (serverReply.lastname != undefined && serverReply.lastname != null && serverReply.lastname != 'null' && serverReply.lastname.length > 0)
+                    {
+                      user.name = serverReply.name + ' ' + serverReply.lastname;
+                    }
+                    else
+                    {
+                      user.name = serverReply.name;
+                    }
            user.email = serverReply.email;
            user.user_type_id = serverReply.usertype_id;
            user.profile_img = serverReply.profile_img;

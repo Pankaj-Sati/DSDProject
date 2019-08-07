@@ -36,12 +36,18 @@
 
       <ion-item [ngClass]="{'error':! userForm.controls.u_name.valid,'valid':(userForm.controls.u_name.touched && userForm.controls.u_name.valid)}" [class.invalid]="! userForm.controls.u_name.valid">
 
-        <ion-label stacked>Full Name <span class="requiredField">*</span></ion-label>
-        <ion-input type="text" formControlName="u_name" name="full_name"></ion-input>
+        <ion-label stacked>First Name <span class="requiredField">*</span></ion-label>
+        <ion-input type="text" formControlName="u_name" name="first_name"></ion-input>
+      </ion-item>
+
+      <ion-item [ngClass]="{'error':! userForm.controls.u_lastname.valid,'valid':(userForm.controls.u_lastname.touched && userForm.controls.u_lastname.valid)}" [class.invalid]="! userForm.controls.u_lastname.valid">
+
+        <ion-label stacked>Last Name</ion-label>
+        <ion-input type="text" formControlName="u_lastname" name="last_name"></ion-input>
       </ion-item>
 
       <ion-item [ngClass]="{'error':! userForm.controls.u_email.valid,'valid':(userForm.controls.u_email.touched && userForm.controls.u_email.valid)}" [class.invalid]="! userForm.controls.u_email.valid">
-        <ion-label stacked>Email <span class="requiredField">*</span> <span class="requiredField">*</span></ion-label>
+        <ion-label stacked>Email <span class="requiredField">*</span></ion-label>
         <ion-input type="email" formControlName="u_email" name="email"></ion-input>
       </ion-item>
 
@@ -81,7 +87,7 @@
       <ion-item [ngClass]="{'error':!userForm.controls.u_address2.valid,'valid':(userForm.controls.u_address2.touched && userForm.controls.u_address2.valid)}" [class.invalid]="! userForm.controls.u_address2.valid">
 
         <ion-label stacked>Address 2 </ion-label>
-        <ion-input type="text" formControlName="u_address2"  name="street"></ion-input>
+        <ion-input type="text" formControlName="u_address2" name="street"></ion-input>
       </ion-item>
 
       <ion-item [ngClass]="{'error':! userForm.controls.u_city.valid,'valid':(userForm.controls.u_city.touched && userForm.controls.u_city.valid)}" [class.invalid]="! userForm.controls.u_city.valid">

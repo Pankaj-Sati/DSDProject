@@ -12,6 +12,7 @@ export class User //To show Basic details for displaying in the home screen
 export class UserDetails
 {
   name; //User name
+  lastname; //User name
   usertype_id; //Id allocated to user type
   gender;
   email;

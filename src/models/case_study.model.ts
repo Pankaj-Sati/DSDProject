@@ -15,4 +15,5 @@ export class CaseStudy
   jurisdiction;
   created_on;
   status;
+  ref_id;
 }

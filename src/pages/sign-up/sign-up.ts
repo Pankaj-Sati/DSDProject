@@ -107,6 +107,7 @@ export class SignUpPage
 
       
       u_name: new FormControl('', Validators.compose([Validators.required])),
+      u_lastname: new FormControl(''),
       u_password: new FormControl('', Validators.compose([Validators.pattern(/^$|^[a-zA-Z0-9_.-]{6,20}$/)])),
       u_dob: new FormControl('', Validators.compose([Validators.required])),
       u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
@@ -168,7 +169,8 @@ export class SignUpPage
     body.set("existing_user", this.isNew?'0':'1'); //For new client, value will be 0 i.e. false and for existing client, value will be 1 i.e. true
 
     //Details
-    body.set("full_name", this.userForm.value.u_name);
+    body.set("first_name", this.userForm.value.u_name);
+    body.set("last_name", this.userForm.value.u_lastname);
     body.set("password", this.userForm.value.u_password);
 
     body.set("email", this.userForm.value.u_email);

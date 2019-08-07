@@ -84,6 +84,7 @@ export class UpdateUserPage
 			u_profile_img:new FormControl(''),
 
 			u_name:new FormControl('',Validators.compose([Validators.required])),
+			u_lastname:new FormControl(''),
 			
       u_email: new FormControl('', Validators.compose([Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
       u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
@@ -304,6 +305,7 @@ export class UpdateUserPage
 								this.user=serverReply[0];
 								
 								this.userForm.controls.u_name.setValue(this.user.name);
+								this.userForm.controls.u_lastname.setValue(this.user.lastname);
 								this.userForm.controls.u_email.setValue(this.user.email);
 								this.userForm.controls.u_contact.setValue(this.user.contact);
 								this.userForm.controls.u_alt.setValue(this.user.alternate_number);
@@ -360,7 +362,8 @@ export class UpdateUserPage
 
 				let body = new FormData();
               body.set("uid",this.passed_uid);
-              body.set("full_name",this.userForm.value.u_name);
+              body.set("first_name",this.userForm.value.u_name);
+              body.set("last_name",this.userForm.value.u_lastname);
               body.set("email",this.userForm.value.u_email);
               body.set("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
               body.set("alt",String(this.userForm.value.u_alt).replace(/\D+/g,''));
@@ -393,8 +396,8 @@ export class UpdateUserPage
 				console.log(body);
 
 				let loadingSuccessful=false; //To knopw whether timeout occured
-				console.log("Full name");
-				console.log(this.userForm.value.u_name);
+              console.log("Full name");
+              console.log(this.userForm.value.u_name + ' ' + this.userForm.value.u_lastname);
 			
 			loader.present().then(() => 
 			{
@@ -465,7 +468,8 @@ export class UpdateUserPage
 				params : {
 
 					"uid":this.passed_uid,
-					"full_name":this.userForm.value.u_name,
+					"first_name":this.userForm.value.u_name,
+					"last_name":this.userForm.value.u_lastname,
 					"email":this.userForm.value.u_email,
            "contact": String(this.userForm.value.u_contact).replace(/\D+/g, ''),
             "alt": String(this.userForm.value.u_alt).replace(/\D+/g, ''),

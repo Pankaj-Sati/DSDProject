@@ -34,6 +34,7 @@ export class BookAppointmentAtLoginPage
 
 
       u_name: new FormControl('', Validators.compose([Validators.required])),
+      u_lastname: new FormControl(''),
       u_date: new FormControl('', Validators.compose([Validators.required])),
       u_time: new FormControl('', Validators.compose([Validators.required])),
       u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
@@ -66,7 +67,8 @@ export class BookAppointmentAtLoginPage
     let body = new FormData();
    
     //Details
-    body.set("client_name", this.userForm.value.u_name);
+    body.set("first_name", this.userForm.value.u_name);
+    body.set("last_name", this.userForm.value.u_lastname);
     body.set("email", this.userForm.value.u_email);
     body.set("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
 

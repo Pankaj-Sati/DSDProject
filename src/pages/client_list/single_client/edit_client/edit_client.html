@@ -123,8 +123,13 @@
         <div *ngIf="showPersonalDetails">
 
           <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_name.valid,'valid':(editClientForm.controls.c_name.touched && editClientForm.controls.c_name.valid)}" [class.invalid]="! editClientForm.controls.c_name.valid">
-            <ion-label stacked><b>Full Name <span class="mandatory_field"> *</span></b></ion-label>
+            <ion-label stacked><b>First Name <span class="mandatory_field"> *</span></b></ion-label>
             <ion-input type="text" required formControlName="c_name" placeholder="Enter Name"></ion-input>
+          </ion-item>
+
+          <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_lastname.valid,'valid':(editClientForm.controls.c_lastname.touched && editClientForm.controls.c_lastname.valid)}" [class.invalid]="! editClientForm.controls.c_lastname.valid">
+            <ion-label stacked><b>Last Name</b></ion-label>
+            <ion-input type="text"  formControlName="c_lastname" placeholder="Enter Name"></ion-input>
           </ion-item>
 
           <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_alias.valid,'valid':(editClientForm.controls.c_alias.touched && editClientForm.controls.c_alias.valid)}" [class.invalid]="! editClientForm.controls.c_alias.valid">
@@ -148,11 +153,11 @@
           </ion-item>
 
           <!--
-            <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_notes.valid,'valid':(editClientForm.controls.c_notes.touched && editClientForm.controls.c_notes.valid)}" [class.invalid]="! editClientForm.controls.c_notes.valid">
-              <ion-label stacked><b>Notes</b></ion-label>
-              <ion-input type="text" formControlName="c_notes" placeholder="Enter notes"></ion-input>
-            </ion-item>
-           -->
+    <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_notes.valid,'valid':(editClientForm.controls.c_notes.touched && editClientForm.controls.c_notes.valid)}" [class.invalid]="! editClientForm.controls.c_notes.valid">
+      <ion-label stacked><b>Notes</b></ion-label>
+      <ion-input type="text" formControlName="c_notes" placeholder="Enter notes"></ion-input>
+    </ion-item>
+   -->
 
           <hr>
           <!----------Permanant Address----------->
@@ -336,8 +341,13 @@
                 </ion-item>
 
                 <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_name.valid,'valid':(editClientForm.get('entity').controls[i].e_name.touched && editClientForm.get('entity').controls[i].e_name.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_name.valid">
-                  <ion-label stacked><b>Full Name <span class="mandatory_field"> *</span></b></ion-label>
-                  <ion-input type="text" required formControlName="e_name" placeholder="Enter Name"></ion-input>
+                  <ion-label stacked><b>First Name <span class="mandatory_field"> *</span></b></ion-label>
+                  <ion-input type="text" required formControlName="e_name" placeholder="Enter First Name"></ion-input>
+                </ion-item>
+
+                <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_lastname.valid,'valid':(editClientForm.get('entity').controls[i].e_lastname.touched && editClientForm.get('entity').controls[i].e_lastname.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_lastname.valid">
+                  <ion-label stacked><b>Last Name </b></ion-label>
+                  <ion-input type="text"  formControlName="e_lastname" placeholder="Enter Last Name"></ion-input>
                 </ion-item>
 
                 <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_alias.valid,'valid':(editClientForm.get('entity').controls[i].e_alias.touched && editClientForm.get('entity').controls[i].e_alias.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_alias.valid">
@@ -361,11 +371,11 @@
                 </ion-item>
 
                 <!--
-                  <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_notes.valid,'valid':(editClientForm.get('entity').controls[i].e_notes.touched && editClientForm.get('entity').controls[i].e_notes.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_notes.valid">
-                    <ion-label stacked><b>Notes</b></ion-label>
-                    <ion-input type="text" formControlName="e_notes" placeholder="Enter notes"></ion-input>
-                  </ion-item>
-                  -->
+    <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_notes.valid,'valid':(editClientForm.get('entity').controls[i].e_notes.touched && editClientForm.get('entity').controls[i].e_notes.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_notes.valid">
+      <ion-label stacked><b>Notes</b></ion-label>
+      <ion-input type="text" formControlName="e_notes" placeholder="Enter notes"></ion-input>
+    </ion-item>
+    -->
                 <hr>
                 <!----------Permanant Address----------->
                 <ion-item no-lines>
@@ -379,7 +389,7 @@
 
                 <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_address2.valid,'valid':(editClientForm.get('entity').controls[i].e_address2.touched && editClientForm.get('entity').controls[i].e_address2.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_address2.valid">
                   <ion-label stacked><b>Address 2</b></ion-label>
-                  <ion-input type="text" (ionChange)="isBillingAndPermanentAddressSameForEntity[i]?editClientForm.get('entity')['controls'][i].controls.e_address2_billing.setValue(editClientForm.get('entity')['controls'][i].value.e_address2):null" required formControlName="e_address2" placeholder="Enter Address"></ion-input>
+                  <ion-input type="text" (ionChange)="isBillingAndPermanentAddressSameForEntity[i]?editClientForm.get('entity')['controls'][i].controls.e_address2_billing.setValue(editClientForm.get('entity')['controls'][i].value.e_address2):null" formControlName="e_address2" placeholder="Enter Address"></ion-input>
                 </ion-item>
 
                 <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_city.valid,'valid':(editClientForm.get('entity').controls[i].e_city.touched && editClientForm.get('entity').controls[i].e_city.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_city.valid">

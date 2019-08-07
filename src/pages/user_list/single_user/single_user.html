@@ -24,7 +24,7 @@
 
           <br>
 
-           <b style="color: white;font-size: 1.6em">{{user.name}}</b> <br> <br>
+           <b style="color: white;font-size: 1.6em">{{user.lastname==null?user.name:(user.name+' '+user.lastname)}}</b> <br> <br>
            <i style="color: white;">{{user.email}}</i>
 
           <ion-row style='text-align:center;margin:5px'>

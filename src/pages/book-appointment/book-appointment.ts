@@ -79,7 +79,13 @@ export class BookAppointmentPage
     body.set('a_date', this.a_date);
     body.set('a_time', this.a_time);
     body.set('a_remark', this.a_description);
-    body.set('client_name', this.loggedInUser.name);
+
+    //Splitting name
+    let firstname = String(this.loggedInUser.name).substring(0,this.loggedInUser.name.lastIndexOf(' '));
+    let lastname = String(this.loggedInUser.name).substring(this.loggedInUser.name.lastIndexOf(' '));
+    body.set('first_name', firstname);
+    body.set('last_name', lastname);
+
     body.set('contact', this.loggedInUser.contact);
     body.set('a_advocate', this.a_advocate);
 

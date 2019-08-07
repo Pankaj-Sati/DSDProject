@@ -7,6 +7,7 @@ export class Client //Used for showing client list
   case_type: string;
   case_year: string;
   client_name: string;
+  lastname: string;
   contact: string;
   created_on: string;
   email: string;
@@ -23,6 +24,7 @@ export class ClientDetails
   apt;
   id;
   name;
+  lastname;
   caseManagerName;
   contact;
   alias;
@@ -74,6 +76,7 @@ export class Entity
   alternate_number;
   apt;
   name;
+  lastname;
   alias;
   relationship;
   id;

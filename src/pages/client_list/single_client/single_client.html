@@ -95,7 +95,7 @@
 
       <div *ngIf="showPersonalDetails">
         <ion-item no-lines *ngIf="clientDetails.name!=null && clientDetails.name.length>0">
-          <ion-label><b>Full Name:</b><span class='info'>{{clientDetails.name}}</span></ion-label>
+          <ion-label><b>Full Name:</b><span class='info'>{{clientDetails.lastname==null?clientDetails.name:(clientDetails.name+' '+clientDetails.lastname)}}</span></ion-label>
 
         </ion-item>
 
@@ -251,7 +251,7 @@
             </ion-item>
 
             <ion-item no-lines *ngIf="entity.name!=null && entity.name.length>0">
-              <ion-label><b>Full Name:</b><span class='info'>{{entity.name}}</span></ion-label>
+              <ion-label><b>Full Name:</b><span class='info'>{{entity.lastname==null?entity.name:(entity.name+' '+entity.lastname)}}</span></ion-label>
 
             </ion-item>
 

@@ -30,7 +30,8 @@ export class MyStorageProvider
       user_type_id: user.user_type_id,
       profile_img: user.profile_img,
       contact: user.contact,
-      calendar_link: user.calendar_link
+      calendar_link: user.calendar_link,
+     
     }));
   }
 

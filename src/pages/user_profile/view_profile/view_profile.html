@@ -31,7 +31,7 @@
 
           <img *ngIf="user==undefined || user==null || user.profile_img==undefined || user.profile_img==null || user.profile_img.length==0 " style="border-radius: 100%;margin:5px 10px" src="assets/imgs/user.png" alt="No image Found" width="144px" height="144px" />
 
-          <h2 class="profile-name dark">{{user.name}}</h2>
+          <h2 class="profile-name dark">{{user.name+' '+user.lastname}}</h2>
           <div class="profile-info">{{user.email}}</div>
 
           <button ion-button icon-start style="margin-top:10px;" (click)="editProfile()"><ion-icon name="create"></ion-icon>Edit Profile</button>

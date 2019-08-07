@@ -99,6 +99,7 @@ export class AddClientPage
 
           //personal Details
 			c_name:new FormControl('',Validators.compose([Validators.required])),
+			c_lastname:new FormControl(''),
 			c_alias:new FormControl(''),
           c_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
           c_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
@@ -168,6 +169,8 @@ export class AddClientPage
     return;
 
     //Following code was used to set the relation validators
+
+    /*
     if (!this.hasRelation) {
       //If the user has changed the case type from relation to individual, we need to remove validators on entities.
       if (this.totalEntities>0)
@@ -228,6 +231,7 @@ export class AddClientPage
       }
       
     }
+    */
   }
 
   showToast(text)
@@ -498,6 +502,7 @@ export class AddClientPage
 
       //personal Details
       e_name: new FormControl('', Validators.compose([Validators.required])),
+      e_lastname: new FormControl(''),
       e_alias: new FormControl(''),
       e_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       e_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
@@ -558,7 +563,8 @@ export class AddClientPage
 
     url = url + '&' + 'adv_assign=' + this.addClientForm.value.c_cm_assigned;
     url = url + '&' + 'op_full_name=' + this.addClientForm.value.c_defendent_name;
-    url = url + '&' + 'full_name=' + this.addClientForm.value.c_name;
+    url = url + '&' + 'first_name=' + this.addClientForm.value.c_name;
+    url = url + '&' + 'last_name=' + this.addClientForm.value.c_lastname;
 
     url = url + '&' + 'p_address1=' + this.addClientForm.value.c_address1;
     url = url + '&' + 'p_address2=' + this.addClientForm.value.c_address2;

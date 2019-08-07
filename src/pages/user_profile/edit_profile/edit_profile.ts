@@ -86,6 +86,7 @@ export class EditProfilePage
 
       u_profile_img: new FormControl(''),
       u_name: new FormControl('', Validators.compose([Validators.required])),
+      u_lastname: new FormControl(''),
 
       u_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
       u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
@@ -371,7 +372,9 @@ export class EditProfilePage
   {
     console.log('In set Form Values');
     console.log(this.user);
+    
     this.userForm.controls.u_name.setValue(this.user.name);
+    this.userForm.controls.u_lastname.setValue(this.user.lastname);
    
 
     this.userForm.controls.u_email.setValue(this.user.email);
@@ -423,7 +426,8 @@ export class EditProfilePage
       body.set("mode", 'edit');
       body.set("session_user_id", this.loggedInUser.id);
 
-      body.set("full_name", this.userForm.value.u_name);
+      body.set("first_name", this.userForm.value.u_name);
+      body.set("last_name", this.userForm.value.u_lastname);
       body.set("email", this.userForm.value.u_email);
       body.set("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
       body.set("alt", String(this.userForm.value.u_alt).replace(/\D+/g,''));
@@ -452,7 +456,7 @@ export class EditProfilePage
       console.log(body);
 
       console.log("Full name");
-      console.log(this.userForm.value.u_name);
+      console.log(this.userForm.value.u_name + ' ' + this.userForm.value.u_lastname);
 
       loader.present().then(() => 
       {
@@ -535,7 +539,8 @@ export class EditProfilePage
           "mode": 'edit',
           "session_user_id": this.loggedInUser.id,
 
-          "full_name": this.userForm.value.u_name,
+          "first_name": this.userForm.value.u_name,
+          "last_name": this.userForm.value.u_lastname,
           "email": this.userForm.value.u_email,
           "contact": String(this.userForm.value.u_contact).replace(/\D+/g,''),
           "alt": String(this.userForm.value.u_alt).replace(/\D+/g,''),
@@ -654,7 +659,12 @@ export class EditProfilePage
 
   updateLoginUserParameters(profileImage)
   {
-    this.loggedInUser.name = this.userForm.value.u_name;
+     this.loggedInUser.name = this.userForm.value.u_name;
+    if (this.userForm.value.u_lastname != null && this.userForm.value.u_name != 'null')
+    {
+      this.loggedInUser.name = this.userForm.value.u_name + ' ' + this.userForm.value.u_lastname;
+    }
+    
     this.loggedInUser.email = this.userForm.value.u_email;
     this.loggedInUser.profile_img = profileImage;
     
