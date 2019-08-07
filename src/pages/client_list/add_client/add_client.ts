@@ -56,7 +56,7 @@ export class AddClientPage
 
   relationshipList: any;
 
-  hasRelation:boolean=false;
+  hasRelation:boolean=true;
 
 
   constructor(
@@ -157,7 +157,17 @@ export class AddClientPage
 
   changeRelation(val: boolean)
   {
+
+    //This method is no longer useful because client(DSD Firm) has asked to allow addition of entities in each case
+
+    /*
+     * This method is used to change the relation of the client i.e. whether he is the only one associated with the case or multiple people are associated with him
+     */
+    
     this.hasRelation = val;
+    return;
+
+    //Following code was used to set the relation validators
     if (!this.hasRelation) {
       //If the user has changed the case type from relation to individual, we need to remove validators on entities.
       if (this.totalEntities>0)
@@ -579,7 +589,7 @@ export class AddClientPage
 
     url = url + '&' + 'session_id=' + this.loggedInUser.id;
 
-    if (this.hasRelation && this.totalEntities > 0)
+    if (this.totalEntities > 0)
     {
       for (let i = 0; i < this.totalEntities; i++)
       {

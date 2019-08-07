@@ -2,14 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\pages\\appointment-list",
-    "\\src\\pages\\book-appointment-at-login",
-    "\\src\\pages\\notifications\\new_format",
-    "\\src\\pages\\notifications\\new_format\\notification_list",
+    "\\src\\pages",
+    "\\src\\pages\\dashboard",
+    "\\src\\pages\\sign-up",
+    "\\src\\pages\\user_list\\change_user_password",
     "\\src\\pages\\user_list\\single_user",
     "\\src\\pages\\user_list\\update_user",
-    "\\src\\pages\\user_profile\\edit_profile"
+    "\\src\\providers",
+    "\\src\\providers\\my-storage"
   ],
-  "SelectedNode": "\\config.xml",
+  "SelectedNode": "\\src\\pages\\sign-up\\sign-up.html",
   "PreviewInSolutionExplorer": false
 }
