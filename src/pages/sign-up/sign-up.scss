@@ -83,4 +83,12 @@ page-sign-up {
     box-shadow: unset;
     border: unset;
   }
+
+  .imageBG {
+    background: url("assets/imgs/building.jpg") no-repeat;
+    -webkit-background-size: 280% auto;
+    background-size: cover;
+    overflow: scroll;
+    background-attachment: fixed;
+  }
 }

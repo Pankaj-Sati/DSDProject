@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content style='background-image:url(assets/imgs/building.jpg);background-size: cover;overflow:scroll;'>
+<ion-content style='background:url(assets/imgs/building.jpg) no-repeat; -webkit-background-size: 280% auto;background-size: cover;overflow:scroll;background-attachment: fixed;' overflow-scroll='true'>
 
   <ion-item no-lines class="profile-item">
     <div class="profile-picture">
@@ -18,12 +18,12 @@
   <br />
   <br />
   <ion-item no-lines style="color:unset;" class="transparentBG" (tap)="isCorrectUser=true;" [ngClass]="isCorrectUser?'sad':'error'">
-    <ion-label class="transparentBG" style="color:unset">Username/Contact:</ion-label>
+    <ion-label class="transparentBG" style="color:white">Username/Contact:</ion-label>
     <ion-input class="transparentBG" type="text" [(ngModel)]="login_username" name="username"></ion-input>
   </ion-item>
 
   <ion-item no-lines style="color:unset;" class="transparentBG" (tap)="isCorrectPass=true;" [ngClass]="isCorrectPass?'sad':'error'">
-    <ion-label class="transparentBG" style="color:unset" fixed>Password:</ion-label>
+    <ion-label class="transparentBG" style="color:white" fixed>Password:</ion-label>
     <ion-input class="transparentBG" type="password" [(ngModel)]="login_password" name="password"></ion-input>
   </ion-item>
 

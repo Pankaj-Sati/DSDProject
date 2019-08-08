@@ -63,7 +63,7 @@ page-login {
   .forgotPass {
     width: 100%;
     bottom: 0;
-    margin-top:50px;
+    margin-top: 50px;
     background-color: #00000075;
   }
 
@@ -77,5 +77,10 @@ page-login {
     background-color: transparent;
     box-shadow: unset;
     text-decoration: underline;
+  }
+
+  ion-input
+  {
+    color:white;
   }
 }
