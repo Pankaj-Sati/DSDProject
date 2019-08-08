@@ -3,14 +3,14 @@
     "",
     "\\src",
     "\\src\\pages",
-    "\\src\\pages\\dashboard",
-    "\\src\\pages\\sign-up",
-    "\\src\\pages\\user_list\\change_user_password",
-    "\\src\\pages\\user_list\\single_user",
-    "\\src\\pages\\user_list\\update_user",
-    "\\src\\providers",
-    "\\src\\providers\\my-storage"
+    "\\src\\pages\\case_study\\single_case_study",
+    "\\src\\pages\\notifications\\new_format",
+    "\\src\\pages\\notifications\\new_format\\add_notification",
+    "\\src\\pages\\reminders\\new_format",
+    "\\src\\pages\\reminders\\new_format\\add_reminder",
+    "\\src\\pages\\reminders\\new_format\\reminder_list",
+    "\\src\\pages\\search-header"
   ],
-  "SelectedNode": "\\src\\pages\\sign-up\\sign-up.html",
+  "SelectedNode": "\\config.xml",
   "PreviewInSolutionExplorer": false
 }
