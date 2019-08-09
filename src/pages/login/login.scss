@@ -4,7 +4,8 @@ page-login {
 
   ion-content {
     .scroll-content {
-      background-image: linear-gradient(rgba(142, 142, 142, 0.22), rgba(0, 128, 236, 0.5));
+      // background-image: linear-gradient(rgba(142, 142, 142, 0.22), rgba(0, 128, 236, 0.5)); //Blue Overlay
+      background-color: #00000078;
       height: 100%;
     }
   }
@@ -79,8 +80,7 @@ page-login {
     text-decoration: underline;
   }
 
-  ion-input
-  {
-    color:white;
+  ion-input {
+    color: white;
   }
 }

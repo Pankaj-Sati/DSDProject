@@ -655,14 +655,7 @@ export class EditClientPage
     }
     //Following lines will execute only if the form fields are correct
 
-    if (this.hasRelation && this.totalEntities <= 0)
-    {
-      //User has selected Case registration as relation but has not added any entity
-
-      this.makeAlertDialog('No Entities Added!!! Add some entities or mark registration as Individual');
-      return;
-    }
-
+    
 
     let body = new FormData();  //Data to be sent to the server
 

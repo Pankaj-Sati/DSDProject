@@ -21,4 +21,9 @@ payment {
   .label {
     color: unset;
   }
+
+  .headingBG
+  {
+    background-color:map-get($colors,'primary');
+  }
 }

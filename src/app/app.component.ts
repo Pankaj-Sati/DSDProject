@@ -25,6 +25,7 @@ import { SingleClientPage } from '../pages/client_list/single_client/single_clie
 import { AppointmentListPage } from '../pages/appointment-list/appointment-list';
 import { EditProfilePage } from '../pages/user_profile/edit_profile/edit_profile';
 import { ClientDocumentsPage } from '../pages/client_list/single_client/document/document';
+import { CommonCalendarPage } from '../pages/common-calendar/common-calendar';
 
 import {SearchHeaderPage} from '../pages/search-header/search-header';
 import { ApiValuesProvider } from '../providers/api-values/api-values';
@@ -225,7 +226,7 @@ export class MyApp {
 
         { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
 
-        { title: 'Settings', icon: 'settings', iconColor: 'appSettingIcon', component: null, subs: this.settingPages, hasSub: false },
+        //{ title: 'Settings', icon: 'settings', iconColor: 'appSettingIcon', component: null, subs: this.settingPages, hasSub: false },
 
         { title: 'Users', icon: 'contacts', iconColor: 'appUsersIcon', component: null, subs: this.userPages, hasSub: false },
 
@@ -235,6 +236,8 @@ export class MyApp {
         { title: 'Account Management', icon: 'archive', iconColor: 'appAccountIcon', component: null, subs: this.accountManagementPages, hasSub: false },
 
         { title: 'SMS', icon: 'send', iconColor: 'appSMSIcon', component: null, subs: this.smsPages, hasSub: false },
+
+        { title: 'Calendar', icon: 'calendar', iconColor: 'appCalendarIcon', component: CommonCalendarPage, subs: null, hasSub: false },
 
 
         { title: 'Reminders', icon: 'clock', iconColor: 'appRemindersIcon', component: ReminderListPage, subs: null, hasSub: false },

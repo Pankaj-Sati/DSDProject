@@ -100,12 +100,8 @@ page-main {
     }
   }
 
-  ion-modal {
-    top: 30% !important;
-    padding: 10px;
-    background: transparent !important;
-    overflow-y: scroll;
-  }
+
+
 
   .item-select .label //to ensure that any dropdown value will align itself left with the label just like other input types does
   {
@@ -125,3 +121,29 @@ page-main {
   //---------------Reminder Model Classes------------//
   //---------------Reminder Model Classes Ends------------//
 }
+
+ion-modal {
+  top: 30% !important;
+  padding: 10px;
+  background: transparent !important;
+  overflow-y: scroll;
+
+  ion-content {
+    height: 70%;
+    overflow: scroll;
+  }
+}
+
+
+ion-content
+{
+  overflow:scroll;
+
+}
+
+ion-label
+{
+  overflow:unset;
+}
+
+

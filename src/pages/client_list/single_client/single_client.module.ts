@@ -16,6 +16,7 @@ import { EditClientPage } from './edit_client/edit_client';
 import { AddCaseHistoryPage } from './notes/add_case_history/add_case_history';
 
 import { ComponentsModule } from '../../../components/components.module';
+import { PipesModule } from '../../../pipes/pipes.module';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ComponentsModule } from '../../../components/components.module';
   imports: [
     IonicPageModule.forChild(SingleClientPage),
     BrMaskerModule,
-    ComponentsModule],
+    ComponentsModule,
+    PipesModule],
   providers: [],
   entryComponents: [SendSMSPage, ChangeManagerPage, SingleClientPage,
     NotesListPage, AddNotesPage, ClientDocumentsPage, ClientCommunicationsPage,

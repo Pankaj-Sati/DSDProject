@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
+    "\\src\\app",
+    "\\src\\components",
+    "\\src\\components\\add-client-hearing",
+    "\\src\\components\\edit-client-hearing",
+    "\\src\\components\\send-secure-email",
     "\\src\\pages",
-    "\\src\\pages\\case_study\\single_case_study",
-    "\\src\\pages\\notifications\\new_format",
-    "\\src\\pages\\notifications\\new_format\\add_notification",
-    "\\src\\pages\\reminders\\new_format",
-    "\\src\\pages\\reminders\\new_format\\add_reminder",
-    "\\src\\pages\\reminders\\new_format\\reminder_list",
-    "\\src\\pages\\search-header"
+    "\\src\\pages\\login",
+    "\\src\\pages\\sign-up"
   ],
-  "SelectedNode": "\\config.xml",
+  "SelectedNode": "\\src\\index.html",
   "PreviewInSolutionExplorer": false
 }

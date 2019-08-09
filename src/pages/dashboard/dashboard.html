@@ -197,7 +197,7 @@
 
     <!--------------Currently hardcoding Calender access control for client (user_type_id=5)--------------->
 
-    <div *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5" #frame style="overflow:scroll !important;-webkit-overflow-scrolling:touch !important">
+    <div *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5" #frame style="height:100%;overflow:scroll !important;-webkit-overflow-scrolling:touch !important">
       <iframe [src]="calendarLink" class="iframe" style="width:100%;min-height:360px;margin-top:20px" scrolling="yes"></iframe>
     </div>
 

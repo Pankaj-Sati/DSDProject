@@ -72,6 +72,8 @@ import { RemindersModule } from '../pages/reminders/new_format/reminders.module'
 import { ForgotPasswordPageModule } from '../pages/forgot-password/forgot-password.module';
 import { EntityTypeProvider } from '../providers/entity-type/entity-type';
 import { StateListProvider } from '../providers/state-list/state-list';
+import { PipesModule } from '../pipes/pipes.module';
+import {CommonCalendarPageModule } from '../pages/common-calendar/common-calendar.module'
 
 
 @NgModule({
@@ -128,7 +130,9 @@ import { StateListProvider } from '../providers/state-list/state-list';
     ForgotPasswordPageModule,
     BookAppointmentPageModule,
     AppointmentListPageModule,
-    BookAppointmentAtLoginPageModule
+    BookAppointmentAtLoginPageModule,
+    PipesModule,
+    CommonCalendarPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
