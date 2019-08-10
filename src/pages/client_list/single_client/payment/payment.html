@@ -242,7 +242,7 @@
           <ion-col style="margin:auto;" col-6>
             <ion-row>
               <ion-col style="text-align:left;">
-                <b style="overflow: hidden;white-space: nowrap;">{{payment.hearing_date | date:'MMM, dd yy'}} </b>
+                <b style="overflow: hidden;white-space: nowrap;">{{payment.hearing_date | date:'MMM, dd yyyy'}} </b>
               </ion-col>
             </ion-row>
 
@@ -277,7 +277,7 @@
           <ion-col col-6>
             <ion-item no-lines>
               <ion-label stacked>Total Fee</ion-label>
-              <ion-label>{{payment.amount}}</ion-label>
+              <ion-label>{{payment.amount | currency :  "USD"}}</ion-label>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -286,13 +286,13 @@
           <ion-col col-6>
             <ion-item no-lines>
               <ion-label stacked>Payment</ion-label>
-              <ion-label>{{payment.given_amount}}</ion-label>
+              <ion-label>{{payment.given_amount |currency :  "USD"}}</ion-label>
             </ion-item>
           </ion-col>
           <ion-col col-6>
             <ion-item no-lines>
               <ion-label stacked>Outstanding Amount</ion-label>
-              <ion-label>{{payment.outstanding_amnt}}</ion-label>
+              <ion-label>{{payment.outstanding_amnt|currency :  "USD"}}</ion-label>
             </ion-item>
           </ion-col>
         </ion-row>

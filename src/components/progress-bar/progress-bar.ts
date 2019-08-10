@@ -12,8 +12,12 @@ import { Component, Input } from '@angular/core';
 })
 export class ProgressBarComponent
 {
-  @Input('progress') progress=0; //@Input is used to receive input from parent's variable
+  @Input('progress') progress:any=10; //@Input is used to receive input from parent's variable
   
+  ngOnInit()
+  {
+    console.log('Progress: ' + this.progress);
+  }
 
   constructor()
   {

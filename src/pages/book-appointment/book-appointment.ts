@@ -23,6 +23,8 @@ export class BookAppointmentPage
   a_advocate: string = '';
 
   advocate_list: any;
+  maxDate: any;
+  minDate: any;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -33,6 +35,8 @@ export class BookAppointmentPage
     public apiValue: ApiValuesProvider
   )
   {
+    this.maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 5)).toISOString();
+    this.minDate = new Date().toISOString();
     this.loggedInUser = this.myStorage.getParameters();
     this.getCaseManagerList();
   }

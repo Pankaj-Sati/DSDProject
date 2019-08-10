@@ -23,13 +23,14 @@
       <ion-col style="text-align:center;">
         <ion-label><b>Selected File:</b>{{selected_file_name}}</ion-label>
         <button icon-start ion-button [disabled]="(selected_file_name==undefined || selected_file_name.length==0)" (click)="uploadFile()"><ion-icon name="cloud-upload"></ion-icon>Upload</button><br />
-        <progress-bar [progress]="uploadProgress"></progress-bar>
+        <progress-bar *ngIf="isUploading" [progress]="uploadProgress"></progress-bar>
+        <p style="width:100%;" *ngIf="isUploading">{{uploadProgress}}%</p>
       </ion-col>
     </ion-row>
 
     <ion-row>
       <ion-col style="text-align:center;">
-        <button icon-start ion-button (click)="takeFile()"><ion-icon name="add"></ion-icon>Add New</button>
+        <button icon-start ion-button (click)="showFileSelectionDialog()"><ion-icon name="add"></ion-icon>Add New</button>
         <button ion-button icon-start [disabled]="doc_list==null || doc_list==undefined || doc_list.length==0" (click)="downloadMultipleDoc()"><ion-icon name="cloud-download"></ion-icon>{{selectedDocList.length==0?'Download All':'Download Selected'}}</button>
 
       </ion-col>

@@ -18,7 +18,8 @@ import { DatePipe } from '@angular/common';
 export class BookAppointmentAtLoginPage
 {
   userForm: FormGroup;
-
+  maxDate: any;
+  minDate: any;
   constructor(public platform: Platform,
     public formBuilder: FormBuilder,
     public apiValue: ApiValuesProvider,
@@ -30,6 +31,8 @@ export class BookAppointmentAtLoginPage
     public toastCtrl: ToastController,
     public events: Events)
   {
+    this.maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 5)).toISOString();
+    this.minDate = new Date().toISOString();
     this.userForm = this.formBuilder.group({
 
 

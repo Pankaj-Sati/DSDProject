@@ -37,9 +37,12 @@ export class ClientDocumentsPage
   lastImage; //Last selected Image
   loggedInUser: User;
 
-  uploadProgress: any = '0';
+  uploadProgress: any = 0;
+
+  isUploading: boolean = false; //To indicate whether currently any file is being uploaded
 
   blurAmount: string = ''; //To set blurr background class when modal opens
+
  
   constructor
     (
@@ -63,6 +66,7 @@ export class ClientDocumentsPage
     )
   {
     this.loggedInUser = this.myStorage.getParameters();
+   
   }
 
   ionViewDidLoad()
@@ -286,7 +290,7 @@ export class ClientDocumentsPage
 
   }
 
-  takeImage()
+  showFileSelectionDialog()
   {
 
     console.log("In take Image()");
@@ -295,8 +299,8 @@ export class ClientDocumentsPage
 
 
     let alert = this.alertCtrl.create({
-      title: 'Profile Image',
-      message: 'Select profile image from:',
+      title: 'Upload New Document',
+      message: 'Select document from:',
       buttons: [
         {
           text: 'Gallery',
@@ -312,6 +316,14 @@ export class ClientDocumentsPage
           {
             console.log('From camera');
             this.getImage(this.camera.PictureSourceType.CAMERA);
+          }
+        },
+        {
+          text: 'Files',
+          handler: () =>
+          {
+            console.log('From files');
+            this.takeFile();
           }
         }
       ]
@@ -382,6 +394,7 @@ export class ClientDocumentsPage
               let currentName = imageData.substring(imageData.lastIndexOf('/') + 1, imageData.lastIndexOf('?'));
               this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
               this.selected_file_name = currentName;
+              this.uploadFile();
               
             })
 
@@ -402,6 +415,7 @@ export class ClientDocumentsPage
           var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
           this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
           this.selected_file_name = currentName;
+          this.uploadFile();
 
         }
       }
@@ -442,8 +456,8 @@ export class ClientDocumentsPage
   uploadFile()
   {
     let transfer: FileTransferObject = this.fileTransfer.create();
-    this.uploadProgress = '';
-
+    this.uploadProgress = 0;
+    this.isUploading = true;
     let filename = this.selected_file_name;
     console.log('File Name='+filename);
       var options =
@@ -481,7 +495,8 @@ export class ClientDocumentsPage
     transfer.upload(this.lastImage, this.apiValues.baseURL + '/client_doc_upload.php', options).then(data =>
       {
 
-        transferSuccessful = true;
+      transferSuccessful = true;
+      this.isUploading = false;
         console.log("Image upload server reply");
         console.log(data);
         //loader.dismiss(); 
@@ -524,7 +539,7 @@ export class ClientDocumentsPage
 
       }, err =>
         {
-
+        this.isUploading = false;
           console.log(err);
           transferSuccessful = true;
           this.presentToast("Failed!! Server returned an error");
@@ -533,7 +548,7 @@ export class ClientDocumentsPage
         })
         .catch(err =>
         {
-
+          this.isUploading = false;
           transferSuccessful = true;
           console.log(err);
           this.presentToast("Failed!! Server returned an error");
@@ -541,11 +556,10 @@ export class ClientDocumentsPage
 
         });
 
-    transfer.onProgress(progress =>
+    transfer.onProgress((progress) =>
     {
-      
-      this.uploadProgress = Math.round((progress.loaded / progress.total) * 100);
-      console.log("Progress="+this.uploadProgress);
+      this.onFileProgressChange(progress);
+     
     });
 
       loader.onDidDismiss((data) =>
@@ -559,6 +573,12 @@ export class ClientDocumentsPage
       });
     
 
+  }
+
+  onFileProgressChange=(progress):void=>
+  {
+    this.uploadProgress = Math.round((progress.loaded / progress.total) * 100);
+    console.log("Progress=" + this.uploadProgress);
   }
 
   presentToast(text)
