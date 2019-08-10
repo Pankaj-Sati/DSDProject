@@ -33,21 +33,21 @@
 
     <ion-list>
 
-      
+
       <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_name.touched && ! userForm.controls.u_name.valid,'valid':(userForm.controls.u_name.touched && userForm.controls.u_name.valid)}" [class.invalid]="userForm.controls.u_name.touched && ! userForm.controls.u_name.valid">
 
         <ion-label style="color:white;">First Name <span class="requiredField">*</span>:</ion-label>
         <ion-input type="text" formControlName="u_name" name="first_name"></ion-input>
       </ion-item>
-        
-        
+
+
       <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_lastname.touched && ! userForm.controls.u_lastname.valid,'valid':(userForm.controls.u_lastname.touched && userForm.controls.u_lastname.valid)}" [class.invalid]="userForm.controls.u_lastname.touched && ! userForm.controls.u_lastname.valid">
 
         <ion-label style="color:white;">Last Name:</ion-label>
         <ion-input type="text" formControlName="u_lastname" name="last_name"></ion-input>
       </ion-item>
-      
-      
+
+
       <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_password.touched && ! userForm.controls.u_password.valid,'valid':(userForm.controls.u_password.touched && userForm.controls.u_password.valid)}" [class.invalid]="userForm.controls.u_password.touched && ! userForm.controls.u_password.valid">
 
         <ion-label style="color:white;">Password:</ion-label>
@@ -154,15 +154,17 @@
         </ion-select>
       </ion-item>
 
+      <ion-row>
+        <ion-col style="text-align: center;padding:5px 32px;">
+          <button ion-button round icon-end style="width:100%;" [disabled]="! userForm.valid" (click)="submitData()">Sign Up<ion-icon name="person"></ion-icon></button>
+        </ion-col>
+      </ion-row>
+
     </ion-list>
 
 
 
-    <ion-row>
-      <ion-col style="text-align: center;padding:5px 32px;">
-        <button ion-button round icon-end style="width:100%;" [disabled]="! userForm.valid" (click)="submitData()">Sign Up<ion-icon name="person"></ion-icon></button>
-      </ion-col>
-    </ion-row>
+    
     <br />
     <br />
   </form>

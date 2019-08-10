@@ -131,6 +131,7 @@ ion-modal {
   ion-content {
     height: 70%;
     overflow: scroll;
+    margin-top:50px;
   }
 }
 
@@ -138,12 +139,13 @@ ion-modal {
 ion-content
 {
   overflow:scroll;
-
+  padding-top:50px;
 }
 
 ion-label
 {
   overflow:unset;
+  white-space:unset;
 }
 
 
