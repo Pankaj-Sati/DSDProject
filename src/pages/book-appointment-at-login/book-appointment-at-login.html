@@ -65,14 +65,16 @@
         <ion-textarea formControlName="u_remark" name="remark_in_appointment"></ion-textarea>
       </ion-item>
 
+      <ion-row>
+        <ion-col style="text-align: center;padding:5px 32px;">
+          <button ion-button round icon-end style="width:100%;" [disabled]="! userForm.valid" (click)="submitData()">Book Appointment<ion-icon name="bookmark"></ion-icon></button>
+        </ion-col>
+      </ion-row>
+
     </ion-list>
 
 
 
-    <ion-row>
-      <ion-col style="text-align: center;padding:5px 32px;">
-        <button ion-button round icon-end style="width:100%;" [disabled]="! userForm.valid" (click)="submitData()">Book Appointment<ion-icon name="bookmark"></ion-icon></button>
-      </ion-col>
-    </ion-row>
+ 
   </form>
 </ion-content>
