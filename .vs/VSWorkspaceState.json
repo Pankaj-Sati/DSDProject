@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components",
-    "\\src\\components\\account-summary-details",
-    "\\src\\components\\add-balance-in-payment",
-    "\\src\\pages\\account_management\\single_user_account\\payment_summary",
-    "\\src\\pages\\client_list\\add_client",
-    "\\src\\pages\\client_list\\single_client",
-    "\\src\\pages\\client_list\\single_client\\edit_client",
-    "\\src\\providers\\client-entity-relationship"
+    "\\src\\app",
+    "\\src\\components\\send-secure-email",
+    "\\src\\pages",
+    "\\src\\pages\\login",
+    "\\src\\pages\\reminders\\new_format",
+    "\\src\\pages\\reminders\\new_format\\add_reminder",
+    "\\src\\pages\\reminders\\new_format\\reminder_list",
+    "\\src\\pages\\user_list"
   ],
-  "SelectedNode": "\\config.xml",
+  "SelectedNode": "\\src\\pages\\book-appointment-at-login",
   "PreviewInSolutionExplorer": false
 }

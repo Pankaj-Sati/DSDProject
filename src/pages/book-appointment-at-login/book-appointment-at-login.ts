@@ -266,4 +266,6 @@ export class BookAppointmentAtLoginPage
     toast.present();
   }
 
+  
+
 }

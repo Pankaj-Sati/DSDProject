@@ -12,8 +12,8 @@
   </ion-item>
 
   <ion-item no-lines>
-    <ion-label stacked>Time (24 Hours)</ion-label>
-    <ion-datetime displayFormat="HH:mm" required [(ngModel)]="r_time" placeholder="Select Time"></ion-datetime>
+    <ion-label stacked>Time</ion-label>
+    <ion-datetime displayFormat="hh:mm A" required [(ngModel)]="r_time" placeholder="Select Time"></ion-datetime>
   </ion-item>
 
   <div *ngIf="loggedInUser!=undefined && loggedInUser!=null && loggedInUser.user_type_id!=5">

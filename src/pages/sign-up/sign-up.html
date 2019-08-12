@@ -73,15 +73,15 @@
       </ion-item>
 
       <!------------------ ALien No with Find Button----------------------------//
-     <ion-row>
-       <ion-col col-10 style="padding:0px;">
+       <ion-row>
+         <ion-col col-10 style="padding:0px;">
 
-       </ion-col>
-       <ion-col *ngIf="!isNew" col-2 style="padding:0px;">
-         <button ion-button class="findButton" [disabled]="userForm.value.u_alien.length==0" (click)="searchForExistingClient()">Find</button>
-       </ion-col>
-     </ion-row>
-  -->
+         </ion-col>
+         <ion-col *ngIf="!isNew" col-2 style="padding:0px;">
+           <button ion-button class="findButton" [disabled]="userForm.value.u_alien.length==0" (click)="searchForExistingClient()">Find</button>
+         </ion-col>
+       </ion-row>
+    -->
 
 
 
@@ -164,9 +164,14 @@
 
 
 
-    
+
     <br />
     <br />
+
+    <div class="iosScrollFixDiv">
+      <!-- This extra space is used to overcome scroll to bottom issues in iOS where content at the bottom is beyond scrollable area-->
+    </div>
+
   </form>
 </ion-content>
 

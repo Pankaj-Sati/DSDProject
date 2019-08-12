@@ -63,12 +63,14 @@
     </ion-col>
   </ion-row>
 
- 
-      <button ion-button round class="forgotButton" icon-end (click)="forgotPassword()">Forgot Password<ion-icon name="git-compare"></ion-icon></button>
-  
+
+  <button ion-button round class="forgotButton" icon-end (click)="forgotPassword()">Forgot Password<ion-icon name="git-compare"></ion-icon></button>
 
 
 
+  <div class="iosScrollFixDiv">
+    <!-- This extra space is used to overcome scroll to bottom issues in iOS where content at the bottom is beyond scrollable area-->
+  </div>
 
 
 </ion-content>
