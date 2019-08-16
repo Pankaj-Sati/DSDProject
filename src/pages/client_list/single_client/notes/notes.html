@@ -225,7 +225,8 @@
             </ion-col>
           </ion-row>
 
-          <ion-row>
+          <!--Showing Delete button only to the user who has created it or to Super Admin and Admins-->
+          <ion-row *ngIf="note!=undefined && loggedInUser!=undefined && (note.created_by==loggedInUser.id || loggedInUser.id==1 || loggedInUser.id==2)">
             <ion-col style="text-align:center">
               <button class="delButton" ion-button icon-start round (click)="deleteAlert(true,note)"><ion-icon name="trash"></ion-icon>Delete</button>
             </ion-col>

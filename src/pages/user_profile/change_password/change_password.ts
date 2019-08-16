@@ -89,9 +89,27 @@ export class ChangePasswordPage
 				});
 
 				alert.present();
-		     }
+            }
+
+            else if (this.confirm_pass.length<5)
+            {
+              let alert = this.alertCtrl.create({
+
+                title: "ATTENTION",
+
+                subTitle: "New Password is too short",
+
+                buttons: ["OK"]
+
+              });
+
+              alert.present();
+            }
+
+
 		     else
 		     {
+
 		     	var headers = new Headers();
 		     	headers.append("Accept", "application/json");
 

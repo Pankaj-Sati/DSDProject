@@ -4,12 +4,14 @@ import { LoadingController, ToastController, NavController, NavOptions, AlertCon
 import { Http } from "@angular/http";
 
 import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
+import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
 
 import { AddNotesPage } from './add_notes/add_notes';
 import { AddCaseHistoryPage } from './add_case_history/add_case_history';
 
 import { ClientNote } from '../../../../models/client_notes.model';
 import { CaseHistory } from '../../../../models/client_case_history.model';
+import { User } from '../../../../models/login_user.model';
 
 
 @Component({
@@ -23,6 +25,7 @@ export class NotesListPage
   case_history_list: CaseHistory[] = [];
   noteDetail: ClientNote;
   passed_client_id;
+  loggedInUser: User;
 
   n_search: string = '';//Search string for notes
   c_search: string = '';//Search string for case history
@@ -43,11 +46,12 @@ export class NotesListPage
       public apiValues: ApiValuesProvider,
       public navCtrl: NavController,
     public navParams: NavParams,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public myStorage: MyStorageProvider
  
     )
   {
-   
+    this.loggedInUser = this.myStorage.getParameters();
   }
 
   ionViewDidLoad()

@@ -170,6 +170,14 @@ export class EditProfilePage
             console.log('From camera');
             this.getImage(this.camera.PictureSourceType.CAMERA);
           }
+        },
+        {
+          text: 'Cancel',
+          handler: () =>
+          {
+            console.log('Cancelled');
+            
+          }
         }
       ]
     });

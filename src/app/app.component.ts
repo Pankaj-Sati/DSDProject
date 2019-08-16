@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-
+import { Http, RequestOptions, Headers } from '@angular/http';
 import { Platform, MenuController, Nav} from 'ionic-angular';
 
 //Pages
@@ -26,6 +26,7 @@ import { AppointmentListPage } from '../pages/appointment-list/appointment-list'
 import { EditProfilePage } from '../pages/user_profile/edit_profile/edit_profile';
 import { ClientDocumentsPage } from '../pages/client_list/single_client/document/document';
 import { CommonCalendarPage } from '../pages/common-calendar/common-calendar';
+import { ChangePasswordPage } from '../pages/user_profile/change_password/change_password';
 
 import {SearchHeaderPage} from '../pages/search-header/search-header';
 import { ApiValuesProvider } from '../providers/api-values/api-values';
@@ -33,7 +34,7 @@ import { MyStorageProvider } from '../providers/my-storage/my-storage';
 import { StateListProvider } from '../providers/state-list/state-list';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { LoadingController, ToastController } from 'ionic-angular';
+import { LoadingController, ToastController, AlertController } from 'ionic-angular';
 import { User } from '../models/login_user.model';
 import { Client } from '../models/client.model';
 import { CaseType } from '../models/case_type.model';
@@ -92,7 +93,9 @@ export class MyApp {
     public caseTypeProvider: CaseTypeProvider,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    public stateListProvider: StateListProvider
+    public stateListProvider: StateListProvider,
+    public alertCtrl: AlertController,
+    public http: Http
   ) 
   {
 
@@ -192,6 +195,8 @@ export class MyApp {
 
         { title: 'Edit Profile', icon: 'people', iconColor: 'appCaseIcon', component: EditProfilePage, subs: null, hasSub: false },
 
+        { title: 'Change Password', icon: 'finger-print', iconColor: 'appChangePassword', component: ChangePasswordPage, subs: null, hasSub: false },
+
 
         // { title: 'Account Management', icon: 'archive', iconColor: 'appAccountIcon', component: null, subs: this.accountManagementPages, hasSub: false },
 
@@ -209,6 +214,8 @@ export class MyApp {
        // { title: 'Case Study', icon: 'paper', iconColor: 'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
 
         //{ title: 'File Test', icon:'paper', component: HelloIonicPage,subs:null,hasSub:false },
+
+        { title: 'Delete Profile', icon: 'trash', iconColor: 'appLogoutIcon', component: 'delete_profile', subs: null, hasSub: false },
 
         { title: 'Logout', icon: 'log-out', iconColor: 'appLogoutIcon', component: LogoutPage, subs: null, hasSub: false }
 
@@ -249,6 +256,7 @@ export class MyApp {
         { title: 'Case Study', icon: 'paper', iconColor: 'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
 
         //{ title: 'File Test', icon:'paper', component: HelloIonicPage,subs:null,hasSub:false },
+        { title: 'Delete Profile', icon: 'trash', iconColor: 'appLogoutIcon', component: 'delete_profile', subs: null, hasSub: false },
 
         { title: 'Logout', icon: 'log-out', iconColor: 'appLogoutIcon', component: LogoutPage, subs: null, hasSub: false }
 
@@ -419,6 +427,17 @@ export class MyApp {
       return;
     }
 
+    if (page.component == 'delete_profile')
+    {
+      if (Number(this.loggedInUser.user_type_id) == 1 || Number(this.loggedInUser.user_type_id) == 2)
+      {
+        this.presentAlert('Admin profile can\'t be deleted');
+        return;
+      }
+      this.deleteUser();
+      return;
+    }
+
     this.nav.setRoot(page.component);
   }
 
@@ -451,6 +470,103 @@ export class MyApp {
     let target = "_system";
     this.inAppBrowser.create("https://www.mazetechnologiesllc.com/", target);
 
+  }
+
+  deleteUser()
+  {
+    let alert = this.alertCtrl.create({
+      title: 'Confirm Delete!!!',
+      message: 'Are you sure that you want to delete your profile?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () =>
+          {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () =>
+          {
+            console.log('Buy clicked');
+
+            this.sendDeleteUserRequest();
+
+          }
+        }
+      ]
+    });
+    alert.present()
+  }
+
+  sendDeleteUserRequest()
+  {
+    var headers = new Headers();
+
+    let options = new RequestOptions({ headers: headers });
+
+
+
+    let data = new FormData();
+
+    data.set('rowID', this.loggedInUser.id);
+    data.set('session_id', this.loggedInUser.id);
+
+
+    let loader = this.loadingCtrl.create({
+
+      content: "Deleting profile...",
+
+    });
+
+    loader.present().then(() => 
+    {
+
+      this.http.post(this.apiValues.baseURL + "/user_delete.php", data, options) //Http request returns an observable
+
+        .map(response => response.json()) ////To make it easy to read from observable
+
+        .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
+
+        {
+          console.log(serverReply);
+          loader.dismiss();
+
+          if ('message' in serverReply) //incorrect
+          {
+
+            const toast = this.toastCtrl.create({
+              message: serverReply.message,
+              duration: 5000
+            });
+            toast.present();
+          }
+
+          if ('code' in serverReply && serverReply.code == 200)
+          {
+            //Successfully deleted
+            this.myStorage.removeParameters(); //Remove all the user data
+            this.nav.setRoot(LoginPage); //Pop the current page from the stack
+          }
+
+        });
+
+    });
+  }
+
+  presentAlert(msg)
+  {
+    const alert = this.alertCtrl.create({
+      message: msg,
+      title: 'Attention',
+      buttons: [{
+        text:'Ok'
+      }]
+    });
+
+    alert.present();
   }
 
 }

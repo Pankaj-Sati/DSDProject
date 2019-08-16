@@ -98,7 +98,7 @@ export class EditClientPage
 
       //Case details
       c_case_type: new FormControl('', Validators.compose([Validators.required])),
-      c_alien_no: new FormControl('', Validators.compose([Validators.required])),
+      c_alien_no: new FormControl(''),
       c_client_type: new FormControl(''),
       c_case_category: new FormControl('', Validators.compose([Validators.required])),
       c_case_description: new FormControl(''),

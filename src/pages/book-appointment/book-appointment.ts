@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { LoadingController, ToastController } from 'ionic-angular';
+import { LoadingController, ToastController, AlertController } from 'ionic-angular';
+import { DatePipe } from '@angular/common';
 
 import { User } from '../../models/login_user.model';
 
@@ -32,7 +33,8 @@ export class BookAppointmentPage
     public loading: LoadingController,
     public toastCtrl: ToastController,
     public http: Http,
-    public apiValue: ApiValuesProvider
+    public apiValue: ApiValuesProvider,
+    public alertCtrl: AlertController
   )
   {
     this.maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 5)).toISOString();
@@ -67,6 +69,10 @@ export class BookAppointmentPage
       return;
     }
 
+    if (this.dateChanged()==false) //Check whether the date is in business days or not
+    {
+      return; //Stop further execution
+    }
     //Following lines will execute only if everything is okay
 
     const loader = this.loading.create({
@@ -202,6 +208,34 @@ export class BookAppointmentPage
       duration:3000
     });
     toast.present();
+  }
+
+  dateChanged()
+  {
+    let dateSelected = this.a_date;
+    console.log('Changed Date:' + dateSelected);
+    let pipe = new DatePipe('en-US');
+    dateSelected = pipe.transform(dateSelected, 'EEEE');
+    console.log('Formatted Date:' + dateSelected);
+    if (dateSelected != undefined && (String(dateSelected).toLowerCase() == 'saturday' || String(dateSelected).toLowerCase() == 'sunday'))
+    {
+      //Weekends selected
+      this.presentAlert('Please Select Business Days \n Monday to Friday (9 AM to 5 PM)');
+      return false;
+    }
+    return true;
+  }
+
+  presentAlert(text)
+  {
+    const alert = this.alertCtrl.create({
+      message: text,
+      title: 'Attention!',
+      buttons: [{
+        text: 'OK'
+      }]
+    });
+    alert.present();
   }
 
 }

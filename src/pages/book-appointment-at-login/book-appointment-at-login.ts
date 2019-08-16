@@ -62,6 +62,11 @@ export class BookAppointmentAtLoginPage
       return;
     }
 
+    if (this.dateChanged() == false) //Checking whether the date selected is in business days
+    {
+      return;//Stop further execution
+    }
+
     //The following code will run only if the details entered are valid
 
     var headers = new Headers();
@@ -266,6 +271,21 @@ export class BookAppointmentAtLoginPage
     toast.present();
   }
 
-  
+  dateChanged()
+  {
+    let dateSelected = this.userForm.value.u_date;
+    console.log('Changed Date:' + dateSelected);
+    let pipe = new DatePipe('en-US');
+    dateSelected = pipe.transform(dateSelected, 'EEEE');
+    console.log('Formatted Date:' + dateSelected);
+    if (dateSelected != undefined && (String(dateSelected).toLowerCase() == 'saturday' || String(dateSelected).toLowerCase() == 'sunday'))
+    {
+      //Weekends selected
+      this.presentAlert('Please Select Business Days \n Monday to Friday (9 AM to 5 PM)');
+      this.userForm.controls.u_date.setErrors({ 'incorrect': true });
+      return false;
+    }
+    return true;
+  }
 
 }
