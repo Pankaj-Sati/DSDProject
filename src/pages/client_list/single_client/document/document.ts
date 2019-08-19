@@ -325,6 +325,14 @@ export class ClientDocumentsPage
             console.log('From files');
             this.takeFile();
           }
+        },
+        {
+          text: 'Cancel',
+          handler: () =>
+          {
+            console.log('Canceled');
+            
+          }
         }
       ]
     });
@@ -392,9 +400,8 @@ export class ClientDocumentsPage
             {
               let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
               let currentName = imageData.substring(imageData.lastIndexOf('/') + 1, imageData.lastIndexOf('?'));
-              this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-              this.selected_file_name = currentName;
-              this.uploadFile();
+               this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+              
               
             })
 
@@ -413,9 +420,8 @@ export class ClientDocumentsPage
         {
           var currentName = imageData.substr(imageData.lastIndexOf('/') + 1);
           var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
-          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-          this.selected_file_name = currentName;
-          this.uploadFile();
+           this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+          
 
         }
       }
@@ -439,12 +445,14 @@ export class ClientDocumentsPage
     return name;
   }
 
-  copyFileToLocalDir(correctPath, currentName, newFileName)
+  async copyFileToLocalDir(correctPath, currentName, newFileName)
   {
-    this.file.copyFile(correctPath, currentName, cordova.file.dataDirectory, newFileName).then(success =>
+    await this.file.copyFile(correctPath, currentName, cordova.file.dataDirectory, newFileName).then(success =>
     {
 
       this.lastImage = cordova.file.dataDirectory + newFileName;
+      this.selected_file_name = currentName;
+      this.uploadFile();
 
     }, error =>
       {
