@@ -9,6 +9,8 @@ import { User } from '../../models/login_user.model';
 import { MyStorageProvider } from '../../providers/my-storage/my-storage';
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
 
+
+
 @IonicPage()
 @Component({
   selector: 'page-book-appointment',
@@ -34,7 +36,8 @@ export class BookAppointmentPage
     public toastCtrl: ToastController,
     public http: Http,
     public apiValue: ApiValuesProvider,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+  
   )
   {
     this.maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 5)).toISOString();

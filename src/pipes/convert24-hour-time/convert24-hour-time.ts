@@ -12,7 +12,13 @@ export class Convert24HourTimePipe implements PipeTransform {
   /**
    * Takes a value and makes it lowercase.
    */
-  transform(time: any) {
+  transform(time: any)
+  {
+    if (time == undefined || time == null || time.length == 0)
+    {
+      return 'N/A';
+    }
+
     let hour = (time.split(':'))[0]
     let min = (time.split(':'))[1]
     let part = hour >= 12 ? 'pm' : 'am';

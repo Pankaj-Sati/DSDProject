@@ -18,6 +18,7 @@ import { DownloadDocumentsComponent } from './download-documents/download-docume
 import { BulkSmsDetailComponent } from './bulk-sms-detail/bulk-sms-detail';
 import { SendBulkSmsComponent } from './send-bulk-sms/send-bulk-sms';
 import { ProgressBarComponent } from './progress-bar/progress-bar';
+import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({
 	declarations: [ClientDetailsComponent,
@@ -37,7 +38,7 @@ import { ProgressBarComponent } from './progress-bar/progress-bar';
     BulkSmsDetailComponent,
     SendBulkSmsComponent,
     ProgressBarComponent],
-  imports: [IonicPageModule.forChild(ClientDetailActionsComponent), CommonModule],
+  imports: [IonicPageModule.forChild(ClientDetailActionsComponent), CommonModule, PipesModule],
   entryComponents: [ClientDetailsComponent,
     RemindersDetailComponent,
     NoRecordFoundComponent,

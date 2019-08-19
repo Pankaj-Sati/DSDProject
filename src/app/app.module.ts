@@ -73,7 +73,8 @@ import { ForgotPasswordPageModule } from '../pages/forgot-password/forgot-passwo
 import { EntityTypeProvider } from '../providers/entity-type/entity-type';
 import { StateListProvider } from '../providers/state-list/state-list';
 import { PipesModule } from '../pipes/pipes.module';
-import {CommonCalendarPageModule } from '../pages/common-calendar/common-calendar.module'
+import { CommonCalendarPageModule } from '../pages/common-calendar/common-calendar.module';
+
 
 
 @NgModule({
@@ -194,7 +195,7 @@ import {CommonCalendarPageModule } from '../pages/common-calendar/common-calenda
     EntityTypeProvider,
     StateListProvider,
   ],
-  exports: [ComponentsModule],
+  exports: [ComponentsModule, PipesModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}
