@@ -14,10 +14,9 @@
 
   <div style="text-align:center;padding:10px 20px;">
 
-    <h2>Dalbir's Law Firm</h2>
     <h3>You are successfully registered</h3>
-    <h4>We have sent your login details to your email address and contact number</h4>
-    <h5 *ngIf="passed_email!=undefined && passed_email!=null">Email: {{passed_email}}</h5>
+    <h4>We have sent your login details to your <span *ngIf="passed_email!=undefined && passed_email!=null && passed_email.length>0">Email address and </span>Contact number</h4>
+    <h5 *ngIf="passed_email!=undefined && passed_email!=null && passed_email.length>0">Email: {{passed_email}}</h5>
     <h5 *ngIf="passed_contact!=undefined">Contact: {{passed_contact}}</h5>
     <h3>Thank you</h3>
 

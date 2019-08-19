@@ -119,9 +119,10 @@ export class BookAppointmentAtLoginPage
                 //Successfully booked appointment
 
                 let pipe = new DatePipe('en-US');
-                let appointmentDate = pipe.transform(this.userForm.value.u_date + " " + this.userForm.value.u_time,'MMM, dd yyyy HH:mm');
+                let appointmentDate = pipe.transform(this.userForm.value.u_date,'MMM, dd yyyy');
+                let appointmentTime = pipe.transform(this.userForm.value.u_date+' '+this.userForm.value.u_time,'hh:mm a');
 
-                this.presentAlert('Your appointment has been confirmed on date ' + appointmentDate);
+                this.presentAlert('Your appointment has been confirmed for ' + appointmentDate + ' at ' + appointmentTime);
                 this.navCtrl.pop();
               }
               else

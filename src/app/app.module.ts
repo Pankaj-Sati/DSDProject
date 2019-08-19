@@ -7,7 +7,7 @@ import { Camera } from '@ionic-native/camera';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
-import { BrMaskerModule } from 'brmasker-ionic-3';
+import { BrMaskerModule, BrMaskerIonic3 } from 'brmasker-ionic-3';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
@@ -192,7 +192,7 @@ import {CommonCalendarPageModule } from '../pages/common-calendar/common-calenda
     CaseTypeProvider,
     Chooser,
     EntityTypeProvider,
-    StateListProvider
+    StateListProvider,
   ],
   exports: [ComponentsModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]

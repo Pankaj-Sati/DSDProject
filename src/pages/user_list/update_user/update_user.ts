@@ -19,6 +19,8 @@ import { User } from '../../../models/login_user.model';
 import { StateListProvider } from '../../../providers/state-list/state-list';
 import { State } from '../../../models/state.model';
 
+import {BrContactMaskPipe } from '../../../pipes/br-contact-mask/br-contact-mask';
+
 declare var cordova:any;
 
 @Component({
@@ -65,7 +67,8 @@ export class UpdateUserPage
     public myStorage: MyStorageProvider,
     public menuCtrl: MenuController,
     public stateListProvider: StateListProvider,
-    public events: Events) 
+    public events: Events,
+    public contactMask: BrContactMaskPipe) 
   {
 
     this.loggedInUser = this.myStorage.getParameters();
@@ -306,9 +309,12 @@ export class UpdateUserPage
 								
 								this.userForm.controls.u_name.setValue(this.user.name);
 								this.userForm.controls.u_lastname.setValue(this.user.lastname);
-								this.userForm.controls.u_email.setValue(this.user.email);
-								this.userForm.controls.u_contact.setValue(this.user.contact);
-								this.userForm.controls.u_alt.setValue(this.user.alternate_number);
+                                      this.userForm.controls.u_email.setValue(this.user.email);
+
+                                      //----Masking Contact----//
+
+                                      this.userForm.controls.u_contact.setValue(this.contactMask.transform(this.user.contact));
+                                      this.userForm.controls.u_alt.setValue(this.contactMask.transform(this.user.alternate_number));
 
                 this.userForm.controls.u_gender.setValue(this.user.gender.toLowerCase());
                 this.userForm.controls.u_dob.setValue('');

@@ -6,6 +6,7 @@ import { Validators, FormBuilder, FormControl, FormGroup } from "@angular/forms"
 import { LoadingController } from "ionic-angular";
 import { ToastController, Events } from 'ionic-angular';
 import "rxjs/add/operator/map";
+
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer'
 import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
@@ -21,6 +22,8 @@ import { User, UserDetails } from '../../../models/login_user.model';
 
 import { Storage } from '@ionic/storage';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+
+import { BrContactMaskPipe } from '../../../pipes/br-contact-mask/br-contact-mask';
 
 declare var cordova: any;
 
@@ -70,7 +73,8 @@ export class EditProfilePage
     public myStorage: MyStorageProvider,
     public menuCtrl: MenuController,
     public countryProvider: CountryProvider,
-    public stateListProvider: StateListProvider) 
+    public stateListProvider: StateListProvider,
+    public brMasker: BrContactMaskPipe) 
   {
 
     //------------------Gettting State List from Provider---------//
@@ -386,8 +390,19 @@ export class EditProfilePage
    
 
     this.userForm.controls.u_email.setValue(this.user.email);
-    this.userForm.controls.u_contact.setValue(this.user.contact);
-    this.userForm.controls.u_alt.setValue(this.user.alternate_number);
+    //------Masking contact--------//
+    
+    if (this.user.contact != undefined && this.user.contact != null && this.user.contact.length > 0)
+    {
+      this.userForm.controls.u_contact.setValue(this.brMasker.transform(this.user.contact));
+    }
+
+    if (this.user.alternate_number != undefined && this.user.alternate_number != null && this.user.alternate_number.length > 0)
+    {
+      this.userForm.controls.u_alt.setValue(this.brMasker.transform(this.user.alternate_number));
+    }
+   
+   
 
     this.userForm.controls.u_gender.setValue(this.user.gender);
     this.userForm.controls.u_dob.setValue(this.user.dob);

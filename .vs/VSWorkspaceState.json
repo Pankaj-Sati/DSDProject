@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components",
-    "\\src\\components\\add-client-hearing",
+    "\\src\\app",
     "\\src\\pages",
-    "\\src\\pages\\case_study\\single_case_study",
-    "\\src\\pages\\client_list",
     "\\src\\pages\\client_list\\single_client",
-    "\\src\\pages\\client_list\\single_client\\hearing_details",
-    "\\src\\pages\\reminders"
+    "\\src\\pages\\client_list\\single_client\\notes",
+    "\\src\\pages\\user_list\\single_user",
+    "\\src\\pages\\user_profile",
+    "\\src\\pages\\user_profile\\change_password",
+    "\\src\\theme"
   ],
-  "SelectedNode": "\\src\\components\\add-client-hearing\\add-client-hearing.ts",
+  "SelectedNode": "\\config.xml",
   "PreviewInSolutionExplorer": false
 }

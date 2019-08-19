@@ -23,6 +23,8 @@ import { EntityType } from '../../../../models/entity_type.model';
 import { StateListProvider } from '../../../../providers/state-list/state-list';
 import { State } from '../../../../models/state.model';
 
+import { BrContactMaskPipe } from '../../../../pipes/br-contact-mask/br-contact-mask';
+
 
 @Component
   ({
@@ -80,6 +82,7 @@ export class EditClientPage
     public entityTypeProvider: EntityTypeProvider,
     public stateListProvider: StateListProvider,
     public events: Events,
+    public brMasker: BrContactMaskPipe
 
   )
   {
@@ -191,9 +194,9 @@ export class EditClientPage
     this.editClientForm.controls.c_name.setValue(this.passedClientDetails.name);
     this.editClientForm.controls.c_lastname.setValue(this.passedClientDetails.lastname);
     this.editClientForm.controls.c_alias.setValue(this.passedClientDetails.alias);
-    
-    this.editClientForm.controls.c_contact.setValue(this.passedClientDetails.contact);
-    this.editClientForm.controls.c_alt_no.setValue(this.passedClientDetails.alternate_number);
+    //--Masking Contact--//
+    this.editClientForm.controls.c_contact.setValue(this.brMasker.transform(this.passedClientDetails.contact));
+    this.editClientForm.controls.c_alt_no.setValue(this.brMasker.transform(this.passedClientDetails.alternate_number));
     this.editClientForm.controls.c_email.setValue(this.passedClientDetails.email);
     this.editClientForm.controls.c_notes.setValue(this.passedClientDetails.notes);
    // this.editClientForm.controls.c_country.setValue(this.passedClientDetails.country);
@@ -257,11 +260,12 @@ export class EditClientPage
     this.editClientForm.get('entity')['controls'][index].controls.e_alias.setValue(entity.alias);
     this.editClientForm.get('entity')['controls'][index].controls.e_alias.updateValueAndValidity();
 
-    this.editClientForm.get('entity')['controls'][index].controls.e_contact.setValue(entity.contact);
-    this.editClientForm.get('entity')['controls'][index].controls.e_contact.updateValueAndValidity();
+        //---Masking Contact--//
+    this.editClientForm.get('entity')['controls'][index].controls.e_contact.setValue(this.brMasker.transform(entity.contact));
+        this.editClientForm.get('entity')['controls'][index].controls.e_contact.updateValueAndValidity();
 
-    this.editClientForm.get('entity')['controls'][index].controls.e_alt_no.setValue(entity.alternate_number);
-    this.editClientForm.get('entity')['controls'][index].controls.e_alt_no.updateValueAndValidity();
+    this.editClientForm.get('entity')['controls'][index].controls.e_alt_no.setValue(this.brMasker.transform(entity.alternate_number));
+        this.editClientForm.get('entity')['controls'][index].controls.e_alt_no.updateValueAndValidity();
 
     this.editClientForm.get('entity')['controls'][index].controls.e_email.setValue(entity.email);
     this.editClientForm.get('entity')['controls'][index].controls.e_email.updateValueAndValidity();
