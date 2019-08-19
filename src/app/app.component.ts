@@ -1,14 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
-
+import { Http, RequestOptions, Headers } from '@angular/http';
 import { Platform, MenuController, Nav} from 'ionic-angular';
 
+//Pages
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
 import { DashboardPage } from '../pages/dashboard/dashboard';
-import { RemindersPage } from '../pages/reminders/reminders';
-import { NotificationsPage } from '../pages/notifications/notifications';
+import { ReminderListPage } from '../pages/reminders/new_format/reminder_list/reminder_list';
+import { NotificationListPage } from '../pages/notifications/new_format/notification_list/notification_list';
 import { AddUserPage } from '../pages/add_user/add_user';
 import { UserListPage } from '../pages/user_list/user_list';
 import { UserProfilePage } from '../pages/user_profile/user_profile';
@@ -19,13 +20,23 @@ import { CaseStudyPage } from '../pages/case_study/case_study';
 import {SettingUserTypePage} from '../pages/settings/user_type/usertype';
 import {SettingCaseTypePage} from '../pages/settings/casetype/casetype';
 import {SMSBulkEmailPage} from '../pages/sms/bulkemail/bulkemail';
-import {SMSListPage} from '../pages/sms/smslist/smslist';
+import { SMSListPage } from '../pages/sms/smslist/smslist';
+import { SingleClientPage } from '../pages/client_list/single_client/single_client';
+import { AppointmentListPage } from '../pages/appointment-list/appointment-list';
+import { EditProfilePage } from '../pages/user_profile/edit_profile/edit_profile';
+import { ClientDocumentsPage } from '../pages/client_list/single_client/document/document';
+import { CommonCalendarPage } from '../pages/common-calendar/common-calendar';
+import { ChangePasswordPage } from '../pages/user_profile/change_password/change_password';
+
 import {SearchHeaderPage} from '../pages/search-header/search-header';
 import { ApiValuesProvider } from '../providers/api-values/api-values';
 import { MyStorageProvider } from '../providers/my-storage/my-storage';
+import { StateListProvider } from '../providers/state-list/state-list';
+
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { LoadingController, ToastController } from 'ionic-angular';
+import { LoadingController, ToastController, AlertController } from 'ionic-angular';
 import { User } from '../models/login_user.model';
+import { Client } from '../models/client.model';
 import { CaseType } from '../models/case_type.model';
 
 import { CaseTypeProvider } from '../providers/case-type/case-type';
@@ -39,7 +50,8 @@ import { Storage } from '@ionic/storage';
 import { Events } from 'ionic-angular';
 
 @Component(
-{
+  {
+    selector:'page-main',
     templateUrl: 'app.html'
 })
 
@@ -48,7 +60,7 @@ export class MyApp {
 
   // make HelloIonicPage the root (or first) page
   rootPage:any =null;
-  showSplash=true; //To show custom splash screen
+  showSplash=false; //To show custom splash screen
 
   pages: Array<{ title: string, icon: string, iconColor: string, component: any, subs: Array<{ title: string, icon: string,iconColor:string,component: any}>, hasSub:boolean}>;
   settingPages: Array<{ title: string, icon: string, iconColor: string,component: any}>;
@@ -80,12 +92,16 @@ export class MyApp {
     public inAppBrowser: InAppBrowser,
     public caseTypeProvider: CaseTypeProvider,
     public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public stateListProvider: StateListProvider,
+    public alertCtrl: AlertController,
+    public http: Http
   ) 
   {
 
     this.initializeApp();
     this.getCaseTypeList();
+    this.getStateList();
     this.checkIfAlreadyLoggedIn();
     this.showSearch=false;
 
@@ -107,6 +123,14 @@ export class MyApp {
 
       this.showSearch=! this.showSearch;
     });
+
+    events.subscribe('getStateList', (data) =>
+    {
+      //This event can be used to get the state list if it is not found
+      this.getStateList();
+    });
+
+
     //set subPages
     this.settingPages = [
       { title: 'User Type', icon: 'bowtie', iconColor:'cadetblue', component: SettingUserTypePage },
@@ -135,34 +159,109 @@ export class MyApp {
         { title: 'Account Management', icon: 'bookmarks', iconColor: 'darkcyan', component: AccountSummaryPage}
       ];
 
-    // set our app's pages
-    this.pages = [
+    /*
+     * Currently Hardcoding Access Mechanism for client only 
+     * */
 
-      { title: 'Dashboard', icon: 'home', iconColor:'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
-
-      { title: 'Settings', icon: 'settings', iconColor:'appSettingIcon', component: null, subs: this.settingPages, hasSub: false },
-
-      { title: 'Users', icon: 'contacts', iconColor:'appUsersIcon', component: null, subs: this.userPages, hasSub: false },
-
-      { title: 'Case Management', icon: 'filing', iconColor:'appCaseIcon', component: null, subs: this.clientPages, hasSub: false },
-
-
-      { title: 'Account Management', icon: 'archive', iconColor:'appAccountIcon', component: null, subs: this.accountManagementPages, hasSub: false },
-
-      { title: 'SMS', icon: 'send', iconColor:'appSMSIcon', component: null, subs: this.smsPages, hasSub: false },
+    this.giveAccessToMenus();
    
-
-      { title: 'Reminders', icon: 'clock', iconColor:'appRemindersIcon', component: RemindersPage, subs: null, hasSub: false },
-
-      { title: 'Notifications', icon: 'notifications', iconColor:'appNotificationIcon', component: NotificationsPage, subs: null, hasSub: false },
-
-      { title: 'Case Study', icon: 'paper', iconColor:'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
-
-     //{ title: 'File Test', icon:'paper', component: HelloIonicPage,subs:null,hasSub:false },
-
-      { title: 'Logout', icon: 'log-out', iconColor:'appLogoutIcon', component: LogoutPage, subs: null, hasSub: false }
     
-    ];
+  }
+
+  giveAccessToMenus()
+  {
+    
+    console.log('LoggedIn User=' + this.loggedInUser);
+    console.log(this.loggedInUser);
+
+    if (this.loggedInUser && Number(this.loggedInUser.user_type_id) == 5)
+    {
+      //ID 5 is for client
+      console.log('-In if LoggedIn USer-');
+
+      this.clientPages = [
+        { title: 'Client Details', icon: 'people', iconColor: 'cornflowerblue', component: SingleClientPage },
+      ];
+
+      this.pages = [
+
+        { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
+
+        // { title: 'Settings', icon: 'settings', iconColor: 'appSettingIcon', component: null, subs: this.settingPages, hasSub: false },
+
+        // { title: 'Users', icon: 'contacts', iconColor: 'appUsersIcon', component: null, subs: this.userPages, hasSub: false },
+
+      //  { title: 'Case Management', icon: 'filing', iconColor: 'appCaseIcon', component: null, subs: this.clientPages, hasSub: false },
+
+        { title: 'Edit Profile', icon: 'people', iconColor: 'appCaseIcon', component: EditProfilePage, subs: null, hasSub: false },
+
+        { title: 'Change Password', icon: 'finger-print', iconColor: 'appChangePassword', component: ChangePasswordPage, subs: null, hasSub: false },
+
+
+        // { title: 'Account Management', icon: 'archive', iconColor: 'appAccountIcon', component: null, subs: this.accountManagementPages, hasSub: false },
+
+        //  { title: 'SMS', icon: 'send', iconColor: 'appSMSIcon', component: null, subs: this.smsPages, hasSub: false },
+
+
+        { title: 'Reminders', icon: 'clock', iconColor: 'appRemindersIcon', component: ReminderListPage, subs: null, hasSub: false },
+
+        { title: 'Notifications', icon: 'notifications', iconColor: 'appNotificationIcon', component: NotificationListPage, subs: null, hasSub: false },
+
+        { title: 'Appointments', icon: 'bookmark', iconColor: 'appAppointmentIcon', component: AppointmentListPage, subs: null, hasSub: false },
+
+        { title: 'My Documents', icon: 'document', iconColor: 'appDocumentsIcon', component: ClientDocumentsPage, subs: null, hasSub: false },
+
+       // { title: 'Case Study', icon: 'paper', iconColor: 'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
+
+        //{ title: 'File Test', icon:'paper', component: HelloIonicPage,subs:null,hasSub:false },
+
+        { title: 'Delete Profile', icon: 'trash', iconColor: 'appLogoutIcon', component: 'delete_profile', subs: null, hasSub: false },
+
+        { title: 'Logout', icon: 'log-out', iconColor: 'appLogoutIcon', component: LogoutPage, subs: null, hasSub: false }
+
+      ];
+
+    }
+    else
+    {
+      this.clientPages = [
+        { title: 'Client List', icon: 'people', iconColor: 'cornflowerblue', component: ClientListPage },
+      ];
+      console.log('-In else LoggedIn USer-');
+      // set our app's pages granting access to every module
+      this.pages = [
+
+        { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
+
+        //{ title: 'Settings', icon: 'settings', iconColor: 'appSettingIcon', component: null, subs: this.settingPages, hasSub: false },
+
+        { title: 'Users', icon: 'contacts', iconColor: 'appUsersIcon', component: null, subs: this.userPages, hasSub: false },
+
+        { title: 'Case Management', icon: 'filing', iconColor: 'appCaseIcon', component: null, subs: this.clientPages, hasSub: false },
+
+
+        { title: 'Account Management', icon: 'archive', iconColor: 'appAccountIcon', component: null, subs: this.accountManagementPages, hasSub: false },
+
+        { title: 'SMS', icon: 'send', iconColor: 'appSMSIcon', component: null, subs: this.smsPages, hasSub: false },
+
+        { title: 'Calendar', icon: 'calendar', iconColor: 'appCalendarIcon', component: CommonCalendarPage, subs: null, hasSub: false },
+
+
+        { title: 'Reminders', icon: 'clock', iconColor: 'appRemindersIcon', component: ReminderListPage, subs: null, hasSub: false },
+
+        { title: 'Notifications', icon: 'notifications', iconColor: 'appNotificationIcon', component: NotificationListPage, subs: null, hasSub: false },
+
+        { title: 'Appointments', icon: 'bookmark', iconColor: 'appAppointmentIcon', component: AppointmentListPage, subs: null, hasSub: false },
+
+        { title: 'Case Study', icon: 'paper', iconColor: 'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
+
+        //{ title: 'File Test', icon:'paper', component: HelloIonicPage,subs:null,hasSub:false },
+        { title: 'Delete Profile', icon: 'trash', iconColor: 'appLogoutIcon', component: 'delete_profile', subs: null, hasSub: false },
+
+        { title: 'Logout', icon: 'log-out', iconColor: 'appLogoutIcon', component: LogoutPage, subs: null, hasSub: false }
+
+      ];
+    }
   }
 
   getCaseTypeList()
@@ -200,6 +299,41 @@ export class MyApp {
 
   }
 
+  getStateList()
+  {
+    const loader = this.loadingCtrl.create(
+      {
+        content: 'Loading...',
+        duration: 10000
+      });
+    loader.present();
+
+    let loadingSuccessful = false; //To know whether timeout occured or not
+    this.stateListProvider.fetchList();
+
+    this.events.subscribe('get_states', (result) =>
+    {
+
+      loadingSuccessful = true;
+      loader.dismiss(); //Dismiss the loader whether the result was a success or a failure
+    });
+
+    loader.onDidDismiss(() =>
+    {
+      if (!loadingSuccessful)
+      {
+        //Timeout
+        const toast = this.toastCtrl.create({
+          message: 'Timeout!!! Server Did Not Respond',
+          duration: 3000
+        });
+        toast.present();
+      }
+    });
+
+
+  }
+
   checkIfAlreadyLoggedIn()
   {
     if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id.length > 0)
@@ -223,14 +357,20 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
+      this.statusBar.styleBlackOpaque();
       this.splashScreen.hide();
       console.log("Platform is ready");
 
+      /*
+       * Timer for splash screen
       timer(3000).subscribe(()=>this.showSplash = false);
+      */
     });
-
+    
 
     this.loggedInUser = this.myStorage.getParameters();
+    this.giveAccessToMenus();
+
     if (this.loggedInUser != undefined || this.loggedInUser != null)
     {
       this.u_name = this.loggedInUser.name;
@@ -251,7 +391,53 @@ export class MyApp {
       page.hasSub=! page.hasSub;
       return;
     }
-     this.menu.close();
+    this.menu.close();
+
+    if (page.component == SingleClientPage)
+    {
+      //Currently harcoding access right to a usertype= Client
+      let client: Client = new Client();
+      client.id = Number(this.loggedInUser.id);
+      let data =
+      {
+        clientPassed: client
+      };
+      this.nav.setRoot(SingleClientPage, data);
+      return;
+    }
+
+    if (page.component == EditProfilePage)
+    {
+      let data =
+      {
+        user_id: this.loggedInUser.id
+      };
+      this.nav.setRoot(EditProfilePage, data);
+      return;
+    }
+
+    if (page.component == ClientDocumentsPage)
+    {
+      let data =
+      {
+        client_id: this.loggedInUser.id,
+        client_name: this.loggedInUser.name
+      };
+      this.nav.setRoot(ClientDocumentsPage, data);
+      return;
+    }
+
+    if (page.component == 'delete_profile')
+    {
+      if (Number(this.loggedInUser.user_type_id) == 1 || Number(this.loggedInUser.user_type_id) == 2)
+      {
+        this.presentAlert('Admin profile can\'t be deleted');
+        return;
+      }
+      this.deleteUser();
+      return;
+    }
+
     this.nav.setRoot(page.component);
   }
 
@@ -284,6 +470,103 @@ export class MyApp {
     let target = "_system";
     this.inAppBrowser.create("https://www.mazetechnologiesllc.com/", target);
 
+  }
+
+  deleteUser()
+  {
+    let alert = this.alertCtrl.create({
+      title: 'Confirm Delete!!!',
+      message: 'Are you sure that you want to delete your profile?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () =>
+          {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () =>
+          {
+            console.log('Buy clicked');
+
+            this.sendDeleteUserRequest();
+
+          }
+        }
+      ]
+    });
+    alert.present()
+  }
+
+  sendDeleteUserRequest()
+  {
+    var headers = new Headers();
+
+    let options = new RequestOptions({ headers: headers });
+
+
+
+    let data = new FormData();
+
+    data.set('rowID', this.loggedInUser.id);
+    data.set('session_id', this.loggedInUser.id);
+
+
+    let loader = this.loadingCtrl.create({
+
+      content: "Deleting profile...",
+
+    });
+
+    loader.present().then(() => 
+    {
+
+      this.http.post(this.apiValues.baseURL + "/user_delete.php", data, options) //Http request returns an observable
+
+        .map(response => response.json()) ////To make it easy to read from observable
+
+        .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
+
+        {
+          console.log(serverReply);
+          loader.dismiss();
+
+          if ('message' in serverReply) //incorrect
+          {
+
+            const toast = this.toastCtrl.create({
+              message: serverReply.message,
+              duration: 5000
+            });
+            toast.present();
+          }
+
+          if ('code' in serverReply && serverReply.code == 200)
+          {
+            //Successfully deleted
+            this.myStorage.removeParameters(); //Remove all the user data
+            this.nav.setRoot(LoginPage); //Pop the current page from the stack
+          }
+
+        });
+
+    });
+  }
+
+  presentAlert(msg)
+  {
+    const alert = this.alertCtrl.create({
+      message: msg,
+      title: 'Attention',
+      buttons: [{
+        text:'Ok'
+      }]
+    });
+
+    alert.present();
   }
 
 }

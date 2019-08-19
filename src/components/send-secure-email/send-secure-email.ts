@@ -129,14 +129,19 @@ export class SendSecureEmailComponent {
 
     console.log("Add user=" + user.name);
     this.selected_users.push(user);
+    let index = this.user_list.findIndex(userInList => userInList.id == user.id);
+    this.user_list.splice(index, 1); //Remove the selected client from client list
   }
 
   removeUser(index)
   {
 
     console.log("remove user at=" + index);
-    this.selected_users.splice(index,1);
+    let user = this.selected_users[index];
+    this.selected_users.splice(index, 1);
+    this.user_list.push(user);
   }
+
 
   dismissPage()
   {
@@ -240,4 +245,7 @@ export class SendSecureEmailComponent {
 
     return param;
   }
+
+
+
 }

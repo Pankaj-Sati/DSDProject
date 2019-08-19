@@ -9,8 +9,10 @@ import { Events } from 'ionic-angular';
 
 import { CaseStudy } from '../../models/case_study.model';
 import { CaseType } from '../../models/case_type.model';
+import { User } from '../../models/login_user.model';
 
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
+import { MyStorageProvider } from '../../providers/my-storage/my-storage';
 import { CaseTypeProvider } from '../../providers/case-type/case-type';
 import {SingleCaseStudyPage} from './single_case_study/single_case_study';
 import { AdvocateListProvider } from '../../providers/advocate-list/advocate-list';
@@ -30,6 +32,8 @@ export class CaseStudyPage
 
   caseList: CaseStudy[] = [];
 
+  loggedInUser: User;
+
   caseTypeList: CaseType[]=[];
 
   caseManagerList: any;
@@ -44,8 +48,10 @@ export class CaseStudyPage
     public apiValue: ApiValuesProvider,
     public loading: LoadingController,
     public toastCtrl: ToastController,
+    public myStorage: MyStorageProvider,
     public menuCtrl: MenuController) 
   {
+    this.loggedInUser = this.myStorage.getParameters();
     this.getManagers();
     if (this.caseTypeProvider.isEmpty)
     {
@@ -127,6 +133,7 @@ export class CaseStudyPage
       body.append('year', this.c_case_year);
       body.append('advocate', this.c_case_manager);
       body.append('search', this.c_search);
+      body.append('user_type_id', this.loggedInUser.user_type_id);
 
       this.http.post(this.apiValue.baseURL + "/case_study_list.php", body, null)
         .subscribe(response =>

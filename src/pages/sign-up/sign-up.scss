@@ -1,0 +1,94 @@
+page-sign-up {
+  .error > .item-inner {
+    border-bottom-color: red !important;
+    border-bottom: 1px solid red !important;
+  }
+
+  .valid > .item-inner {
+    border-bottom-color: #32db64 !important;
+    border-bottom: 1px solid #32db64 !important;
+  }
+
+  .passwordField {
+    color: red;
+    font-size: 12px;
+    margin: auto;
+    font-weight: 600;
+    overflow: unset;
+    white-space: normal;
+  }
+
+  ion-content {
+    .scroll-content {
+      background-color: #00000078;
+      height: 100%;
+    }
+  }
+
+  ion-input {
+    color: white;
+  }
+
+  ion-datetime {
+    color: white;
+  }
+
+  ion-select {
+    color: white;
+  }
+
+  .transparentBG {
+    background-color: transparent;
+  }
+
+
+  .profile-picture {
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    padding: 3px;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: transparent;
+    width: 144px;
+    height: 144px;
+    border-radius: 100%;
+  }
+
+  .profile-item {
+    text-align: center;
+    background-color: transparent;
+  }
+
+  img {
+    width: 144px;
+    height: 144px;
+    border-radius: 50%;
+    object-fit: contain;
+    padding: 2px;
+  }
+
+  .requiredField {
+    color: red;
+  }
+
+  .label {
+    color: unset;
+  }
+
+  .findButton {
+    background-color: transparent;
+    color: white;
+    box-shadow: unset;
+    border: unset;
+  }
+
+  .imageBG {
+    background: url("assets/imgs/building.jpg") no-repeat;
+    -webkit-background-size: 280% auto;
+    background-size: cover;
+    overflow: scroll;
+    background-attachment: fixed;
+  }
+}

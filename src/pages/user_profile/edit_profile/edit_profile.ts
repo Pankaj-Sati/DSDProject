@@ -4,7 +4,7 @@ import { Http, Headers, RequestOptions } from "@angular/http";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Validators, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { LoadingController } from "ionic-angular";
-import { ToastController } from 'ionic-angular';
+import { ToastController, Events } from 'ionic-angular';
 import "rxjs/add/operator/map";
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer'
 import { FilePath } from '@ionic-native/file-path';
@@ -13,6 +13,9 @@ import { File } from '@ionic-native/file';
 import { ApiValuesProvider } from '../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
 import { CountryProvider } from '../../../providers/country/country';
+
+import { StateListProvider } from '../../../providers/state-list/state-list';
+import { State } from '../../../models/state.model';
 
 import { User, UserDetails } from '../../../models/login_user.model';
 
@@ -27,7 +30,7 @@ declare var cordova: any;
 })
 export class EditProfilePage
 {
-
+  stateList: State[] = [];
 
   user: UserDetails; //To store the details of the user
 
@@ -49,6 +52,7 @@ export class EditProfilePage
 
 
   constructor(public webView: WebView,
+    public events: Events,
     public storage: Storage,
     public file: File,
     public platform: Platform,
@@ -65,12 +69,24 @@ export class EditProfilePage
     public toastCtrl: ToastController,
     public myStorage: MyStorageProvider,
     public menuCtrl: MenuController,
-    public countryProvider: CountryProvider) 
+    public countryProvider: CountryProvider,
+    public stateListProvider: StateListProvider) 
   {
+
+    //------------------Gettting State List from Provider---------//
+
+    this.stateList = this.stateListProvider.stateList;
+    if (this.stateList == undefined || this.stateList.length == 0)
+    {
+      this.events.publish('getStateList'); //This event is subscribed to in the app.component page
+    }
+
+
     this.userForm = this.formBuilder.group({
 
       u_profile_img: new FormControl(''),
       u_name: new FormControl('', Validators.compose([Validators.required])),
+      u_lastname: new FormControl(''),
 
       u_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
       u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
@@ -82,10 +98,13 @@ export class EditProfilePage
       u_city: new FormControl('', Validators.compose([Validators.required])),
       u_pincode: new FormControl('', Validators.compose([Validators.required])),
       u_fax: new FormControl(''),
-      u_address: new FormControl('', Validators.compose([Validators.required])),
+      u_address1: new FormControl('', Validators.compose([Validators.required])),
+      u_address2: new FormControl(''),
       u_user_type: new FormControl('', Validators.compose([Validators.required]))
 
     });
+
+    this.userForm.controls.u_country.setValue('United States');
 
     this.loggedInUser = this.myStorage.getParameters();
     this.loggedInUserId = this.loggedInUser.id;
@@ -104,8 +123,7 @@ export class EditProfilePage
     this.passed_uid = this.navParams.get('user_id'); //Get the id field passed from the user_list page
     console.log("Id received=" + this.passed_uid);
     console.log(this.user);
-    this.setFormValues();
-
+    
     if (this.passed_uid == null)
     {
       this.presentToast('No user id received');
@@ -113,9 +131,13 @@ export class EditProfilePage
     }
 
 
-    if (this.user == undefined && this.user == null)
+    if (this.user == undefined || this.user == null)
     {
       this.fetchData();
+    }
+    else
+    {
+      this.setFormValues();
     }
     
 
@@ -147,6 +169,14 @@ export class EditProfilePage
           {
             console.log('From camera');
             this.getImage(this.camera.PictureSourceType.CAMERA);
+          }
+        },
+        {
+          text: 'Cancel',
+          handler: () =>
+          {
+            console.log('Cancelled');
+            
           }
         }
       ]
@@ -188,8 +218,9 @@ export class EditProfilePage
               this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
 
               this.isImageChanged = true; //We have got our image successfully;
-              this.userForm.value.u_profile_img = this.win.Ionic.WebView.convertFileSrc(imageData);
-              // this.userForm.value.u_profile_img=this.webView.convertFileSrc(imageData);
+              this.userForm.controls.u_profile_img.setValue(this.win.Ionic.WebView.convertFileSrc(imageData));
+              this.userForm.controls.u_profile_img.updateValueAndValidity();
+              
             })
 
             .catch(error =>
@@ -209,8 +240,10 @@ export class EditProfilePage
           var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
           this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
           this.isImageChanged = true; //We have got our image successfully;
-          // this.userForm.value.u_profile_img=this.win.Ionic.WebView.convertFileSrc(imageData);
-          this.userForm.value.u_profile_img = this.webView.convertFileSrc(imageData);
+          this.userForm.controls.u_profile_img.setValue(this.win.Ionic.WebView.convertFileSrc(imageData));
+          this.userForm.controls.u_profile_img.updateValueAndValidity();
+
+          
 
         }
       }
@@ -284,7 +317,7 @@ export class EditProfilePage
       loader.present().then(() => 
       {
 
-        this.http.post(this.apiValue.baseURL + "/user_view/" + this.passed_uid, body, options) //Http request returns an observable
+        this.http.post(this.apiValue.baseURL + "/profile.php", body, options) //Http request returns an observable
 
           .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
 
@@ -310,6 +343,7 @@ export class EditProfilePage
               {
                 this.user = response;
                 this.setFormValues();
+                console.log(this.user);
               }
             }
             else
@@ -344,15 +378,30 @@ export class EditProfilePage
 
   setFormValues()
   {
+    console.log('In set Form Values');
+    console.log(this.user);
+    
     this.userForm.controls.u_name.setValue(this.user.name);
+    this.userForm.controls.u_lastname.setValue(this.user.lastname);
+   
+
     this.userForm.controls.u_email.setValue(this.user.email);
     this.userForm.controls.u_contact.setValue(this.user.contact);
     this.userForm.controls.u_alt.setValue(this.user.alternate_number);
 
-    this.userForm.controls.u_gender.setValue(this.user.gender.toLowerCase());
-    var date = this.user.dob.split(" ");
-    this.userForm.controls.u_dob.setValue(date[0]);
-    this.userForm.controls.u_address.setValue(this.user.permanent_address);
+    this.userForm.controls.u_gender.setValue(this.user.gender);
+    this.userForm.controls.u_dob.setValue(this.user.dob);
+
+    if (this.user.dob != undefined && this.user.dob != null)
+    {
+      let dob = String(this.user.dob).split(' '); //Split using space
+      this.userForm.controls.u_dob.setValue(dob[0]);
+
+    }
+    this.userForm.controls.u_dob.setValue(this.user.dob);
+    this.userForm.controls.u_address1.setValue(this.user.permanent_addressLine1);
+    this.userForm.controls.u_address2.setValue(this.user.permanent_addressLine2);
+
     this.userForm.controls.u_city.setValue(this.user.city);
     this.userForm.controls.u_state.setValue(this.user.state);
     this.userForm.controls.u_pincode.setValue(this.user.pincode);
@@ -366,6 +415,7 @@ export class EditProfilePage
       this.userForm.controls.u_profile_img.setValue(this.apiValue.baseImageFolder + this.user.profile_img);
 
     }
+    this.userForm.updateValueAndValidity();
   }
 
   submitData()
@@ -381,23 +431,25 @@ export class EditProfilePage
       let options = new RequestOptions({ headers: headers });
 
       let body = new FormData();
-      body.append("mode", 'edit');
-      body.append("session_user_id", this.loggedInUser.id);
+      body.set("mode", 'edit');
+      body.set("session_user_id", this.loggedInUser.id);
 
-      body.append("full_name", this.userForm.value.u_name);
-      body.append("email", this.userForm.value.u_email);
-      body.append("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
-      body.append("alt", String(this.userForm.value.u_alt).replace(/\D+/g,''));
-      body.append("gender", this.userForm.value.u_gender);
-      body.append("date_of_birth", this.userForm.value.u_dob);
-      body.append("country", this.userForm.value.u_country);
-      body.append("state", this.userForm.value.u_state);
-      body.append("city", this.userForm.value.u_city);
-      body.append("pincode", this.userForm.value.u_pincode);
-      body.append("fax", this.userForm.value.u_fax);
-      body.append("address", this.userForm.value.u_address);
-    
-      body.append("profile_image", this.userForm.value.u_profile_img);
+      body.set("first_name", this.userForm.value.u_name);
+      body.set("last_name", this.userForm.value.u_lastname);
+      body.set("email", this.userForm.value.u_email);
+      body.set("contact", String(this.userForm.value.u_contact).replace(/\D+/g, ''));
+      body.set("alt", String(this.userForm.value.u_alt).replace(/\D+/g,''));
+      body.set("gender", this.userForm.value.u_gender);
+      body.set("date_of_birth", this.userForm.value.u_dob);
+      body.set("country", this.userForm.value.u_country);
+      body.set("state", this.userForm.value.u_state);
+      body.set("city", this.userForm.value.u_city);
+      body.set("pincode", this.userForm.value.u_pincode);
+      body.set("fax", this.userForm.value.u_fax);
+      body.set("address1", this.userForm.value.u_address1);
+      body.set("address2", this.userForm.value.u_address2);
+
+      body.append("profile_image", this.user.profile_img); //Not changing the profile image
     
 
       let loader = this.loading.create({
@@ -412,7 +464,7 @@ export class EditProfilePage
       console.log(body);
 
       console.log("Full name");
-      console.log(this.userForm.value.u_name);
+      console.log(this.userForm.value.u_name + ' ' + this.userForm.value.u_lastname);
 
       loader.present().then(() => 
       {
@@ -438,6 +490,14 @@ export class EditProfilePage
                 {
                   //Successful
                   this.updateSuccessful = true;
+
+                  this.updateLoginUserParameters(response.profile_img);
+                  if (this.navCtrl.canGoBack())
+                  {
+                    this.navCtrl.getPrevious().data.reload = true;
+                    this.navCtrl.pop();
+                  }
+                  
                   this.presentToast(response.message);
                 }
               }
@@ -487,7 +547,8 @@ export class EditProfilePage
           "mode": 'edit',
           "session_user_id": this.loggedInUser.id,
 
-          "full_name": this.userForm.value.u_name,
+          "first_name": this.userForm.value.u_name,
+          "last_name": this.userForm.value.u_lastname,
           "email": this.userForm.value.u_email,
           "contact": String(this.userForm.value.u_contact).replace(/\D+/g,''),
           "alt": String(this.userForm.value.u_alt).replace(/\D+/g,''),
@@ -498,7 +559,9 @@ export class EditProfilePage
           "city": this.userForm.value.u_city,
           "pincode": this.userForm.value.u_pincode,
           "fax": this.userForm.value.u_fax,
-          "address": this.userForm.value.u_address,
+          "address1": this.userForm.value.u_address1,
+          "address2": this.userForm.value.u_address2,
+         
           
         }
       };
@@ -512,7 +575,7 @@ export class EditProfilePage
       let transferSuccessful = false; //To know whether timeout occured or not
 
       loader.present();
-
+      
       transfer.upload(this.lastImage, this.apiValue.baseURL + '/profile.php', options).then(data =>
       {
 
@@ -540,7 +603,14 @@ export class EditProfilePage
               //successful
               this.updateSuccessful = true;
               this.presentToast(response.message);
+              this.updateLoginUserParameters(response.profile_img);
               loader.dismiss();
+
+              if (this.navCtrl.canGoBack())
+              {
+                this.navCtrl.getPrevious().data.reload = true;
+                this.navCtrl.pop();
+              }
               return;
             }
           }
@@ -595,6 +665,23 @@ export class EditProfilePage
 
   }
 
+  updateLoginUserParameters(profileImage)
+  {
+     this.loggedInUser.name = this.userForm.value.u_name;
+    if (this.userForm.value.u_lastname != null && this.userForm.value.u_name != 'null')
+    {
+      this.loggedInUser.name = this.userForm.value.u_name + ' ' + this.userForm.value.u_lastname;
+    }
+    
+    this.loggedInUser.email = this.userForm.value.u_email;
+    this.loggedInUser.profile_img = profileImage;
+    
+
+    this.myStorage.setParameters(this.loggedInUser);
+
+    this.events.publish('loggedIn');
+  }
+
   presentToast(text)
   {
     const toast = this.toastCtrl.create({
@@ -605,17 +692,7 @@ export class EditProfilePage
     toast.present();
   }
 
-  ionIonViewWillLeave()
-  {
-    //User wants to go back
-
-    if (this.updateSuccessful)
-    {
-      //Upon successful update, we will ask view profile page to reload itself
-
-      this.navCtrl.getPrevious().data.updated = true;
-    }
-  }
+ 
 
 
 

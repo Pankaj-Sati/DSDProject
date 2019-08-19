@@ -10,7 +10,10 @@ import {ClientDetailsComponent} from '../../components/client-details/client-det
 import {CaseDetailsPage} from './case_details/case_details';
 import {SingleClientPage} from '../client_list/single_client/single_client';
 
-import {Client} from '../../models/client.model';
+import { Client } from '../../models/client.model';
+import { User } from '../../models/login_user.model';
+
+import { MyStorageProvider } from '../../providers/my-storage/my-storage';
 
 /**
  * Generated class for the SearchHeaderPage page.
@@ -29,14 +32,16 @@ export class SearchHeaderPage
 
   public searchText:string=""; //The string to search
   public error:string="";
-  public cases:Case[]=[];
+  public cases: Case[] = [];
+
+  public loggedInUser: User;
 
   constructor(public popoverCtrl:PopoverController,public apiValues:ApiValuesProvider,
   	public loadingCtrl:LoadingController,public toastCtrl:ToastController,
-  	public http:Http,public events:Events,public navCtrl: NavController, 
-  	public navParams: NavParams) 
+    public http: Http, public events: Events, public navCtrl: NavController,
+    public navParams: NavParams, public myStorage: MyStorageProvider) 
   {
-
+    this.loggedInUser = this.myStorage.getParameters();
   }
 
   ionViewDidLoad() 
@@ -54,7 +59,8 @@ export class SearchHeaderPage
   	
   //Once API return client ID, send it to single client details page
   let client:Client=new Client();
-  client.cid= caseObject.client_id //Client ID
+    client.cid = caseObject.client_id //Client ID
+    client.id = caseObject.id //Client ID (Admin Table)
     let data =
     {
   		clientPassed:client
@@ -96,7 +102,8 @@ export class SearchHeaderPage
 
 			let data=new FormData();
 
-         data.append('searchComman',this.searchText);
+              data.append('searchComman', this.searchText);
+              data.append('user_type_id', this.loggedInUser.user_type_id);
 	
 
   			this.http.post(this.apiValues.baseURL+"/header.php",data,requestOptions)

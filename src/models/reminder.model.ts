@@ -12,3 +12,22 @@ export class Reminder
   ref_id: number;
   totalamt: number;
 }
+
+export class NewReminder
+{
+  //Updated Format of the reminder
+
+  id;
+  ref_id;
+  reminderDate;
+  reminderTime;
+  subject;
+  disc;
+  created_by;
+  created_on;
+  del_by;
+  del_on;
+  status;
+  clientName;
+
+}

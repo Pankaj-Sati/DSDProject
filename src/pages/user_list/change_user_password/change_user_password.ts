@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, MenuController } from 'ionic-angular';
-import {Http, Headers, RequestOptions}  from "@angular/http";
+import { Http, Headers, RequestOptions } from "@angular/http";
+
+import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
+import { User } from '../../../models/login_user.model';
 
 import { LoadingController } from "ionic-angular";
 import { ToastController } from 'ionic-angular';
@@ -21,10 +24,20 @@ export class ChangeUserPasswordPage
 	passed_uid:string;
 	current_pass:string;
 	new_pass:string;
-	confirm_pass:string;
-	constructor(public apiValue:ApiValuesProvider,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController, public menuCtrl: MenuController) 
-	{
-
+  confirm_pass: string;
+  loggedInUser: User;
+  constructor(public apiValue: ApiValuesProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    private http: Http,
+    public loading: LoadingController,
+    public toastCtrl: ToastController,
+    public menuCtrl: MenuController,
+    public myStorage: MyStorageProvider
+  ) 
+  {
+    this.loggedInUser = this.myStorage.getParameters();
 	}
 
 	ionViewDidLoad()
@@ -103,7 +116,8 @@ export class ChangeUserPasswordPage
 
 		           uid:this.passed_uid,
 		           password:this.current_pass,
-		           changepassword:this.new_pass
+                  changepassword: this.new_pass,
+                  session_user_id: this.loggedInUser.id
 		         };
 
 		       let options = new RequestOptions({ headers: headers });

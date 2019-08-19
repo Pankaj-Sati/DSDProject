@@ -7,6 +7,7 @@ export class Client //Used for showing client list
   case_type: string;
   case_year: string;
   client_name: string;
+  lastname: string;
   contact: string;
   created_on: string;
   email: string;
@@ -23,6 +24,7 @@ export class ClientDetails
   apt;
   id;
   name;
+  lastname;
   caseManagerName;
   contact;
   alias;
@@ -61,6 +63,10 @@ export class ClientDetails
   registration_fee;
   decided_fee;
   user_type;
+  mailing_addressLine1;
+  mailing_addressLine2;
+  permanent_addressLine1;
+  permanent_addressLine2;
 }
 
 export class Entity
@@ -70,6 +76,7 @@ export class Entity
   alternate_number;
   apt;
   name;
+  lastname;
   alias;
   relationship;
   id;
@@ -109,6 +116,11 @@ export class Entity
   registration_fee;
   decided_fee;
   user_type;
+  entity_type;
+  mailing_addressLine1;
+  mailing_addressLine2;
+  permanent_addressLine1;
+  permanent_addressLine2;
 }
 
 

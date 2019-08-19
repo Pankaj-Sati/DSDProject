@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
+    <ion-title>Book Appointment</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content style="margin-top: 10px;">
+
+  <ion-item no-lines>
+    <ion-label stacked>Date (MM-DD-YYYY) <span class="mandatory_field"> *</span></ion-label>
+    <ion-datetime required pickerFormat="MMM DDD YYYY" (ionChange)="dateChanged()" displayFormat="DDD, MMM DD YYYY" min="{{minDate}}" max="{{maxDate}}" [(ngModel)]="a_date" placeholder="Select Date"></ion-datetime>
+  </ion-item>
+
+  <ion-item no-lines>
+    <ion-label stacked>Time<span class="mandatory_field"> *</span></ion-label>
+    <ion-datetime displayFormat="hh:mm A" pickerFormat="hh:mm" hourValues="9,10,11,12,13,14,15,16" minuteValues="0,5,10,15,20,25,30,35,40,45,50,55" required [(ngModel)]="a_time" placeholder="Select Time"></ion-datetime>
+  </ion-item>
+
+  <div>
+    <!--Currently hardcoding user access for client type=5 i.e CLIENT-->
+    <ion-item no-lines>
+      <ion-label stacked><b>Case Manager<span class="mandatory_field"> *</span></b></ion-label>
+      <ion-select interface="popover" required [(ngModel)]="a_advocate" placeholder="Select Case Manager">
+        <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}} ({{advocate.id}})</ion-option>
+      </ion-select>
+     </ion-item>
+  </div>
+
+  
+  <ion-item no-lines>
+    <ion-label stacked>Remark</ion-label>
+    <ion-textarea required [(ngModel)]="a_description" placeholder=""></ion-textarea>
+  </ion-item>
+
+  <ion-row>
+    <ion-col col-6 style="text-align:right;">
+      <button ion-button (click)="goBack()" icon-start><ion-icon name="arrow-back"></ion-icon>Back</button>
+    </ion-col>
+
+    <ion-col col-6 style="text-align:left;">
+      <button ion-button icon-end [disabled]="a_advocate.length==0 || a_date.length==0||a_time.length==0 " (click)="bookAppointment()">Book<ion-icon name="bookmark"></ion-icon></button>
+    </ion-col>
+
+  </ion-row>
+
+</ion-content>

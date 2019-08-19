@@ -7,12 +7,14 @@ import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-nati
 import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Chooser } from '@ionic-native/chooser';
 
 import {DownloadDocumentsComponent } from '../../../../components/download-documents/download-documents';
 import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
 
 import { ClientDocuments } from '../../../../models/client_document.model';
+import { ClientDetails } from '../../../../models/client.model';
 import { User } from '../../../../models/login_user.model';
 
 declare var cordova: any;
@@ -25,32 +27,46 @@ declare var cordova: any;
 export class ClientDocumentsPage
 {
   doc_list: ClientDocuments[] = [];
+
+  selectedDocList: ClientDocuments[] = [];
+ 
   passed_client_id;
+  passed_advocate_id;
+  passed_client_name;
   selected_file_name: string; //If user wanted to add a new file to upload
   lastImage; //Last selected Image
   loggedInUser: User;
+
+  uploadProgress: any = 0;
+
+  isUploading: boolean = false; //To indicate whether currently any file is being uploaded
+
+  blurAmount: string = ''; //To set blurr background class when modal opens
+
  
   constructor
     (
       public loadingCtrl: LoadingController,
       public toastCtrl: ToastController,
-    public http: Http,
-    public alertCtrl: AlertController,
+      public http: Http,
+      public alertCtrl: AlertController,
       public apiValues: ApiValuesProvider,
       public navCtrl: NavController,
       public navParams: NavParams,
       public inAppBrowser: InAppBrowser,
       public file: File,
       public platform: Platform,
-    public filePath: FilePath,
-    public modalCtrl: ModalController,
+      public filePath: FilePath,
+      public modalCtrl: ModalController,
       public fileTransfer: FileTransfer,
-    private camera: Camera,
-    public myStorage: MyStorageProvider
+      private camera: Camera,
+      public myStorage: MyStorageProvider,
+      public fileChooser: Chooser
 
     )
   {
     this.loggedInUser = this.myStorage.getParameters();
+   
   }
 
   ionViewDidLoad()
@@ -58,8 +74,13 @@ export class ClientDocumentsPage
     console.log('Client Documents: ionViewDidLoad');
 
     this.passed_client_id = this.navParams.get('client_id');
+    this.passed_advocate_id = this.navParams.get('advocate_id');
+    this.passed_client_name = this.navParams.get('client_name');
+
 
     console.log('Client Id Received:' + this.passed_client_id);
+
+    console.log('Advocate Received:' + this.passed_advocate_id);
     this.fetchData();
   }
 
@@ -74,10 +95,106 @@ export class ClientDocumentsPage
     }
 
     let data = {
-      document: document.documents
+      document: document.directory_id +'/'+document.documents
     };
     const modal = this.modalCtrl.create(DownloadDocumentsComponent, data);
+    this.blurAmount = 'blurDiv';
     modal.present();
+
+    modal.onDidDismiss(() =>
+    {
+      this.blurAmount = '';
+    });
+  }
+
+  downloadMultipleDoc()
+  {
+    if (this.doc_list.length == 0)
+    {
+      return;
+    }
+
+
+    if (this.selectedDocList.length == 0)
+    {
+      //download all
+      var data =
+      {
+        document: this.makeDocString(this.doc_list),
+        documentData: this.doc_list
+      };
+    }
+
+    else
+    {
+      //Download selected
+      var data =
+      {
+        document: this.makeDocString(this.selectedDocList),
+        documentData: this.selectedDocList
+      };
+    }
+
+    const modal = this.modalCtrl.create(DownloadDocumentsComponent, data);
+    this.blurAmount = 'blurDiv';
+    modal.present();
+
+    modal.onDidDismiss(() =>
+    {
+      this.blurAmount = '';
+    });
+  }
+
+  makeDocString(docArray: ClientDocuments[]): string
+  {
+    //To make a comma seperated string out of the documents to be downloaded
+    let str:string = '';
+    for (let i = 0; i < docArray.length; i++)
+    {
+      if (i == docArray.length - 1)
+      {
+        str = str + docArray[i].directory_id + '/' + docArray[i].documents;
+      }
+      else
+      {
+        str = str + docArray[i].directory_id + '/' +docArray[i].documents + ',';
+      }
+    }
+    return str;
+  }
+
+  documentSelected(doc: ClientDocuments)
+  {
+    console.log('---In Document Selected---');
+   
+    let index = this.selectedDocList.findIndex(document => document.id == doc.id);
+    if (index>=0)
+    {
+      //Found. Therefore delete
+      this.selectedDocList.splice(index, 1);
+    }
+    else
+    {
+      //Not Found. Therefore add
+      this.selectedDocList.push(doc);
+    }
+    
+    console.log(this.selectedDocList);
+    
+  }
+
+  isDocumentSelected(doc: ClientDocuments)
+  {
+    let result: ClientDocuments = this.selectedDocList.find(document => document.id == doc.id);
+    
+    if (result == null || result == undefined || result.id.length==0)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
   }
 
   fetchData()
@@ -173,7 +290,7 @@ export class ClientDocumentsPage
 
   }
 
-  takeImage()
+  showFileSelectionDialog()
   {
 
     console.log("In take Image()");
@@ -182,8 +299,8 @@ export class ClientDocumentsPage
 
 
     let alert = this.alertCtrl.create({
-      title: 'Profile Image',
-      message: 'Select profile image from:',
+      title: 'Upload New Document',
+      message: 'Select document from:',
       buttons: [
         {
           text: 'Gallery',
@@ -200,12 +317,50 @@ export class ClientDocumentsPage
             console.log('From camera');
             this.getImage(this.camera.PictureSourceType.CAMERA);
           }
+        },
+        {
+          text: 'Files',
+          handler: () =>
+          {
+            console.log('From files');
+            this.takeFile();
+          }
         }
       ]
     });
     alert.present();
 
 
+  }
+
+  takeFile()
+  {
+    console.log('In Take File()');
+    this.fileChooser.getFile('')
+      .then(file =>
+      {
+        if (file)
+        {
+          console.log('File selected');
+          console.log('File Name=' + file.name);
+         // console.log('Data URI=' + file.dataURI);
+         // console.log('Data=' + file.data);
+          console.log('Media Type=' + file.mediaType);
+          console.log('URI=' + file.uri);
+
+          this.lastImage = file.uri;
+          this.selected_file_name = file.name;
+          this.presentToast('Uploading...');
+          this.uploadFile();
+         
+        }
+        else
+        {
+          console.log('File Chooser Cancelled');
+        }
+        
+      })
+      .catch((error: any) => console.error(error));
   }
 
   getImage(source)
@@ -239,6 +394,7 @@ export class ClientDocumentsPage
               let currentName = imageData.substring(imageData.lastIndexOf('/') + 1, imageData.lastIndexOf('?'));
               this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
               this.selected_file_name = currentName;
+              this.uploadFile();
               
             })
 
@@ -259,6 +415,7 @@ export class ClientDocumentsPage
           var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
           this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
           this.selected_file_name = currentName;
+          this.uploadFile();
 
         }
       }
@@ -298,9 +455,11 @@ export class ClientDocumentsPage
 
   uploadFile()
   {
-       let transfer: FileTransferObject = this.fileTransfer.create();
-
-      let filename = this.lastImage.substr(this.lastImage.lastIndexOf('/') + 1);
+    let transfer: FileTransferObject = this.fileTransfer.create();
+    this.uploadProgress = 0;
+    this.isUploading = true;
+    let filename = this.selected_file_name;
+    console.log('File Name='+filename);
       var options =
       {
         fileKey: "doc",
@@ -311,71 +470,97 @@ export class ClientDocumentsPage
 
           "cid": this.passed_client_id,
           "folder_id": this.passed_client_id, //On server, a folder is created with the name=Client ID to store all doucments of that client in it 
-
+          "advocate_id": this.passed_advocate_id,
+          "client_name": this.passed_client_name,
           "session_id": this.loggedInUser.id
 
         }
       };
 
+    let loaderContent = '<ion-row">'+
+      '<ion-col style="text-align:center" >"Uploading...</ion-col>'+
+        '</ion-row>';
+
     let loader = this.loadingCtrl.create({
 
-        content: "Uploading...",
-        duration: 25000
+      content: loaderContent,
+        duration: 30000
       });
 
       let transferSuccessful = false; //To know whether timeout occured or not
 
-      loader.present();
+      //loader.present();
     
     //this.apiValues.baseURL + '/client_doc_upload.php'
     transfer.upload(this.lastImage, this.apiValues.baseURL + '/client_doc_upload.php', options).then(data =>
       {
 
-        transferSuccessful = true;
+      transferSuccessful = true;
+      this.isUploading = false;
         console.log("Image upload server reply");
         console.log(data);
-
+        //loader.dismiss(); 
         if (data)
         {
-          if (JSON.parse(data["_body"])['code'] > 400)
+          try
           {
-            //Error returned from server
-            this.presentToast(JSON.parse(data["_body"])['message']);
-            loader.dismiss();
+            let response = JSON.parse(data["response"]);
+            if (response.code > 400)
+            {
+              //Error returned from server
+              this.presentToast(response.message);
+             
+              return;
+            }
+            else
+            {
+              //Success
+              this.presentToast(response.message);
+              this.selected_file_name = ''; //To hide the upload button and content
+              this.fetchData();
+             
+              return;
+            }
+          }
+          catch (err)
+          {
+            console.log(err);
+            this.presentToast('Error in response');
+           
             return;
           }
-          else
-          {
-            
-            this.presentToast(JSON.parse(data["_body"])['message']);
-            loader.dismiss();
-            return;
-          }
+          
         }
         else
         {
           this.presentToast("Failed!! Server returned an error");
-          loader.dismiss();
+         
         }
 
       }, err =>
         {
-
+        this.isUploading = false;
           console.log(err);
           transferSuccessful = true;
           this.presentToast("Failed!! Server returned an error");
-          loader.dismiss();
+          //loader.dismiss();
 
         })
         .catch(err =>
         {
-
+          this.isUploading = false;
           transferSuccessful = true;
           console.log(err);
           this.presentToast("Failed!! Server returned an error");
-          loader.dismiss();
+         // loader.dismiss();
 
         });
+
+    transfer.onProgress((progress) =>
+    {
+      this.onFileProgressChange(progress);
+     
+    });
 
       loader.onDidDismiss((data) =>
       {
@@ -388,6 +573,12 @@ export class ClientDocumentsPage
       });
     
 
+  }
+
+  onFileProgressChange=(progress):void=>
+  {
+    this.uploadProgress = Math.round((progress.loaded / progress.total) * 100);
+    console.log("Progress=" + this.uploadProgress);
   }
 
   presentToast(text)

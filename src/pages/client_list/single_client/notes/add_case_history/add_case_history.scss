@@ -1,0 +1,9 @@
+add_case_history {
+  .mandatory-field {
+    color: red;
+  }
+
+  .error {
+    border-bottom: 1px solid red !important;
+  }
+}

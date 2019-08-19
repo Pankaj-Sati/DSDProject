@@ -24,7 +24,7 @@
 
           <br>
 
-           <b style="color: white;font-size: 1.6em">{{user.name}}</b> <br> <br>
+           <b style="color: white;font-size: 1.6em">{{user.lastname==null?user.name:(user.name+' '+user.lastname)}}</b> <br> <br>
            <i style="color: white;">{{user.email}}</i>
 
           <ion-row style='text-align:center;margin:5px'>
@@ -47,77 +47,83 @@
         <br><br>
 
 
-      <ion-list>
-      
-    <ion-item>
-      <ion-label><ion-icon name="call"></ion-icon><b>Contact No.:</b></ion-label>
-      <ion-label >{{user.contact}}</ion-label>
-     
+            <ion-list>
 
-    
-    </ion-item>
+              <ion-item>
+                <ion-label><ion-icon name="call"></ion-icon><b>Contact No.:</b></ion-label>
+                <ion-label>{{user.contact}}</ion-label>
 
-    <ion-item>
-      <ion-label ><ion-icon name="call"></ion-icon><b>Alternate No.:</b></ion-label>
-      <ion-label >{{user.alternate_number}}</ion-label>
-    
-    </ion-item>
 
-    <ion-item>
-      <ion-label ><ion-icon name="transgender"></ion-icon><b>Gender:</b></ion-label>
-       <ion-label>{{user.gender}}</ion-label>
-    
-    </ion-item>
 
-    <ion-item>
-      <ion-label ><ion-icon name="calendar"></ion-icon><b>Date Of Birth:</b></ion-label>
-       <ion-label>{{user.dob}}</ion-label>
-    
-    </ion-item>
+              </ion-item>
 
-    <ion-item>
-      <ion-label><ion-icon name="locate"></ion-icon><b>Street:</b></ion-label>
-       <ion-label>{{user.streetNoName}}</ion-label>
-    
-    </ion-item>
+              <ion-item>
+                <ion-label><ion-icon name="call"></ion-icon><b>Alternate No.:</b></ion-label>
+                <ion-label>{{user.alternate_number}}</ion-label>
 
-    <ion-item>
-      <ion-label ><ion-icon name="compass"></ion-icon><b>City or Town:</b></ion-label>
-      <ion-label>{{user.city}}</ion-label>
-    
-    </ion-item>
+              </ion-item>
 
-    <ion-item>
-      <ion-label ><ion-icon name="navigate"></ion-icon><b>State:</b></ion-label>
-      <ion-label>{{user.state}}</ion-label>
-    
-    </ion-item>
+              <ion-item>
+                <ion-label><ion-icon name="transgender"></ion-icon><b>Gender:</b></ion-label>
+                <ion-label>{{user.gender}}</ion-label>
 
-    <ion-item>
-      <ion-label ><ion-icon name="pin"></ion-icon><b>Zip Code:</b></ion-label>
-      <ion-label>{{user.zipCode}}</ion-label>
-    
-    </ion-item>
+              </ion-item>
 
-    <ion-item>
-      <ion-label ><ion-icon name="planet"></ion-icon><b>Country:</b></ion-label>
-        <ion-label>{{user.country}}</ion-label>
-    
-    </ion-item>
+              <ion-item>
+                <ion-label><ion-icon name="calendar"></ion-icon><b>Date Of Birth:</b></ion-label>
+                <ion-label>{{user.dob|date:'MM-dd-yyyy'}}</ion-label>
 
-    <ion-item>
-      <ion-label><ion-icon name="clipboard"></ion-icon><b>Fax No.:</b></ion-label>
-       <ion-label>{{user.fax}}</ion-label>
-    
-    </ion-item>
+              </ion-item>
 
-    <ion-item>
-      <ion-label><ion-icon name="people"></ion-icon><b>User Type:</b></ion-label>
-       <ion-label>{{user_type.getUserType(user.usertype_id)}}</ion-label>
-    
-    </ion-item>
+              <ion-item>
+                <ion-label><ion-icon name="locate"></ion-icon><b>Address 1:</b></ion-label>
+                <ion-label style="overflow:unset;white-space:unset;">{{user.permanent_addressLine1}}</ion-label>
 
-  </ion-list>
+              </ion-item>
+
+              <ion-item>
+                <ion-label><ion-icon name="locate"></ion-icon><b>Address 2:</b></ion-label>
+                <ion-label style="overflow:unset;white-space:unset;">{{user.permanent_addressLine2}}</ion-label>
+
+              </ion-item>
+
+              <ion-item>
+                <ion-label><ion-icon name="compass"></ion-icon><b>City or Town:</b></ion-label>
+                <ion-label>{{user.city}}</ion-label>
+
+              </ion-item>
+
+              <ion-item>
+                <ion-label><ion-icon name="navigate"></ion-icon><b>State:</b></ion-label>
+                <ion-label>{{user.state}}</ion-label>
+
+              </ion-item>
+
+              <ion-item>
+                <ion-label><ion-icon name="pin"></ion-icon><b>Zip Code:</b></ion-label>
+                <ion-label>{{user.zipCode}}</ion-label>
+
+              </ion-item>
+
+              <ion-item>
+                <ion-label><ion-icon name="planet"></ion-icon><b>Country:</b></ion-label>
+                <ion-label>{{user.country}}</ion-label>
+
+              </ion-item>
+
+              <ion-item>
+                <ion-label><ion-icon name="clipboard"></ion-icon><b>Fax No.:</b></ion-label>
+                <ion-label>{{user.fax}}</ion-label>
+
+              </ion-item>
+
+              <ion-item>
+                <ion-label><ion-icon name="people"></ion-icon><b>User Type:</b></ion-label>
+                <ion-label>{{user_type.getUserType(user.usertype_id)}}</ion-label>
+
+              </ion-item>
+
+            </ion-list>
 
 
 </div>

@@ -24,10 +24,18 @@ page-main {
     margin-right: auto;
   }
 
-  .roundImg {
-    border-radius: 50%;
-    max-height: 240px;
-    max-width: 240px;
+  .nameLabel {
+    margin: 5px;
+    color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .profileImg {
+    width: 100%;
+    max-height: 192px;
+    object-fit: cover;
   }
 
   ion-footer {
@@ -40,22 +48,28 @@ page-main {
     }
   }
 
+  .footer {
+    margin: 0px;
+    min-height: 64px;
+    padding: 5px;
+    background-color: map-get($colors,primary);
+    color: white;
+    padding: 5px;
+    box-shadow: 0px -4px lightgrey;
+  }
+
   .mandatory_field {
     color: red;
   }
 
   .error > .item-inner {
     border-bottom-color: red !important;
-    border-bottom: 2px solid red !important;
-    -webkit-box-shadow: inset 0 -1px 0 0 red !important;
-    box-shadow: inset 0 -1px 0 0 red !important;
+    border-bottom: 1px solid red !important;
   }
 
   .valid > .item-inner {
     border-bottom-color: #32db64 !important;
-    border-bottom: 2px solid #32db64 !important;
-    -webkit-box-shadow: inset 0 -1px 0 0 #32db64 !important;
-    box-shadow: inset 0 -1px 0 0 #32db64 !important;
+    border-bottom: 1px solid #32db64 !important;
   }
 
   .mainBackgroundColor {
@@ -86,64 +100,58 @@ page-main {
     }
   }
 
-  ion-modal {
-    top: 30% !important;
-    padding: 10px;
-    background: transparent !important;
-    overflow-y: scroll;
+
+
+
+  .item-select .label //to ensure that any dropdown value will align itself left with the label just like other input types does
+  {
+    flex: initial;
   }
+
+  .item-datetime .label //to ensure that any dropdown value will align itself left with the label just like other input types does
+  {
+    flex: initial;
+  }
+
+  ion-datetime {
+    padding: 0px;
+  }
+
+  
   //---------------Reminder Model Classes------------//
   //---------------Reminder Model Classes Ends------------//
-  //--------Splash Screen ANimation-----------//
-  .splash {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #ff7400;
-  }
-
-  .spinner {
-    width: 40px;
-    height: 40px;
-    background-color: #333;
-    margin: 100px auto;
-    -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
-    animation: sk-rotateplane 1.2s infinite ease-in-out;
-  }
-
-  @-webkit-keyframes sk-rotateplane {
-    0% {
-      -webkit-transform: perspective(120px)
-    }
-
-    50% {
-      -webkit-transform: perspective(120px) rotateY(180deg)
-    }
-
-    100% {
-      -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg)
-    }
-  }
-
-  @keyframes sk-rotateplane {
-    0% {
-      transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-      -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
-    }
-
-    50% {
-      transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-      -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
-    }
-
-    100% {
-      transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-      -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
-    }
-  }
-  //--------Splash Screen ANimation Ends-----------//
 }
+
+ion-modal {
+  top: 30% !important;
+  padding: 10px;
+  background: transparent !important;
+  overflow-y: scroll;
+
+  ion-content {
+    height: 70%;
+    overflow: scroll;
+    margin-top:50px;
+  }
+}
+
+
+ion-content
+{
+  overflow:scroll;
+  padding-top:50px;
+}
+
+ion-label
+{
+  overflow:unset;
+  white-space:unset;
+}
+
+.iosScrollFixDiv
+{
+  height:60px;
+  width:100%;
+}
+
+

@@ -19,4 +19,38 @@ notes {
   .noteDetails ion-label {
     margin: 0px;
   }
+
+  .detailsRow {
+    background-color: #ffd07a;
+    border-bottom: 1px solid gray;
+    margin: 5px;
+  }
+
+  .detailIconCol {
+    text-align: center;
+    display: grid;
+  }
+
+  .detailIcon {
+    margin: auto;
+  }
+
+  .cardLabel {
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 10px;
+  }
+
+  .totalLabel {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .detailLabel {
+    color: map-get($colors,primary);
+  }
+
+  .delButton {
+    background-color: map-get($colors,danger);
+  }
 }

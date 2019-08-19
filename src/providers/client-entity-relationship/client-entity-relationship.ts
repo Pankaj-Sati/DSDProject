@@ -22,6 +22,8 @@ export class ClientEntityRelationshipProvider {
       { value: 'Father', name: 'Father' },
       { value: 'Mother', name: 'Mother' },
       { value: 'Daughter', name: 'Daughter' },
+      { value: 'Sibling', name: 'Sibling' },
+      { value: 'Self', name: 'Self' },
       { value: 'Son', name: 'Son' },
       { value: 'Other Relations', name: 'Other Relations' }
       

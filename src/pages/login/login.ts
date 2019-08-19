@@ -16,6 +16,10 @@ import {User } from '../../models/login_user.model';
 
 import { Events } from 'ionic-angular';
 
+import { SignUpPage } from '../sign-up/sign-up';
+import { ForgotPasswordPage } from '../forgot-password/forgot-password';
+import { BookAppointmentAtLoginPage } from '../book-appointment-at-login/book-appointment-at-login';
+
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -196,11 +200,20 @@ export class LoginPage
 						
             let user: User=new User();
 
-           user.id = serverReply.id;
-           user.name = serverReply.name;
+                    user.id = serverReply.id;
+                    if (serverReply.lastname != undefined && serverReply.lastname != null && serverReply.lastname != 'null' && serverReply.lastname.length > 0)
+                    {
+                      user.name = serverReply.name + ' ' + serverReply.lastname;
+                    }
+                    else
+                    {
+                      user.name = serverReply.name;
+                    }
            user.email = serverReply.email;
-           user.id = serverReply.usertype_id;
+           user.user_type_id = serverReply.usertype_id;
            user.profile_img = serverReply.profile_img;
+           user.contact = serverReply.contact;
+           user.calendar_link = serverReply.calendar_link;
 
            this.myStorage.setParameters(user);
 
@@ -233,6 +246,21 @@ export class LoginPage
 		
 
     }
+    }
+
+  signUp()
+  {
+    this.navCtrl.push(SignUpPage);
+  }
+
+  forgotPassword()
+  {
+    this.navCtrl.push(ForgotPasswordPage);
+  }
+
+  bookAppointment()
+  {
+    this.navCtrl.push(BookAppointmentAtLoginPage);
   }
 }
 

@@ -4,6 +4,7 @@ export class SingleUser
   staff;
   username; //Long UUID of the user
   name;
+  lastname;
   alias;
   suffix_name;
   father_name;

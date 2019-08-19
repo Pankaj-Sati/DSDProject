@@ -1,0 +1,13 @@
+<!-- Generated template for the ProgressBarComponent component -->
+
+  <ion-item *ngIf="progress<100" style="text-align:center">
+  <b>Uploading...</b><ion-spinner></ion-spinner>
+  </ion-item>
+<div class="progress_outer">
+
+  
+  <div *ngIf="progress!=undefined" class="progress" [style.width]="progress+'%'">
+    {{progress}} %
+  </div>
+  
+</div>

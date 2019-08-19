@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Signup</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+
+  <ion-item no-lines class="profile-item">
+    <div class="profile-picture">
+      <img src="assets/imgs/logo.png" style="background-color:gray;background-image: linear-gradient(#48c6ef , #6f86d6);"><br><br>
+
+    </div>
+  </ion-item>
+
+  <div style="text-align:center;padding:10px 20px;">
+
+    <h2>Dalbir's Law Firm</h2>
+    <h3>You are successfully registered</h3>
+    <h4>We have sent your login details to your email address and contact number</h4>
+    <h5 *ngIf="passed_email!=undefined && passed_email!=null">Email: {{passed_email}}</h5>
+    <h5 *ngIf="passed_contact!=undefined">Contact: {{passed_contact}}</h5>
+    <h3>Thank you</h3>
+
+    <div style="padding:20px 30px;">
+      <button ion-button style="width:100%;" (click)="login()" icon-end>Login<ion-icon name="log-in"></ion-icon></button>
+    </div>
+
+  </div>
+</ion-content>

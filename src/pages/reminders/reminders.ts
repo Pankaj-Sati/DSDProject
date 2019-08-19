@@ -12,6 +12,9 @@ import { Reminder } from '../../models/reminder.model';
 import { RemindersDetailComponent } from '../../components/reminders-detail/reminders-detail';
 import { NotificationsPage } from '../notifications/notifications';
 
+import { AddReminderPage } from './new_format/add_reminder/add_reminder';
+import { ReminderListPage } from './new_format/reminder_list/reminder_list';
+
 import { Events } from 'ionic-angular';
 
 @Component({
@@ -145,5 +148,14 @@ export class RemindersPage
 		
 
     }
-	
+
+  reminderList()
+  {
+    this.navCtrl.push(ReminderListPage);
+  }
+
+  addReminder()
+  {
+    this.navCtrl.push(AddReminderPage);
+  }
 }

@@ -3,11 +3,17 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import {Http, Headers, RequestOptions}  from "@angular/http";
 import { LoadingController } from "ionic-angular";
 import "rxjs/add/operator/map";
-import {MenuController} from 'ionic-angular';
+import { MenuController } from 'ionic-angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
-import { RemindersPage } from '../reminders/reminders';
-import { NotificationsPage } from '../notifications/notifications';
+import { ReminderListPage } from '../reminders/new_format/reminder_list/reminder_list';
+import { NotificationListPage } from '../notifications/new_format/notification_list/notification_list';
 import { AddClientPage } from '../client_list/add_client/add_client';
+import { BookAppointmentPage } from '../book-appointment/book-appointment';
+import { ClientDocumentsPage } from '../client_list/single_client/document/document';
+import { AppointmentListPage } from '../appointment-list/appointment-list';
+
 import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
 import { ToastController } from 'ionic-angular';
@@ -28,25 +34,61 @@ export class DashboardPage
 	total_reminders:string;
 	total_notifications:string;
 	total_clients:string;
-	showSearch:boolean;
+	total_appointments:string;
+  showSearch: boolean;
+  calendarLink: SafeResourceUrl;
 
-  constructor(public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public events: Events, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController, public storage: Storage, public toastCtrl: ToastController)
-	{
+  constructor(public myStorage: MyStorageProvider,
+    public apiValue: ApiValuesProvider,
+    public events: Events,
+    public menuCtrl: MenuController,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    private http: Http,
+    public loading: LoadingController,
+    public storage: Storage,
+    public toastCtrl: ToastController,
+    public sanitizer: DomSanitizer,
+    public inAppBrowser: InAppBrowser)
+  {
+    
 		this.menuCtrl.enable(true);
 		this.menuCtrl.swipeEnable(true);
 			
-        this.checkIfAlreadyLoggedIn();
-        this.showSearch=false;
-        this.events.publish('loggedIn');
-        this.events.publish('newPage','DSD Test1');
+    this.checkIfAlreadyLoggedIn();
+
+    
+    this.showSearch=false;
+    this.events.publish('loggedIn');
+    this.events.publish('newPage', 'DSD Test1');
+
+    console.log('----IFrame Link-------');
+    if (Number(this.loggedInUser.user_type_id) == 4 && this.loggedInUser.calendar_link != undefined)
+    {
+      
+      this.calendarLink = this.sanitizer.bypassSecurityTrustResourceUrl(this.loggedInUser.calendar_link);
+      console.log(this.calendarLink);
     }
+    else
+    {
+     
+      this.calendarLink = this.sanitizer.bypassSecurityTrustResourceUrl("https://teamup.com/ksqn86pa626r69dvzg");
+      console.log(this.calendarLink);
+
+    }
+    
+
+   
+  }
+
 	
 	checkIfAlreadyLoggedIn()
 	{
 
       this.loggedInUser = this.myStorage.getParameters();
 
-      if (this.loggedInUser != null && this.loggedInUser.id.length > 0)
+      if (this.loggedInUser != undefined && this.loggedInUser.id.length > 0)
 			{
 				  //User already exists, fetch data
 
@@ -74,15 +116,18 @@ export class DashboardPage
 		  });
 	}
 
-	
+  bookAppointment()
+  {
+    this.navCtrl.push(BookAppointmentPage);
+  }
 	openRemindersList()
 	{
-		this.navCtrl.push(RemindersPage);
+		this.navCtrl.push(ReminderListPage);
 	}
 	
 	openNotificationsList()
 	{
-		this.navCtrl.push(NotificationsPage);
+		this.navCtrl.push(NotificationListPage);
 	}
 
 	searchClient()
@@ -103,10 +148,6 @@ export class DashboardPage
 	   var headers = new Headers();
       console.log("Loading ...");
 
-       headers.append("Accept", "application/json");
-
-       headers.append("Content-Type", "application/json" );
-
        let options = new RequestOptions({ headers: headers });
 
   
@@ -119,9 +160,10 @@ export class DashboardPage
 
 		let loadingSuccessful=false;//To know whether loader ended due to timeout
 
-		 let data = { //Data to be sent to the server
+      let data = new FormData();
+      data.set('session_id', this.loggedInUser.id);
+      data.set('user_type_id', this.loggedInUser.user_type_id);
 
-         };
 	   loader.present().then(() => 
 		{
 
@@ -177,15 +219,45 @@ export class DashboardPage
 							this.total_clients=serverReply;
 						}
 						
-						loader.dismiss();
-						
-
 
 				   },error=>{
 			   		loadingSuccessful=true;
-			   });
+             });
+
+         //---------------------Get Total Appointments---------------//
+
+         this.http.post(this.apiValue.baseURL + "/dashboard_get_totalAppointments.php", data, options) //Http request returns an observable
+
+           .map(response => response.json()) ////To make it easy to read from observable
+
+           .subscribe(serverReply =>  //We subscribe to the observable and do whatever we want when we get the data
+
+           {
+             loadingSuccessful = true;
+             console.log(serverReply);
+             if (!serverReply)
+             {
+               //This means error
+               this.total_appointments = String(0);
+             }
+             else
+             {
+               this.total_appointments = serverReply.totalAppointments;
+             }
+
+             loader.dismiss();
+
+
+
+           }, error =>
+           {
+             loadingSuccessful = true;
+           });
 		   
-  		 });
+       });
+
+
+
 	   loader.onDidDismiss(()=>{
 
 		   	if(! loadingSuccessful)
@@ -202,6 +274,32 @@ export class DashboardPage
 
     }
 
-	
+  documentsList()
+  {
+    let data =
+    {
+      client_id: this.loggedInUser.id,
+      client_name: this.loggedInUser.name
+    };
+    this.navCtrl.push(ClientDocumentsPage, data);
+    return;
+  }
+
+  viewAppointments()
+  {
+    this.navCtrl.push(AppointmentListPage);
+  }
+
+  openWebsite()
+  {
+    let url = 'http://dsdlawfirm.com';
+    this.inAppBrowser.create(url,'_system');
+  }
+
+  checkCaseStatus()
+  {
+    let url = ' https://egov.uscis.gov/casestatus/landing.do';
+    this.inAppBrowser.create(url, '_system');
+  }
    
 }

@@ -26,7 +26,9 @@ export class HearingDetailsPage
   loggedInUser: User;
 
   hearing_list: DatewiseHearing[] = [];
-  showAddHearing: boolean = false;
+  showAddHearing: boolean = true;
+
+  visibility: boolean[] = []; //To show/hide hearing details
 
   constructor
     (
@@ -52,10 +54,15 @@ export class HearingDetailsPage
     this.fetchData();
   }
 
+  showDetails(hearing, $event, i)
+  {
+    this.visibility[i] = !this.visibility[i];
+  }
 
   fetchData()
   {
     this.hearing_list = [];
+    this.visibility = [];
     let loader = this.loadingCtrl.create({
 
       content: "Loading...",
@@ -92,13 +99,17 @@ export class HearingDetailsPage
               {
                 //Failure Returned
                 this.presentToast(serverReply.message);
-                this.checkForAddHearing();
+                //this.checkForAddHearing();
               }
               else
               {
                 //Success
                 this.hearing_list = serverReply;
-                this.checkForAddHearing();
+                for (let i = 0; i < this.hearing_list.length;i++)
+                {
+                  this.visibility[i] = false;
+                }
+                //this.checkForAddHearing();
               }
             }
             catch (err)
@@ -279,6 +290,8 @@ export class HearingDetailsPage
 
   checkForAddHearing()
   {
+    //This method is used to check whether we have to show add button to the user or not
+    //We will show add if all the hearings are complete i.e description field of all hearings is complete
     let showAdd: boolean = true;
     for (let i = this.hearing_list.length-1; i>=0; i--)
     {

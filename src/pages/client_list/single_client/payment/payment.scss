@@ -10,12 +10,20 @@ payment {
     border-bottom: 2px solid #32db64 !important;
   }
 
+  .blurDiv {
+    filter: blur(3px);
+  }
 
   .mandatory_field {
     color: red;
   }
 
-  .label{
-    color:unset;
+  .label {
+    color: unset;
+  }
+
+  .headingBG
+  {
+    background-color:map-get($colors,'primary');
   }
 }

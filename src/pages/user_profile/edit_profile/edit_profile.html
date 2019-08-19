@@ -36,8 +36,14 @@
 
       <ion-item [ngClass]="{'error':! userForm.controls.u_name.valid,'valid':(userForm.controls.u_name.touched && userForm.controls.u_name.valid)}" [class.invalid]="! userForm.controls.u_name.valid">
 
-        <ion-label stacked>Full Name <span class="requiredField">*</span></ion-label>
-        <ion-input type="text" formControlName="u_name" name="full_name"></ion-input>
+        <ion-label stacked>First Name <span class="requiredField">*</span></ion-label>
+        <ion-input type="text" formControlName="u_name" name="first_name"></ion-input>
+      </ion-item>
+
+      <ion-item [ngClass]="{'error':! userForm.controls.u_lastname.valid,'valid':(userForm.controls.u_lastname.touched && userForm.controls.u_lastname.valid)}" [class.invalid]="! userForm.controls.u_lastname.valid">
+
+        <ion-label stacked>Last Name</ion-label>
+        <ion-input type="text" formControlName="u_lastname" name="last_name"></ion-input>
       </ion-item>
 
       <ion-item [ngClass]="{'error':! userForm.controls.u_email.valid,'valid':(userForm.controls.u_email.touched && userForm.controls.u_email.valid)}" [class.invalid]="! userForm.controls.u_email.valid">
@@ -69,21 +75,19 @@
       <ion-item [ngClass]="{'error':! userForm.controls.u_dob.valid,'valid':(userForm.controls.u_dob.touched && userForm.controls.u_dob.valid)}" [class.invalid]="userForm.controls.u_dob.valid">
 
         <ion-label stacked>Date Of Birth <span class="requiredField">*</span></ion-label>
-        <ion-datetime displayFormat="MMM DD YY" formControlName="u_dob" name="date_of_birth"></ion-datetime>
+        <ion-datetime displayFormat="MMM DD YYYY" formControlName="u_dob" name="date_of_birth"></ion-datetime>
       </ion-item>
 
-      <ion-item [ngClass]="{'error':! userForm.controls.u_country.valid,'valid':(userForm.controls.u_country.touched && userForm.controls.u_country.valid)}" [class.invalid]="! userForm.controls.u_country.valid">
+      <ion-item [ngClass]="{'error':!userForm.controls.u_address1.valid,'valid':(userForm.controls.u_address1.touched && userForm.controls.u_address1.valid)}" [class.invalid]="! userForm.controls.u_address1.valid">
 
-        <ion-label stacked>Country <span class="requiredField">*</span></ion-label>
-        <ion-select formControlName="u_country" name="country">
-          <ion-option *ngFor="let country of countryList" value="{{country.id}}">{{country.name}}</ion-option>
-        </ion-select>
+        <ion-label stacked>Address 1 <span class="requiredField">*</span></ion-label>
+        <ion-input type="text" formControlName="u_address1" required name="street"></ion-input>
       </ion-item>
 
-      <ion-item [ngClass]="{'error':! userForm.controls.u_state.valid,'valid':(userForm.controls.u_state.touched && userForm.controls.u_state.valid)}" [class.invalid]="! userForm.controls.u_state.valid">
+      <ion-item [ngClass]="{'error':!userForm.controls.u_address2.valid,'valid':(userForm.controls.u_address2.touched && userForm.controls.u_address2.valid)}" [class.invalid]="! userForm.controls.u_address2.valid">
 
-        <ion-label stacked>State <span class="requiredField">*</span></ion-label>
-        <ion-input type="text" formControlName="u_state" name="state"></ion-input>
+        <ion-label stacked>Address 2 </ion-label>
+        <ion-input type="text" formControlName="u_address2" name="street"></ion-input>
       </ion-item>
 
       <ion-item [ngClass]="{'error':! userForm.controls.u_city.valid,'valid':(userForm.controls.u_city.touched && userForm.controls.u_city.valid)}" [class.invalid]="! userForm.controls.u_city.valid">
@@ -92,22 +96,30 @@
         <ion-input type="text" formControlName="u_city" name="city"></ion-input>
       </ion-item>
 
+      <ion-item [ngClass]="{'error':! userForm.controls.u_state.valid,'valid':(userForm.controls.u_state.touched && userForm.controls.u_state.valid)}" [class.invalid]="! userForm.controls.u_state.valid">
+
+        <ion-label stacked>State <span class="requiredField">*</span></ion-label>
+        <ion-select interface="action-sheet" formControlName="u_state" name="state" placeholder="Select">
+          <ion-option *ngFor="let state of stateList" value="{{state.stateName}}">{{state.stateName}}</ion-option>
+        </ion-select>
+      </ion-item>
+
       <ion-item [ngClass]="{'error':! userForm.controls.u_pincode.valid,'valid':( userForm.controls.u_pincode.touched && userForm.controls.u_pincode.valid)}" [class.invalid]="! userForm.controls.u_pincode.valid">
 
         <ion-label stacked>Zip code <span class="requiredField">*</span></ion-label>
         <ion-input type="number" formControlName="u_pincode" name="pincode"></ion-input>
       </ion-item>
 
+      <ion-item [ngClass]="{'error':! userForm.controls.u_country.valid,'valid':(userForm.controls.u_country.touched && userForm.controls.u_country.valid)}" [class.invalid]="! userForm.controls.u_country.valid">
+        <ion-label stacked>Country <span class="requiredField">*</span></ion-label>
+        <ion-label>United States</ion-label>
+      </ion-item>
+
+
       <ion-item [ngClass]="{'error':! userForm.controls.u_fax.valid,'valid':(userForm.controls.u_fax.touched && userForm.controls.u_fax.valid)}" [class.invalid]=" ! userForm.controls.u_fax.valid">
 
         <ion-label stacked>Fax</ion-label>
         <ion-input type="text" formControlName="u_fax" name="fax"></ion-input>
-      </ion-item>
-
-      <ion-item [ngClass]="{'error':!userForm.controls.u_address.valid,'valid':(userForm.controls.u_address.touched && userForm.controls.u_address.valid)}" [class.invalid]="! userForm.controls.u_address.valid">
-
-        <ion-label stacked>Address <span class="requiredField">*</span></ion-label>
-        <ion-input type="text" formControlName="u_address" required name="street"></ion-input>
       </ion-item>
 
     </ion-list>

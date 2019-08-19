@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
+    <ion-title>Add Reminder</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content style="margin-top: 10px;">
+  <ion-item no-lines>
+    <ion-label stacked>Date (MM-DD-YYYY)</ion-label>
+    <ion-datetime required displayFormat="MMM-DD-YYYY" [(ngModel)]="r_date" placeholder="Select Date"></ion-datetime>
+  </ion-item>
+
+  <ion-item no-lines>
+    <ion-label stacked>Time</ion-label>
+    <ion-datetime displayFormat="hh:mm A" required [(ngModel)]="r_time" placeholder="Select Time"></ion-datetime>
+  </ion-item>
+
+  <div *ngIf="loggedInUser!=undefined && loggedInUser!=null && loggedInUser.user_type_id!=5">
+    <!--Currently hardcoding user access for client type=5 i.e CLIENT-->
+    <ion-item no-lines>
+      <ion-label stacked>Client(s)</ion-label>
+      <ion-select interface="action-sheet">
+        <ion-option *ngFor="let client of clientList" (ionSelect)="addClient(client)" [value]="client.id">{{client.client_name}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <div style="margin-top:10px;">
+      <ion-chip style="margin:2px;" *ngFor="let selectedClient of selectedClients;let i=index;">
+        <ion-label>{{selectedClient.client_name}}</ion-label>
+        <ion-icon class="chipIcon" (click)="removeClient(i)" name="close-circle"></ion-icon>
+      </ion-chip>
+    </div>
+  </div>
+
+  <ion-item no-lines>
+    <ion-label stacked>Subject</ion-label>
+    <ion-input required [(ngModel)]="r_subject" placeholder="Enter Subject"></ion-input>
+  </ion-item>
+
+  <ion-item no-lines>
+    <ion-label stacked>Description</ion-label>
+    <ion-textarea required [(ngModel)]="r_description" placeholder=""></ion-textarea>
+  </ion-item>
+
+  <ion-row>
+    <ion-col col-6 style="text-align:right;">
+      <button ion-button (click)="goBack()" icon-start><ion-icon name="arrow-back"></ion-icon>Back</button>
+    </ion-col>
+
+    <ion-col col-6 style="text-align:left;">
+      <button ion-button icon-start [disabled]="r_subject.length==0 || r_description.length==0 || r_date.length==0" (click)="addReminder()"><ion-icon name="add"></ion-icon>Add</button>
+
+    </ion-col>
+
+  </ion-row>
+
+</ion-content>

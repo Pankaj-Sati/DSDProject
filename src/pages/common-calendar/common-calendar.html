@@ -1,0 +1,33 @@
+<ion-header>
+
+  <ion-navbar color="secondary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-row center style="text-align: left;vertical-align: middle;">
+      <ion-col>
+        <ion-title style="text-align: left;height: 100%;vertical-align: middle;">
+          Calendar
+        </ion-title>
+
+      </ion-col>
+      <!--------------Currently hardcoding search access control for client (user_type_id=5)--------------->
+      <ion-col style="text-align: right;" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
+
+        <ion-icon (click)="searchClient()" size="large" style="color:white;zoom:1.4;padding-right:10px" name="search"></ion-icon>
+
+      </ion-col>
+    </ion-row>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  
+  <div #frame style="overflow:scroll !important;-webkit-overflow-scrolling:touch !important;height:100%;">
+    <iframe [src]="calendarLink" class="iframe" style="width:100%;min-height:360px;margin-top:20px" scrolling="yes"></iframe>
+  </div>
+
+</ion-content>

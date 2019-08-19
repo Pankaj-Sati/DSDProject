@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
-import { NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { NavParams, ToastController, LoadingController, NavController } from 'ionic-angular';
 
 import { ApiValuesProvider } from '../../../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../../../providers/my-storage/my-storage';
@@ -27,7 +27,8 @@ export class AddNotesPage
       public myStorage: MyStorageProvider,
       public toastCtrl: ToastController,
       public loadingCtrl: LoadingController,
-      public http: Http
+    public http: Http,
+    public navCtrl: NavController
     )
   {
     this.loggedInUser = this.myStorage.getParameters();
@@ -87,6 +88,8 @@ export class AddNotesPage
                 {
                   //Success
                   this.showToast(data.message);
+                  this.navCtrl.getPrevious().data.reload = true;
+                  this.navCtrl.pop();
 
                   return;
                 }

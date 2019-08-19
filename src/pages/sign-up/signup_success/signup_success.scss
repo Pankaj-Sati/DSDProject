@@ -1,0 +1,28 @@
+signup_success {
+  .profile-item {
+    text-align: center;
+    background-color: transparent;
+  }
+
+  .profile-picture {
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    padding: 3px;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: transparent;
+    width: 144px;
+    height: 144px;
+    border-radius: 100%;
+  }
+
+  img {
+    width: 144px;
+    height: 144px;
+    border-radius: 50%;
+    object-fit: contain;
+    padding: 2px;
+  }
+}

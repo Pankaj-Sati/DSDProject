@@ -314,10 +314,10 @@ export class SingleClientPage
     let options = new RequestOptions({ headers: header });
 
     let body = new FormData();
-    body.append('rowID', this.clientDetails.id);
+    body.append('rowID', String(this.client.id));
     body.append('session_id', this.loggedInUser.id);
 
-    this.http.get(this.apiValue.baseURL + "/client_delete.php?rowID=" + this.clientDetails.id + "& session_id=" + this.loggedInUser.id)
+    this.http.get(this.apiValue.baseURL + "/client_delete.php?rowID=" + this.clientDetails.id + "&session_id=" + this.loggedInUser.id)
       .subscribe(response =>
       {
         loadingSuccessful = true;
@@ -383,7 +383,9 @@ export class SingleClientPage
   clientDocuments()
   {
     let data = {
-      client_id: this.client.id
+      client_id: this.client.id,
+      advocate_id: this.client.adv_assign,
+      client_name: this.client.client_name
     };
     this.navCtrl.push(ClientDocumentsPage, data);
   }

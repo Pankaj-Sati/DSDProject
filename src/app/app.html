@@ -13,13 +13,11 @@
     <ion-toolbar class="mainBackgroundColor">
 
       <ion-row style="padding:1px;">
-        <ion-col col-4 align-self-start >
-            <img src="assets/imgs/logo.png" style="max-width:88px; max-height:88px; object-fit: contain;"/>
+        <ion-col style="text-align:center;">
+            <img src="assets/imgs/logo.png" style="max-width:144px; max-height:144px; object-fit: contain;"/>
          
         </ion-col>
-        <ion-col col-8  align-self-start style="margin:auto;">
-            <h3 style="font-weight: 600;margin:auto;color: #FFF">Dalbir's Law Firm</h3>
-        </ion-col>
+       
       </ion-row>
       
       <!-- Default Searchbar -->
@@ -30,20 +28,34 @@
    
    <div class="center">
 
-    <img class="roundImg" [src]="u_img"/>
+     <ion-row >
+       <ion-col style="padding:0px;">
+         <img class="profileImg" *ngIf="loggedInUser!=undefined && loggedInUser!=null && loggedInUser.profile_img!=null && loggedInUser.profile_img!=undefined && loggedInUser.profile_img.length>0" src="{{u_img}}" />
 
-    <ion-row align-items-center style="padding:2px; background-color: #488aff" (click)="viewProfile()">
+         <img class="profileImg" *ngIf="loggedInUser==undefined || loggedInUser==null || loggedInUser.profile_img==null || loggedInUser.profile_img.length==0" src="assets/imgs/generic_user.png" />
 
-      <ion-col col-10>
-            <h3 style="margin: 5px;color: white;">{{u_name}}</h3>
-      </ion-col>
+       </ion-col>
+     </ion-row>
+   
+     <ion-row align-items-center style="padding:2px; background-color: #488aff" >
 
-      <ion-col col-2>
-              <ion-icon name="arrow-dropright-circle" style="zoom:1.5;color:white;"></ion-icon>
+       <ion-col col-8>
+         <h3 class="nameLabel">{{u_name}}</h3>
+       </ion-col>
 
-      </ion-col>
-                
-    </ion-row>
+       <!--Currently hardcoding access for client type user (USER_TYPE_ID=5)-->
+       <section *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5" (click)="viewProfile()">
+         <ion-col col-2 style="text-align:right;font-size:16px;font-weight:500;color:white;">
+           View
+
+         </ion-col>
+         <ion-col col-2>
+           <ion-icon name="arrow-dropright-circle" style="zoom:1.5;color:white;"></ion-icon>
+
+         </ion-col>
+       </section>
+
+     </ion-row>
     </div>
     
     
@@ -80,11 +92,11 @@
    
   </ion-content>
 
-  <ion-footer style="margin:0px;min-height:64px;padding:5px;" (click)='openLink()'>
+  <ion-footer class="footer" (click)='openLink()'>
     <h6 style="text-align: center;margin:0px;">Developed By:</h6>
 
     <h5 style="text-align: center;margin:0px;">
-      <span class="item" style="color:steelblue;">
+      <span class="item">
         <u>Maze Technologies LLC.</u>
       </span>
     </h5>

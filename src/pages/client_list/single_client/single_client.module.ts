@@ -13,22 +13,25 @@ import { ClientCommunicationsPage } from './communications/communications';
 import { ClientPaymentPage } from './payment/payment';
 import { HearingDetailsPage } from './hearing_details/hearing_details';
 import { EditClientPage } from './edit_client/edit_client';
+import { AddCaseHistoryPage } from './notes/add_case_history/add_case_history';
 
 import { ComponentsModule } from '../../../components/components.module';
+import { PipesModule } from '../../../pipes/pipes.module';
 
 
 @NgModule({
   declarations: [SendSMSPage, ChangeManagerPage, SingleClientPage,
     NotesListPage, AddNotesPage, ClientDocumentsPage, ClientCommunicationsPage,
-    ClientPaymentPage, HearingDetailsPage, EditClientPage],
+    ClientPaymentPage, HearingDetailsPage, EditClientPage, AddCaseHistoryPage],
   imports: [
     IonicPageModule.forChild(SingleClientPage),
     BrMaskerModule,
-    ComponentsModule],
+    ComponentsModule,
+    PipesModule],
   providers: [],
   entryComponents: [SendSMSPage, ChangeManagerPage, SingleClientPage,
     NotesListPage, AddNotesPage, ClientDocumentsPage, ClientCommunicationsPage,
-    ClientPaymentPage, HearingDetailsPage, EditClientPage],
+    ClientPaymentPage, HearingDetailsPage, EditClientPage, AddCaseHistoryPage],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SingleClientModule { }

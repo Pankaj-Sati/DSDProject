@@ -27,4 +27,8 @@ smslist {
   .smsDetails ion-label {
     margin: 0px;
   }
+
+  .detailLabel {
+    color: map-get($colors,primary);
+  }
 }

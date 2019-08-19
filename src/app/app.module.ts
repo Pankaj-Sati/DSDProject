@@ -45,6 +45,9 @@ import {SMSBulkEmailPage} from '../pages/sms/bulkemail/bulkemail';
 import { SMSListPage } from '../pages/sms/smslist/smslist';
 import {SingleUserAccountPage} from '../pages/account_management/single_user_account/single_user_account';
 import { SearchHeaderPageModule } from '../pages/search-header/search-header.module';
+import { BookAppointmentPageModule } from '../pages/book-appointment/book-appointment.module';
+import { AppointmentListPageModule } from '../pages/appointment-list/appointment-list.module';
+import { BookAppointmentAtLoginPageModule } from '../pages/book-appointment-at-login/book-appointment-at-login.module';
 
 
 import { ComponentsModule } from '../components/components.module';
@@ -62,6 +65,15 @@ import { ApiValuesProvider } from '../providers/api-values/api-values';
 import { ClientEntityRelationshipProvider } from '../providers/client-entity-relationship/client-entity-relationship';
 import { CountryProvider } from '../providers/country/country';
 import { CaseTypeProvider } from '../providers/case-type/case-type';
+import { Chooser } from '@ionic-native/chooser';
+import { SignUpPageModule} from '../pages/sign-up/sign-up.module';
+import { NotificationsModule } from '../pages/notifications/new_format/notification.module';
+import { RemindersModule } from '../pages/reminders/new_format/reminders.module';
+import { ForgotPasswordPageModule } from '../pages/forgot-password/forgot-password.module';
+import { EntityTypeProvider } from '../providers/entity-type/entity-type';
+import { StateListProvider } from '../providers/state-list/state-list';
+import { PipesModule } from '../pipes/pipes.module';
+import {CommonCalendarPageModule } from '../pages/common-calendar/common-calendar.module'
 
 
 @NgModule({
@@ -111,7 +123,16 @@ import { CaseTypeProvider } from '../providers/case-type/case-type';
          SearchHeaderPageModule,
     ComponentsModule,
     BrMaskerModule,
-    SingleClientModule
+    SingleClientModule,
+    NotificationsModule,
+    SignUpPageModule,
+    RemindersModule,
+    ForgotPasswordPageModule,
+    BookAppointmentPageModule,
+    AppointmentListPageModule,
+    BookAppointmentAtLoginPageModule,
+    PipesModule,
+    CommonCalendarPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -168,7 +189,10 @@ import { CaseTypeProvider } from '../providers/case-type/case-type';
     InAppBrowser,
     ClientEntityRelationshipProvider,
     CountryProvider,
-    CaseTypeProvider
+    CaseTypeProvider,
+    Chooser,
+    EntityTypeProvider,
+    StateListProvider
   ],
   exports: [ComponentsModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]

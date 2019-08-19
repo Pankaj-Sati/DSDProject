@@ -29,7 +29,8 @@ export class UserProfilePage
   constructor(public events:Events,public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public loading: LoadingController, public toastCtrl: ToastController, public storage: Storage, public menuCtrl: MenuController) 
 	{
 
-        this.getLocalData();
+    this.getLocalData();
+    
     }
 
     getLocalData()
