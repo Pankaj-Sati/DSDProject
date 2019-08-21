@@ -86,21 +86,21 @@ export class UpdateUserPage
 
 			u_profile_img:new FormControl(''),
 
-			u_name:new FormControl('',Validators.compose([Validators.required])),
-			u_lastname:new FormControl(''),
+      u_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      u_lastname: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
 			
       u_email: new FormControl('', Validators.compose([Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
       u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       u_alt: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
-			u_gender: new FormControl('',Validators.compose([Validators.required])),
-			u_dob:new FormControl('',Validators.compose([Validators.required])),
+			u_gender: new FormControl(''),
+			u_dob:new FormControl(''),
 			u_country: new FormControl('',Validators.compose([Validators.required])),
-			u_state:new FormControl('',Validators.compose([Validators.required])),
-			u_city: new FormControl('',Validators.compose([Validators.required])),
-			u_pincode:new FormControl('',Validators.compose([Validators.required])),
+			u_state:new FormControl(''),
+      u_city: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      u_pincode: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ZIPCODE_VALIDATOR)])),
 			u_fax:new FormControl(''),
-      u_address1:new FormControl('',Validators.compose([Validators.required])),
-      u_address2:new FormControl(''),
+      u_address1: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      u_address2: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
 			u_user_type:new FormControl('',Validators.compose([Validators.required]))
 			
     }); 
@@ -357,7 +357,8 @@ export class UpdateUserPage
   submitData()
     {
 
-      console.log("Image changed" + this.isImageChanged);
+    console.log("Image changed" + this.isImageChanged);
+    console.log("Country Value" + this.userForm.controls.u_country.value);
 
 	    	if(! this.isImageChanged || this.lastImage==undefined || this.lastImage.length==0)
 	    	{

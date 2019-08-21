@@ -15,7 +15,10 @@ export class CustomDateFormatPipe implements PipeTransform {
    */
   transform(value: string, format: string)
   {
-
+    if (value == undefined || value == null || value.length == 0)
+    {
+      return '';
+    }
     return moment(value).format(format);
   }
 }

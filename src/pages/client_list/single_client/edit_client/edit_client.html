@@ -50,7 +50,7 @@
 
           <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_alien_no.valid,'valid':(editClientForm.controls.c_alien_no.touched && editClientForm.controls.c_alien_no.valid)}" [class.invalid]="! editClientForm.controls.c_alien_no.valid">
             <ion-label stacked><b>Alien No.</b></ion-label>
-            <ion-input type="text" required formControlName="c_alien_no" placeholder="Enter Alien No."></ion-input>
+            <ion-input type="text" formControlName="c_alien_no" placeholder="Enter Alien No."></ion-input>
           </ion-item>
 
           <!--
@@ -79,7 +79,7 @@
 
           <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_date.valid,'valid':(editClientForm.controls.c_date.touched && editClientForm.controls.c_date.valid)}" [class.invalid]="! editClientForm.controls.c_date.valid">
             <ion-label stacked><b>Case Registered Date <span class="mandatory_field"> *</span></b></ion-label>
-            <ion-datetime required formControlName="c_date" placeholder="Select Date(MM-DD-YYYY)" displayFormat="MM-DD-YYYY"></ion-datetime>
+            <ion-datetime max="{{apiValue.maxSelectableDate}}" required formControlName="c_date" placeholder="Select Date(MM-DD-YYYY)" displayFormat="MM-DD-YYYY"></ion-datetime>
           </ion-item>
 
         </div>
@@ -294,29 +294,28 @@
                 </ion-col>
 
                 <!--
-                <ion-col col-2 class="completeIconCol">
-                  <ion-icon name="done-all" class="completeIcon" [color]="(editClientForm.get('entity').controls[i].e_type.valid
-                  && editClientForm.get('entity').controls[i].e_relationship.valid
-                  && editClientForm.get('entity').controls[i].e_name.valid
-                  && editClientForm.get('entity').controls[i].e_alias.valid
-                  && editClientForm.get('entity').controls[i].e_contact.valid
-                  && editClientForm.get('entity').controls[i].e_alt_no.valid
-                  && editClientForm.get('entity').controls[i].e_email.valid
-                  && editClientForm.get('entity').controls[i].e_address1.valid
-                  && editClientForm.get('entity').controls[i].e_address2.valid
-                  && editClientForm.get('entity').controls[i].e_city.valid
-                  && editClientForm.get('entity').controls[i].e_state.valid
-                  && editClientForm.get('entity').controls[i].e_zipcode.valid
-                  && editClientForm.get('entity').controls[i].e_country.valid
-                  && editClientForm.get('entity').controls[i].e_address1_billing.valid
-                  && editClientForm.get('entity').controls[i].e_address2_billing.valid
-                  && editClientForm.get('entity').controls[i].e_city_billing.valid
-                  && editClientForm.get('entity').controls[i].e_state_billing.valid
-                  && editClientForm.get('entity').controls[i].e_zipcode_billing.valid
-
-                 && editClientForm.get('entity').controls[i].e_country_billing.valid)?'success':'invalid'"></ion-icon>
-                </ion-col>
-                    -->
+        <ion-col col-2 class="completeIconCol">
+          <ion-icon name="done-all" class="completeIcon" [color]="(editClientForm.get('entity').controls[i].e_type.valid
+          && editClientForm.get('entity').controls[i].e_relationship.valid
+          && editClientForm.get('entity').controls[i].e_name.valid
+          && editClientForm.get('entity').controls[i].e_alias.valid
+          && editClientForm.get('entity').controls[i].e_contact.valid
+          && editClientForm.get('entity').controls[i].e_alt_no.valid
+          && editClientForm.get('entity').controls[i].e_email.valid
+          && editClientForm.get('entity').controls[i].e_address1.valid
+          && editClientForm.get('entity').controls[i].e_address2.valid
+          && editClientForm.get('entity').controls[i].e_city.valid
+          && editClientForm.get('entity').controls[i].e_state.valid
+          && editClientForm.get('entity').controls[i].e_zipcode.valid
+          && editClientForm.get('entity').controls[i].e_country.valid
+          && editClientForm.get('entity').controls[i].e_address1_billing.valid
+          && editClientForm.get('entity').controls[i].e_address2_billing.valid
+          && editClientForm.get('entity').controls[i].e_city_billing.valid
+          && editClientForm.get('entity').controls[i].e_state_billing.valid
+          && editClientForm.get('entity').controls[i].e_zipcode_billing.valid
+         && editClientForm.get('entity').controls[i].e_country_billing.valid)?'success':'invalid'"></ion-icon>
+        </ion-col>
+            -->
                 <ion-col col-2 class="detailIconCol" (click)="toggleShowMoreEntity(i)">
                   <ion-icon class="detailIcon" *ngIf="! showEachEntityDetails[i]" name="arrow-down"></ion-icon>
                   <ion-icon class="detailIcon" *ngIf="showEachEntityDetails[i]" name="arrow-up"></ion-icon>
@@ -347,7 +346,7 @@
 
                 <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_lastname.valid,'valid':(editClientForm.get('entity').controls[i].e_lastname.touched && editClientForm.get('entity').controls[i].e_lastname.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_lastname.valid">
                   <ion-label stacked><b>Last Name </b></ion-label>
-                  <ion-input type="text"  formControlName="e_lastname" placeholder="Enter Last Name"></ion-input>
+                  <ion-input type="text" formControlName="e_lastname" placeholder="Enter Last Name"></ion-input>
                 </ion-item>
 
                 <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_alias.valid,'valid':(editClientForm.get('entity').controls[i].e_alias.touched && editClientForm.get('entity').controls[i].e_alias.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_alias.valid">
@@ -371,11 +370,11 @@
                 </ion-item>
 
                 <!--
-    <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_notes.valid,'valid':(editClientForm.get('entity').controls[i].e_notes.touched && editClientForm.get('entity').controls[i].e_notes.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_notes.valid">
-      <ion-label stacked><b>Notes</b></ion-label>
-      <ion-input type="text" formControlName="e_notes" placeholder="Enter notes"></ion-input>
-    </ion-item>
-    -->
+        <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_notes.valid,'valid':(editClientForm.get('entity').controls[i].e_notes.touched && editClientForm.get('entity').controls[i].e_notes.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_notes.valid">
+          <ion-label stacked><b>Notes</b></ion-label>
+          <ion-input type="text" formControlName="e_notes" placeholder="Enter notes"></ion-input>
+        </ion-item>
+        -->
                 <hr>
                 <!----------Permanant Address----------->
                 <ion-item no-lines>

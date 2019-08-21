@@ -26,7 +26,7 @@
       <form [formGroup]="editHearingForm">
         <ion-item no-lines>
           <ion-label stacked style="color:unset;"><b>Select Date <span class="required_field">*</span></b></ion-label>
-          <ion-datetime displayFormat="DD MMM YYYY" formControlName="date" required></ion-datetime>
+          <ion-datetime displayFormat="DD MMM YYYY" max="{{apiValues.maxSelectableDate}}" formControlName="date" required></ion-datetime>
 
         </ion-item>
 

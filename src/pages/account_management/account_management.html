@@ -40,7 +40,7 @@
 
       <ion-item>
         <ion-label>Year</ion-label>
-        <ion-datetime [pickerOptions]="customPickerOptions" placeholder="Select Year" [(ngModel)]="c_case_year" displayFormat="YYYY"></ion-datetime>
+        <ion-datetime [pickerOptions]="customPickerOptions" max="{{apiValue.maxSelectableDate}}" placeholder="Select Year" [(ngModel)]="c_case_year" displayFormat="YYYY"></ion-datetime>
 
 
         <!-- Change the managers by fetching manager list from server -->

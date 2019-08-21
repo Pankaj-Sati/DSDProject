@@ -172,7 +172,7 @@
           <ion-item no-lines>
             <ion-label stacked>Card Expiration Date </ion-label>
 
-            <ion-datetime [pickerOptions]="customPickerOptions" placeholder="Select Month and year" displayFormat="MM/YY" formControlName="p_card_exp" (ionChange)="printLog()">
+            <ion-datetime max="{{maxCardExpiryYear}}" [pickerOptions]="customPickerOptions" placeholder="Select Month and year" displayFormat="MM/YYYY" formControlName="p_card_exp" (ionChange)="printLog()">
             </ion-datetime>
 
           </ion-item>

@@ -2,13 +2,13 @@
 import { Injectable } from '@angular/core';
 import {  Headers} from "@angular/http";
 /*
-  Generated class for the ApiValuesProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
+  This class stores some commom constants that are used throughtout the app
+  With this approach it is easier to change the value in a single place than to change it everywhere in the app
 */
 @Injectable()
-export class ApiValuesProvider {
+export class ApiValuesProvider
+{
+  private maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 5)).toISOString();
 
   constructor() 
   {
@@ -23,6 +23,20 @@ export class ApiValuesProvider {
   public TEAMUP_API_KEY: string = "e5b9e51f3297651794ceea6658f433b1fc8dccb562c072d09dd81de6c4260e30";
   public MAIN_APPOINTMENT_CALANDER: string = "6776892";
   public ADD_EVENT_URL: string = "https://api.teamup.com/ksje28dmta3n244jf9/events";
+
+
+  //--------------------- Input Validator----------------------------//
+  public readonly INPUT_VALIDATOR=/^$|^([a-zA-Z]{2}.{0,50})$/;
+  public readonly ADDRESS_VALIDATOR=/^$|^([a-zA-Z0-9]{2}.{0,100})$/;
+  public readonly ZIPCODE_VALIDATOR=/^$|^([0-9]{6})$/;
+  public readonly LONG_TEXT_VALIDATOR =/^$|^([a-zA-Z0-9]{2}.{0,500})$/;
+
+  get maxSelectableDate():any
+  {
+    //This method returns the maximum selectable date troughout the app
+    return this.maxDate;
+  }
+
 
   get calendarHeaders():Headers
   {

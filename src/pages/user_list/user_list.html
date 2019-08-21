@@ -110,8 +110,13 @@
                   <ion-row row-1 style='text-align: center;'>
                     <ion-col>
                       <span [ngSwitch]="user.usertype_id">
+                        <span *ngSwitchCase="1">Super Admin</span>
                         <span *ngSwitchCase="2">ADMIN</span>
-                        <span *ngSwitchDefault>Normal User</span>
+                        <span *ngSwitchCase="3">Account</span>
+                        <span *ngSwitchCase="4">Case Manager</span>
+                        <span *ngSwitchCase="5">Client</span>
+                        <span *ngSwitchDefault>Guest User</span>
+                        
                       </span>
                     </ion-col>
 

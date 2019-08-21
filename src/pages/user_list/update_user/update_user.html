@@ -63,7 +63,7 @@
 
   <ion-item [ngClass]="{'error':! userForm.controls.u_gender.valid,'valid':( userForm.controls.u_gender.touched && userForm.controls.u_gender.valid)}" [class.invalid]="! userForm.controls.u_gender.valid">
 
-    <ion-label stacked>Gender <span class="requiredField">*</span></ion-label>
+    <ion-label stacked>Gender </ion-label>
     <ion-select name="gender" formControlName="u_gender">
       <ion-option value="male">Male</ion-option>
       <ion-option value="female">Female</ion-option>
@@ -74,13 +74,13 @@
 
   <ion-item [ngClass]="{'error':! userForm.controls.u_dob.valid,'valid':(userForm.controls.u_dob.touched && userForm.controls.u_dob.valid)}" [class.invalid]="userForm.controls.u_dob.valid">
 
-    <ion-label stacked>Date Of Birth <span class="requiredField">*</span></ion-label>
+    <ion-label stacked>Date Of Birth</ion-label>
     <ion-datetime displayFormat="MMM DD YYYY" formControlName="u_dob" name="date_of_birth"></ion-datetime>
   </ion-item>
 
   <ion-item [ngClass]="{'error':!userForm.controls.u_address1.valid,'valid':(userForm.controls.u_address1.touched && userForm.controls.u_address1.valid)}" [class.invalid]="! userForm.controls.u_address1.valid">
 
-    <ion-label stacked>Address 1 <span class="requiredField">*</span></ion-label>
+    <ion-label stacked>Address 1 </ion-label>
     <ion-input type="text" formControlName="u_address1" name="Address1"></ion-input>
   </ion-item>
 
@@ -92,13 +92,13 @@
 
   <ion-item [ngClass]="{'error':! userForm.controls.u_city.valid,'valid':(userForm.controls.u_city.touched && userForm.controls.u_city.valid)}" [class.invalid]="! userForm.controls.u_city.valid">
 
-    <ion-label stacked>City or Town <span class="requiredField">*</span></ion-label>
+    <ion-label stacked>City or Town </ion-label>
     <ion-input type="text" formControlName="u_city" name="city"></ion-input>
   </ion-item>
 
   <ion-item [ngClass]="{'error':! userForm.controls.u_state.valid,'valid':(userForm.controls.u_state.touched && userForm.controls.u_state.valid)}" [class.invalid]="! userForm.controls.u_state.valid">
 
-    <ion-label stacked>State <span class="requiredField">*</span></ion-label>
+    <ion-label stacked>State</ion-label>
     <ion-select interface="action-sheet" formControlName="u_state" name="state" placeholder="Select">
       <ion-option *ngFor="let state of stateList" value="{{state.stateName}}">{{state.stateName}}</ion-option>
     </ion-select>
@@ -106,7 +106,7 @@
 
   <ion-item [ngClass]="{'error':! userForm.controls.u_pincode.valid,'valid':( userForm.controls.u_pincode.touched && userForm.controls.u_pincode.valid)}" [class.invalid]="! userForm.controls.u_pincode.valid">
 
-    <ion-label stacked>Zip code <span class="requiredField">*</span></ion-label>
+    <ion-label stacked>Zip code </ion-label>
     <ion-input type="number" formControlName="u_pincode" name="pincode"></ion-input>
   </ion-item>
 
@@ -129,7 +129,7 @@
       <ion-option value="1">Super Admin</ion-option>
       <ion-option value="2">Admin</ion-option>
       <ion-option value="3">Account</ion-option>
-      <ion-option value="4">Case Manger</ion-option>
+      <ion-option value="4">Case Manager</ion-option>
       <ion-option value="6">Guest</ion-option>
     </ion-select>
   </ion-item>

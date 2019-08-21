@@ -58,6 +58,7 @@ export class DashboardPage
 			
     this.checkIfAlreadyLoggedIn();
 
+
     
     this.showSearch=false;
     this.events.publish('loggedIn');

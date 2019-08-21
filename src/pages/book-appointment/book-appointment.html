@@ -9,7 +9,7 @@
 
   <ion-item no-lines>
     <ion-label stacked>Date (MM-DD-YYYY) <span class="mandatory_field"> *</span></ion-label>
-    <ion-datetime required pickerFormat="MMM DDD YYYY" (ionChange)="dateChanged()" displayFormat="DDD, MMM DD YYYY" min="{{minDate}}" max="{{maxDate}}" [(ngModel)]="a_date" placeholder="Select Date"></ion-datetime>
+    <ion-datetime required pickerFormat="MMM DDD YYYY" (ionChange)="dateChanged()" displayFormat="DDD, MMM DD YYYY" min="{{minDate}}" max="{{apiValue.maxSelectableDate}}" [(ngModel)]="a_date" placeholder="Select Date"></ion-datetime>
   </ion-item>
 
   <ion-item no-lines>

@@ -6,6 +6,8 @@ import "rxjs/add/operator/map";
 import {MenuController} from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 
+import { ApiValuesProvider} from '../../../../providers/api-values/api-values'
+
 @Component({
   selector: 'payment',
   templateUrl: 'payment.html'
@@ -30,7 +32,14 @@ export class PaymentAccountManagementPage
 
 	 selectedPaymentMode:number;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController, public menuCtrl: MenuController) 
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    private http: Http,
+    public loading: LoadingController,
+    public toastCtrl: ToastController,
+    public apiValue: ApiValuesProvider,
+    public menuCtrl: MenuController) 
 	{
 		this.selectedPaymentMode=1; //Default to 1 i.e cash
 	}

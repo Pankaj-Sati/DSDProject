@@ -56,14 +56,14 @@
 
       <ion-item>
         <ion-label>From</ion-label>
-        <ion-datetime placeholder="Select Date" [(ngModel)]="c_pay_from"></ion-datetime>
+        <ion-datetime placeholder="Select Date" max="{{apiValue.maxSelectableDate}}" [(ngModel)]="c_pay_from"></ion-datetime>
 
 
       </ion-item>
 
       <ion-item>
         <ion-label>To</ion-label>
-        <ion-datetime placeholder="Select Date" [(ngModel)]="c_pay_to"></ion-datetime>
+        <ion-datetime placeholder="Select Date" max="{{apiValue.maxSelectableDate}}" [(ngModel)]="c_pay_to"></ion-datetime>
 
 
       </ion-item>

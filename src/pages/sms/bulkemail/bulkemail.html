@@ -33,11 +33,11 @@
 
         <ion-item>
           <ion-label>From:</ion-label>
-          <ion-datetime placeholder="Select Date" displayFormat="MM DD YYYY"></ion-datetime>
+          <ion-datetime max="{{apiValue.maxSelectableDate}}" placeholder="Select Date" displayFormat="MM DD YYYY"></ion-datetime>
         </ion-item>
         <ion-item>
           <ion-label>To: </ion-label>
-          <ion-datetime placeholder="Select Date" displayFormat="MM DD YYYY"></ion-datetime>
+          <ion-datetime max="{{apiValue.maxSelectableDate}}" placeholder="Select Date" displayFormat="MM DD YYYY"></ion-datetime>
         </ion-item>
 
       </ion-list>
