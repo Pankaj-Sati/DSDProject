@@ -42,7 +42,7 @@
 
           <ion-item no-lines [ngClass]="{'error':! editClientForm.controls.c_case_type.valid,'valid':(editClientForm.controls.c_case_type.touched && editClientForm.controls.c_case_type.valid)}" [class.invalid]="! editClientForm.controls.c_case_type.valid">
             <ion-label stacked>Case Type <span class="mandatory_field">*</span></ion-label>
-            <ion-select interface="popover" formControlName="c_case_type" placeholder="Select Case Type">
+            <ion-select interface="action-sheet" formControlName="c_case_type" placeholder="Select Case Type">
               <ion-option *ngFor="let caseType of caseTypeList" value="{{caseType.id}}">{{caseType.case_type}}</ion-option>
             </ion-select>
 
@@ -56,7 +56,7 @@
           <!--
             <ion-item no-lines [ngClass]="{'error': !editClientForm.controls.c_client_type.valid,'valid':(editClientForm.controls.c_client_type.touched && editClientForm.controls.c_client_type.valid)}" [class.invalid]="! editClientForm.controls.c_client_type.valid">
               <ion-label stacked>Client Type <span class="mandatory_field"> *</span></ion-label>
-              <ion-select interface="popover" formControlName="c_client_type" placeholder="Select Client Type">
+              <ion-select interface="action-sheet" formControlName="c_client_type" placeholder="Select Client Type">
                 <ion-option value="Case Filer">Case Filer</ion-option>
                 <ion-option value="Apposite From Case filer">Apposite From Case filer</ion-option>
               </ion-select>
@@ -64,7 +64,7 @@
           -->
           <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_case_category.valid,'valid':(editClientForm.controls.c_case_category.touched && editClientForm.controls.c_case_category.valid)}" [class.invalid]="! editClientForm.controls.c_case_category.valid">
             <ion-label stacked>Case Category <span class="mandatory_field"> *</span></ion-label>
-            <ion-select interface="popover" formControlName="c_case_category" placeholder="Select Case Category">
+            <ion-select interface="action-sheet" formControlName="c_case_category" placeholder="Select Case Category">
               <ion-option value="New">New</ion-option>
               <ion-option value="Reopen">Reopen</ion-option>
 
@@ -327,14 +327,14 @@
 
                 <ion-item no-lines ngClass="{'error':editClientForm.get('entity').controls[i].e_type.touched && !editClientForm.get('entity').controls[i].e_type.valid,'valid':(editClientForm.get('entity').controls[i].e_type.touched && editClientForm.get('entity').controls[i].e_type.valid)}" class.invalid="editClientForm.get('entity').controls[i].e_type.dirty && ! editClientForm.get('entity').controls[i].e_type.valid">
                   <ion-label stacked><b>Type <span class="mandatory_field"> *</span></b></ion-label>
-                  <ion-select required interface="popover" formControlName="e_type" placeholder="Select entity type">
+                  <ion-select required interface="action-sheet" formControlName="e_type" placeholder="Select entity type">
                     <ion-option *ngFor="let entityType of entityTypeList" value="{{entityType.value}}">{{entityType.name}}</ion-option>
                   </ion-select>
                 </ion-item>
 
                 <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_relationship.valid,'valid':(editClientForm.get('entity').controls[i].e_relationship.touched && editClientForm.get('entity').controls[i].e_relationship.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_relationship.valid">
                   <ion-label stacked><b>Relationship <span class="mandatory_field"> *</span></b></ion-label>
-                  <ion-select required interface="popover" formControlName="e_relationship" placeholder="Select a Relationship">
+                  <ion-select required interface="action-sheet" formControlName="e_relationship" placeholder="Select a Relationship">
                     <ion-option *ngFor="let relation of relationshipList" value="{{relation.value}}">{{relation.name}}</ion-option>
                   </ion-select>
                 </ion-item>
@@ -497,8 +497,8 @@
           </ion-item>
           <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_cm_assigned.valid,'valid':(editClientForm.controls.c_cm_assigned.touched && editClientForm.controls.c_cm_assigned.valid)}" [class.invalid]="! editClientForm.controls.c_cm_assigned.valid">
             <ion-label stacked><b>Change Case Manager <span class="mandatory_field"> *</span></b></ion-label>
-            <ion-select interface="popover" required formControlName="c_cm_assigned" placeholder="Select Case Manager">
-              <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}} ({{advocate.id}})</ion-option>
+            <ion-select interface="action-sheet" required formControlName="c_cm_assigned" placeholder="Select Case Manager">
+              <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}} ({{advocate.contact}})</ion-option>
             </ion-select>
 
 
