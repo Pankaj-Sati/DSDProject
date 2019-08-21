@@ -7,6 +7,8 @@ import { Client } from '../../models/client.model';
 import { User } from '../../models/login_user.model';
 import { DatewiseHearing } from '../../models/client_hearing.model';
 
+import { Convert24HourTimePipe } from '../../pipes/convert24-hour-time/convert24-hour-time';
+import { Convert12HourTo24Pipe } from '../../pipes/convert12-hour-to24/convert12-hour-to24';
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../providers/my-storage/my-storage';
 
@@ -34,7 +36,9 @@ export class EditClientHearingComponent
     public apiValues: ApiValuesProvider,
     public myStorage: MyStorageProvider,
     public viewCtrl: ViewController,
-    public http: Http
+    public http: Http,
+    public convertTimePipe: Convert12HourTo24Pipe,
+    public convertTo12Hour: Convert24HourTimePipe
     )
   {
     console.log('Hello EditClientHearingComponent Component');
@@ -70,7 +74,7 @@ export class EditClientHearingComponent
   changeFormValues()
   {
     this.editHearingForm.controls.date.setValue(this.passedHearing.hearing_date);
-    this.editHearingForm.controls.time.setValue(this.passedHearing.hearing_time);
+    this.editHearingForm.controls.time.setValue(this.convertTimePipe.transform(this.passedHearing.hearing_time));
     this.editHearingForm.controls.judge_name.setValue(this.passedHearing.judgeName);
     this.editHearingForm.controls.location.setValue(this.passedHearing.locationOfHearing);
     this.editHearingForm.controls.call_up.setValue(this.passedHearing.callUp);
@@ -115,19 +119,19 @@ export class EditClientHearingComponent
     //& hearing_file=test.jpg & hearing_rowId=49
 
     let body = new FormData();
-    body.append('hearing_date', this.editHearingForm.value.date);
-    body.append('hearing_time', this.editHearingForm.value.time);
-    body.append('TypeofHearing', this.editHearingForm.value.type);
-    body.append('judgeName', this.editHearingForm.value.judge_name);
-    body.append('locationOfHearing', this.editHearingForm.value.location);
-    body.append('callUp', this.editHearingForm.value.call_up);
-    body.append('cid', String(this.passedClient.id));
-    body.append('session_id', this.loggedInUser.id);
-    body.append('stage', this.editHearingForm.value.stage);
-    body.append('description', this.editHearingForm.value.description);
-    body.append('hear_notes', this.editHearingForm.value.notes);
-    body.append('hearing_file', this.passedHearing.upload_doc);
-    body.append('hearing_rowId', this.passedHearing.id);
+    body.set('hearing_date', this.editHearingForm.value.date);
+    body.set('hearing_time', this.convertTo12Hour.transform(this.editHearingForm.value.time));
+    body.set('TypeofHearing', this.editHearingForm.value.type);
+    body.set('judgeName', this.editHearingForm.value.judge_name);
+    body.set('locationOfHearing', this.editHearingForm.value.location);
+    body.set('callUp', this.editHearingForm.value.call_up);
+    body.set('cid', String(this.passedClient.id));
+    body.set('session_id', this.loggedInUser.id);
+    body.set('stage', this.editHearingForm.value.stage);
+    body.set('description', this.editHearingForm.value.description);
+    body.set('hear_notes', this.editHearingForm.value.notes);
+    body.set('hearing_file', this.passedHearing.upload_doc);
+    body.set('hearing_rowId', this.passedHearing.id);
 
     console.log(body);
     loader.present().then(() => 

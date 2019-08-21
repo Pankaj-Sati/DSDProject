@@ -6,7 +6,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Client } from '../../models/client.model';
 import { User } from '../../models/login_user.model';
 import { DatewiseHearing } from '../../models/client_hearing.model';
-
+import { Convert24HourTimePipe } from '../../pipes/convert24-hour-time/convert24-hour-time';
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../providers/my-storage/my-storage';
 
@@ -33,7 +33,8 @@ export class AddClientHearingComponent
       public apiValues: ApiValuesProvider,
       public myStorage: MyStorageProvider,
       public viewCtrl: ViewController,
-      public http: Http
+    public http: Http,
+    public convertTimePipe: Convert24HourTimePipe
     )
   {
     console.log('Hello AddClientHearingComponent Component');
@@ -94,15 +95,20 @@ export class AddClientHearingComponent
     //& judgeName=ram pal singh & locationOfHearing=delhi high court & callUp=test call up
     //& cid=83 & session_id=1
 
+    console.log('--Time Selected--');
+    console.log(this.addHearingForm.value.time);
+    this.addHearingForm.controls.time.setValue(this.convertTimePipe.transform(this.addHearingForm.value.time));
+    console.log('--Time Converted--');
+    console.log(this.addHearingForm.value.time);
     let body = new FormData();
-    body.append('hearing_date', this.addHearingForm.value.date);
-    body.append('hearing_time', this.addHearingForm.value.time);
-    body.append('TypeofHearing', this.addHearingForm.value.type);
-    body.append('judgeName', this.addHearingForm.value.judge_name);
-    body.append('locationOfHearing', this.addHearingForm.value.location);
-    body.append('callUp', this.addHearingForm.value.call_up);
-    body.append('cid', String(this.passedClient.id));
-    body.append('session_id', this.loggedInUser.id);
+    body.set('hearing_date', this.addHearingForm.value.date);
+    body.set('hearing_time', this.addHearingForm.value.time);
+    body.set('TypeofHearing', this.addHearingForm.value.type);
+    body.set('judgeName', this.addHearingForm.value.judge_name);
+    body.set('locationOfHearing', this.addHearingForm.value.location);
+    body.set('callUp', this.addHearingForm.value.call_up);
+    body.set('cid', String(this.passedClient.id));
+    body.set('session_id', this.loggedInUser.id);
    
     console.log(body);
     loader.present().then(() => 

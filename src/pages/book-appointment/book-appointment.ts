@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 
 import { User } from '../../models/login_user.model';
 
+import { Convert24HourTimePipe } from '../../pipes/convert24-hour-time/convert24-hour-time';
 import { MyStorageProvider } from '../../providers/my-storage/my-storage';
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
 
@@ -37,6 +38,7 @@ export class BookAppointmentPage
     public http: Http,
     public apiValue: ApiValuesProvider,
     public alertCtrl: AlertController,
+    public convert24To12: Convert24HourTimePipe
   
   )
   {
@@ -90,7 +92,7 @@ export class BookAppointmentPage
 
     body.set('session_id', this.loggedInUser.id);
     body.set('a_date', this.a_date);
-    body.set('a_time', this.a_time);
+    body.set('a_time', this.convert24To12.transform(this.a_time));
     body.set('a_remark', this.a_description);
 
     //Splitting name

@@ -65,7 +65,7 @@
 
         <ion-row>
           <ion-col>
-            {{passedClientDetails.case_reg_date}}
+            {{passedClientDetails.case_reg_date| customDateFormat:'MMM, DD YYYY'}}
           </ion-col>
         </ion-row>
       </ion-col>
@@ -127,7 +127,7 @@
 
         <ion-row>
           <ion-col>
-            {{passedClientDetails.created_on}}
+            {{passedClientDetails.created_on | customDateFormat:'MMM, DD YYYY hh:mm A'}}
           </ion-col>
         </ion-row>
       </ion-col>

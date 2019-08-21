@@ -8,6 +8,7 @@ import { ToastController } from 'ionic-angular';
 
 import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
+import { Convert24HourTimePipe } from '../../../../pipes/convert24-hour-time/convert24-hour-time';
 
 import { Client } from '../../../../models/client.model';
 import { User } from '../../../../models/login_user.model';
@@ -38,7 +39,8 @@ export class AddNotificationPage
     public modalCtrl: ModalController,
     public apiValue: ApiValuesProvider,
     public menuCtrl: MenuController,
-    public myStorage: MyStorageProvider)
+    public myStorage: MyStorageProvider,
+    public convert24To12: Convert24HourTimePipe)
   {
     this.loggedInUser = this.myStorage.getParameters();
     this.fetchData();
@@ -132,12 +134,12 @@ export class AddNotificationPage
 
       let body = new FormData();
 
-      body.append('notificationDate', this.n_date);
-      body.append('notificationTime', this.n_time);
-      body.append('subject', this.n_subject);
-      body.append('disc', this.n_description);
-      body.append('client', this.getSelectedClientsParameters());
-      body.append('session_id', this.loggedInUser.id);
+      body.set('notificationDate', this.n_date);
+      body.set('notificationTime', this.convert24To12.transform(this.n_time));
+      body.set('subject', this.n_subject);
+      body.set('disc', this.n_description);
+      body.set('client', this.getSelectedClientsParameters());
+      body.set('session_id', this.loggedInUser.id);
 
       this.http.post(this.apiValue.baseURL + '/add_notification.php', body, null)
         .subscribe(response =>

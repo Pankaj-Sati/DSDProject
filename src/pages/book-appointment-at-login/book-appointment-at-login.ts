@@ -10,6 +10,7 @@ import { FormControl, FormBuilder, FormGroup, Validators } from "@angular/forms"
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
 import { DatePipe } from '@angular/common';
 
+import { Convert24HourTimePipe } from '../../pipes/convert24-hour-time/convert24-hour-time';
 import { CustomDateFormatPipe } from '../../pipes/custom-date-format/custom-date-format';
 
 @IonicPage()
@@ -32,7 +33,8 @@ export class BookAppointmentAtLoginPage
     public loading: LoadingController,
     public toastCtrl: ToastController,
     public events: Events,
-    public customDatePipe: CustomDateFormatPipe)
+    public customDatePipe: CustomDateFormatPipe,
+    public convert24To12: Convert24HourTimePipe)
   {
     this.maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 5)).toISOString();
     this.minDate = new Date().toISOString();
@@ -86,7 +88,7 @@ export class BookAppointmentAtLoginPage
     console.log('Contact value Sent=' + String(this.userForm.value.u_contact).replace(/\D+/g, ''));
 
     body.set("a_date", this.userForm.value.u_date);
-    body.set("a_time", this.userForm.value.u_time);
+    body.set("a_time", this.convert24To12.transform(this.userForm.value.u_time));
     body.set("a_remark", this.userForm.value.u_remark);
 
     let loader = this.loading.create({
