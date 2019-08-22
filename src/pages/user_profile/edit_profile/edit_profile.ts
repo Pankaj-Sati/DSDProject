@@ -584,7 +584,7 @@ export class EditProfilePage
       let loader = this.loading.create({
 
         content: "Updating data...",
-        duration: 25000
+        duration: 35000
       });
 
       let transferSuccessful = false; //To know whether timeout occured or not
