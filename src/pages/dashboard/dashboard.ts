@@ -65,7 +65,7 @@ export class DashboardPage
     this.events.publish('newPage', 'DSD Test1');
 
     console.log('----IFrame Link-------');
-    if (Number(this.loggedInUser.user_type_id) == 4 && this.loggedInUser.calendar_link != undefined)
+    if ((Number(this.loggedInUser.user_type_id) == 4 || Number(this.loggedInUser.user_type_id) == 7 ) && this.loggedInUser.calendar_link != undefined)
     {
       
       this.calendarLink = this.sanitizer.bypassSecurityTrustResourceUrl(this.loggedInUser.calendar_link);

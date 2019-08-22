@@ -45,7 +45,7 @@
 
   <ion-item no-lines>
     <ion-label stacked><b>Case Manager</b></ion-label>
-    <ion-select [disabled]="loggedInUser != undefined && loggedInUser.user_type_id == '4'" interface="action-sheet" required [(ngModel)]="case_manager" placeholder="Select Case Manager">
+    <ion-select [disabled]="loggedInUser != undefined && (loggedInUser.user_type_id == '4' || loggedInUser.user_type_id == '7')" interface="action-sheet" required [(ngModel)]="case_manager" placeholder="Select Case Manager">
       <ion-option value="">All</ion-option>
       <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}} ({{advocate.number}})</ion-option>
     </ion-select>

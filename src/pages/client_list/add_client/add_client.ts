@@ -91,10 +91,10 @@ export class AddClientPage
 
         //Case details
       c_case_type: new FormControl('', Validators.compose([Validators.required])),
-      c_alien_no: new FormControl('', Validators.compose([Validators.pattern(/^$|^(.{4,20})$/)])),
+      c_alien_no: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ALIEN_NO_VALIDATOR)])),
       c_client_type: new FormControl(''),
       c_case_category: new FormControl('', Validators.compose([Validators.required])),
-			c_case_description:new FormControl(''),
+      c_case_description: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.LONG_TEXT_VALIDATOR)])),
           c_date: new FormControl('', Validators.compose([Validators.required])),
 
           //personal Details

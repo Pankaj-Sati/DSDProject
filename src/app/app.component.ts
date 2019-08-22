@@ -40,6 +40,7 @@ import { Client } from '../models/client.model';
 import { CaseType } from '../models/case_type.model';
 
 import { CaseTypeProvider } from '../providers/case-type/case-type';
+import { UserTypesProvider } from '../providers/user-types/user-types';
 
 import {timer} from 'rxjs/observable/timer';
 
@@ -95,13 +96,15 @@ export class MyApp {
     public toastCtrl: ToastController,
     public stateListProvider: StateListProvider,
     public alertCtrl: AlertController,
-    public http: Http
+    public http: Http,
+    public userTypesProvider: UserTypesProvider
   ) 
   {
 
     this.initializeApp();
     this.getCaseTypeList();
     this.getStateList();
+    this.getUserTypeList();
     this.checkIfAlreadyLoggedIn();
     this.showSearch=false;
 
@@ -129,6 +132,14 @@ export class MyApp {
       //This event can be used to get the state list if it is not found
       this.getStateList();
     });
+
+    events.subscribe('getUserTypeList', (data) =>
+    {
+      //This event can be used to get the user type list if it is not found
+      this.getUserTypeList();
+    });
+
+
 
 
     //set subPages
@@ -312,6 +323,41 @@ export class MyApp {
     this.stateListProvider.fetchList();
 
     this.events.subscribe('get_states', (result) =>
+    {
+
+      loadingSuccessful = true;
+      loader.dismiss(); //Dismiss the loader whether the result was a success or a failure
+    });
+
+    loader.onDidDismiss(() =>
+    {
+      if (!loadingSuccessful)
+      {
+        //Timeout
+        const toast = this.toastCtrl.create({
+          message: 'Timeout!!! Server Did Not Respond',
+          duration: 3000
+        });
+        toast.present();
+      }
+    });
+
+
+  }
+
+  getUserTypeList()
+  {
+    const loader = this.loadingCtrl.create(
+      {
+        content: 'Loading...',
+        duration: 10000
+      });
+    loader.present();
+
+    let loadingSuccessful = false; //To know whether timeout occured or not
+    this.userTypesProvider.fetchList();
+
+    this.events.subscribe('user_type_list_event', (result) =>
     {
 
       loadingSuccessful = true;

@@ -126,11 +126,8 @@
 
     <ion-label stacked>User Type <span class="requiredField">*</span></ion-label>
     <ion-select formControlName="u_user_type" name="user_type">
-      <ion-option value="1">Super Admin</ion-option>
-      <ion-option value="2">Admin</ion-option>
-      <ion-option value="3">Account</ion-option>
-      <ion-option value="4">Case Manager</ion-option>
-      <ion-option value="6">Guest</ion-option>
+      <ion-option *ngFor="let userType of userTypeList" value="{{userType.id}}">{{userType.name}}</ion-option>
+
     </ion-select>
   </ion-item>
 

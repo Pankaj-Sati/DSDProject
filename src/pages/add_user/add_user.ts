@@ -15,11 +15,12 @@ import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
 
 import { MyStorageProvider } from '../../providers/my-storage/my-storage';
-
+import { UserTypesProvider } from '../../providers/user-types/user-types';
 import { User } from '../../models/login_user.model';
 
 import { StateListProvider } from '../../providers/state-list/state-list';
-import {State} from '../../models/state.model';
+import { State } from '../../models/state.model';
+import { UserType } from '../../models/user_type.model';
 
 declare var cordova: any;
 
@@ -35,7 +36,7 @@ export class AddUserPage
   lastImage: string;
 
   stateList: State[] = [];
-
+  userTypeList: UserType[]=[];
   loggedInUser: User;
 
   isImageChanged: boolean = false;
@@ -57,6 +58,7 @@ export class AddUserPage
     public storage: Storage, 
     public menuCtrl: MenuController,
     public stateListProvider: StateListProvider,
+    public userTypesProvider: UserTypesProvider,
     public events: Events) 
 	{
 		this.menuCtrl.enable(true);
@@ -70,6 +72,12 @@ export class AddUserPage
     if (this.stateList == undefined || this.stateList.length == 0)
     {
       this.events.publish('getStateList'); //This event is subscribed to in the app.component page
+    }
+
+    this.userTypeList = this.userTypesProvider.userTypeList;
+    if (this.userTypeList == undefined || this.userTypeList.length == 0)
+    {
+      this.events.publish('getUserTypeList'); //This event is subscribed to in the app.component page
     }
 
 
@@ -179,7 +187,7 @@ export class AddUserPage
             .catch(error => {
 
               console.log("resolveNativePath() error");
-              this.presentToast('Error in getting Image');
+              this.presentToast('Error!!!Please select other image');
               console.log(error);
             });
 
@@ -198,7 +206,7 @@ export class AddUserPage
         }
       }
       else {
-        this.presentToast('Error in getting Image');
+        this.presentToast('Error!!!Please select other image');
       }
 
 
@@ -206,7 +214,7 @@ export class AddUserPage
 
     }, (err) => {
       // Handle error
-      this.presentToast('Error in getting Image');
+        this.presentToast('Error!!!Please select other image');
     });
   }
 

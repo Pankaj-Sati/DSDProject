@@ -58,18 +58,18 @@ export class ClientPaymentPage
     this.paymentForm = this.formBuilder.group(
       {
         p_mode: new FormControl('', Validators.compose([Validators.required])),
-        p_remark: new FormControl(''),
+        p_remark: new FormControl('', Validators.compose([Validators.pattern(this.apiValues.LONG_TEXT_VALIDATOR)])),
         p_amount: new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9.]{1,10}')])),
 
         //Card
-        p_card_holder_name: new FormControl(''),
+        p_card_holder_name: new FormControl('', Validators.compose([Validators.pattern(this.apiValues.INPUT_VALIDATOR)])),
         p_card_no: new FormControl(''),
         p_card_cvv: new FormControl(''),
         p_card_exp: new FormControl(''),
        
         //Bank
-        p_bank_name:new FormControl(''),
-        p_bank_acc_holder_name:new FormControl(''),
+        p_bank_name: new FormControl('', Validators.compose([Validators.pattern(this.apiValues.INPUT_VALIDATOR)])),
+        p_bank_acc_holder_name: new FormControl('', Validators.compose([Validators.pattern(this.apiValues.INPUT_VALIDATOR)])),
         p_bank_acc_no: new FormControl(''),
         p_bank_branch_code: new FormControl(''),
         p_bank_branch_number: new FormControl(''),

@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components",
-    "\\src\\components\\add-balance-in-payment",
-    "\\src\\pages",
-    "\\src\\pages\\client_list",
+    "\\src\\components\\add-client-hearing",
+    "\\src\\components\\edit-client-hearing",
+    "\\src\\components\\show-more-user-account-options",
     "\\src\\pages\\client_list\\single_client",
-    "\\src\\pages\\client_list\\single_client\\payment",
-    "\\src\\providers",
-    "\\src\\providers\\api-values"
+    "\\src\\pages\\notifications\\new_format\\add_notification",
+    "\\src\\pipes\\convert12-hour-to24",
+    "\\src\\pipes\\convert24-hour-time",
+    "\\src\\pipes\\custom-date-format"
   ],
-  "SelectedNode": "\\src\\pages\\client_list\\add_client\\add_client.ts",
+  "SelectedNode": "\\config.xml",
   "PreviewInSolutionExplorer": false
 }

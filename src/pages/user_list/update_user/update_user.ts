@@ -18,6 +18,8 @@ import { User } from '../../../models/login_user.model';
 
 import { StateListProvider } from '../../../providers/state-list/state-list';
 import { State } from '../../../models/state.model';
+import { UserType } from '../../../models/user_type.model';
+import { UserTypesProvider } from '../../../providers/user-types/user-types';
 
 import {BrContactMaskPipe } from '../../../pipes/br-contact-mask/br-contact-mask';
 
@@ -31,6 +33,8 @@ export class UpdateUserPage
 {
 
 	base64Image:string;
+
+  userTypeList: UserType[] = [];
 
 	user:any=null;
 
@@ -68,6 +72,7 @@ export class UpdateUserPage
     public menuCtrl: MenuController,
     public stateListProvider: StateListProvider,
     public events: Events,
+    public userTypesProvider: UserTypesProvider,
     public contactMask: BrContactMaskPipe) 
   {
 
@@ -81,6 +86,12 @@ export class UpdateUserPage
       this.events.publish('getStateList'); //This event is subscribed to in the app.component page
     }
 
+    //---------------------Getting User type List-------------------//
+    this.userTypeList = this.userTypesProvider.userTypeList;
+    if (this.userTypeList == undefined || this.userTypeList.length == 0)
+    {
+      this.events.publish('getUserTypeList'); //This event is subscribed to in the app.component page
+    }
 
     this.userForm=this.formBuilder.group({
 
@@ -191,7 +202,7 @@ export class UpdateUserPage
 		        .catch(error=>{
 
 		        	console.log("resolveNativePath() error");
-		        	this.presentToast('Error in getting Image');
+              this.presentToast('Error!!!Please select other image');
 		        	console.log(error);
 		        });
 		        
@@ -212,7 +223,7 @@ export class UpdateUserPage
 		 }
 		 else
 		 {
-		 	this.presentToast('Error in getting Image');
+           this.presentToast('Error!!!Please select other image');
 		 }
 
 		 
@@ -220,7 +231,7 @@ export class UpdateUserPage
 
 		}, (err) => {
 		 // Handle error
-			 this.presentToast('Error in getting Image');
+            this.presentToast('Error!!!Please select other image');
 		});
 	}
 
@@ -240,7 +251,7 @@ export class UpdateUserPage
 
 		}, error=>{
 
-			this.presentToast('Error in storing image file');
+            this.presentToast('Error!!!Please select other image');
 		});
 	}
 

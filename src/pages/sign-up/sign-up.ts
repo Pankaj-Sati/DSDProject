@@ -105,22 +105,22 @@ export class SignUpPage
 
     this.userForm = this.formBuilder.group({
 
-      
-      u_name: new FormControl('', Validators.compose([Validators.required])),
-      u_lastname: new FormControl(''),
+
+      u_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      u_lastname: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       u_password: new FormControl('', Validators.compose([Validators.pattern(/^$|^[a-zA-Z0-9_.-]{6,20}$/)])),
       u_dob: new FormControl('', Validators.compose([Validators.required])),
       u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       u_alt: new FormControl('', Validators.compose([Validators.pattern(/^$|^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       u_email: new FormControl('', Validators.compose([Validators.pattern(/^$|^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
-      u_address1: new FormControl('', Validators.compose([Validators.required])),
-      u_address2: new FormControl(''),
-      u_city: new FormControl('', Validators.compose([Validators.required])),
+      u_address1: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      u_address2: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      u_city: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       u_state: new FormControl('', Validators.compose([Validators.required])),
-      u_pincode: new FormControl('', Validators.compose([Validators.required])),
+      u_pincode: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ZIPCODE_VALIDATOR)])),
       u_country: new FormControl('', Validators.compose([Validators.required])),
 
-      u_alien: new FormControl(''),
+      u_alien: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ALIEN_NO_VALIDATOR)])),
       u_case_type: new FormControl(''),
       u_case_manager: new FormControl('')
 

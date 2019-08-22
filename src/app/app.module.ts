@@ -74,6 +74,7 @@ import { EntityTypeProvider } from '../providers/entity-type/entity-type';
 import { StateListProvider } from '../providers/state-list/state-list';
 import { PipesModule } from '../pipes/pipes.module';
 import { CommonCalendarPageModule } from '../pages/common-calendar/common-calendar.module';
+import { UserTypesProvider } from '../providers/user-types/user-types';
 
 
 
@@ -194,6 +195,7 @@ import { CommonCalendarPageModule } from '../pages/common-calendar/common-calend
     Chooser,
     EntityTypeProvider,
     StateListProvider,
+    UserTypesProvider,
   ],
   exports: [ComponentsModule, PipesModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]

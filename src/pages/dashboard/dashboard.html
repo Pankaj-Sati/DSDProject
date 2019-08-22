@@ -111,7 +111,7 @@
 
     </div>
 
-    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5 && loggedInUser.user_type_id!=4">
+    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5 && loggedInUser.user_type_id!=4 && loggedInUser.user_type_id!=7">
 
       <!--Currently hardcoding access for admin users-->
       <ion-card-header class="headerContent">
@@ -155,7 +155,7 @@
 
     -->
 
-    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==4">
+    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && (loggedInUser.user_type_id==4 || loggedInUser.user_type_id==7)">
       <!--Currently hardcoding access for a Advocate user-->
       <ion-card-header class="headerContent">
         Appointments <ion-icon name="bookmark" end></ion-icon>
