@@ -13,6 +13,7 @@ import { ApiValuesProvider } from '../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../providers/my-storage/my-storage';
 import { UserTypesProvider } from '../../../providers/user-types/user-types';
 
+import { ViewImageComponent} from '../../../components/view-image/view-image';
 import { User } from '../../../models/login_user.model';
 
 
@@ -40,7 +41,8 @@ export class SingleUserPage
     public toastCtrl: ToastController,
     public menuCtrl: MenuController,
     public myStorage: MyStorageProvider,
-    public userTypesProvider: UserTypesProvider) 
+    public userTypesProvider: UserTypesProvider,
+  ) 
   {
 
     this.loggedInUser = this.myStorage.getParameters();
@@ -232,6 +234,16 @@ export class SingleUserPage
   getUserType(id)
   {
     return this.userTypesProvider.getUserTypeName(id);
+  }
+
+  viewImage(profile_img)
+  {
+    let data =
+    {
+      imageURL: this.apiValue.baseImageFolder + profile_img
+    }
+
+    this.navCtrl.push(ViewImageComponent, data);
   }
   
 }

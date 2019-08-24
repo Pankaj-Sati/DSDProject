@@ -28,7 +28,7 @@ export class ApiValuesProvider
   //--------------------- Input Validator----------------------------//
   public readonly INPUT_VALIDATOR=/^$|^([a-zA-Z]{2}.{0,50})$/;
   public readonly ADDRESS_VALIDATOR=/^$|^([a-zA-Z0-9]{2}.{0,100})$/;
-  public readonly ZIPCODE_VALIDATOR=/^$|^([0-9]{6})$/;
+  public readonly ZIPCODE_VALIDATOR=/^$|^([0-9]{4,6})$/;
   public readonly LONG_TEXT_VALIDATOR =/^$|^([a-zA-Z0-9]{2}.{0,500})$/;
   public readonly ALIEN_NO_VALIDATOR =/^$|^([a-zA-Z0-9]{2}.{0,30})$/;
   

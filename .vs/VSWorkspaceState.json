@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components\\add-client-hearing",
-    "\\src\\components\\edit-client-hearing",
-    "\\src\\components\\show-more-user-account-options",
+    "\\src\\app",
+    "\\src\\components",
+    "\\src\\components\\view-image",
+    "\\src\\pages",
+    "\\src\\pages\\account_management\\account_summary",
     "\\src\\pages\\client_list\\single_client",
-    "\\src\\pages\\notifications\\new_format\\add_notification",
-    "\\src\\pipes\\convert12-hour-to24",
-    "\\src\\pipes\\convert24-hour-time",
-    "\\src\\pipes\\custom-date-format"
+    "\\src\\pages\\sms\\smslist",
+    "\\src\\pipes\\convert24-hour-time"
   ],
-  "SelectedNode": "\\config.xml",
+  "SelectedNode": "\\src\\app\\app.component.ts",
   "PreviewInSolutionExplorer": false
 }

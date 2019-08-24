@@ -19,6 +19,7 @@ import { BulkSmsDetailComponent } from './bulk-sms-detail/bulk-sms-detail';
 import { SendBulkSmsComponent } from './send-bulk-sms/send-bulk-sms';
 import { ProgressBarComponent } from './progress-bar/progress-bar';
 import { PipesModule } from '../pipes/pipes.module';
+import { ViewImageComponent } from './view-image/view-image';
 
 @NgModule({
 	declarations: [ClientDetailsComponent,
@@ -37,7 +38,8 @@ import { PipesModule } from '../pipes/pipes.module';
     DownloadDocumentsComponent,
     BulkSmsDetailComponent,
     SendBulkSmsComponent,
-    ProgressBarComponent],
+    ProgressBarComponent,
+    ViewImageComponent],
   imports: [IonicPageModule.forChild(ClientDetailActionsComponent), CommonModule, PipesModule],
   entryComponents: [ClientDetailsComponent,
     RemindersDetailComponent,
@@ -55,7 +57,8 @@ import { PipesModule } from '../pipes/pipes.module';
     DownloadDocumentsComponent,
     BulkSmsDetailComponent,
     SendBulkSmsComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    ViewImageComponent
   ],
 	exports: [ClientDetailsComponent,
     NoRecordFoundComponent,
@@ -73,7 +76,8 @@ import { PipesModule } from '../pipes/pipes.module';
     DownloadDocumentsComponent,
     BulkSmsDetailComponent,
     SendBulkSmsComponent,
-    ProgressBarComponent],
+    ProgressBarComponent,
+    ViewImageComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ComponentsModule {}

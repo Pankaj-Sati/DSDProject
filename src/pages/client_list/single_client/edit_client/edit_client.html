@@ -428,7 +428,7 @@
 
                 <ion-item no-lines ngClass="{'error': !editClientForm.get('entity').controls[i].e_address2_billing.valid,'valid':(editClientForm.get('entity').controls[i].e_address2_billing.touched && editClientForm.get('entity').controls[i].e_address2_billing.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_address2_billing.valid">
                   <ion-label stacked><b>Address 2</b></ion-label>
-                  <ion-input [disabled]="isBillingAndPermanentAddressSameForEntity[i]" type="text" required formControlName="e_address2_billing" placeholder="Enter Address"></ion-input>
+                  <ion-input [disabled]="isBillingAndPermanentAddressSameForEntity[i]" type="text" formControlName="e_address2_billing" placeholder="Enter Address"></ion-input>
                 </ion-item>
 
                 <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_city_billing.valid,'valid':(editClientForm.get('entity').controls[i].e_city_billing.touched && editClientForm.get('entity').controls[i].e_city_billing.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_city_billing.valid">

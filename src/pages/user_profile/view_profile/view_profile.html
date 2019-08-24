@@ -27,7 +27,7 @@
 
         <div style="padding:10px; color: white">
 
-          <img *ngIf="user!=undefined && user!=null && user.profile_img!=null && user.profile_img!=undefined && user.profile_img.length>0" style="border:2px solid white; padding:2px; border-radius: 100%;margin:5px 10px" [src]="apiValue.baseImageFolder+user.profile_img" alt="No image Found" width="144px" height="144px" />
+          <img *ngIf="user!=undefined && user!=null && user.profile_img!=null && user.profile_img!=undefined && user.profile_img.length>0" style="border:2px solid white; padding:2px; border-radius: 100%;margin:5px 10px" (click)="viewImage(user.profile_img)" [src]="apiValue.baseImageFolder+user.profile_img" alt="No image Found" width="144px" height="144px" />
 
           <img *ngIf="user==undefined || user==null || user.profile_img==undefined || user.profile_img==null || user.profile_img.length==0 " style="border-radius: 100%;margin:5px 10px" src="assets/imgs/user.png" alt="No image Found" width="144px" height="144px" />
 

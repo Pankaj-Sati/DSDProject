@@ -5,7 +5,7 @@ import { Http } from "@angular/http";
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer'
 import { FilePath } from '@ionic-native/file-path';
-import { File } from '@ionic-native/file';
+import { File, Entry } from '@ionic-native/file';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Chooser } from '@ionic-native/chooser';
 
@@ -43,6 +43,7 @@ export class ClientDocumentsPage
 
   blurAmount: string = ''; //To set blurr background class when modal opens
 
+  loadingTimeout = 30 * 1000; //Default 30 seconds timeout for file upload
  
   constructor
     (
@@ -355,6 +356,7 @@ export class ClientDocumentsPage
          // console.log('Data=' + file.data);
           console.log('Media Type=' + file.mediaType);
           console.log('URI=' + file.uri);
+        
 
           this.lastImage = file.uri;
           this.selected_file_name = file.name;
@@ -461,8 +463,48 @@ export class ClientDocumentsPage
       });
   }
 
-  uploadFile()
+  async uploadFile()
   {
+
+    this.loadingTimeout = 30 * 1000; //Default;
+
+    let fileInfo: Entry = undefined;
+    await this.file.resolveLocalFilesystemUrl(this.lastImage).then(file =>
+    {
+      console.log(file);
+      fileInfo = file;
+     
+     
+    });
+
+    //Calculate Timeout
+    if (fileInfo != undefined)
+    {
+      await fileInfo.getMetadata(metadata =>
+      {
+        const timeoutFor1MB = 25 * 1000; //Timeout for 1 MB;
+
+        console.log(metadata);
+        if (metadata != undefined)
+        {
+          if (metadata.size <= (1024 * 1024)) //Less than 1MB
+          {
+            this.loadingTimeout = 25 * 1000;
+          }
+          else
+          {
+            let sizeInMB = metadata.size / (1024 * 1024); //Metadata size will return size in bytes. We will convert this into MB
+            this.loadingTimeout = sizeInMB * timeoutFor1MB; //5MB * 20 seconds 
+          }
+
+        }
+
+      });
+    }
+    
+
+    console.log('Loading Timeout='+this.loadingTimeout);
+
     let transfer: FileTransferObject = this.fileTransfer.create();
     this.uploadProgress = 0;
     this.isUploading = true;
@@ -492,7 +534,7 @@ export class ClientDocumentsPage
     let loader = this.loadingCtrl.create({
 
       content: loaderContent,
-        duration: 30000
+      duration: this.loadingTimeout
       });
 
       let transferSuccessful = false; //To know whether timeout occured or not
@@ -597,6 +639,31 @@ export class ClientDocumentsPage
       duration: 3000
     });
     toast.present();
+  }
+
+  async calculateTimeout(file: Entry)
+  {
+    
+    await file.getMetadata(metadata =>
+    {
+      const timeoutFor1MB = 25*1000; //Timeout for 1 MB;
+
+      console.log(metadata);
+      if (metadata != undefined)
+      {
+        if (metadata.size <= (1024 * 1024)) //Less than 1MB
+        {
+          this.loadingTimeout = 25 * 1000;
+        }
+        else
+        {
+          let sizeInMB = metadata.size / (1024 * 1024); //Metadata size will return size in bytes. We will convert this into MB
+          this.loadingTimeout = sizeInMB * timeoutFor1MB; //5MB * 20 seconds 
+        }
+        
+      }
+
+    });
   }
 }
 

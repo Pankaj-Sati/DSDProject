@@ -32,7 +32,7 @@
 
       <div style="padding:10px; color: white">
 
-        <img style="border:2px solid white; padding:2px; border-radius: 100%;margin:5px 10px" *ngIf="loggedInUser!=undefined && loggedInUser.profile_img!=null && loggedInUser.profile_img.length!=0" src="{{u_image}}" alt="No image Found" width="144px" height="144px" />
+        <img style="border:2px solid white; padding:2px; border-radius: 100%;margin:5px 10px" *ngIf="loggedInUser!=undefined && loggedInUser.profile_img!=null && loggedInUser.profile_img.length!=0" (click)="viewImage(u_image)" src="{{u_image}}" alt="No image Found" width="144px" height="144px" />
 
         <img style="border-radius: 100%;margin:5px 10px" *ngIf="loggedInUser==null || loggedInUser==undefined ||loggedInUser.profile_img==null || loggedInUser.profile_img.length==0;" src="assets/imgs/user.png" alt="No image Found" width="144px" height="144px" />
 

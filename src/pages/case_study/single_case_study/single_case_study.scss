@@ -1,56 +1,32 @@
 single_case_study {
-  table {
-    width: 100%;
-    text-align: left;
-  }
-
-  th, td {
-    padding: 10px 10px;
-  }
-
-  .greaterSize {
-    min-width: 96px;
-    min-height: 96px;
-  }
-
-  th {
-    color: #fff;
-    border-top: 1px solid #222;
-    background-color: color($colors, primary, base);
-  }
-
-  td {
-    border-bottom: 1px solid #f4f4f4;
-  }
-
-
-  table {
-    width: 100%;
-    text-align: left;
-  }
-
-  th, td {
-    padding: 5px 10px;
-    min-width: 96px;
-    min-height: 96px;
-    margin: 10px;
-  }
-
-  th {
-    color: #fff;
-    border-top: 1px solid #DDD;
-    background-color: color($colors, primary, base);
-  }
-
-  td {
-    border: 1px solid #BBB;
-  }
-
-  .seperatorHeading {
-    font-size: 18px;
+  .simpleCard {
+    background-color: #efefef;
+    border-radius: 2%;
     text-align: center;
-    color: white;
+  }
+
+  .simpleCardHeader {
     background-color: map-get($colors,primary);
-    padding: 5px;
+    border-radius: 2%;
+    text-align: center;
+  }
+
+  .simpleCard ion-col {
+    text-overflow: ellipsis;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .details {
+    margin: 10px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .details ion-label {
+    margin: 0px;
+  }
+
+  .detailLabel {
+    color: map-get($colors,primary);
   }
 }

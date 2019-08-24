@@ -79,7 +79,9 @@ export class MyApp {
    u_img: string = "assets/imgs/generic_user.png";
 
    showSearch:boolean;
-   header_title:string;
+  header_title: string;
+
+  exitApp = false; //For exiting app when back button is pressed twice in 5 seconds delay
 
   constructor(
     public apiValues: ApiValuesProvider,
@@ -139,7 +141,34 @@ export class MyApp {
       this.getUserTypeList();
     });
 
+    //Emulating Back button callback
 
+    this.platform.registerBackButtonAction(() =>
+    {
+      console.log('Back Button Pressed');
+      if (! this.nav.canGoBack())
+      {
+        //If there are no other pages in the navigation stack, and user presses back button, we will ask him to press it again to exit
+
+        if (this.exitApp==false)
+        {
+          this.presentToast('Press back again to exit');
+          this.exitApp = true;
+        }
+        else
+        {
+          //Exit is true and user has again pressed back button, so we will exit;
+
+          this.platform.exitApp();
+        }
+        
+
+        timer(5000).subscribe(success =>
+        {
+          this.exitApp = false; //Set back to false if user does not press back button twice
+        });
+      }
+    });
 
 
     //set subPages
@@ -613,6 +642,17 @@ export class MyApp {
     });
 
     alert.present();
+  }
+
+  presentToast(msg)
+  {
+    const toast = this.toastCtrl.create(
+      {
+        message: msg,
+        duration:3000
+      });
+
+    toast.present();
   }
 
 }

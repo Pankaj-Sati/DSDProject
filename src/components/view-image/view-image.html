@@ -1,0 +1,26 @@
+<!-- Generated template for the ViewImageComponent component -->
+  <ion-header>
+
+    <ion-navbar>
+
+      <ion-row>
+        <ion-col style="margin:auto;text-align:right;">
+
+          <ion-icon name="download" (click)="downloadImage()" style="color:white;zoom:1.5;"></ion-icon>
+
+        </ion-col>
+      </ion-row>
+
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content style="background-color:#0c0c0c">
+
+    <ion-scroll scrollX="true" scrollY="true" zoom="true" >
+      <div class="imageContainer">
+        <img src="{{imageUrl}}" alt="Image Not Found" />
+      </div>
+    </ion-scroll>
+    
+
+  </ion-content>
