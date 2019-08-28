@@ -75,6 +75,10 @@ import { StateListProvider } from '../providers/state-list/state-list';
 import { PipesModule } from '../pipes/pipes.module';
 import { CommonCalendarPageModule } from '../pages/common-calendar/common-calendar.module';
 import { UserTypesProvider } from '../providers/user-types/user-types';
+import { FrontPage } from '../pages/front/front';
+import { FrontPageModule } from '../pages/front/front.module';
+import { MediaPageModule } from '../pages/media/media.module';
+import { ContactUsPageModule } from '../pages/contact-us/contact-us.module';
 
 
 
@@ -134,7 +138,10 @@ import { UserTypesProvider } from '../providers/user-types/user-types';
     AppointmentListPageModule,
     BookAppointmentAtLoginPageModule,
     PipesModule,
-    CommonCalendarPageModule
+    CommonCalendarPageModule,
+    FrontPageModule,
+    MediaPageModule,
+    ContactUsPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -142,7 +149,7 @@ import { UserTypesProvider } from '../providers/user-types/user-types';
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
-	  LoginPage,
+    LoginPage,
 	  DashboardPage,
 	   RemindersPage,
 	  NotificationsPage,

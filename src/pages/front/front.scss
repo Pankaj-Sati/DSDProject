@@ -1,0 +1,27 @@
+page-front {
+  $tab-button-active-color: #f7a40d;
+  $tab-button-inactive-color: #8c8c8c;
+
+  .tabs-md, .tabs-ios
+  {
+    .tab-button-text
+    {
+      font-size:12px;
+    }
+
+    .tab-button[aria-selected=true]
+    {
+      color: $tab-button-active-color;
+
+      .tab-button-icon
+      {
+        color: $tab-button-active-color;
+      }
+    }
+
+    .tab-button
+    {
+      color: $tab-button-inactive-color;
+    }
+  }
+}

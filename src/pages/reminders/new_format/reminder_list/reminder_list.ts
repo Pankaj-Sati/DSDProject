@@ -43,7 +43,7 @@ export class ReminderListPage
   {
 
     this.loggedInUser = this.myStorage.getParameters();
-
+    
     this.fetchData();
     
   }

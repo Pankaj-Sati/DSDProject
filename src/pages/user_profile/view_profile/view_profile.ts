@@ -16,6 +16,7 @@ import {EditProfilePage } from '../edit_profile/edit_profile';
 
 import { User, UserDetails } from '../../../models/login_user.model';
 import { ViewImageComponent } from '../../../components/view-image/view-image';
+import { FrontPage } from '../../front/front';
 
 @Component({
 	selector: 'view_profile',
@@ -142,8 +143,8 @@ export class ViewProfilePage
     	}
     	else
     	{ //If user id cannot be loaded from the local storage, then we cannot view profile
-    		this.presentToast('User not found. Please Login again');
-        this.navCtrl.setRoot(LoginPage); //Take user to the login page
+        this.presentToast('User not found. Please Login again');
+        this.navCtrl.setRoot(FrontPage); //Take user to the login page
     	}	
     }
 

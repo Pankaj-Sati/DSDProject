@@ -1,0 +1,48 @@
+<!--
+  Generated template for the ContactUsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>ContactUs</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding style='background-image:url(assets/imgs/building.jpg);background-size: cover;' overflow-scroll='true'>
+
+  <div class="mainContent">
+    <ion-row>
+      <ion-col (click)="openMaps()">
+        <ion-icon style="color:#FF5722" name="pin"></ion-icon><br />
+        <button  ion-button  clear>Find Our Office</button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col (click)="callUs()">
+        <ion-icon style="color:#2196F3" name="call"></ion-icon><br />
+        <button  ion-button clear>Call Us</button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col (click)="openWebsite()">
+        <ion-icon style="color:#9575CD" name="at"></ion-icon><br />
+        <button  ion-button  clear>Visit Our Website</button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col (click)="emailUs()">
+        <ion-icon style="color:#009688" name="mail"></ion-icon><br />
+        <button  ion-button  clear>Email Us</button>
+      </ion-col>
+    </ion-row>
+
+    <div class="iosScrollFixDiv">
+      <!-- This extra space is used to overcome scroll to bottom issues in iOS where content at the bottom is beyond scrollable area-->
+    </div>
+  </div>
+</ion-content>

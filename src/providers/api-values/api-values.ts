@@ -15,9 +15,24 @@ export class ApiValuesProvider
     
   }
 
-  public baseURL: string ="http://dsdlawfirm.com/dsd/api_work";
-  public baseImageFolder: string ="http://dsdlawfirm.com/dsd/upload/";
-  public baseFileUploadFolder: string = "http://dsdlawfirm.com/dsd/UploadFile/";
+  public readonly baseURL: string ="http://dsdlawfirm.com/dsd/api_work";
+  public readonly baseImageFolder: string ="http://dsdlawfirm.com/dsd/upload/";
+  public readonly baseFileUploadFolder: string = "http://dsdlawfirm.com/dsd/UploadFile/";
+
+  //---------------Facebook Page Link-----------------------//
+  public readonly facebookPageURL = 'https://www.facebook.com/dsdlawfirm/';
+
+  //---------------------Maps Location---------------------------//
+  public readonly mapsLink = 'https://goo.gl/maps/kD3gS4M9hvge6nPM8';
+
+  //---------------Contact Number--------------------------------//
+  public readonly contactNumber = 'tel:2124282000';
+
+  //---------------Email Link--------------------------------//
+  public readonly emailLink = 'mailto:info@dsdlawfirm.com';
+
+  //-------------------Website link---------------------------//
+  public readonly websiteLink = 'http://dsdlawfirm.com';
 
   //-------------------Teamup Calander Settings------------------------------//
   public TEAMUP_API_KEY: string = "e5b9e51f3297651794ceea6658f433b1fc8dccb562c072d09dd81de6c4260e30";

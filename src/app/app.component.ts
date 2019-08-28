@@ -5,6 +5,7 @@ import { Platform, MenuController, Nav} from 'ionic-angular';
 //Pages
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ListPage } from '../pages/list/list';
+import { FrontPage } from '../pages/front/front';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
 import { DashboardPage } from '../pages/dashboard/dashboard';
@@ -419,7 +420,7 @@ export class MyApp {
     {
       console.log("nav");
       console.log(this.nav);
-      this.rootPage=LoginPage;
+      this.rootPage=FrontPage;
       
       }
         

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
 import { LoginPage } from '../../login/login';
+import { FrontPage } from '../../front/front';
 
 @Component({
   selector: 'signup_success',
@@ -31,6 +32,6 @@ export class SignupSuccessPage
 
   login()
   {
-    this.navCtrl.setRoot(LoginPage);
+    this.navCtrl.setRoot(FrontPage);
   }
 }

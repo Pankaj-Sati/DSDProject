@@ -10,6 +10,7 @@ import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
 
 import { MyStorageProvider } from '../../providers/my-storage/my-storage';
+import { FrontPage } from '../front/front';
 
 
 
@@ -44,8 +45,8 @@ export class LogoutPage
 	   loader.present().then(() => 
        {
          this.myStorage.removeParameters();
-						console.log('Data removed');
-					this.navCtrl.setRoot(LoginPage);
+         console.log('Data removed');
+         this.navCtrl.setRoot(FrontPage);
 	   		loader.dismiss();
 		   
 	   	});

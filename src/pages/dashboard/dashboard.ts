@@ -15,6 +15,7 @@ import { ClientDocumentsPage } from '../client_list/single_client/document/docum
 import { AppointmentListPage } from '../appointment-list/appointment-list';
 
 import { LoginPage } from '../login/login';
+import { FrontPage } from '../front/front';
 import { Storage } from '@ionic/storage';
 import { ToastController } from 'ionic-angular';
 import {Events} from 'ionic-angular'
@@ -98,7 +99,7 @@ export class DashboardPage
 			  }
 		  else
 			{
-				this.navCtrl.setRoot(LoginPage);
+        this.navCtrl.setRoot(FrontPage);
 			}
 				
 		  

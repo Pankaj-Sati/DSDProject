@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app",
-    "\\src\\components",
-    "\\src\\components\\view-image",
     "\\src\\pages",
-    "\\src\\pages\\account_management\\account_summary",
-    "\\src\\pages\\client_list\\single_client",
-    "\\src\\pages\\sms\\smslist",
-    "\\src\\pipes\\convert24-hour-time"
+    "\\src\\pages\\contact-us",
+    "\\src\\pages\\sign-up",
+    "\\src\\pages\\sign-up\\signup_success",
+    "\\src\\pages\\user_profile",
+    "\\src\\pages\\user_profile\\view_profile",
+    "\\src\\providers",
+    "\\src\\providers\\api-values"
   ],
-  "SelectedNode": "\\src\\app\\app.component.ts",
+  "SelectedNode": "\\src\\pages\\user_profile\\view_profile\\view_profile.ts",
   "PreviewInSolutionExplorer": false
 }
