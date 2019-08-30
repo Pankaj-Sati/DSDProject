@@ -50,6 +50,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 
 import { Events } from 'ionic-angular';
+import { HomePage } from '../pages/home/home';
 
 @Component(
   {
@@ -111,14 +112,13 @@ export class MyApp {
     this.checkIfAlreadyLoggedIn();
     this.showSearch=false;
 
-
     this.events.subscribe('loggedIn',()=>{
     // user and time are the same arguments passed in `events.publish(user, time)`
     console.log('Welcome: Gettting image');
    
             this.initializeApp();
 
-      });
+    });
 
     events.subscribe('newPage',(title)=>{
       console.log(title);
@@ -226,7 +226,7 @@ export class MyApp {
 
       this.pages = [
 
-        { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
+        { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: HomePage, subs: null, hasSub: false },
 
         // { title: 'Settings', icon: 'settings', iconColor: 'appSettingIcon', component: null, subs: this.settingPages, hasSub: false },
 
@@ -272,7 +272,7 @@ export class MyApp {
       // set our app's pages granting access to every module
       this.pages = [
 
-        { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
+        { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: HomePage, subs: null, hasSub: false },
 
         //{ title: 'Settings', icon: 'settings', iconColor: 'appSettingIcon', component: null, subs: this.settingPages, hasSub: false },
 
@@ -414,7 +414,7 @@ export class MyApp {
   {
     if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id.length > 0)
     {
-        this.rootPage=DashboardPage;     
+      this.rootPage = HomePage;     
     }
       else
     {

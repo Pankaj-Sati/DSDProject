@@ -24,6 +24,8 @@ import { ApiValuesProvider } from '../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../providers/my-storage/my-storage';
 
 import {User } from '../../models/login_user.model';
+import { MediaPage } from '../media/media';
+import { ContactUsPage } from '../contact-us/contact-us';
 
 @Component({
   selector: 'page-dashboard',
@@ -39,6 +41,7 @@ export class DashboardPage
   showSearch: boolean;
   calendarLink: SafeResourceUrl;
 
+
   constructor(public myStorage: MyStorageProvider,
     public apiValue: ApiValuesProvider,
     public events: Events,
@@ -53,7 +56,8 @@ export class DashboardPage
     public sanitizer: DomSanitizer,
     public inAppBrowser: InAppBrowser)
   {
-    
+
+   
 		this.menuCtrl.enable(true);
 		this.menuCtrl.swipeEnable(true);
 			

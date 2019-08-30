@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, MenuController, App } from 'ionic-angular';
 import {Http, Headers, RequestOptions}  from "@angular/http";
 
 import { LoadingController } from "ionic-angular";
@@ -19,6 +19,7 @@ import { Events } from 'ionic-angular';
 import { SignUpPage } from '../sign-up/sign-up';
 import { ForgotPasswordPage } from '../forgot-password/forgot-password';
 import { BookAppointmentAtLoginPage } from '../book-appointment-at-login/book-appointment-at-login';
+import { HomePage } from '../home/home';
 
 @Component({
   selector: 'page-login',
@@ -42,7 +43,18 @@ export class LoginPage
 	login_password:string;
 	result:string;
 
-  constructor(public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public events: Events, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController, public toastCtrl: ToastController, public storage: Storage, public menuCtrl: MenuController) 
+  constructor(public myStorage: MyStorageProvider,
+    public apiValue: ApiValuesProvider,
+    public events: Events,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    private http: Http,
+    public loading: LoadingController,
+    public toastCtrl: ToastController,
+    public storage: Storage,
+    public menuCtrl: MenuController,
+  public app:App) 
 	{
 
 		this.menuCtrl.enable(false);
@@ -66,7 +78,7 @@ export class LoginPage
 							});
 							toast.present();
 
-				  this.navCtrl.setRoot(DashboardPage);
+              this.navCtrl.setRoot(HomePage);
 				  
 			  }
 		});
@@ -219,7 +231,9 @@ export class LoginPage
 
 				  	console.log('Data set');
 
-					this.navCtrl.setRoot(DashboardPage);
+                    // this.events.publish('loginSuccessful'); //This event is defined in App Component class
+                    this.app.getRootNav().setRoot(HomePage); 
+                    
 					}
 			 
 			   }, error=>{

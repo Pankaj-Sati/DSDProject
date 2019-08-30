@@ -466,6 +466,10 @@ export class ClientDocumentsPage
   async uploadFile()
   {
 
+
+
+    
+   
     this.loadingTimeout = 30 * 1000; //Default;
 
     let fileInfo: Entry = undefined;
@@ -526,6 +530,14 @@ export class ClientDocumentsPage
 
         }
       };
+
+    if (this.isUploading)
+    {
+      //Already uploading and user has clicked upload i.e cancel
+      transfer.abort(); //Stop the transfer
+      this.isUploading = false;
+    }
+
 
     let loaderContent = '<ion-row">'+
       '<ion-col style="text-align:center" >"Uploading...</ion-col>'+
@@ -605,6 +617,8 @@ export class ClientDocumentsPage
          // loader.dismiss();
 
         });
+
+  
 
     transfer.onProgress((progress) =>
     {

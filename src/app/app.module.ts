@@ -79,6 +79,7 @@ import { FrontPage } from '../pages/front/front';
 import { FrontPageModule } from '../pages/front/front.module';
 import { MediaPageModule } from '../pages/media/media.module';
 import { ContactUsPageModule } from '../pages/contact-us/contact-us.module';
+import { HomePageModule } from '../pages/home/home.module';
 
 
 
@@ -141,7 +142,8 @@ import { ContactUsPageModule } from '../pages/contact-us/contact-us.module';
     CommonCalendarPageModule,
     FrontPageModule,
     MediaPageModule,
-    ContactUsPageModule
+    ContactUsPageModule,
+    HomePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

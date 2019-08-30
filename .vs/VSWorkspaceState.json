@@ -4,13 +4,11 @@
     "\\src",
     "\\src\\pages",
     "\\src\\pages\\contact-us",
-    "\\src\\pages\\sign-up",
+    "\\src\\pages\\media",
     "\\src\\pages\\sign-up\\signup_success",
-    "\\src\\pages\\user_profile",
-    "\\src\\pages\\user_profile\\view_profile",
     "\\src\\providers",
     "\\src\\providers\\api-values"
   ],
-  "SelectedNode": "\\src\\pages\\user_profile\\view_profile\\view_profile.ts",
+  "SelectedNode": "\\src\\pages\\media\\media.ts",
   "PreviewInSolutionExplorer": false
 }

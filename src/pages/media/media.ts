@@ -17,11 +17,6 @@ export class MediaPage {
   {
   }
 
-  ionViewDidEnter()
-  {
-    this.inAppBrowser.create(this.apiValue.facebookPageURL, '_blank');
-  }
-
   openLink()
   {
     this.inAppBrowser.create(this.apiValue.facebookPageURL, '_blank');
