@@ -4,6 +4,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Camera } from '@ionic-native/camera';
+import { Crop } from '@ionic-native/crop';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
@@ -80,6 +81,7 @@ import { FrontPageModule } from '../pages/front/front.module';
 import { MediaPageModule } from '../pages/media/media.module';
 import { ContactUsPageModule } from '../pages/contact-us/contact-us.module';
 import { HomePageModule } from '../pages/home/home.module';
+import { ImagePicker } from '@ionic-native/image-picker';
 
 
 
@@ -205,6 +207,8 @@ import { HomePageModule } from '../pages/home/home.module';
     EntityTypeProvider,
     StateListProvider,
     UserTypesProvider,
+    ImagePicker,
+    Crop
   ],
   exports: [ComponentsModule, PipesModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]

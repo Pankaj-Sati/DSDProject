@@ -19,7 +19,9 @@ export class HelloIonicPage
 {
 
 	imagePath:string;
-	lastImage:string;
+  lastImage: string;
+
+  files: any;
 
 
  	constructor(public file: File,public transfer: FileTransfer,private camera: Camera,public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,  private http: Http,  public loading: LoadingController,public toastCtrl: ToastController, public menuCtrl: MenuController) 
@@ -176,6 +178,12 @@ export class HelloIonicPage
 
 		}
 
+
+  changedFile()
+  {
+    console.log('FIle Changed');
+    console.log(this.files);
+  }
 
 		// Create a new name for the image
 		private createFileName() {

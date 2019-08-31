@@ -27,6 +27,8 @@ import {User } from '../../models/login_user.model';
 import { MediaPage } from '../media/media';
 import { ContactUsPage } from '../contact-us/contact-us';
 
+
+
 @Component({
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html'
@@ -54,7 +56,8 @@ export class DashboardPage
     public storage: Storage,
     public toastCtrl: ToastController,
     public sanitizer: DomSanitizer,
-    public inAppBrowser: InAppBrowser)
+    public inAppBrowser: InAppBrowser,
+  )
   {
 
    

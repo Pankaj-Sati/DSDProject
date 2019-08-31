@@ -16,6 +16,7 @@ import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
 import { ClientDocuments } from '../../../../models/client_document.model';
 import { ClientDetails } from '../../../../models/client.model';
 import { User } from '../../../../models/login_user.model';
+import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 
 declare var cordova: any;
 
@@ -28,14 +29,17 @@ export class ClientDocumentsPage
 {
   doc_list: ClientDocuments[] = [];
 
+  uploadDocList = []; //Documents/images to be uploaded
+
   selectedDocList: ClientDocuments[] = [];
  
   passed_client_id;
   passed_advocate_id;
   passed_client_name;
   selected_file_name: string; //If user wanted to add a new file to upload
-  lastImage; //Last selected Image
   loggedInUser: User;
+
+  fileTransferObject: FileTransferObject;//To holde current instance of file transfer object
 
   uploadProgress: any = 0;
 
@@ -62,7 +66,8 @@ export class ClientDocumentsPage
       public fileTransfer: FileTransfer,
       private camera: Camera,
       public myStorage: MyStorageProvider,
-      public fileChooser: Chooser
+    public fileChooser: Chooser,
+    public imagePicker: ImagePicker
 
     )
   {
@@ -122,7 +127,8 @@ export class ClientDocumentsPage
       var data =
       {
         document: this.makeDocString(this.doc_list),
-        documentData: this.doc_list
+        documentData: this.doc_list,
+        userID: this.passed_client_id
       };
     }
 
@@ -132,7 +138,8 @@ export class ClientDocumentsPage
       var data =
       {
         document: this.makeDocString(this.selectedDocList),
-        documentData: this.selectedDocList
+        documentData: this.selectedDocList,
+        userID: this.passed_client_id
       };
     }
 
@@ -308,7 +315,7 @@ export class ClientDocumentsPage
           handler: () =>
           {
             console.log('From Gallery');
-            this.getImage(this.camera.PictureSourceType.PHOTOLIBRARY);
+            this.getImagesFromGallery();
           }
         },
         {
@@ -342,9 +349,46 @@ export class ClientDocumentsPage
 
   }
 
+  async getImagesFromGallery()
+  {
+
+    let options: ImagePickerOptions = {
+      width: 5000,
+      height:5000
+     
+    };
+
+    await this.imagePicker.hasReadPermission().then(hasPermission =>
+    {
+      if (!hasPermission)
+      {
+        this.imagePicker.requestReadPermission();
+      }
+    });
+
+    await this.imagePicker.getPictures(options).then((result) =>
+    {
+      console.log('GOt image Picker result');
+
+      console.log(result);
+
+      if (result != undefined && result.length > 0 && result instanceof Array)
+      {
+        for (let eachImage of result)
+        {
+          this.uploadDocList.push(eachImage);
+        }
+      }
+
+      this.checkForMoreUploads();
+
+    });
+  }
+
   takeFile()
   {
     console.log('In Take File()');
+   
     this.fileChooser.getFile('')
       .then(file =>
       {
@@ -358,10 +402,9 @@ export class ClientDocumentsPage
           console.log('URI=' + file.uri);
         
 
-          this.lastImage = file.uri;
-          this.selected_file_name = file.name;
-          this.presentToast('Uploading...');
-          this.uploadFile();
+           this.uploadDocList.push(file.uri);
+        
+           this.checkForMoreUploads();
          
         }
         else
@@ -381,7 +424,8 @@ export class ClientDocumentsPage
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       correctOrientation: true,
-      sourceType: source
+      sourceType: source,
+      allowEdit: true
     };
 
     this.camera.getPicture(options).then((imageData) =>
@@ -452,9 +496,8 @@ export class ClientDocumentsPage
     await this.file.copyFile(correctPath, currentName, cordova.file.dataDirectory, newFileName).then(success =>
     {
 
-      this.lastImage = cordova.file.dataDirectory + newFileName;
-      this.selected_file_name = currentName;
-      this.uploadFile();
+      this.uploadDocList.push(cordova.file.dataDirectory + newFileName);
+      this.checkForMoreUploads();
 
     }, error =>
       {
@@ -463,17 +506,22 @@ export class ClientDocumentsPage
       });
   }
 
-  async uploadFile()
+  async uploadFile( filepath)
   {
-
-
+    console.log('In File Upload');
+    console.log('Uploading File:' + filepath);
+    console.log('Is Uploading=' + this.isUploading);
+    if (this.isUploading)
+    {
+      return; //Currently we are uploading a file
+    }
 
     
    
     this.loadingTimeout = 30 * 1000; //Default;
 
     let fileInfo: Entry = undefined;
-    await this.file.resolveLocalFilesystemUrl(this.lastImage).then(file =>
+    await this.file.resolveLocalFilesystemUrl(filepath).then(file =>
     {
       console.log(file);
       fileInfo = file;
@@ -509,7 +557,7 @@ export class ClientDocumentsPage
 
     console.log('Loading Timeout='+this.loadingTimeout);
 
-    let transfer: FileTransferObject = this.fileTransfer.create();
+    this.fileTransferObject = this.fileTransfer.create();
     this.uploadProgress = 0;
     this.isUploading = true;
     let filename = this.selected_file_name;
@@ -531,14 +579,6 @@ export class ClientDocumentsPage
         }
       };
 
-    if (this.isUploading)
-    {
-      //Already uploading and user has clicked upload i.e cancel
-      transfer.abort(); //Stop the transfer
-      this.isUploading = false;
-    }
-
-
     let loaderContent = '<ion-row">'+
       '<ion-col style="text-align:center" >"Uploading...</ion-col>'+
         '</ion-row>';
@@ -554,34 +594,35 @@ export class ClientDocumentsPage
       //loader.present();
     
     //this.apiValues.baseURL + '/client_doc_upload.php'
-    transfer.upload(this.lastImage, this.apiValues.baseURL + '/client_doc_upload.php', options).then(data =>
+    this.fileTransferObject.upload(filepath, this.apiValues.baseURL + '/client_doc_upload.php', options).then(data =>
       {
 
       transferSuccessful = true;
       this.isUploading = false;
-        console.log("Image upload server reply");
+        console.log(" upload server reply");
         console.log(data);
         //loader.dismiss(); 
         if (data)
         {
+          
           try
           {
             let response = JSON.parse(data["response"]);
             if (response.code > 400)
             {
               //Error returned from server
+            
               this.presentToast(response.message);
              
-              return;
             }
             else
             {
               //Success
-              this.presentToast(response.message);
-              this.selected_file_name = ''; //To hide the upload button and content
-              this.fetchData();
              
-              return;
+              this.presentToast(response.message);
+
+             
+            
             }
           }
           catch (err)
@@ -589,7 +630,7 @@ export class ClientDocumentsPage
             console.log(err);
             this.presentToast('Error in response');
            
-            return;
+           
           }
           
         }
@@ -599,6 +640,9 @@ export class ClientDocumentsPage
          
         }
 
+       this.removeFilesFromUpload(0);
+       this.checkForMoreUploads();
+
       }, err =>
         {
         this.isUploading = false;
@@ -606,6 +650,8 @@ export class ClientDocumentsPage
           transferSuccessful = true;
           this.presentToast("Failed!! Server returned an error");
           //loader.dismiss();
+        this.removeFilesFromUpload(0); //Remove the first element i.e. the current codument from list
+        this.checkForMoreUploads();
 
         })
         .catch(err =>
@@ -615,12 +661,14 @@ export class ClientDocumentsPage
           console.log(err);
           this.presentToast("Failed!! Server returned an error");
          // loader.dismiss();
+          this.removeFilesFromUpload(0); //Remove the first element i.e. the current codument from list
+          this.checkForMoreUploads();
 
         });
 
   
 
-    transfer.onProgress((progress) =>
+    this.fileTransferObject.onProgress((progress) =>
     {
       this.onFileProgressChange(progress);
      
@@ -678,6 +726,52 @@ export class ClientDocumentsPage
       }
 
     });
+  }
+
+  removeFilesFromUpload(documentIndex)
+  {
+    if (this.uploadDocList.length <= 0)
+    {
+      return;
+    }
+
+    this.uploadDocList.splice(documentIndex, 1);//Remove the specific document
+  }
+
+  cancelUpload(cancelAll=false)
+  {
+    if (this.fileTransferObject)
+    {
+      this.fileTransferObject.abort();
+    }
+
+    if (cancelAll)
+    {
+      this.uploadDocList = [];
+    }
+
+  }
+
+  getDocName(fullPath:string)
+  {
+    return fullPath.substring(fullPath.lastIndexOf('/'));
+  }
+
+  checkForMoreUploads()
+  {
+    console.log('In Checkfor More Uploads');
+
+    console.log(this.uploadDocList);
+    if (this.uploadDocList.length > 0)
+    {
+      let currentDoc = String(this.uploadDocList[0]);
+      this.selected_file_name = currentDoc.substring(currentDoc.lastIndexOf('/'));
+      this.uploadFile(this.uploadDocList[0]); //Upload the first file in the list
+    }
+    else
+    {
+      this.fetchData();
+    }
   }
 }
 

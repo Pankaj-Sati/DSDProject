@@ -2,13 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\src",
+    "\\src\\app",
     "\\src\\pages",
-    "\\src\\pages\\contact-us",
-    "\\src\\pages\\media",
-    "\\src\\pages\\sign-up\\signup_success",
+    "\\src\\pages\\client_list\\single_client",
+    "\\src\\pages\\client_list\\single_client\\document",
     "\\src\\providers",
     "\\src\\providers\\api-values"
   ],
-  "SelectedNode": "\\src\\pages\\media\\media.ts",
+  "SelectedNode": "\\src\\pages\\client_list",
   "PreviewInSolutionExplorer": false
 }

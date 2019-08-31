@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="35" id="com.mazetech.dsdfirm" version="0.0.35" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="36" id="com.mazetech.dsdfirm" version="0.0.36" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Dalbir's Law Firm</name>
     <description>DSD Law Firm</description>
     <author email="support@mazetechnologiesllc.com" href="https://www.mazetechnologiesllc.com/">Maze Technologies</author>
@@ -102,20 +102,20 @@
         <splash height="2436" src="resources\ios\splash\Default-2436h.png" width="1125" />
         <splash height="1125" src="resources\ios\splash\Default-Landscape-2436h.png" width="2436" />
     </platform>
-    <engine name="ios" spec="4.5.5" />
-    <engine name="android" spec="6.3.0" />
-    <plugin name="cordova-plugin-advanced-http" spec="2.0.9" />
+    <plugin name="cordova-plugin-advanced-http" spec="^2.0.9" />
     <plugin name="cordova-plugin-statusbar" spec="2.4.2" />
     <plugin name="cordova-plugin-device" spec="2.0.2" />
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
-    <plugin name="cordova-sqlite-storage" spec="3.2.0" />
-    <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
-    <plugin name="cordova-plugin-camera" spec="4.0.3" />
-    <plugin name="cordova-plugin-file-transfer" spec="1.7.1" />
-    <plugin name="cordova-plugin-file" spec="^6.0.1" />
-    <plugin name="cordova-plugin-filepath" spec="^1.5.5" />
-    <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
+    <plugin name="cordova-sqlite-storage" spec="^3.2.0" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.4" />
+    <plugin name="cordova-plugin-camera" spec="^4.0.3" />
+    <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
+    <plugin name="cordova-plugin-file" spec="^6.0.2" />
+    <plugin name="cordova-plugin-filepath" spec="^1.5.6" />
+    <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
     <plugin name="cordova-plugin-chooser" spec="^1.2.5" />
+    <plugin name="cordova-plugin-telerik-imagepicker" spec="^2.3.3" />
+    <plugin name="cordova-plugin-crop" spec="^0.4.0" />
 </widget>

@@ -19,16 +19,31 @@
 
   <div [class]="blurAmount">
 
-    <ion-row *ngIf="selected_file_name!=undefined && selected_file_name.length>0">
-      <ion-col style="text-align:center;">
-        <ion-label><b>Selected File:</b>{{selected_file_name}}</ion-label>
-        <button icon-start ion-button [disabled]="(selected_file_name==undefined || selected_file_name.length==0)" (click)="uploadFile()"><ion-icon name="cloud-upload"></ion-icon>{{isUploading?'Cancel':'Upload'}}</button><br />
-        <progress-bar *ngIf="isUploading" [progress]="uploadProgress"></progress-bar>
+    <div *ngIf="uploadDocList!=undefined && uploadDocList.length>0">
+      <ion-row>
+        <ion-col style="text-align:center;">
+          <ion-label><b>Selected File:</b>{{selected_file_name}}</ion-label>
+          <button icon-start *ngIf="isUploading" ion-button [disabled]="(selected_file_name==undefined || selected_file_name.length==0)" (click)="cancelUpload()"><ion-icon name="close"></ion-icon>Cancel</button>
+          <button icon-start *ngIf="isUploading" ion-button [disabled]="(selected_file_name==undefined || selected_file_name.length==0)" (click)="cancelUpload(true)"><ion-icon name="close"></ion-icon>Cancel All</button><br />
+          <progress-bar *ngIf="isUploading" [progress]="uploadProgress"></progress-bar>
 
-        <p style="width:100%;" *ngIf="isUploading">{{uploadProgress}}%</p>
-      </ion-col>
-    </ion-row>
+          <p style="width:100%;" *ngIf="isUploading">{{uploadProgress}}%</p>
+        </ion-col>
+      </ion-row>
 
+      <ion-row *ngFor="let eachUploadDoc of uploadDocList;let i=index">
+
+        <ion-col col-11>
+          <p>{{getDocName(eachUploadDoc)}}</p>
+        </ion-col>
+
+        <ion-col col-1 (click)="removeFilesFromUpload(i)">
+          <ion-icon name="close"></ion-icon>
+        </ion-col>
+
+      </ion-row>
+
+    </div>
     <ion-row>
       <ion-col style="text-align:center;">
         <button icon-start ion-button (click)="showFileSelectionDialog()"><ion-icon name="add"></ion-icon>Add New</button>

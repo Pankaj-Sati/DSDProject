@@ -296,7 +296,7 @@ export class MyApp {
 
         { title: 'Case Study', icon: 'paper', iconColor: 'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
 
-        //{ title: 'File Test', icon:'paper', component: HelloIonicPage,subs:null,hasSub:false },
+        //{ title: 'File Test', icon: 'paper', iconColor:'#782424', component: HelloIonicPage, subs: null, hasSub: false },
         { title: 'Delete Profile', icon: 'trash', iconColor: 'appLogoutIcon', component: 'delete_profile', subs: null, hasSub: false },
 
         { title: 'Logout', icon: 'log-out', iconColor: 'appLogoutIcon', component: LogoutPage, subs: null, hasSub: false }

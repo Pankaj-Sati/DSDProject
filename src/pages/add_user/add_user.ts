@@ -21,6 +21,10 @@ import { User } from '../../models/login_user.model';
 import { StateListProvider } from '../../providers/state-list/state-list';
 import { State } from '../../models/state.model';
 import { UserType } from '../../models/user_type.model';
+import { Crop } from '@ionic-native/crop';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { DomSanitizer } from '@angular/platform-browser';
+import { transcode } from 'buffer';
 
 declare var cordova: any;
 
@@ -59,7 +63,10 @@ export class AddUserPage
     public menuCtrl: MenuController,
     public stateListProvider: StateListProvider,
     public userTypesProvider: UserTypesProvider,
-    public events: Events) 
+    public events: Events,
+    public crop: Crop,
+    public webView: WebView,
+    public sanitaizer: DomSanitizer) 
 	{
 		this.menuCtrl.enable(true);
       this.menuCtrl.swipeEnable(true);
@@ -167,7 +174,8 @@ export class AddUserPage
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       correctOrientation: true,
-      sourceType: source
+      sourceType: source,
+      allowEdit: true
     };
 
     this.camera.getPicture(options).then((imageData) => {
@@ -175,43 +183,12 @@ export class AddUserPage
       // If it's base64 (DATA_URL):
       console.log("Image get()" + imageData);
 
-      if ((imageData != null || imageData != undefined) && imageData.length > 0) {
+      console.log(this.win);
 
-        //We need to get the native path of the files present in the gallery on Android
-        if (this.platform.is('android') && source === this.camera.PictureSourceType.PHOTOLIBRARY) {
+      if ((imageData != null || imageData != undefined) && imageData.length > 0)
+      {
 
-          this.filePath.resolveNativePath(imageData)
-            .then(filePath => {
-              let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-              let currentName = imageData.substring(imageData.lastIndexOf('/') + 1, imageData.lastIndexOf('?'));
-              this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-
-             
-              this.userForm.value.u_profile_img = this.win.Ionic.WebView.convertFileSrc(imageData);
-              this.isImageChanged = true;
-              // this.userForm.value.u_profile_img=this.webView.convertFileSrc(imageData);
-            })
-
-            .catch(error => {
-
-              console.log("resolveNativePath() error");
-              this.presentToast('Error!!!Please select other image');
-              console.log(error);
-            });
-
-
-
-        }
-        else {
-          var currentName = imageData.substr(imageData.lastIndexOf('/') + 1);
-          var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
-          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-   
-          this.userForm.value.u_profile_img = this.win.Ionic.WebView.convertFileSrc(imageData);
-          this.isImageChanged = true;
-          
-
-        }
+        this.cropImage(imageData, source);
       }
       else {
         this.presentToast('Error!!!Please select other image');
@@ -237,6 +214,9 @@ export class AddUserPage
     this.file.copyFile(correctPath, currentName, cordova.file.dataDirectory, newFileName).then(success => {
 
       this.lastImage = cordova.file.dataDirectory + newFileName;
+      this.userForm.controls.u_profile_img.setValue(this.win.Ionic.WebView.convertFileSrc(this.lastImage));
+      this.userForm.controls.u_profile_img.updateValueAndValidity();
+      this.isImageChanged = true; //We have got our image successfully;
 
     }, error => {
 
@@ -244,6 +224,73 @@ export class AddUserPage
     });
   }
 
+
+  async cropImage(imageData, source)
+  {
+    //To crop the selected image
+    console.log('In crop Image');
+
+    if (source == this.camera.PictureSourceType.CAMERA)
+    {
+      //If source type is camera, we don't need to crop the image
+      this.prepareImage(imageData, source);
+      return;
+    }
+    await this.crop.crop(imageData).then(newPath =>
+    {
+      console.log('New Cropped Path=' + newPath);
+      this.prepareImage(newPath, source);
+
+    },
+      error =>
+      {
+        console.log(error);
+        this.presentToast('Error in cropping image');
+        this.prepareImage(imageData, source);
+      });
+
+    console.log('Crop Image Ends');
+  }
+
+  prepareImage(imageData, source)
+  {
+    console.log('-------In Prepare Image---------');
+    console.log(imageData);
+    console.log(source);
+    //We need to get the native path of the files present in the gallery on Android
+    if (this.platform.is('android') && source === this.camera.PictureSourceType.PHOTOLIBRARY) 
+    {
+
+      this.filePath.resolveNativePath(imageData)
+        .then(filePath => 
+        {
+          let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+          let currentName = imageData.substring(imageData.lastIndexOf('/') + 1, imageData.lastIndexOf('?'));
+          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+
+
+          // this.userForm.value.u_profile_img=this.webView.convertFileSrc(imageData);
+        })
+
+        .catch(error =>
+        {
+
+          console.log("resolveNativePath() error");
+          this.presentToast('Error!!!Please select other image');
+          console.log(error);
+        });
+
+
+
+    }
+    else 
+    {
+      var currentName = imageData.substr(imageData.lastIndexOf('/') + 1);
+      var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
+      this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+
+    }
+  }
 
 	submitData()
 	{
@@ -260,7 +307,7 @@ export class AddUserPage
 		let loader = this.loading.create({
 
           content: "Adding user please wait…",
-          duration:15000
+          duration:60000
 
 		 });
 
