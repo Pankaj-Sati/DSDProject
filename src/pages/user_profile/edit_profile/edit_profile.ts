@@ -99,6 +99,7 @@ export class EditProfilePage
       u_alt: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       u_gender: new FormControl(''),
       u_dob: new FormControl(''),
+      u_alien_no: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ALIEN_NO_VALIDATOR)])),
       u_country: new FormControl('', Validators.compose([Validators.required])),
       u_state: new FormControl(''),
       u_city: new FormControl(''),
@@ -382,6 +383,7 @@ export class EditProfilePage
       this.userForm.controls.u_dob.setValue(dob[0]);
 
     }
+    this.userForm.controls.u_alien_no.setValue(this.user.case_no);
     this.userForm.controls.u_dob.setValue(this.user.dob);
     this.userForm.controls.u_address1.setValue(this.user.permanent_addressLine1);
     this.userForm.controls.u_address2.setValue(this.user.permanent_addressLine2);
@@ -425,6 +427,7 @@ export class EditProfilePage
       body.set("alt", String(this.userForm.value.u_alt).replace(/\D+/g,''));
       body.set("gender", this.userForm.value.u_gender);
       body.set("date_of_birth", this.userForm.value.u_dob);
+      body.set("alien_no", this.userForm.value.u_alien_no);
       body.set("country", this.userForm.value.u_country);
       body.set("state", this.userForm.value.u_state);
       body.set("city", this.userForm.value.u_city);
@@ -538,6 +541,7 @@ export class EditProfilePage
           "alt": String(this.userForm.value.u_alt).replace(/\D+/g,''),
           "gender": this.userForm.value.u_gender,
           "date_of_birth": this.userForm.value.u_dob,
+          "alien_no": this.userForm.value.u_alien_no,
           "country": this.userForm.value.u_country,
           "state": this.userForm.value.u_state,
           "city": this.userForm.value.u_city,

@@ -72,10 +72,16 @@
         </ion-select>
       </ion-item>
 
-      <ion-item [ngClass]="{'error':! userForm.controls.u_dob.valid,'valid':(userForm.controls.u_dob.touched && userForm.controls.u_dob.valid)}" [class.invalid]="userForm.controls.u_dob.valid">
+      <ion-item [ngClass]="{'error':! userForm.controls.u_dob.valid,'valid':(userForm.controls.u_dob.touched && userForm.controls.u_dob.valid)}" [class.invalid]="! userForm.controls.u_dob.valid">
 
         <ion-label stacked>Date Of Birth</ion-label>
         <ion-datetime displayFormat="MMM DD YYYY" formControlName="u_dob" name="date_of_birth"></ion-datetime>
+      </ion-item>
+
+      <ion-item *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5" [ngClass]="{'error':! userForm.controls.u_alien_no.valid,'valid':(userForm.controls.u_alien_no.touched && userForm.controls.u_alien_no.valid)}" [class.invalid]="! userForm.controls.u_alien_no.valid">
+
+        <ion-label stacked>Alien Number</ion-label>
+        <ion-input type="number"  formControlName="u_alien_no" name="Alien Number"></ion-input>
       </ion-item>
 
       <ion-item [ngClass]="{'error':!userForm.controls.u_address1.valid,'valid':(userForm.controls.u_address1.touched && userForm.controls.u_address1.valid)}" [class.invalid]="! userForm.controls.u_address1.valid">
