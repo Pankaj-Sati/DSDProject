@@ -21,6 +21,7 @@ export class ApiValuesProvider
 
   //---------------Facebook Page Link-----------------------//
   public readonly facebookPageURL = 'https://www.facebook.com/dsdlawfirm/';
+  public readonly facebookPageName = '384972328368926';
 
   //---------------------Maps Location---------------------------//
   public readonly mapsLink = 'https://goo.gl/maps/kD3gS4M9hvge6nPM8';

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
+import { AppAvailability } from '@ionic-native/app-availability';
 
 @IonicPage()
 @Component({
@@ -13,13 +14,41 @@ export class MediaPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public inAppBrowser: InAppBrowser,
-    public apiValue: ApiValuesProvider)
+    public apiValue: ApiValuesProvider,
+    public platform: Platform,
+    public appAvailability: AppAvailability)
   {
   }
 
   openLink()
   {
-    this.inAppBrowser.create(this.apiValue.facebookPageURL, '_blank');
+    let fbUrlSchema = 'fb://'; //To open page url in Native Facebook App, we have different schemas.
+    if (this.platform.is('ios'))
+    {
+      fbUrlSchema = 'fb://';
+    }
+    else if (this.platform.is('android'))
+    {
+      fbUrlSchema = 'com.facebook.katana';
+    }
+    else
+    {
+      //For browser platform
+      fbUrlSchema = '';
+      this.inAppBrowser.create(this.apiValue.facebookPageURL, '_blank');
+      return;
+    }
+
+    this.appAvailability.check(fbUrlSchema).then((success) =>
+    {
+      //Facebook App is installed on the device
+      this.inAppBrowser.create('fb://page/'+this.apiValue.facebookPageName, '_system');
+    },
+      (err) =>
+      {
+        //Facebook App is not installed
+        this.inAppBrowser.create(this.apiValue.facebookPageURL, '_blank');
+      });
   }
 
 }

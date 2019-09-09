@@ -82,6 +82,7 @@ import { MediaPageModule } from '../pages/media/media.module';
 import { ContactUsPageModule } from '../pages/contact-us/contact-us.module';
 import { HomePageModule } from '../pages/home/home.module';
 import { ImagePicker } from '@ionic-native/image-picker';
+import { AppAvailability } from '@ionic-native/app-availability';
 
 
 
@@ -208,7 +209,8 @@ import { ImagePicker } from '@ionic-native/image-picker';
     StateListProvider,
     UserTypesProvider,
     ImagePicker,
-    Crop
+    Crop,
+    AppAvailability
   ],
   exports: [ComponentsModule, PipesModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
