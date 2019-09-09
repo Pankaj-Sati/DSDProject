@@ -108,7 +108,7 @@ export class SignUpPage
 
       u_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       u_lastname: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
-      u_password: new FormControl('', Validators.compose([Validators.pattern(/^$|^[a-zA-Z0-9_.-]{6,20}$/)])),
+      u_password: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.PASSWORD_VALIDATOR)])),
       u_dob: new FormControl('', Validators.compose([Validators.required])),
       u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       u_alt: new FormControl('', Validators.compose([Validators.pattern(/^$|^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),

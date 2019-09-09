@@ -50,7 +50,7 @@
 
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_alien_no.touched && !addClientForm.controls.c_alien_no.valid,'valid':(addClientForm.controls.c_alien_no.touched && addClientForm.controls.c_alien_no.valid)}" [class.invalid]="addClientForm.controls.c_alien_no.dirty && ! addClientForm.controls.c_alien_no.valid">
           <ion-label stacked><b>Alien No.</b></ion-label>
-          <ion-input type="text" formControlName="c_alien_no" placeholder="Enter Alien No."></ion-input>
+          <ion-input type="number" formControlName="c_alien_no" placeholder="Enter Alien No."></ion-input>
         </ion-item>
 
         <!--
@@ -466,7 +466,7 @@
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_cm_assigned.touched && !addClientForm.controls.c_cm_assigned.valid,'valid':(addClientForm.controls.c_cm_assigned.touched && addClientForm.controls.c_cm_assigned.valid)}" [class.invalid]="addClientForm.controls.c_cm_assigned.dirty && ! addClientForm.controls.c_cm_assigned.valid">
           <ion-label stacked><b>Case Manager Assigned To <span class="mandatory_field"> *</span></b></ion-label>
           <ion-select interface="action-sheet" required formControlName="c_cm_assigned" placeholder="Select Case Manager">
-            <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}} ({{advocate.contact}})</ion-option>
+            <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}}</ion-option>
           </ion-select>
 
 

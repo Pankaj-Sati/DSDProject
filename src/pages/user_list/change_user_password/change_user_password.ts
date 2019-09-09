@@ -26,6 +26,8 @@ export class ChangeUserPasswordPage
 	new_pass:string;
   confirm_pass: string;
   loggedInUser: User;
+  passwordInvalid: string = ''; //To show error message when password is invalid
+
   constructor(public apiValue: ApiValuesProvider,
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -78,8 +80,8 @@ export class ChangeUserPasswordPage
 
 				buttons: ["OK"]
 
-				});
-
+                });
+              this.passwordInvalid = "Password fields cannot be empty";
 				alert.present();
 
 		     } 
@@ -93,10 +95,26 @@ export class ChangeUserPasswordPage
 
 				buttons: ["OK"]
 
-				});
-
+                  });
+              this.passwordInvalid = "New Password donot match with Confirm Password";
 				alert.present();
-		     }
+            }
+        else if (!this.confirm_pass.match(this.apiValue.PASSWORD_VALIDATOR))
+        {
+          let alert = this.alertCtrl.create({
+
+            title: "ATTENTION",
+
+            subTitle: "Password should be between 4 and 15 digits",
+
+            buttons: ["OK"]
+
+          });
+
+          this.passwordInvalid = 'Password should be between 4 and 15 digits';
+          alert.present();
+        }
+
 		     else
 		     {
 		     	var headers = new Headers();
@@ -144,7 +162,8 @@ export class ChangeUserPasswordPage
 				   			loader.dismiss();
 
 				   			if("message" in serverReply)
-				   			{
+               {
+                  this.passwordInvalid = serverReply.message;
 				   				const toast = this.toastCtrl.create({
 									  message: serverReply.message,
 									  duration: 3000

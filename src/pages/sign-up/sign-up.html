@@ -8,7 +8,7 @@
 
   <ion-item no-lines class="profile-item">
     <div class="profile-picture">
-      <img src="assets/imgs/logo.png" style="background-color:gray;background-image: linear-gradient(#48c6ef , #6f86d6);"><br><br>
+      <img src="assets/imgs/logo-front.png" style="background-color:#06377a;"><br><br>
 
     </div>
   </ion-item>
@@ -150,7 +150,7 @@
 
         <ion-label style="color:white;">Case Manager</ion-label>
         <ion-select interface="action-sheet" placeholder="Select" formControlName="u_case_manager">
-          <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}} ({{advocate.id}})</ion-option>
+          <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}}</ion-option>
         </ion-select>
       </ion-item>
 

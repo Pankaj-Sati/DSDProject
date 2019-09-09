@@ -2,9 +2,14 @@ page-media {
 
 
   .logo {
-    margin: 50px 0px;;
+    margin: 50px 0px;
+    ;
+    width: 90%;
+    object-fit: contain;
+  }
 
-    width:90%;
-    object-fit:contain;
+  img {
+    max-height: 256px;
+    padding:25px;
   }
 }

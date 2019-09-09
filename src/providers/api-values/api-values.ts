@@ -45,8 +45,9 @@ export class ApiValuesProvider
   public readonly INPUT_VALIDATOR=/^$|^([a-zA-Z]{2}.{0,50})$/;
   public readonly ADDRESS_VALIDATOR=/^$|^([a-zA-Z0-9]{2}.{0,100})$/;
   public readonly ZIPCODE_VALIDATOR=/^$|^([0-9]{4,6})$/;
-  public readonly LONG_TEXT_VALIDATOR =/^$|^([a-zA-Z0-9]{2}.{0,500})$/;
-  public readonly ALIEN_NO_VALIDATOR =/^$|^([a-zA-Z0-9]{2}.{0,30})$/;
+  public readonly LONG_TEXT_VALIDATOR =/^$|^([a-zA-Z0-9]{1}.{0,500})$/;
+  public readonly ALIEN_NO_VALIDATOR =/^$|^([0-9]{2,30})$/;
+  public readonly PASSWORD_VALIDATOR =/^$|^[^ ]{4,20}$/;
   
 
   get maxSelectableDate():any
