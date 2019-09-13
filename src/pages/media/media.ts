@@ -23,13 +23,16 @@ export class MediaPage {
   openLink()
   {
     let fbUrlSchema = 'fb://'; //To open page url in Native Facebook App, we have different schemas.
+    let fbUrl = 'fb://'; //URL for the facebook page to open directly in the application
     if (this.platform.is('ios'))
     {
       fbUrlSchema = 'fb://';
+      fbUrl = 'fb://profile/' + this.apiValue.facebookPageName; //page is not working in iOS
     }
     else if (this.platform.is('android'))
     {
       fbUrlSchema = 'com.facebook.katana';
+      fbUrl = 'fb://page/' + this.apiValue.facebookPageName;
     }
     else
     {
@@ -42,7 +45,7 @@ export class MediaPage {
     this.appAvailability.check(fbUrlSchema).then((success) =>
     {
       //Facebook App is installed on the device
-      this.inAppBrowser.create('fb://page/'+this.apiValue.facebookPageName, '_system');
+      this.inAppBrowser.create(fbUrl, '_system');
     },
       (err) =>
       {

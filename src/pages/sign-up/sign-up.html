@@ -141,7 +141,7 @@
       <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_case_type.touched && ! userForm.controls.u_case_type.valid,'valid':( userForm.controls.u_case_type.touched && userForm.controls.u_case_type.valid)}" [class.invalid]="userForm.controls.u_case_type.touched && ! userForm.controls.u_case_type.valid">
 
         <ion-label style="color:white;">Case Type:</ion-label>
-        <ion-select interface="popover" placeholder="Select" formControlName="u_case_type">
+        <ion-select interface="action-sheet" placeholder="Select" formControlName="u_case_type">
           <ion-option *ngFor="let caseType of caseTypeList" value="{{caseType.id}}">{{caseType.case_type}}</ion-option>
         </ion-select>
       </ion-item>

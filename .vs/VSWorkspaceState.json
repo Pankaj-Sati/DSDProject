@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components",
     "\\src\\pages",
     "\\src\\pages\\client_list",
+    "\\src\\pages\\client_list\\add_client",
     "\\src\\pages\\client_list\\single_client",
-    "\\src\\pages\\client_list\\single_client\\document",
-    "\\src\\pages\\user_list",
-    "\\src\\pages\\user_list\\update_user",
-    "\\src\\pages\\user_profile"
+    "\\src\\pages\\client_list\\single_client\\edit_client",
+    "\\src\\pages\\sign-up",
+    "\\src\\providers",
+    "\\src\\providers\\api-values"
   ],
-  "SelectedNode": "\\src\\pages\\client_list\\single_client\\document\\document.ts",
+  "SelectedNode": "\\src\\providers\\api-values\\api-values.ts",
   "PreviewInSolutionExplorer": false
 }

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="36" id="com.mazetech.dsdfirm" version="0.0.36" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Dalbir's Law Firm</name>
-    <description>DSD Law Firm</description>
+<widget android-versionCode="38" id="com.mazetech.dsdfirm" version="0.0.38" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Dalbir Singh &amp; Associates, P.C.</name>
+    <description>Dalbir's Law Firm</description>
     <author email="support@mazetechnologiesllc.com" href="https://www.mazetechnologiesllc.com/">Maze Technologies</author>
     <content src="index.html" />
     <access origin="*" />
@@ -56,7 +56,7 @@
     <platform name="ios">
         <config-file overwrite="true" parent="LSApplicationQueriesSchemes" target="*-Info.plist">
             <array>
-                <string>fb</string> 
+                <string>fb</string>
             </array>
         </config-file>
         <allow-intent href="itms:*" />
