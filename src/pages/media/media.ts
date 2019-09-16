@@ -20,7 +20,7 @@ export class MediaPage {
   {
   }
 
-  openLink()
+  openFacebookLink()
   {
     let fbUrlSchema = 'fb://'; //To open page url in Native Facebook App, we have different schemas.
     let fbUrl = 'fb://'; //URL for the facebook page to open directly in the application
@@ -38,20 +38,25 @@ export class MediaPage {
     {
       //For browser platform
       fbUrlSchema = '';
-      this.inAppBrowser.create(this.apiValue.facebookPageURL, '_blank');
+      this.inAppBrowser.create(this.apiValue.facebookPageURL, '_blank'); //Open in the inApp Browser
       return;
     }
 
     this.appAvailability.check(fbUrlSchema).then((success) =>
     {
       //Facebook App is installed on the device
-      this.inAppBrowser.create(fbUrl, '_system');
+      this.inAppBrowser.create(fbUrl, '_system'); 
     },
       (err) =>
       {
         //Facebook App is not installed
-        this.inAppBrowser.create(this.apiValue.facebookPageURL, '_blank');
+        this.inAppBrowser.create(this.apiValue.facebookPageURL, '_blank'); //Open in the inApp Browser
       });
   }
 
+
+  openGoogleReviewLink()
+  {
+    this.inAppBrowser.create('https://g.co/kgs/HRfqrX','_system'); //Open in the device default browser
+  }
 }

@@ -10,6 +10,19 @@ page-media {
 
   img {
     max-height: 256px;
-    padding:25px;
+    padding: 25px;
+  }
+
+  .google {
+    background-color: #dc4e41;
+  }
+
+  .linkButton {
+    margin-top: 20px;
+    ion-icon
+    {
+      zoom:1.2;
+      padding:10px;
+    }
   }
 }

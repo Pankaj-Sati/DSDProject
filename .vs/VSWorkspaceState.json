@@ -2,12 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\pages",
-    "\\src\\pages\\client_list",
-    "\\src\\pages\\client_list\\add_client",
-    "\\src\\pages\\client_list\\single_client",
+    "\\src\\app",
     "\\src\\pages\\client_list\\single_client\\edit_client",
-    "\\src\\pages\\sign-up",
     "\\src\\providers",
     "\\src\\providers\\api-values"
   ],
