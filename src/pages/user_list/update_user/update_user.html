@@ -107,7 +107,7 @@
   <ion-item [ngClass]="{'error':! userForm.controls.u_pincode.valid,'valid':( userForm.controls.u_pincode.touched && userForm.controls.u_pincode.valid)}" [class.invalid]="! userForm.controls.u_pincode.valid">
 
     <ion-label stacked>Zip code </ion-label>
-    <ion-input type="number" formControlName="u_pincode" name="pincode"></ion-input>
+    <ion-input type="tel" formControlName="u_pincode" name="pincode"></ion-input>
   </ion-item>
 
   <ion-item>

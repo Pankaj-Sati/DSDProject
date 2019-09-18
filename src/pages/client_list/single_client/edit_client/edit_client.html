@@ -50,7 +50,7 @@
 
           <ion-item no-lines [ngClass]="{'error':!editClientForm.controls.c_alien_no.valid,'valid':(editClientForm.controls.c_alien_no.touched && editClientForm.controls.c_alien_no.valid)}" [class.invalid]="! editClientForm.controls.c_alien_no.valid">
             <ion-label stacked><b>Alien No.</b></ion-label>
-            <ion-input type="number" formControlName="c_alien_no" placeholder="Enter Alien No."></ion-input>
+            <ion-input type="tel" formControlName="c_alien_no" placeholder="Enter Alien No."></ion-input>
           </ion-item>
 
           <!--
@@ -191,7 +191,7 @@
 
           <ion-item no-lines [ngClass]="{'error': !editClientForm.controls.c_zipcode.valid,'valid':(editClientForm.controls.c_zipcode.touched && editClientForm.controls.c_zipcode.valid)}" [class.invalid]="! editClientForm.controls.c_zipcode.valid">
             <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
-            <ion-input type="text" required (ionChange)="isBillingAndPermanentAddressSame?editClientForm.controls.c_zipcode_billing.setValue(editClientForm.value.c_zipcode):null" formControlName="c_zipcode" placeholder="Enter zipcode"></ion-input>
+            <ion-input type="tel" required (ionChange)="isBillingAndPermanentAddressSame?editClientForm.controls.c_zipcode_billing.setValue(editClientForm.value.c_zipcode):null" formControlName="c_zipcode" placeholder="Enter zipcode"></ion-input>
           </ion-item>
 
           <ion-item no-lines>
@@ -230,7 +230,7 @@
 
           <ion-item no-lines [ngClass]="{'error': !editClientForm.controls.c_zipcode_billing.valid,'valid':(editClientForm.controls.c_zipcode_billing.touched && editClientForm.controls.c_zipcode_billing.valid)}" [class.invalid]=" ! editClientForm.controls.c_zipcode_billing.valid">
             <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
-            <ion-input type="text" [disabled]="isBillingAndPermanentAddressSame" required formControlName="c_zipcode_billing" placeholder="Enter zipcode"></ion-input>
+            <ion-input type="tel" [disabled]="isBillingAndPermanentAddressSame" required formControlName="c_zipcode_billing" placeholder="Enter zipcode"></ion-input>
           </ion-item>
 
           <ion-item no-lines>
@@ -406,7 +406,7 @@
 
                 <ion-item no-lines ngClass="{'error': !editClientForm.get('entity').controls[i].e_zipcode.valid,'valid':(editClientForm.get('entity').controls[i].e_zipcode.touched && editClientForm.get('entity').controls[i].e_zipcode.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_zipcode.valid">
                   <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
-                  <ion-input type="text" required (ionChange)="isBillingAndPermanentAddressSameForEntity[i]?editClientForm.get('entity')['controls'][i].controls.e_zipcode_billing.setValue(editClientForm.get('entity')['controls'][i].value.e_zipcode):null" formControlName="e_zipcode" placeholder="Enter zipcode"></ion-input>
+                  <ion-input type="tel" required (ionChange)="isBillingAndPermanentAddressSameForEntity[i]?editClientForm.get('entity')['controls'][i].controls.e_zipcode_billing.setValue(editClientForm.get('entity')['controls'][i].value.e_zipcode):null" formControlName="e_zipcode" placeholder="Enter zipcode"></ion-input>
                 </ion-item>
 
                 <ion-item no-lines>
@@ -445,7 +445,7 @@
 
                 <ion-item no-lines ngClass="{'error':!editClientForm.get('entity').controls[i].e_zipcode_billing.valid,'valid':(editClientForm.get('entity').controls[i].e_zipcode_billing.touched && editClientForm.get('entity').controls[i].e_zipcode_billing.valid)}" class.invalid="! editClientForm.get('entity').controls[i].e_zipcode_billing.valid">
                   <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
-                  <ion-input type="text" [disabled]="isBillingAndPermanentAddressSameForEntity[i]" required formControlName="e_zipcode_billing" placeholder="Enter zipcode"></ion-input>
+                  <ion-input type="tel" [disabled]="isBillingAndPermanentAddressSameForEntity[i]" required formControlName="e_zipcode_billing" placeholder="Enter zipcode"></ion-input>
                 </ion-item>
 
                 <ion-item no-lines>

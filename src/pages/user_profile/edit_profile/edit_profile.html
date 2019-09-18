@@ -79,9 +79,8 @@
       </ion-item>
 
       <ion-item *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5" [ngClass]="{'error':! userForm.controls.u_alien_no.valid,'valid':(userForm.controls.u_alien_no.touched && userForm.controls.u_alien_no.valid)}" [class.invalid]="! userForm.controls.u_alien_no.valid">
-
         <ion-label stacked>Alien Number</ion-label>
-        <ion-input type="text"  formControlName="u_alien_no" name="Alien Number"></ion-input>
+        <ion-input type="tel"  formControlName="u_alien_no" name="Alien Number"></ion-input>
       </ion-item>
 
       <ion-item [ngClass]="{'error':!userForm.controls.u_address1.valid,'valid':(userForm.controls.u_address1.touched && userForm.controls.u_address1.valid)}" [class.invalid]="! userForm.controls.u_address1.valid">
@@ -113,7 +112,7 @@
       <ion-item [ngClass]="{'error':! userForm.controls.u_pincode.valid,'valid':( userForm.controls.u_pincode.touched && userForm.controls.u_pincode.valid)}" [class.invalid]="! userForm.controls.u_pincode.valid">
 
         <ion-label stacked>Zip code</ion-label>
-        <ion-input type="number" formControlName="u_pincode" name="pincode"></ion-input>
+        <ion-input type="tel" formControlName="u_pincode" name="pincode"></ion-input>
       </ion-item>
 
       <ion-item [ngClass]="{'error':! userForm.controls.u_country.valid,'valid':(userForm.controls.u_country.touched && userForm.controls.u_country.valid)}" [class.invalid]="! userForm.controls.u_country.valid">

@@ -58,9 +58,6 @@
         <span class="passwordField">Only alphabets, numbers and . _ - symbols are allowed. Or keep password blank</span>
       </ion-item>
 
-
-
-
       <ion-item no-lines class="transparentBG" [ngClass]="{'error':userForm.controls.u_dob.touched && ! userForm.controls.u_dob.valid,'valid':(userForm.controls.u_dob.touched && userForm.controls.u_dob.valid)}" [class.invalid]="userForm.controls.u_dob.touched && !userForm.controls.u_dob.valid">
 
         <ion-label style="color:white;">Date Of Birth:</ion-label>
@@ -69,7 +66,7 @@
 
       <ion-item class="transparentBG" no-lines style="padding-left: 0px;margin-left: 15px;" [ngClass]="{'error':userForm.controls.u_alien.touched && ! userForm.controls.u_alien.valid,'valid':(userForm.controls.u_alien.touched && userForm.controls.u_alien.valid)}" [class.invalid]="userForm.controls.u_alien.touched && ! userForm.controls.u_alien.valid">
         <ion-label style="color:white;">Alien No.:</ion-label>
-        <ion-input type="text" formControlName="u_alien"></ion-input>
+        <ion-input type="tel" formControlName="u_alien"></ion-input>
       </ion-item>
 
       <!------------------ ALien No with Find Button----------------------------//
@@ -129,7 +126,7 @@
       <ion-item class="transparentBG" no-lines [ngClass]="{'error':userForm.controls.u_pincode.touched && ! userForm.controls.u_pincode.valid,'valid':( userForm.controls.u_pincode.touched && userForm.controls.u_pincode.valid)}" [class.invalid]="userForm.controls.u_pincode.touched && ! userForm.controls.u_pincode.valid">
 
         <ion-label style="color:white;">Zip code <span class="requiredField">*</span>:</ion-label>
-        <ion-input type="number" formControlName="u_pincode" name="pincode"></ion-input>
+        <ion-input type="tel" formControlName="u_pincode" name="pincode"></ion-input>
       </ion-item>
 
 
