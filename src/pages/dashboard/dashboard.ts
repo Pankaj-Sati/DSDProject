@@ -62,12 +62,10 @@ export class DashboardPage
 
    
 		this.menuCtrl.enable(true);
-		this.menuCtrl.swipeEnable(true);
-			
-    this.checkIfAlreadyLoggedIn();
+    this.menuCtrl.swipeEnable(true);
 
+    this.loggedInUser = this.myStorage.getParameters();
 
-    
     this.showSearch=false;
     this.events.publish('loggedIn');
     this.events.publish('newPage', 'DSD Test1');
@@ -94,16 +92,13 @@ export class DashboardPage
 	
 	checkIfAlreadyLoggedIn()
 	{
-
-      this.loggedInUser = this.myStorage.getParameters();
-
       if (this.loggedInUser != undefined && this.loggedInUser.id.length > 0)
 			{
 				  //User already exists, fetch data
 
 				 this.fetchData();
 				  
-			  }
+			}
 		  else
 			{
         this.navCtrl.setRoot(FrontPage);
@@ -111,6 +106,11 @@ export class DashboardPage
 				
 		  
 	}
+
+  ionViewDidEnter()
+  {
+    this.checkIfAlreadyLoggedIn();
+  }
 
 	setData()
 	{

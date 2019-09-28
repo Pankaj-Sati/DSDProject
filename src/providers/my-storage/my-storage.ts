@@ -12,7 +12,8 @@ import { User } from '../../models/login_user.model';
 @Injectable()
 export class MyStorageProvider 
 {
-  userKey: string = "loggedInUser";
+  private readonly userKey: string = "loggedInUser"; //To save info about the logged in user
+  private readonly lastUsedKey: string = "lastUsed";  //To save time(in miliseconds) of the last time app was opened
 
   constructor(private storage: Storage) 
 	{
@@ -45,9 +46,20 @@ export class MyStorageProvider
     return user;
   }
 
+  setLastUsed(timeInSeconds:number)
+  {
+    localStorage.setItem(this.lastUsedKey, String(timeInSeconds));
+  }
+
+  getLastUsed(): number
+  {
+    return Number(localStorage.getItem(this.lastUsedKey));
+  }
+
   removeParameters()
   {
     localStorage.removeItem(this.userKey);
+    localStorage.removeItem(this.lastUsedKey);
 
   }
 	

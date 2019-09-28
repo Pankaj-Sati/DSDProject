@@ -27,4 +27,9 @@ reminder_list {
   .delButton {
     background-color: map-get($colors,danger);
   }
+
+  .unreadNotification {
+    background-color: #c5c5c5;
+    font-weight: 800;
+  }
 }

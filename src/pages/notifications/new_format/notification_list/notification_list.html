@@ -66,21 +66,26 @@
   </ion-item>
 
   <div *ngFor="let notification of notificationList;let i=index;">
-    <ion-card class="simpleCard" (click)="showDetails(notification,$event,i)">
-
+    <ion-card [ngClass]="notification.is_read == 'N'?'simpleCard unreadNotification':'simpleCard'" (click)="showDetails(notification,$event,i)">
+     
       <ion-row style="padding-left: 5px;">
 
         <ion-col style="margin:auto;" col-1>
           <ion-icon name="notifications" color="primary" style="zoom: 1.2;"></ion-icon>
         </ion-col>
 
-        <ion-col style="margin:auto;white-space:unset;overflow:unset;" col-7>
+        <ion-col style="margin:auto;white-space:unset;overflow:unset;" col-6>
           <ion-row>
             <ion-col style="text-align:left;">
               {{notification.subject}}
             </ion-col>
           </ion-row>
 
+
+        </ion-col>
+
+        <ion-col col-1 *ngIf="isStatusChanging[i]">
+          <ion-spinner></ion-spinner>
         </ion-col>
 
         <ion-col style="margin:auto;" col-3>
@@ -157,6 +162,14 @@
       <ion-row *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
         <ion-col style="text-align:center;">
           <button ion-button class="delButton" round icon-start (click)="deleteNotificationAlert(notification)"><ion-icon name="trash"></ion-icon>Delete</button>
+        </ion-col>
+      </ion-row>
+
+      <!-------------- Only the user for which notification is made can mark it as read or unread --------------->
+      <ion-row *ngIf="loggedInUser!=undefined && loggedInUser.id==notification.ref_id">
+        <ion-col style="text-align:center;">
+          <button *ngIf="notification.is_read=='N'" ion-button  round icon-start (click)="changeReadStatus(notification,true)"><ion-icon name="checkmark"></ion-icon>Set Read</button>
+          <button *ngIf="notification.is_read=='Y'" ion-button  round icon-start (click)="changeReadStatus(notification,false)"><ion-icon name="bookmark"></ion-icon>Mark Unread</button>
         </ion-col>
       </ion-row>
 

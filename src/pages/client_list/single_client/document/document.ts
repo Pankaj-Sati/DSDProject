@@ -773,5 +773,107 @@ export class ClientDocumentsPage
       this.fetchData();
     }
   }
+
+  deleteDocumentDialog(doc: ClientDocuments)
+  {
+    //Show dialog to confirm deletion of documents
+
+    const alert = this.alertCtrl.create({
+      message: 'Are you sure that you want to delete this document?',
+      title: 'Confirm Delete',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () =>
+          {
+            console.log('Cancelled');
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: () =>
+          {
+            console.log('Delete confirmed');
+            this.deleteDocument(doc);
+          }
+        }
+      ]
+    });
+  }
+
+  deleteDocument(document: ClientDocuments)
+  {
+    const loader = this.loadingCtrl.create({
+
+      content: 'Deleting...',
+      duration: 15000
+
+    });
+
+    let loadingSuccessful = false; //To know whether the loader ended successfully or timeout occured
+
+    loader.present().then(() =>
+    {
+
+      let body = new FormData();
+
+      body.set('session_id', this.loggedInUser.id);
+      body.set('document_id', document.id);
+
+      this.http.post(this.apiValues.baseURL + "/delete_document.php", body, null)
+        .subscribe(response =>
+        {
+          loadingSuccessful = true;
+          loader.dismiss();
+          if (response)
+          {
+            console.log(response);
+
+            try
+            {
+              let data = JSON.parse(response['_body']);
+
+              if ('code' in data)
+              {
+                this.showToast(data.message);
+                return;
+              }
+              else
+              {
+                this.showToast('Failure!!! Error in response');
+              }
+            }
+            catch (err)
+            {
+              console.log(err);
+              this.showToast('Failure!!! Error in response');
+            }
+
+          }
+          else
+          {
+            this.showToast('Failure!!! Error in response');
+          }
+        },
+          error =>
+          {
+            loadingSuccessful = true;
+            this.showToast('Failure! Server did not respond');
+            loader.dismiss();
+          });
+
+    });
+
+    loader.onDidDismiss(() =>
+    {
+
+      if (!loadingSuccessful)
+      {
+        this.showToast('Error!!! Server did not respond');
+      }
+
+    });
+
+  }
 }
 

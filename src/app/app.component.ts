@@ -172,6 +172,8 @@ export class MyApp {
     });
 
 
+ 
+
     //set subPages
     this.settingPages = [
       { title: 'User Type', icon: 'bowtie', iconColor:'cadetblue', component: SettingUserTypePage },
@@ -441,6 +443,34 @@ export class MyApp {
        * Timer for splash screen
       timer(3000).subscribe(()=>this.showSplash = false);
       */
+    });
+
+    this.platform.pause.subscribe(() =>
+    {
+      console.log('App Paused');
+      //If the user is logged-in, we will store the current time at which the app is paused i.e. not in foreground
+      if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id != undefined)
+      {
+        this.myStorage.setLastUsed(new Date().getTime()); //Current time
+      }
+    });
+
+    this.platform.resume.subscribe(() =>
+    {
+      console.log('App Resumed');
+
+      //When user resumes the app, we will see if the time is more than set time like 10 minutes, we will redirect user to home screen
+      if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id != undefined)
+      {
+        let currentTimeInMilli = new Date().getTime();
+        let lastUsedTimeInMilli = this.myStorage.getLastUsed();
+        if (Number(lastUsedTimeInMilli - currentTimeInMilli) >= this.apiValues.APP_RELOAD_TIME)
+        {
+          this.nav.setRoot(DashboardPage);
+        }
+      }
+      
+    
     });
     
 

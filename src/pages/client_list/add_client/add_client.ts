@@ -76,6 +76,7 @@ export class AddClientPage
     public events: Events
   )
   {
+    
     this.entityTypeList = this.entityTypeProvider.getList();
 
     //------------------Gettting State List from Provider---------//
@@ -147,6 +148,13 @@ export class AddClientPage
     this.getCaseManagerList();
     this.relationshipList = this.relationshipProvider.getAllRelationships();
     this.loggedInUser = this.myStorage.getParameters();
+
+    if (Number(this.loggedInUser.user_type_id) == 4 || Number(this.loggedInUser.user_type_id) == 7)
+    {
+      //If the user is a case manager, we will default the value to his ID
+      this.addClientForm.controls.c_cm_assigned.setValue(this.loggedInUser.id);
+    }
+   
 	}
 
 

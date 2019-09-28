@@ -70,7 +70,7 @@
             <ion-icon name="document" color="primary" style="zoom: 1.2;"></ion-icon>
           </ion-col>
 
-          <ion-col style="margin:auto;" col-7>
+          <ion-col style="margin:auto;" col-6>
             <ion-row>
               <ion-col style="text-align:left;">
                 <b>{{doc.documents}} </b>
@@ -86,6 +86,10 @@
               </ion-col>
             </ion-row>
 
+          </ion-col>
+
+          <ion-col (click)="deleteDocumentDialog(doc)">
+            <ion-icon name="trash"></ion-icon>
           </ion-col>
 
         </ion-row>

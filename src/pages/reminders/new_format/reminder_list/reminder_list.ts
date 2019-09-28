@@ -13,6 +13,7 @@ import { AddReminderPage} from '../add_reminder/add_reminder';
 
 import { NewReminder } from '../../../../models/reminder.model';
 import { User } from '../../../../models/login_user.model';
+import { timer } from 'rxjs/observable/timer';
 
 @Component({
   selector: 'reminder_list',
@@ -22,6 +23,7 @@ export class ReminderListPage
 {
   reminderList: NewReminder[] = [];
   visibility: boolean[] = [];
+  isStatusChanging: boolean[] = [];
 
   from_date = '';
   to_date = '';
@@ -67,6 +69,7 @@ export class ReminderListPage
     var headers = new Headers();
     this.reminderList = [];
     this.visibility = [];
+    this.isStatusChanging = [];
 
     headers.append("Accept", "application/json");
 
@@ -111,6 +114,7 @@ export class ReminderListPage
             for (let i = 0; i < this.reminderList.length; i++)
             {
               this.visibility[i] = false;
+              this.isStatusChanging[i] = false;
             }
           }
 
@@ -139,18 +143,22 @@ export class ReminderListPage
 
   }
 
-  showToast(text)
+  showToast(text,duration=3000)
   {
     const toast = this.toastCtrl.create({
       message: text,
-      duration: 3000
+      duration: duration
     });
     toast.present();
   }
 
-  showDetails(notification, $event, i)
+  showDetails(reminder: NewReminder, $event, i)
   {
-    
+    if (reminder.is_read == 'N' && !this.visibility[i]) //Change read status when visibility is hidden and read status is 'N'
+    {
+      this.changeReadStatus(reminder, true);
+    }
+
     this.visibility[i] = !this.visibility[i];
   }
 
@@ -261,6 +269,74 @@ export class ReminderListPage
       }
     });
 
+  }
+
+  changeReadStatus(reminder: NewReminder, isRead: boolean)
+  {
+    console.log('inChange Read Status For Reminder:');
+    console.log(reminder);
+    let reminderIndex = this.reminderList.findIndex(eachReminder => eachReminder.id == reminder.id);
+    if (reminderIndex != undefined && reminderIndex >= 0)
+    {
+      this.isStatusChanging[reminderIndex] = true;
+    }
+    timer(15000).subscribe(() =>
+    {
+      this.isStatusChanging[reminderIndex] = false; //If the timer expires, we will forcefully stop showing the spinner
+    });
+
+    let body = new FormData();
+    body.set('session_id', this.loggedInUser.id);
+    body.set('r_id', reminder.id);
+    body.set('r_is_read', isRead ? 'Y' : 'N');
+    this.http.post(this.apiValue.baseURL + '/change_reminder_read_status.php', body)
+      .subscribe(response =>
+      {
+        console.log(response);
+        this.isStatusChanging[reminderIndex] = false;
+        if (response)
+        {
+          try
+          {
+            let result = JSON.parse(response['_body']);
+            if ('code' in result && result.code == 200)
+            {
+              //Success
+              reminder.is_read = result.read;
+              if (result.read == 'Y')
+              {
+                this.showToast('Marked as read', 1000);
+              }
+              else
+              {
+                this.showToast('Marked as unread', 1000);
+              }
+
+            }
+            else
+            {
+              //Failure
+              this.showToast('Unable to mark read', 1000);
+            }
+          }
+          catch (err)
+          {
+            console.log(err);
+            this.showToast('Unable to mark read', 1000);
+
+          }
+        }
+        else
+        {
+          this.showToast('Unable to mark read', 1000);
+
+        }
+      }, error =>
+        {
+          this.isStatusChanging[reminderIndex] = false;
+          console.log(error);
+          this.showToast('Unable to mark read', 1000);
+        });
   }
 
 }
