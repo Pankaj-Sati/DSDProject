@@ -58,7 +58,7 @@
 
 
     <div *ngFor="let doc of doc_list;let i=index">
-      <ion-card class="{{isDocumentSelected(doc)?'simpleCardSelected':'simpleCard'}}" (click)="getDocument(doc)">
+      <ion-card class="{{isDocumentSelected(doc)?'simpleCardSelected':'simpleCard'}}">
 
         <ion-row style="padding-left: 5px;">
 
@@ -70,7 +70,7 @@
             <ion-icon name="document" color="primary" style="zoom: 1.2;"></ion-icon>
           </ion-col>
 
-          <ion-col style="margin:auto;" col-6>
+          <ion-col style="margin:auto;" col-6 (click)="getDocument(doc)">
             <ion-row>
               <ion-col style="text-align:left;">
                 <b>{{doc.documents}} </b>
@@ -87,11 +87,14 @@
             </ion-row>
 
           </ion-col>
+          <!--Restricting a client from deleting a document which his case manager has uploaded-->
 
-          <ion-col (click)="deleteDocumentDialog(doc)">
+          <ion-col class="deleteDocIcon" *ngIf="loggedInUser!=undefined && (loggedInUser.user_type_id!=5 || (loggedInUser.user_type_id==5 && loggedInUser.id==doc.created_by));else elseBlock" (click)="deleteDocumentDialog(doc)" col-1>
             <ion-icon name="trash"></ion-icon>
           </ion-col>
-
+          <ng-template #elseBlock>
+            <ion-col col-1></ion-col>
+          </ng-template>
         </ion-row>
 
       </ion-card>

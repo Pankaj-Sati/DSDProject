@@ -72,7 +72,7 @@ export class ClientDocumentsPage
     )
   {
     this.loggedInUser = this.myStorage.getParameters();
-   
+    
   }
 
   ionViewDidLoad()
@@ -799,6 +799,8 @@ export class ClientDocumentsPage
         }
       ]
     });
+
+    alert.present();
   }
 
   deleteDocument(document: ClientDocuments)
@@ -836,7 +838,10 @@ export class ClientDocumentsPage
               if ('code' in data)
               {
                 this.showToast(data.message);
-                return;
+                if (data.code == 200)
+                {
+                  this.fetchData(); //Refresh the data
+                } 
               }
               else
               {
