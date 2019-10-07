@@ -464,16 +464,15 @@ export class MyApp {
       {
         let currentTimeInMilli = new Date().getTime();
         let lastUsedTimeInMilli = this.myStorage.getLastUsed();
-        if (Number(lastUsedTimeInMilli - currentTimeInMilli) >= this.apiValues.APP_RELOAD_TIME)
+        if (Number(currentTimeInMilli-lastUsedTimeInMilli) >= this.apiValues.APP_RELOAD_TIME)
         {
+          console.log('Paused Time:'+Number(currentTimeInMilli - lastUsedTimeInMilli));
           this.nav.setRoot(DashboardPage);
         }
       }
       
     
     });
-    
-
     this.loggedInUser = this.myStorage.getParameters();
     this.giveAccessToMenus();
 

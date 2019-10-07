@@ -28,6 +28,7 @@ declare var cordova: any;
 export class ClientDocumentsPage
 {
   doc_list: ClientDocuments[] = [];
+  visibility: boolean[] = []; //For showing document details
 
   uploadDocList = []; //Documents/images to be uploaded
 
@@ -90,6 +91,11 @@ export class ClientDocumentsPage
     this.fetchData();
   }
 
+  toggleDocumentDetails(index:number)
+  {
+    //Show and hide document details
+    this.visibility[index] = !this.visibility[index];
+  }
 
   getDocument(document: ClientDocuments)
   {
@@ -146,7 +152,6 @@ export class ClientDocumentsPage
     const modal = this.modalCtrl.create(DownloadDocumentsComponent, data);
     this.blurAmount = 'blurDiv';
     modal.present();
-
     modal.onDidDismiss(() =>
     {
       this.blurAmount = '';
@@ -209,7 +214,7 @@ export class ClientDocumentsPage
   {
 
     this.doc_list = [];
-
+    this.visibility = [];
     const loader = this.loadingCtrl.create({
 
       content: 'Loading...',
@@ -224,7 +229,8 @@ export class ClientDocumentsPage
 
       let body = new FormData();
 
-      body.append('cid', this.passed_client_id);
+      body.set('cid', this.passed_client_id);
+      body.set('session_id', this.loggedInUser.id);
 
       this.http.post(this.apiValues.baseURL + "/client_doc_view.php", body, null)
         .subscribe(response =>
@@ -247,7 +253,10 @@ export class ClientDocumentsPage
               else
               {
                 this.doc_list = data;
-                
+                for (let i = 0; i < this.doc_list.length;i++)
+                {
+                  this.visibility[i] = false;
+                }
               }
             }
             catch (err)
@@ -842,6 +851,129 @@ export class ClientDocumentsPage
                 {
                   this.fetchData(); //Refresh the data
                 } 
+              }
+              else
+              {
+                this.showToast('Failure!!! Error in response');
+              }
+            }
+            catch (err)
+            {
+              console.log(err);
+              this.showToast('Failure!!! Error in response');
+            }
+
+          }
+          else
+          {
+            this.showToast('Failure!!! Error in response');
+          }
+        },
+          error =>
+          {
+            loadingSuccessful = true;
+            this.showToast('Failure! Server did not respond');
+            loader.dismiss();
+          });
+
+    });
+
+    loader.onDidDismiss(() =>
+    {
+
+      if (!loadingSuccessful)
+      {
+        this.showToast('Error!!! Server did not respond');
+      }
+
+    });
+
+  }
+
+  showUpdateShareStatus(document: ClientDocuments)
+  {
+    const alert = this.alertCtrl.create({
+      title:'Share With Client',
+      message: 'Would you like to share this document with your client?',
+      inputs: [
+        {
+          type: 'radio',
+          label: 'Yes',
+          checked: document.share == 'Yes',
+          value: 'Yes',
+        },
+        {
+          type: 'radio',
+          label: 'No',
+          checked: document.share == 'No',
+          value:'No'
+        }
+      ],
+
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () =>
+          {
+            console.log('Cancelled! Update share status');
+          }
+        },
+        {
+          text: 'Update',
+          handler: (data) =>
+          {
+            console.log('Value from radio=' + data);
+            this.updateShareStatus(document,data);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  updateShareStatus(document: ClientDocuments,isShared)
+  {
+    console.log('In updateShareStatus()');
+
+    const loader = this.loadingCtrl.create({
+
+      content: 'Updating...',
+      duration: 15000
+
+    });
+
+    let loadingSuccessful = false; //To know whether the loader ended successfully or timeout occured
+
+    loader.present().then(() =>
+    {
+
+      let body = new FormData();
+
+      body.set('session_id', this.loggedInUser.id);
+      body.set('document_id', document.id);
+      body.set('share', isShared);
+
+      this.http.post(this.apiValues.baseURL + "/change_document_share_status.php", body, null)
+        .subscribe(response =>
+        {
+          loadingSuccessful = true;
+          loader.dismiss();
+          if (response)
+          {
+            console.log(response);
+
+            try
+            {
+              let data = JSON.parse(response['_body']);
+
+              if ('code' in data)
+              {
+                this.showToast(data.message);
+                if (data.code == 200)
+                {
+                  this.fetchData(); //Refresh the data
+                }
               }
               else
               {

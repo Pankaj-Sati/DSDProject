@@ -15,7 +15,7 @@ export class ApiValuesProvider
     
   }
 
-  public readonly APP_RELOAD_TIME = 1 * 1000; //1 second. Time in which, the app should reload itself to show new content
+  public readonly APP_RELOAD_TIME = 60 * 1000; //1 minute. Time in which, the app should reload itself to show new content
 
   public readonly baseURL: string ="http://dsdlawfirm.com/dsd/api_work";
   public readonly baseImageFolder: string ="http://dsdlawfirm.com/dsd/upload/";
