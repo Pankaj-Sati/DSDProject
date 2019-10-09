@@ -2,12 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app",
+    "\\src\\components",
+    "\\src\\components\\download-documents",
     "\\src\\pages",
-    "\\src\\pages\\book-appointment",
-    "\\src\\pages\\client_list\\single_client",
-    "\\src\\pages\\client_list\\single_client\\document",
-    "\\src\\providers"
+    "\\src\\pages\\reminders",
+    "\\src\\pages\\reminders\\new_format",
+    "\\src\\pages\\reminders\\new_format\\reminder_list",
+    "\\src\\pages\\settings",
+    "\\src\\pages\\settings\\user_type"
   ],
   "SelectedNode": "\\src\\app\\app.component.ts",
   "PreviewInSolutionExplorer": false

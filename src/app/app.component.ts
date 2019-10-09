@@ -106,6 +106,7 @@ export class MyApp {
   {
 
     this.initializeApp();
+    this.updateUserData(); //Update the data from local storage
     this.getCaseTypeList();
     this.getStateList();
     this.getUserTypeList();
@@ -115,8 +116,8 @@ export class MyApp {
     this.events.subscribe('loggedIn',()=>{
     // user and time are the same arguments passed in `events.publish(user, time)`
     console.log('Welcome: Gettting image');
-   
-            this.initializeApp();
+
+      this.updateUserData();
 
     });
 
@@ -414,7 +415,7 @@ export class MyApp {
 
   checkIfAlreadyLoggedIn()
   {
-    if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id.length > 0)
+    if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id!=undefined && this.loggedInUser.id.length > 0)
     {
       this.rootPage = HomePage;     
     }
@@ -472,7 +473,11 @@ export class MyApp {
       }
       
     
-    });
+    });	  		  
+  }
+
+  updateUserData()
+  {
     this.loggedInUser = this.myStorage.getParameters();
     this.giveAccessToMenus();
 
@@ -482,8 +487,6 @@ export class MyApp {
       this.u_email = this.loggedInUser.email;
       this.u_img = this.apiValues.baseImageFolder + this.loggedInUser.profile_img;
     }
-    
-		  		  
   }
 
   openPage(page) {

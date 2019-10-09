@@ -16,6 +16,8 @@ export class ApiValuesProvider
   }
 
   public readonly APP_RELOAD_TIME = 60 * 1000; //1 minute. Time in which, the app should reload itself to show new content
+  public readonly API_ACCESS_KEY = "api_access_token"; // Key for accessing APIs
+  public readonly API_ACCESS_TOKEN = "9c199147e550157b36e011ed185ceb37"; //Value for access token key
 
   public readonly baseURL: string ="http://dsdlawfirm.com/dsd/api_work";
   public readonly baseImageFolder: string ="http://dsdlawfirm.com/dsd/upload/";

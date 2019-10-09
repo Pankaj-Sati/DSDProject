@@ -147,7 +147,8 @@ export class NotificationListPage
 
   showDetails(notification: NewNotification, $event, i)
   {
-    if (notification.is_read == 'N' && !this.visibility[i]) //Change read status when visibility is hidden and read status is 'N'
+   
+    if (Number(this.loggedInUser.user_type_id) == 5 && notification.is_read == 'N' && !this.visibility[i]) //Change read status when current user is a client and visibility is hidden and read status is 'N'
     {
       this.changeReadStatus(notification, true);
     }
@@ -166,7 +167,7 @@ export class NotificationListPage
   {
     const alert = this.alertCtrl.create(
       {
-        message: 'Delete this note?',
+        message: 'Delete this notification for client?',
         title: 'Attention!',
         buttons: [{
 

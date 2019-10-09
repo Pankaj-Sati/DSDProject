@@ -154,7 +154,7 @@ export class ReminderListPage
 
   showDetails(reminder: NewReminder, $event, i)
   {
-    if (reminder.is_read == 'N' && !this.visibility[i]) //Change read status when visibility is hidden and read status is 'N'
+    if (Number(this.loggedInUser.user_type_id)==5 && reminder.is_read == 'N' && !this.visibility[i]) //Change read status when current user is a client and visibility is hidden and read status is 'N'
     {
       this.changeReadStatus(reminder, true);
     }
@@ -171,7 +171,7 @@ export class ReminderListPage
   {
     const alert = this.alertCtrl.create(
       {
-        message: 'Delete this note?',
+        message: 'Delete this reminder for client?',
         title: 'Attention!',
         buttons: [{
 

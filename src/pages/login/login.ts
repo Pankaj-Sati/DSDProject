@@ -59,7 +59,7 @@ export class LoginPage
 
 		this.menuCtrl.enable(false);
 		this.menuCtrl.swipeEnable(false);
-		this.checkIfAlreadyLoggedIn();
+		//this.checkIfAlreadyLoggedIn();
     }
 	
 	checkIfAlreadyLoggedIn()

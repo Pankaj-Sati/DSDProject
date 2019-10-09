@@ -23,6 +23,8 @@ export class MyStorageProvider
 
   setParameters(user:User)
   {
+    console.log('---Parameters to set in storage---');
+    console.log(user);
     localStorage.setItem(this.userKey, JSON.stringify({ // localStorage is a built in global variable 
      
       id: user.id,
