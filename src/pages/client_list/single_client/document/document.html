@@ -66,20 +66,20 @@
             <ion-icon name="document" color="primary" style="zoom: 1.2;"></ion-icon>
           </ion-checkbox>
 
-          <ion-col style="margin:auto;" col-1>
-            <ion-icon name="document" color="primary" style="zoom: 1.2;"></ion-icon>
+          <ion-col style="margin:auto;" col-2 (click)="viewDocument(doc)">
+            <img class="docThumbnail" [src]="getDocumentImage(doc)" />
           </ion-col>
 
-          <ion-col style="margin:auto;" col-6 (click)="toggleDocumentDetails(i)">
+          <ion-col style="margin:auto;" col-5 (click)="toggleDocumentDetails(i)">
             <ion-row>
               <ion-col style="text-align:left;">
-                <b>{{doc.documents}} </b>
+                <b class="documentName">{{doc.documents}} </b>
               </ion-col>
             </ion-row>
 
           </ion-col>
 
-          <ion-col style="margin:auto;float:right" col-3>
+          <ion-col style="margin:auto;float:right" col-3 (click)="toggleDocumentDetails(i)">
             <ion-row>
               <ion-col>
                 {{doc.created_on | date :  "MMM d,y"}}
@@ -88,18 +88,15 @@
 
           </ion-col>
 
-          <!--Restricting a client from deleting a document which his case manager has uploaded-->
-
-          <ion-col class="deleteDocIcon" *ngIf="loggedInUser!=undefined && (loggedInUser.user_type_id!=5 || (loggedInUser.user_type_id==5 && loggedInUser.id==doc.created_by));else elseBlock" (click)="deleteDocumentDialog(doc)" col-1>
-            <ion-icon name="trash"></ion-icon>
+          <ion-col (click)="toggleDocumentDetails(i)" col-1 style="zoom:1.2;">
+            <ion-icon color="primary" name="more"></ion-icon>
           </ion-col>
-          <ng-template #elseBlock>
-            <ion-col col-1></ion-col>
-          </ng-template>
+          
         </ion-row>
 
       </ion-card>
 
+     
       <div class="documentDetails" *ngIf="visibility[i]">
 
         <ion-row>

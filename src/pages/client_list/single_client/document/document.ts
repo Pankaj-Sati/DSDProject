@@ -17,6 +17,7 @@ import { ClientDocuments } from '../../../../models/client_document.model';
 import { ClientDetails } from '../../../../models/client.model';
 import { User } from '../../../../models/login_user.model';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
+import { ViewImageComponent } from '../../../../components/view-image/view-image';
 
 declare var cordova: any;
 
@@ -210,6 +211,42 @@ export class ClientDocumentsPage
     }
   }
 
+  getDocumentImage(doc: ClientDocuments)
+  {
+    //This method returns the thumbnail image of the document/image
+
+    let documentName: string = doc.documents;
+    let splitArray = documentName.split('.');
+    console.log(splitArray);
+    let extention: string = '';
+    let docThumbnail:string = 'assets/imgs/default_file.png'; //Default
+    if (splitArray != undefined)
+    {
+
+      extention = splitArray[splitArray.length - 1].toLowerCase(); //Get the last item in the split array b/c extention is always at the ends 
+      if (extention == 'jpg' || extention == 'png' || extention == 'jpeg' || extention == 'bmp') //Showing thumbnail of common image extentions
+      {
+        docThumbnail = this.apiValues.baseFileUploadFolder + doc.directory_id + '/' + doc.documents;
+      }
+      else if (extention == 'pdf')
+      {
+        docThumbnail = 'assets/imgs/pdf.png';
+      }
+      else if (extention == 'docx' || extention == 'doc') //Word Documents
+      {
+        docThumbnail = 'assets/imgs/word_file.png';
+      }
+      else
+      {
+        docThumbnail = 'assets/imgs/doc_file.png';//All other documents
+      }
+    }
+
+    return docThumbnail;
+
+
+  }
+
   fetchData()
   {
 
@@ -401,6 +438,7 @@ export class ClientDocumentsPage
     this.fileChooser.getFile('')
       .then(file =>
       {
+        console.log(file);
         if (file)
         {
           console.log('File selected');
@@ -409,6 +447,8 @@ export class ClientDocumentsPage
          // console.log('Data=' + file.data);
           console.log('Media Type=' + file.mediaType);
           console.log('URI=' + file.uri);
+          console.log('Data=' + file.data);
+          
         
 
            this.uploadDocList.push(file.uri);
@@ -1011,6 +1051,31 @@ export class ClientDocumentsPage
 
     });
 
+  }
+
+  viewDocument(doc: ClientDocuments)
+  {
+    //This method will open an image file in image view component, and document file in browser
+    let documentName: string = doc.documents;
+    let splitArray = documentName.split('.');
+    let extention: string = '';
+    if (splitArray != undefined)
+    {
+
+      extention = splitArray[splitArray.length - 1].toLowerCase(); //Get the last item in the split array b/c extention is always at the ends 
+      if (extention == 'jpg' || extention == 'png' || extention == 'jpeg' || extention == 'bmp') //Showing thumbnail of common image extentions
+      {
+        let data =
+        {
+          imageURL: this.apiValues.baseFileUploadFolder + doc.directory_id + '/' + doc.documents
+        };
+        this.navCtrl.push(ViewImageComponent, data); //Show image in the view image component
+      }
+      else
+      {
+        this.inAppBrowser.create(this.apiValues.baseFileUploadFolder + doc.directory_id + '/' + doc.documents, '_system');
+      }
+    }
   }
 }
 

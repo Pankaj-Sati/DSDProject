@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components",
-    "\\src\\components\\download-documents",
+    "\\src\\app",
     "\\src\\pages",
+    "\\src\\pages\\notifications",
+    "\\src\\pages\\notifications\\new_format",
     "\\src\\pages\\reminders",
-    "\\src\\pages\\reminders\\new_format",
-    "\\src\\pages\\reminders\\new_format\\reminder_list",
-    "\\src\\pages\\settings",
-    "\\src\\pages\\settings\\user_type"
+    "\\src\\providers",
+    "\\src\\providers\\my-storage",
+    "\\src\\theme"
   ],
-  "SelectedNode": "\\src\\app\\app.component.ts",
+  "SelectedNode": "\\src\\theme\\variables.scss",
   "PreviewInSolutionExplorer": false
 }
