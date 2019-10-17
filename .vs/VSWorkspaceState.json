@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\app",
-    "\\src\\pages",
-    "\\src\\pages\\notifications",
-    "\\src\\pages\\notifications\\new_format",
-    "\\src\\pages\\reminders",
-    "\\src\\providers",
-    "\\src\\providers\\my-storage",
-    "\\src\\theme"
+    "\\src\\assets",
+    "\\src\\components",
+    "\\src\\components\\download-documents",
+    "\\src\\pages\\client_list",
+    "\\src\\pages\\client_list\\single_client",
+    "\\src\\pages\\client_list\\single_client\\document",
+    "\\src\\pages\\user_profile",
+    "\\src\\pages\\user_profile\\view_profile"
   ],
-  "SelectedNode": "\\src\\theme\\variables.scss",
+  "SelectedNode": "\\config.xml",
   "PreviewInSolutionExplorer": false
 }

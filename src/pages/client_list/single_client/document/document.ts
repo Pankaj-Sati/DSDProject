@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Events, NavParams, Platform } from 'ionic-angular';
+import { Events, NavParams, Platform, PopoverController } from 'ionic-angular';
 import { LoadingController, ToastController, NavController, NavOptions, AlertController, ModalController } from 'ionic-angular';
 import { Http } from "@angular/http";
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -18,6 +18,7 @@ import { ClientDetails } from '../../../../models/client.model';
 import { User } from '../../../../models/login_user.model';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 import { ViewImageComponent } from '../../../../components/view-image/view-image';
+import { DocumentOptionsComponent } from '../../../../components/document-options/document-options';
 
 declare var cordova: any;
 
@@ -53,7 +54,8 @@ export class ClientDocumentsPage
  
   constructor
     (
-      public loadingCtrl: LoadingController,
+    public loadingCtrl: LoadingController,
+    public popoverCtrl: PopoverController,
       public toastCtrl: ToastController,
       public http: Http,
       public alertCtrl: AlertController,
@@ -92,10 +94,49 @@ export class ClientDocumentsPage
     this.fetchData();
   }
 
-  toggleDocumentDetails(index:number)
+  toggleDocumentDetails(document: ClientDocuments,clickEvent)
   {
     //Show and hide document details
-    this.visibility[index] = !this.visibility[index];
+   // this.visibility[index] = !this.visibility[index];
+
+    console.log('toggleDocumentDetails');
+
+    let data = {
+
+      showDelete: this.loggedInUser != undefined && (Number(this.loggedInUser.user_type_id) != 5 || (Number(this.loggedInUser.user_type_id) == 5 && this.loggedInUser.id == document.created_by)), //Show delete option to client only when he is the creator of the document
+      showShare: this.loggedInUser != undefined && Number(this.loggedInUser.user_type_id) != 5,
+    }
+
+    const popover = this.popoverCtrl.create(DocumentOptionsComponent, data);
+    popover.present(
+      {
+        ev: clickEvent
+      });
+
+    popover.onDidDismiss(data =>
+    {
+      console.log('Popover dismissed');
+      console.log(data);
+
+      if (data != null && data != undefined && data.selectedOption != undefined)
+      {
+        switch (data.selectedOption)
+        {
+          case 0: //Download
+            this.getDocument(document);
+            break;
+          case 1: //Delete
+            this.deleteDocumentDialog(document);
+            break;
+          case 2: //Share
+
+            this.showUpdateShareStatus(document);
+
+            break;
+        }
+      }
+    });
+
   }
 
   getDocument(document: ClientDocuments)
@@ -217,7 +258,7 @@ export class ClientDocumentsPage
 
     let documentName: string = doc.documents;
     let splitArray = documentName.split('.');
-    console.log(splitArray);
+   
     let extention: string = '';
     let docThumbnail:string = 'assets/imgs/default_file.png'; //Default
     if (splitArray != undefined)

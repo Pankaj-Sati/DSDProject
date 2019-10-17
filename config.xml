@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="43" id="com.mazetech.dsdfirm" version="0.0.43" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="44" id="com.mazetech.dsdfirm" version="0.0.44" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Dalbir Singh &amp; Associates PC</name>
     <description>Dalbir's Law Firm</description>
     <author email="support@mazetechnologiesllc.com" href="https://www.mazetechnologiesllc.com/">Maze Technologies</author>

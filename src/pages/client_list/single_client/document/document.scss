@@ -15,8 +15,7 @@ document {
   }
 
 
-  .simpleCardSelected
-  {
+  .simpleCardSelected {
     background-color: #abffab;
     border-radius: 2%;
     text-align: center;
@@ -41,14 +40,16 @@ document {
     color: map-get($colors,danger);
   }
 
+  .documentCol {
+   
+  }
+
   .docThumbnail {
     display: block;
-    width: 64px;
-    height: 64px;
-    border-left: 1px solid #00BCD4;
-    border-top: 1px solid #00BCD4;
-    object-fit: cover;
+    height: 128px;
+    object-fit: contain;
     border-radius: 5px;
+    background: #efefef;
   }
 
   .documentDetails {

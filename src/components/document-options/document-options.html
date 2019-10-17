@@ -1,0 +1,13 @@
+<!-- Generated template for the DocumentOptionsComponent component -->
+<div (click)="selectOption(0)">
+  <ion-icon name="download"></ion-icon> Download
+</div>
+
+<div *ngIf="showDelete" (click)="selectOption(1)">
+  <ion-icon name="trash"></ion-icon> Delete
+</div>
+
+<div *ngIf="showShare" (click)="selectOption(2)">
+  <ion-icon name="share"></ion-icon> Share
+</div>
+
