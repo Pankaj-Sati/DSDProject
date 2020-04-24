@@ -20,7 +20,9 @@ export class SingleCaseStudyPage
 
   caseDetails: CaseStudy;
 
-  hearingList:any;
+  hearingList: any;
+
+  visibility: boolean[] = []; //For showing and hiding details of a single hearing
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -148,4 +150,8 @@ export class SingleCaseStudyPage
     modal.present();
   }
 
+  showDetails(hearing, $event, i)
+  {
+    this.visibility[i] = !this.visibility[i];
+  }
 }

@@ -42,7 +42,7 @@
 
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_case_type.touched && ! addClientForm.controls.c_case_type.valid,'valid':(addClientForm.controls.c_case_type.touched && addClientForm.controls.c_case_type.valid)}" [class.invalid]="addClientForm.controls.c_case_type.dirty && ! addClientForm.controls.c_case_type.valid">
           <ion-label stacked>Case Type <span class="mandatory_field">*</span></ion-label>
-          <ion-select interface="popover" formControlName="c_case_type" placeholder="Select Case Type">
+          <ion-select interface="action-sheet" formControlName="c_case_type" placeholder="Select Case Type">
             <ion-option *ngFor="let caseType of caseTypeList" value="{{caseType.id}}">{{caseType.case_type}}</ion-option>
           </ion-select>
 
@@ -50,7 +50,7 @@
 
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_alien_no.touched && !addClientForm.controls.c_alien_no.valid,'valid':(addClientForm.controls.c_alien_no.touched && addClientForm.controls.c_alien_no.valid)}" [class.invalid]="addClientForm.controls.c_alien_no.dirty && ! addClientForm.controls.c_alien_no.valid">
           <ion-label stacked><b>Alien No.</b></ion-label>
-          <ion-input type="text" formControlName="c_alien_no" placeholder="Enter Alien No."></ion-input>
+          <ion-input type="tel" formControlName="c_alien_no" placeholder="Enter Alien No."></ion-input>
         </ion-item>
 
         <!--
@@ -64,7 +64,7 @@
          -->
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_case_category.touched && !addClientForm.controls.c_case_category.valid,'valid':(addClientForm.controls.c_case_category.touched && addClientForm.controls.c_case_category.valid)}" [class.invalid]="addClientForm.controls.c_case_category.dirty && ! addClientForm.controls.c_case_category.valid">
           <ion-label stacked>Case Category <span class="mandatory_field"> *</span></ion-label>
-          <ion-select interface="popover" formControlName="c_case_category" placeholder="Select Case Category">
+          <ion-select interface="action-sheet" formControlName="c_case_category" placeholder="Select Case Category">
             <ion-option value="New">New</ion-option>
             <ion-option value="Reopen">Reopen</ion-option>
 
@@ -79,7 +79,7 @@
 
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_date.touched && !addClientForm.controls.c_date.valid,'valid':(addClientForm.controls.c_date.touched && addClientForm.controls.c_date.valid)}" [class.invalid]="addClientForm.controls.c_date.dirty && ! addClientForm.controls.c_date.valid">
           <ion-label stacked><b>Case Registered Date <span class="mandatory_field"> *</span></b></ion-label>
-          <ion-datetime required formControlName="c_date" placeholder="Select Date (MM DD YYYY)" displayFormat="MM-DD-YYYY"></ion-datetime>
+          <ion-datetime max="{{apiValue.maxSelectableDate}}" required formControlName="c_date" placeholder="Select Date (MM DD YYYY)" displayFormat="MM-DD-YYYY"></ion-datetime>
         </ion-item>
 
       </div>
@@ -189,7 +189,7 @@
 
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_zipcode.touched && !addClientForm.controls.c_zipcode.valid,'valid':(addClientForm.controls.c_zipcode.touched && addClientForm.controls.c_zipcode.valid)}" [class.invalid]="addClientForm.controls.c_zipcode.dirty && ! addClientForm.controls.c_zipcode.valid">
           <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
-          <ion-input type="text" required (ionChange)="isBillingAndPermanentAddressSame?addClientForm.controls.c_zipcode_billing.setValue(addClientForm.value.c_zipcode):null" formControlName="c_zipcode" placeholder="Enter zipcode"></ion-input>
+          <ion-input type="tel" required (ionChange)="isBillingAndPermanentAddressSame?addClientForm.controls.c_zipcode_billing.setValue(addClientForm.value.c_zipcode):null" formControlName="c_zipcode" placeholder="Enter zipcode"></ion-input>
         </ion-item>
 
         <ion-item no-lines>
@@ -228,7 +228,7 @@
 
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_zipcode_billing.touched && !addClientForm.controls.c_zipcode_billing.valid,'valid':(addClientForm.controls.c_zipcode_billing.touched && addClientForm.controls.c_zipcode_billing.valid)}" [class.invalid]="addClientForm.controls.c_zipcode_billing.dirty && ! addClientForm.controls.c_zipcode_billing.valid">
           <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
-          <ion-input type="text" [disabled]="isBillingAndPermanentAddressSame" required formControlName="c_zipcode_billing" placeholder="Enter zipcode"></ion-input>
+          <ion-input type="tel" [disabled]="isBillingAndPermanentAddressSame" required formControlName="c_zipcode_billing" placeholder="Enter zipcode"></ion-input>
         </ion-item>
 
         <ion-item no-lines>
@@ -301,14 +301,14 @@
 
               <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_type.touched && !addClientForm.get('entity').controls[i].e_type.valid,'valid':(addClientForm.get('entity').controls[i].e_type.touched && addClientForm.get('entity').controls[i].e_type.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_type.dirty && ! addClientForm.get('entity').controls[i].e_type.valid">
                 <ion-label stacked><b>Type <span class="mandatory_field"> *</span></b></ion-label>
-                <ion-select required interface="popover" formControlName="e_type" placeholder="Select entity type">
+                <ion-select required interface="action-sheet" formControlName="e_type" placeholder="Select entity type">
                   <ion-option *ngFor="let entityType of entityTypeList" value="{{entityType.value}}">{{entityType.name}}</ion-option>
                 </ion-select>
               </ion-item>
 
               <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_relationship.touched && !addClientForm.get('entity').controls[i].e_relationship.valid,'valid':(addClientForm.get('entity').controls[i].e_relationship.touched && addClientForm.get('entity').controls[i].e_relationship.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_relationship.dirty && ! addClientForm.get('entity').controls[i].e_relationship.valid">
                 <ion-label stacked><b>Relationship <span class="mandatory_field"> *</span></b></ion-label>
-                <ion-select required interface="popover" formControlName="e_relationship" placeholder="Select a Relationship">
+                <ion-select required interface="action-sheet" formControlName="e_relationship" placeholder="Select a Relationship">
                   <ion-option *ngFor="let relation of relationshipList" value="{{relation.value}}">{{relation.name}}</ion-option>
                 </ion-select>
               </ion-item>
@@ -380,7 +380,7 @@
 
               <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_zipcode.touched && !addClientForm.get('entity').controls[i].e_zipcode.valid,'valid':(addClientForm.get('entity').controls[i].e_zipcode.touched && addClientForm.get('entity').controls[i].e_zipcode.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_zipcode.dirty && ! addClientForm.get('entity').controls[i].e_zipcode.valid">
                 <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
-                <ion-input type="text" required (ionChange)="isBillingAndPermanentAddressSameForEntity[i]?addClientForm.get('entity')['controls'][i].controls.e_zipcode_billing.setValue(addClientForm.get('entity')['controls'][i].value.e_zipcode):null" formControlName="e_zipcode" placeholder="Enter zipcode"></ion-input>
+                <ion-input type="tel" required (ionChange)="isBillingAndPermanentAddressSameForEntity[i]?addClientForm.get('entity')['controls'][i].controls.e_zipcode_billing.setValue(addClientForm.get('entity')['controls'][i].value.e_zipcode):null" formControlName="e_zipcode" placeholder="Enter zipcode"></ion-input>
               </ion-item>
 
               <ion-item no-lines>
@@ -419,7 +419,7 @@
 
               <ion-item no-lines ngClass="{'error':addClientForm.get('entity').controls[i].e_zipcode_billing.touched && !addClientForm.get('entity').controls[i].e_zipcode_billing.valid,'valid':(addClientForm.get('entity').controls[i].e_zipcode_billing.touched && addClientForm.get('entity').controls[i].e_zipcode_billing.valid)}" class.invalid="addClientForm.get('entity').controls[i].e_zipcode_billing.dirty && ! addClientForm.get('entity').controls[i].e_zipcode_billing.valid">
                 <ion-label stacked><b>Zip Code <span class="mandatory_field"> *</span></b></ion-label>
-                <ion-input type="text" [disabled]="isBillingAndPermanentAddressSameForEntity[i]" required formControlName="e_zipcode_billing" placeholder="Enter zipcode"></ion-input>
+                <ion-input type="tel" [disabled]="isBillingAndPermanentAddressSameForEntity[i]" required formControlName="e_zipcode_billing" placeholder="Enter zipcode"></ion-input>
               </ion-item>
 
               <ion-item no-lines>
@@ -465,8 +465,8 @@
 
         <ion-item no-lines [ngClass]="{'error':addClientForm.controls.c_cm_assigned.touched && !addClientForm.controls.c_cm_assigned.valid,'valid':(addClientForm.controls.c_cm_assigned.touched && addClientForm.controls.c_cm_assigned.valid)}" [class.invalid]="addClientForm.controls.c_cm_assigned.dirty && ! addClientForm.controls.c_cm_assigned.valid">
           <ion-label stacked><b>Case Manager Assigned To <span class="mandatory_field"> *</span></b></ion-label>
-          <ion-select interface="popover" required formControlName="c_cm_assigned" placeholder="Select Case Manager">
-            <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}} ({{advocate.id}})</ion-option>
+          <ion-select interface="action-sheet" [disabled]="loggedInUser!=undefined && (loggedInUser.user_type_id!=1 && loggedInUser.user_type_id!=2)" required formControlName="c_cm_assigned" placeholder="Select Case Manager">
+            <ion-option *ngFor="let advocate of advocate_list" value="{{advocate.id}}">{{advocate.name}}</ion-option>
           </ion-select>
 
 

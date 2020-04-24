@@ -13,6 +13,13 @@ smslist {
     text-align: center;
   }
 
+  .simpleCardHeader
+  {
+    background-color:map-get($colors,primary);
+    color:white;
+    text-align:center;
+  }
+
   .simpleCard ion-col {
     text-overflow: ellipsis;
     flex: 1;

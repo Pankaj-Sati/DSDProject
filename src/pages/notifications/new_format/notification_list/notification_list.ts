@@ -12,6 +12,7 @@ import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
 import { AddNotificationPage} from '../add_notification/add_notification';
 import { NewNotification } from '../../../../models/notification.model';
 import { User } from '../../../../models/login_user.model';
+import { timer } from 'rxjs/observable/timer';
 
 @Component({
   selector: 'notification_list',
@@ -21,6 +22,7 @@ export class NotificationListPage
 {
   notificationList: NewNotification[] = [];
   visibility: boolean[] = [];
+  isStatusChanging: boolean[] = [];
 
   from_date = '';
   to_date = '';
@@ -61,6 +63,7 @@ export class NotificationListPage
     var headers = new Headers();
     this.notificationList = [];
     this.visibility = [];
+    this.isStatusChanging = [];
 
     headers.append("Accept", "application/json");
 
@@ -104,6 +107,7 @@ export class NotificationListPage
             for (let i = 0; i < this.notificationList.length; i++)
             {
               this.visibility[i] = false;
+              this.isStatusChanging[i] = false;
             }
           }
 
@@ -132,19 +136,26 @@ export class NotificationListPage
 
   }
 
-  showToast(text)
+  showToast(text,duration=3000)
   {
     const toast = this.toastCtrl.create({
       message: text,
-      duration: 3000
+      duration: duration
     });
     toast.present();
   }
 
-  showDetails(notification, $event, i)
+  showDetails(notification: NewNotification, $event, i)
   {
+   
+    if (Number(this.loggedInUser.user_type_id) == 5 && notification.is_read == 'N' && !this.visibility[i]) //Change read status when current user is a client and visibility is hidden and read status is 'N'
+    {
+      this.changeReadStatus(notification, true);
+    }
     
     this.visibility[i] = !this.visibility[i];
+   
+    
   }
 
   addNotification()
@@ -156,7 +167,7 @@ export class NotificationListPage
   {
     const alert = this.alertCtrl.create(
       {
-        message: 'Delete this note?',
+        message: 'Delete this notification for client?',
         title: 'Attention!',
         buttons: [{
 
@@ -255,4 +266,75 @@ export class NotificationListPage
     });
 
   }
+
+  changeReadStatus(notification: NewNotification, isRead: boolean)
+  {
+    console.log('inChange Read Status For Notification:');
+    console.log(notification);
+    let notificationIndex = this.notificationList.findIndex(eachNotification => eachNotification.id == notification.id);
+    if (notificationIndex != undefined && notificationIndex >= 0)
+    {
+      this.isStatusChanging[notificationIndex] = true;
+    }
+    timer(15000).subscribe(() =>
+    {
+      this.isStatusChanging[notificationIndex] = false; //If the timer expires, we will forcefully stop showing the spinner
+    });
+
+    let body = new FormData();
+    body.set('session_id', this.loggedInUser.id);
+    body.set('n_id', notification.id);
+    body.set('n_is_read', isRead ? 'Y' : 'N');
+    this.http.post(this.apiValue.baseURL + '/change_notification_read_status.php', body)
+      .subscribe(response =>
+      {
+        console.log(response);
+        this.isStatusChanging[notificationIndex] = false;
+        if (response)
+        {
+          try
+          {
+            let result = JSON.parse(response['_body']);
+            if ('code' in result && result.code == 200)
+            {
+              //Success
+              notification.is_read = result.read;
+              if (result.read == 'Y')
+              {
+                this.showToast('Marked as read',1000);
+              }
+              else
+              {
+                this.showToast('Marked as unread', 1000);
+              }
+              
+            }
+            else
+            {
+              //Failure
+              this.showToast('Unable to mark read', 1000);
+            }
+          }
+          catch (err)
+          {
+            console.log(err);
+            this.showToast('Unable to mark read', 1000);
+
+          }
+        }
+        else
+        {
+          this.showToast('Unable to mark read', 1000);
+          
+        }
+      }, error =>
+        {
+          this.isStatusChanging[notificationIndex] = false;
+          console.log(error);
+          this.showToast('Unable to mark read', 1000);
+        });
+
+   
+  }
+ 
 }

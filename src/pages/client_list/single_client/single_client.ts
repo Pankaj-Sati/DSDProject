@@ -313,13 +313,12 @@ export class SingleClientPage
     let header = new Headers();
     let options = new RequestOptions({ headers: header });
 
-    let body = new FormData();
-    body.append('rowID', String(this.client.id));
-    body.append('session_id', this.loggedInUser.id);
+    console.log('Client To be Deleted=' + this.clientDetails.ref_id);
 
-    this.http.get(this.apiValue.baseURL + "/client_delete.php?rowID=" + this.clientDetails.id + "&session_id=" + this.loggedInUser.id)
+    this.http.get(this.apiValue.baseURL + "/client_delete.php?rowID=" + this.clientDetails.ref_id + "&session_id=" + this.loggedInUser.id)
       .subscribe(response =>
       {
+        console.log(response);
         loadingSuccessful = true;
         loader.dismiss();
 

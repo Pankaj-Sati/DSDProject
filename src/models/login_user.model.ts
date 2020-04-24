@@ -30,4 +30,5 @@ export class UserDetails
   uname; //Whether it is SuperAdmin, Admin client etc.
   permanent_addressLine1;
   permanent_addressLine2;
+  case_no;
 }

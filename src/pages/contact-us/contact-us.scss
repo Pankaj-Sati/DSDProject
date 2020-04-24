@@ -1,0 +1,30 @@
+page-contact-us {
+  ion-icon {
+    zoom: 3;
+  }
+
+  ion-label {
+    font-size: 20px;
+  }
+
+  .mainContent {
+    text-align: center;
+    color: white;
+  }
+
+  ion-content {
+    .scroll-content {
+      background-color: #00000078;
+      height: 100%;
+    }
+  }
+
+  ion-row {
+    margin-top: 20px;
+  }
+
+  button
+  {
+    color:white !important;
+  }
+}

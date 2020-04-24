@@ -7,7 +7,7 @@
 	    
 	    <ion-row center style="text-align: center;vertical-align: middle;">
 	      <ion-col>
-	         <ion-title style="text-align: center;height: 100%;vertical-align: middle;">
+	         <ion-title style="text-align: left;height: 100%;vertical-align: middle;">
 	           User Account Management
 	         </ion-title>
 
@@ -40,7 +40,7 @@
 
       <ion-item>
         <ion-label>Year</ion-label>
-        <ion-datetime [pickerOptions]="customPickerOptions" placeholder="Select Year" [(ngModel)]="c_case_year" displayFormat="YYYY"></ion-datetime>
+        <ion-datetime [pickerOptions]="customPickerOptions" max="{{apiValue.maxSelectableDate}}" placeholder="Select Year" [(ngModel)]="c_case_year" displayFormat="YYYY"></ion-datetime>
 
 
         <!-- Change the managers by fetching manager list from server -->

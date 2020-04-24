@@ -13,6 +13,12 @@ bulkemail {
     text-align: center;
   }
 
+  .simpleCardHeader {
+    background-color: map-get($colors,primary);
+    color: white;
+    text-align: center;
+  }
+
   .details {
     position: sticky;
     bottom: 0;

@@ -76,6 +76,7 @@ export class AddClientPage
     public events: Events
   )
   {
+    
     this.entityTypeList = this.entityTypeProvider.getList();
 
     //------------------Gettting State List from Provider---------//
@@ -91,44 +92,44 @@ export class AddClientPage
 
         //Case details
       c_case_type: new FormControl('', Validators.compose([Validators.required])),
-      c_alien_no: new FormControl('', Validators.compose([Validators.pattern(/^$|^(.{4,20})$/)])),
-			c_client_type:new FormControl(''),
-			c_case_category:new FormControl('',Validators.compose([Validators.required])),
-			c_case_description:new FormControl(''),
+      c_alien_no: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ALIEN_NO_VALIDATOR)])),
+      c_client_type: new FormControl(''),
+      c_case_category: new FormControl('', Validators.compose([Validators.required])),
+      c_case_description: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.LONG_TEXT_VALIDATOR)])),
           c_date: new FormControl('', Validators.compose([Validators.required])),
 
           //personal Details
-			c_name:new FormControl('',Validators.compose([Validators.required])),
-			c_lastname:new FormControl(''),
-			c_alias:new FormControl(''),
+      c_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      c_lastname: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      c_alias: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
           c_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
           c_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       c_email: new FormControl('', Validators.compose([Validators.pattern(/^$|^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
           c_notes: new FormControl(''),
 			c_country:new FormControl('',Validators.compose([Validators.required])),
-      c_address1:new FormControl('',Validators.compose([Validators.required])),
-      c_address2:new FormControl(''),
-			c_city:new FormControl('',Validators.compose([Validators.required])),
+      c_address1: new FormControl('', Validators.compose([Validators.required,Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      c_address2: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      c_city: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
 			c_state:new FormControl('',Validators.compose([Validators.required])),
-          c_zipcode: new FormControl('', Validators.compose([Validators.required])),
+      c_zipcode: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ZIPCODE_VALIDATOR)])),
           c_country_billing: new FormControl('', Validators.compose([Validators.required])),
-      c_address1_billing: new FormControl('', Validators.compose([Validators.required])),
-      c_address2_billing: new FormControl(''),
-          c_city_billing: new FormControl('', Validators.compose([Validators.required])),
+      c_address1_billing: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      c_address2_billing: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      c_city_billing: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
           c_state_billing: new FormControl('', Validators.compose([Validators.required])),
-        c_zipcode_billing: new FormControl('', Validators.compose([Validators.required])),
+      c_zipcode_billing: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ZIPCODE_VALIDATOR)])),
 
         //Entities
         entity: this.formBuilder.array([]),
 
           //Case Manager Details
-			c_filing_cm:new FormControl(''),
+      c_filing_cm: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
         c_cm_assigned: new FormControl('', Validators.compose([Validators.required])),
 
         //Defendant Details
-        c_defendent_name: new FormControl(''),
-			c_defendent_alias:new FormControl(''),
-        c_defendent_manager: new FormControl(''),
+      c_defendent_name: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      c_defendent_alias: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      c_defendent_manager: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
 
        // c_reg_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])),
        // c_decided_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')]))
@@ -147,6 +148,13 @@ export class AddClientPage
     this.getCaseManagerList();
     this.relationshipList = this.relationshipProvider.getAllRelationships();
     this.loggedInUser = this.myStorage.getParameters();
+
+    if (Number(this.loggedInUser.user_type_id) == 4 || Number(this.loggedInUser.user_type_id) == 7)
+    {
+      //If the user is a case manager, we will default the value to his ID
+      this.addClientForm.controls.c_cm_assigned.setValue(this.loggedInUser.id);
+    }
+   
 	}
 
 
@@ -494,25 +502,25 @@ export class AddClientPage
       e_relationship: new FormControl('', Validators.required),
 
       //personal Details
-      e_name: new FormControl('', Validators.compose([Validators.required])),
-      e_lastname: new FormControl(''),
-      e_alias: new FormControl(''),
+      e_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      e_lastname: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      e_alias: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       e_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       e_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       e_email: new FormControl('', Validators.compose([Validators.pattern(/^$|^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
       e_notes: new FormControl(''),
       e_country: new FormControl('', Validators.compose([Validators.required])),
-      e_address1: new FormControl('', Validators.compose([Validators.required])),
-      e_address2: new FormControl(''),
-      e_city: new FormControl('', Validators.compose([Validators.required])),
+      e_address1: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      e_address2: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      e_city: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       e_state: new FormControl('', Validators.compose([Validators.required])),
-      e_zipcode: new FormControl('', Validators.compose([Validators.required])),
+      e_zipcode: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ZIPCODE_VALIDATOR)])),
       e_country_billing: new FormControl('', Validators.compose([Validators.required])),
-      e_address1_billing: new FormControl('', Validators.compose([Validators.required])),
-      e_address2_billing: new FormControl(''),
-      e_city_billing: new FormControl('', Validators.compose([Validators.required])),
+      e_address1_billing: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      e_address2_billing: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      e_city_billing: new FormControl('', Validators.compose([Validators.required,Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       e_state_billing: new FormControl('', Validators.compose([Validators.required])),
-      e_zipcode_billing: new FormControl('', Validators.compose([Validators.required])),
+      e_zipcode_billing: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ZIPCODE_VALIDATOR)])),
 
     });
 

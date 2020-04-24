@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { AppointmentListPage } from './appointment-list';
 import { ComponentsModule } from '../../components/components.module';
+import { PipesModule } from '../../pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -9,7 +10,7 @@ import { ComponentsModule } from '../../components/components.module';
   ],
   imports: [
     IonicPageModule.forChild(AppointmentListPage),
-    ComponentsModule
+    ComponentsModule, PipesModule
   ],
   entryComponents: [AppointmentListPage]
 })

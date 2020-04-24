@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, App } from 'ionic-angular';
 import {Http, Headers, RequestOptions}  from "@angular/http";
 import { LoadingController } from "ionic-angular";
 import "rxjs/add/operator/map";
@@ -15,6 +15,7 @@ import { ClientDocumentsPage } from '../client_list/single_client/document/docum
 import { AppointmentListPage } from '../appointment-list/appointment-list';
 
 import { LoginPage } from '../login/login';
+import { FrontPage } from '../front/front';
 import { Storage } from '@ionic/storage';
 import { ToastController } from 'ionic-angular';
 import {Events} from 'ionic-angular'
@@ -23,6 +24,11 @@ import { ApiValuesProvider } from '../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../providers/my-storage/my-storage';
 
 import {User } from '../../models/login_user.model';
+import { MediaPage } from '../media/media';
+import { ContactUsPage } from '../contact-us/contact-us';
+import { LogoutPage } from '../logout/logout';
+
+
 
 @Component({
   selector: 'page-dashboard',
@@ -38,6 +44,7 @@ export class DashboardPage
   showSearch: boolean;
   calendarLink: SafeResourceUrl;
 
+
   constructor(public myStorage: MyStorageProvider,
     public apiValue: ApiValuesProvider,
     public events: Events,
@@ -50,21 +57,23 @@ export class DashboardPage
     public storage: Storage,
     public toastCtrl: ToastController,
     public sanitizer: DomSanitizer,
-    public inAppBrowser: InAppBrowser)
+    public inAppBrowser: InAppBrowser,
+    public appCtrl: App
+  )
   {
-    
-		this.menuCtrl.enable(true);
-		this.menuCtrl.swipeEnable(true);
-			
-    this.checkIfAlreadyLoggedIn();
 
-    
+   
+		this.menuCtrl.enable(true);
+    this.menuCtrl.swipeEnable(true);
+
+    this.loggedInUser = this.myStorage.getParameters();
+
     this.showSearch=false;
     this.events.publish('loggedIn');
     this.events.publish('newPage', 'DSD Test1');
 
     console.log('----IFrame Link-------');
-    if (Number(this.loggedInUser.user_type_id) == 4 && this.loggedInUser.calendar_link != undefined)
+    if ((Number(this.loggedInUser.user_type_id) == 4 || Number(this.loggedInUser.user_type_id) == 7 ) && this.loggedInUser.calendar_link != undefined)
     {
       
       this.calendarLink = this.sanitizer.bypassSecurityTrustResourceUrl(this.loggedInUser.calendar_link);
@@ -85,23 +94,25 @@ export class DashboardPage
 	
 	checkIfAlreadyLoggedIn()
 	{
-
-      this.loggedInUser = this.myStorage.getParameters();
-
-      if (this.loggedInUser != undefined && this.loggedInUser.id.length > 0)
+      if (this.loggedInUser != undefined && this.loggedInUser.id!=undefined &&  this.loggedInUser.id.length > 0)
 			{
 				  //User already exists, fetch data
 
 				 this.fetchData();
 				  
-			  }
+			}
 		  else
 			{
-				this.navCtrl.setRoot(LoginPage);
+        this.navCtrl.setRoot(FrontPage);
 			}
 				
 		  
 	}
+
+  ionViewDidEnter()
+  {
+    this.checkIfAlreadyLoggedIn();
+  }
 
 	setData()
 	{
@@ -154,7 +165,7 @@ export class DashboardPage
 		let loader = this.loading.create({
 
 		   content: "Loading...",
-		   duration:15000
+		   duration:25000
 
 		 });
 
@@ -245,16 +256,70 @@ export class DashboardPage
                this.total_appointments = serverReply.totalAppointments;
              }
 
-             loader.dismiss();
-
-
-
            }, error =>
            {
              loadingSuccessful = true;
            });
-		   
-       });
+
+      //-------------------Get User details--------------------------------//
+
+    data.set(this.apiValue.API_ACCESS_KEY, this.apiValue.API_ACCESS_TOKEN); //Mandatory field to send with request
+
+         this.http.post(this.apiValue.baseURL + "/dashboard_get_userDetails.php", data, options) //Http request returns an observable
+
+      .map(response => response.json()) ////To make it easy to read from observable
+
+      .subscribe(response =>  //We subscribe to the observable and do whatever we want when we get the data
+
+      {
+        loadingSuccessful = true;
+        console.log(response);
+        if (!response)
+        {
+          //This means error
+          this.presentToast('Failure! Unable to update data');
+        }
+        else
+        {
+          if ('code' in response)
+          {
+            this.presentToast(response.message);
+            this.appCtrl.getRootNav().setRoot(LogoutPage); //Logout the user
+           
+          }
+          else
+          {
+            let user: User = new User();
+
+            user.id = response.id;
+            if (response.lastname != undefined && response.lastname != null && response.lastname != 'null' && response.lastname.length > 0)
+            {
+              user.name = response.name + ' ' + response.lastname;
+            }
+            else
+            {
+              user.name = response.name;
+            }
+            user.email = response.email;
+            user.user_type_id = response.usertype_id;
+            user.profile_img = response.profile_img;
+            user.contact = response.contact;
+            user.calendar_link = response.calendar_link;
+
+            this.myStorage.setParameters(user);
+            this.events.publish('loggedIn'); //THis event is registered in app.component file which updated menu items
+          }
+          
+        }
+
+        loader.dismiss();
+
+      }, error =>
+        {
+          loadingSuccessful = true;
+        });
+
+  });
 
 
 
@@ -300,6 +365,15 @@ export class DashboardPage
   {
     let url = ' https://egov.uscis.gov/casestatus/landing.do';
     this.inAppBrowser.create(url, '_system');
+  }
+
+  presentToast(msg, duration = 3000)
+  {
+    const toast = this.toastCtrl.create({
+      message: msg,
+      duration: duration
+    });
+    toast.present();
   }
    
 }

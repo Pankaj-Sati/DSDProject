@@ -113,7 +113,7 @@
 
         <ion-row>
           <ion-col>
-            {{caseDetails.created_on| date:'MMM, dd yy'}}
+            {{caseDetails.created_on| customDateFormat:'MMM, DD YYYY'}}
           </ion-col>
         </ion-row>
       </ion-col>
@@ -135,49 +135,163 @@
     </ion-row>
 
 
-    
+
   </div>
 
   <div *ngIf="hearingList!=undefined && hearingList!=null && hearingList.length>0">
 
-    <br>
-    <ion-label class="seperatorHeading"><b>Hearing Details</b></ion-label>
-    <hr>
-    <br>
-
-    <div style="overflow-x:auto">
-      <table>
-
-        <tr>
-
-          <th><b>S.No.</b></th>
-
-          <th><b>Date</b></th>
+    <ion-item no-lines style="min-height:unset;">
+      <ion-label style="text-align:right;font-size:14px;color:#808080;margin:0px;">Total Records:{{hearingList.length}}</ion-label>
+    </ion-item>
 
 
-          <th><b>Time</b></th>
+  </div>
 
-          <th><b>Judge Name</b></th>
+  <ion-card class="simpleCardHeader">
 
-          <th><b>Location Of Hearing</b></th>
+    <ion-row style="padding-left: 5px;">
 
-          <th><b>Description</b></th>
+    
 
-          <th><b>Notes</b></th>
+      <ion-col style="margin:auto;" col-4>
+        <ion-row>
+          <ion-col style="text-align:left;">
+            <b>Hearing Date</b>
+            <ion-icon name="arrow-dropdown"></ion-icon>
+          </ion-col>
+        </ion-row>
 
-          <th><b>Documents</b></th>
+      </ion-col>
 
-        <tr *ngFor="let hearing of hearingList;let i=index">
-          <td>{{i+1}}</td>
-          <td>{{hearing.hearing_date}}</td>
-          <td>{{hearing.hearing_time}}</td>
-          <td>{{hearing.judgeName}}</td>
-          <td>{{hearing.locationOfHearing}}</td>
-          <td>{{hearing.hearing_disc}}</td>
-          <td>{{hearing.notes}}</td>
-          <td style="color:blue" (click)="downloadDocs(hearing.upload_doc)">{{hearing.upload_doc}}</td>
-        </tr>
-      </table>
+      <ion-col style="margin:auto;" col-3>
+        <ion-row>
+          <ion-col>
+            Judge
+            <ion-icon name="arrow-dropdown"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+      </ion-col>
+
+      <ion-col style="margin:auto;" col-3>
+        <ion-row>
+          <ion-col>
+            Location
+            <ion-icon name="arrow-dropdown"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+      </ion-col>
+
+    </ion-row>
+
+  </ion-card>
+
+
+  <div *ngFor="let hearing of hearingList;let i=index">
+    <ion-card class="simpleCard" (click)="showDetails(hearing,$event,i)">
+
+      <ion-row style="padding-left: 5px;">
+
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="contact" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-4>
+          <ion-row>
+            <ion-col style="text-align:left;">
+              <b>{{hearing.hearing_date | customDateFormat:'MMM,DD YYYY'}}</b>
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-3>
+          <ion-row>
+            <ion-col>
+              {{hearing.judgeName}}
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-3>
+          <ion-row>
+            <ion-col>
+              {{hearing.locationOfHearing}}
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+
+        <ion-col style="margin:auto;" col-1>
+          <ion-icon name="more" color="primary" style="zoom: 1.2;"></ion-icon>
+        </ion-col>
+
+      </ion-row>
+
+    </ion-card>
+
+    <div class="details" *ngIf="visibility[i]">
+
+      <ion-row>
+        <ion-col col-6>
+          <ion-item no-lines>
+            <ion-label class="detailLabel" stacked>Hearing Date</ion-label>
+            <ion-label> {{hearing.hearing_date | customDateFormat:'MMM,DD YYYY'}}</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item no-lines>
+            <ion-label class="detailLabel" stacked>Hearing Time</ion-label>
+            <ion-label>{{hearing.hearing_time | convert24HourTime}}</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-6>
+          <ion-item no-lines>
+            <ion-label class="detailLabel" stacked>Judge Name</ion-label>
+            <ion-label>{{hearing.judgeName}}</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item no-lines>
+            <ion-label class="detailLabel" stacked>Location Of Hearing</ion-label>
+            <ion-label>{{hearing.locationOfHearing}}</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item no-lines>
+            <ion-label class="detailLabel" stacked>Hearing Description</ion-label>
+            <ion-label>{{hearing.hearing_disc}}</ion-label>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item no-lines>
+            <ion-label class="detailLabel" stacked>Hearing Notes</ion-label>
+            <ion-label>{{hearing.notes}}</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="hearing!=undefined && hearing.upload_doc!=null">
+        <ion-col (click)="downloadDocs(hearing.upload_doc)">
+          <ion-item no-lines>
+            <ion-label class="detailLabel" stacked>Documents</ion-label>
+            <ion-label>{{hearing.upload_doc}}</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
     </div>
   </div>
 

@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, Events } from 'io
 import { Http, Headers, RequestOptions, Response } from "@angular/http";
 import { LoadingController } from "ionic-angular";
 import { ToastController } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, FormArray, AbstractControl } from '@angular/forms';
 import "rxjs/add/operator/map";
 
 
@@ -22,6 +22,8 @@ import { EntityType } from '../../../../models/entity_type.model';
 
 import { StateListProvider } from '../../../../providers/state-list/state-list';
 import { State } from '../../../../models/state.model';
+
+import { BrContactMaskPipe } from '../../../../pipes/br-contact-mask/br-contact-mask';
 
 
 @Component
@@ -65,6 +67,8 @@ export class EditClientPage
 
   hasRelation: boolean = true;
 
+  documentHasLoaded = false; //To check whether the page has finished loading or not
+
   constructor(
     public myStorage: MyStorageProvider,
     public caseTypeProvider: CaseTypeProvider,
@@ -80,10 +84,11 @@ export class EditClientPage
     public entityTypeProvider: EntityTypeProvider,
     public stateListProvider: StateListProvider,
     public events: Events,
+    public brMasker: BrContactMaskPipe
 
   )
   {
-
+    this.documentHasLoaded = true;
     this.entityTypeList = this.entityTypeProvider.getList();
 
     //------------------Gettting State List from Provider---------//
@@ -98,44 +103,44 @@ export class EditClientPage
 
       //Case details
       c_case_type: new FormControl('', Validators.compose([Validators.required])),
-      c_alien_no: new FormControl(''),
+      c_alien_no: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ALIEN_NO_VALIDATOR)])),
       c_client_type: new FormControl(''),
       c_case_category: new FormControl('', Validators.compose([Validators.required])),
-      c_case_description: new FormControl(''),
+      c_case_description: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.LONG_TEXT_VALIDATOR)])),
       c_date: new FormControl('', Validators.compose([Validators.required])),
 
       //personal Details
-      c_name: new FormControl('', Validators.compose([Validators.required])),
-      c_lastname: new FormControl(''),
-      c_alias: new FormControl(''),
+      c_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      c_lastname: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      c_alias: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       c_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       c_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       c_email: new FormControl('', Validators.compose([Validators.pattern(/^$|^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
-      c_notes: new FormControl(''),
+      c_notes: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.LONG_TEXT_VALIDATOR)])),
       c_country: new FormControl('', Validators.compose([Validators.required])),
-      c_address1: new FormControl('', Validators.compose([Validators.required])),
-      c_address2: new FormControl(''),
-      c_city: new FormControl('', Validators.compose([Validators.required])),
+      c_address1: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      c_address2: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      c_city: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       c_state: new FormControl('', Validators.compose([Validators.required])),
-      c_zipcode: new FormControl('', Validators.compose([Validators.required])),
+      c_zipcode: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ZIPCODE_VALIDATOR)])),
       c_country_billing: new FormControl('', Validators.compose([Validators.required])),
-      c_address1_billing: new FormControl('', Validators.compose([Validators.required])),
-      c_address2_billing: new FormControl(''),
-      c_city_billing: new FormControl('', Validators.compose([Validators.required])),
+      c_address1_billing: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      c_address2_billing: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      c_city_billing: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       c_state_billing: new FormControl('', Validators.compose([Validators.required])),
-      c_zipcode_billing: new FormControl('', Validators.compose([Validators.required])),
+      c_zipcode_billing: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ZIPCODE_VALIDATOR)])),
 
       //Entities
       entity: this.formBuilder.array([]),
 
       //Case Manager Details
-      c_filing_cm: new FormControl(''),
+      c_filing_cm: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       c_cm_assigned: new FormControl('', Validators.compose([Validators.required])),
 
       //Defendant Details
-      c_defendent_name: new FormControl(''),
-      c_defendent_alias: new FormControl(''),
-      c_defendent_manager: new FormControl(''),
+      c_defendent_name: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      c_defendent_alias: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      c_defendent_manager: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
 
      // c_reg_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')])),
      // c_decided_fee: new FormControl('', Validators.compose([Validators.required, Validators.pattern('[0-9]*')]))
@@ -160,6 +165,7 @@ export class EditClientPage
 
   ionViewDidLoad()
   {
+    
     console.log("In Edit Client ion View Did Load");
     this.passedClient = this.navParams.get('client');
     this.passedClientDetails = this.navParams.get('clientDetails');
@@ -173,6 +179,7 @@ export class EditClientPage
     this.setEntityDetails(this.passedEntities); //Change the form values for each client
 
   }
+
 
   setClientDetails(clientDetails: ClientDetails)
   {
@@ -191,9 +198,9 @@ export class EditClientPage
     this.editClientForm.controls.c_name.setValue(this.passedClientDetails.name);
     this.editClientForm.controls.c_lastname.setValue(this.passedClientDetails.lastname);
     this.editClientForm.controls.c_alias.setValue(this.passedClientDetails.alias);
-    
-    this.editClientForm.controls.c_contact.setValue(this.passedClientDetails.contact);
-    this.editClientForm.controls.c_alt_no.setValue(this.passedClientDetails.alternate_number);
+    //--Masking Contact--//
+    this.editClientForm.controls.c_contact.setValue(this.brMasker.transform(this.passedClientDetails.contact));
+    this.editClientForm.controls.c_alt_no.setValue(this.brMasker.transform(this.passedClientDetails.alternate_number));
     this.editClientForm.controls.c_email.setValue(this.passedClientDetails.email);
     this.editClientForm.controls.c_notes.setValue(this.passedClientDetails.notes);
    // this.editClientForm.controls.c_country.setValue(this.passedClientDetails.country);
@@ -257,11 +264,12 @@ export class EditClientPage
     this.editClientForm.get('entity')['controls'][index].controls.e_alias.setValue(entity.alias);
     this.editClientForm.get('entity')['controls'][index].controls.e_alias.updateValueAndValidity();
 
-    this.editClientForm.get('entity')['controls'][index].controls.e_contact.setValue(entity.contact);
-    this.editClientForm.get('entity')['controls'][index].controls.e_contact.updateValueAndValidity();
+        //---Masking Contact--//
+    this.editClientForm.get('entity')['controls'][index].controls.e_contact.setValue(this.brMasker.transform(entity.contact));
+        this.editClientForm.get('entity')['controls'][index].controls.e_contact.updateValueAndValidity();
 
-    this.editClientForm.get('entity')['controls'][index].controls.e_alt_no.setValue(entity.alternate_number);
-    this.editClientForm.get('entity')['controls'][index].controls.e_alt_no.updateValueAndValidity();
+    this.editClientForm.get('entity')['controls'][index].controls.e_alt_no.setValue(this.brMasker.transform(entity.alternate_number));
+        this.editClientForm.get('entity')['controls'][index].controls.e_alt_no.updateValueAndValidity();
 
     this.editClientForm.get('entity')['controls'][index].controls.e_email.setValue(entity.email);
     this.editClientForm.get('entity')['controls'][index].controls.e_email.updateValueAndValidity();
@@ -586,25 +594,25 @@ export class EditClientPage
       e_relationship: new FormControl('', Validators.required),
 
       //personal Details
-      e_name: new FormControl('', Validators.compose([Validators.required])),
-      e_lastname: new FormControl(''),
-      e_alias: new FormControl(''),
+      e_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      e_lastname: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      e_alias: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       e_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       e_alt_no: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       e_email: new FormControl('', Validators.compose([Validators.pattern(/^$|^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
-      e_notes: new FormControl(''),
+      e_notes: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.LONG_TEXT_VALIDATOR)])),
       e_country: new FormControl('', Validators.compose([Validators.required])),
-      e_address1: new FormControl('', Validators.compose([Validators.required])),
-      e_address2: new FormControl(''),
-      e_city: new FormControl('', Validators.compose([Validators.required])),
+      e_address1: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      e_address2: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      e_city: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       e_state: new FormControl('', Validators.compose([Validators.required])),
-      e_zipcode: new FormControl('', Validators.compose([Validators.required])),
+      e_zipcode: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ZIPCODE_VALIDATOR)])),
       e_country_billing: new FormControl('', Validators.compose([Validators.required])),
-      e_address1_billing: new FormControl('', Validators.compose([Validators.required])),
-      e_address2_billing: new FormControl(''),
-      e_city_billing: new FormControl('', Validators.compose([Validators.required])),
+      e_address1_billing: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      e_address2_billing: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      e_city_billing: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
       e_state_billing: new FormControl('', Validators.compose([Validators.required])),
-      e_zipcode_billing: new FormControl('', Validators.compose([Validators.required])),
+      e_zipcode_billing: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.ZIPCODE_VALIDATOR)])),
 
     });
 
@@ -646,7 +654,7 @@ export class EditClientPage
   submitData()
   {
 
-    if (!this.editClientForm.valid)
+    if(!this.editClientForm.valid)
     {
       //Form is invalid
 
@@ -655,11 +663,7 @@ export class EditClientPage
     }
     //Following lines will execute only if the form fields are correct
 
-    
-
     let body = new FormData();  //Data to be sent to the server
-
-
     let loader = this.loading.create({
 
       content: "Updating client please wait…",
@@ -796,5 +800,14 @@ export class EditClientPage
     console.log('------Generated URL------')
     console.log(url);
     return url;
+  }
+
+  isEntityValid(index, fieldName)
+  {
+    if (!this.documentHasLoaded)
+    {
+      return false;
+    }
+    return this.editClientForm.get('entity')['controls'][index]['controls'][fieldName].valid;
   }
 }

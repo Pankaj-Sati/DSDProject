@@ -6,6 +6,7 @@ import { Validators, FormBuilder, FormControl, FormGroup } from "@angular/forms"
 import { LoadingController } from "ionic-angular";
 import { ToastController, Events } from 'ionic-angular';
 import "rxjs/add/operator/map";
+
 import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-native/file-transfer'
 import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
@@ -21,6 +22,9 @@ import { User, UserDetails } from '../../../models/login_user.model';
 
 import { Storage } from '@ionic/storage';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+
+import { BrContactMaskPipe } from '../../../pipes/br-contact-mask/br-contact-mask';
+import { Crop } from '@ionic-native/crop';
 
 declare var cordova: any;
 
@@ -70,7 +74,9 @@ export class EditProfilePage
     public myStorage: MyStorageProvider,
     public menuCtrl: MenuController,
     public countryProvider: CountryProvider,
-    public stateListProvider: StateListProvider) 
+    public stateListProvider: StateListProvider,
+    public brMasker: BrContactMaskPipe,
+    public crop: Crop) 
   {
 
     //------------------Gettting State List from Provider---------//
@@ -85,21 +91,22 @@ export class EditProfilePage
     this.userForm = this.formBuilder.group({
 
       u_profile_img: new FormControl(''),
-      u_name: new FormControl('', Validators.compose([Validators.required])),
-      u_lastname: new FormControl(''),
+      u_name: new FormControl('', Validators.compose([Validators.required, Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
+      u_lastname: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.INPUT_VALIDATOR)])),
 
-      u_email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
+      u_email: new FormControl('', Validators.compose([Validators.pattern(/^$|^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)])),
       u_contact: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
       u_alt: new FormControl('', Validators.compose([Validators.pattern(/^\(([0-9]{3})\)[-]([0-9]{3})[-]([0-9]{4})$/)])),
-      u_gender: new FormControl('', Validators.compose([Validators.required])),
-      u_dob: new FormControl('', Validators.compose([Validators.required])),
+      u_gender: new FormControl(''),
+      u_dob: new FormControl(''),
+      u_alien_no: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ALIEN_NO_VALIDATOR)])),
       u_country: new FormControl('', Validators.compose([Validators.required])),
-      u_state: new FormControl('', Validators.compose([Validators.required])),
-      u_city: new FormControl('', Validators.compose([Validators.required])),
-      u_pincode: new FormControl('', Validators.compose([Validators.required])),
+      u_state: new FormControl(''),
+      u_city: new FormControl(''),
+      u_pincode: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ZIPCODE_VALIDATOR)])),
       u_fax: new FormControl(''),
-      u_address1: new FormControl('', Validators.compose([Validators.required])),
-      u_address2: new FormControl(''),
+      u_address1: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
+      u_address2: new FormControl('', Validators.compose([Validators.pattern(this.apiValue.ADDRESS_VALIDATOR)])),
       u_user_type: new FormControl('', Validators.compose([Validators.required]))
 
     });
@@ -194,7 +201,8 @@ export class EditProfilePage
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       correctOrientation: true,
-      sourceType: source
+      sourceType: source,
+      allowEdit:true
     };
 
     this.camera.getPicture(options).then((imageData) =>
@@ -206,50 +214,12 @@ export class EditProfilePage
       if ((imageData != null || imageData != undefined) && imageData.length > 0)
       {
 
-        //We need to get the native path of the files present in the gallery on Android
-        if (this.platform.is('android') && source === this.camera.PictureSourceType.PHOTOLIBRARY) 
-        {
+        this.cropImage(imageData, source);
 
-          this.filePath.resolveNativePath(imageData)
-            .then(filePath => 
-            {
-              let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-              let currentName = imageData.substring(imageData.lastIndexOf('/') + 1, imageData.lastIndexOf('?'));
-              this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-
-              this.isImageChanged = true; //We have got our image successfully;
-              this.userForm.controls.u_profile_img.setValue(this.win.Ionic.WebView.convertFileSrc(imageData));
-              this.userForm.controls.u_profile_img.updateValueAndValidity();
-              
-            })
-
-            .catch(error =>
-            {
-
-              console.log("resolveNativePath() error");
-              this.presentToast('Error in getting Image');
-              console.log(error);
-            });
-
-
-
-        }
-        else 
-        {
-          var currentName = imageData.substr(imageData.lastIndexOf('/') + 1);
-          var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
-          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-          this.isImageChanged = true; //We have got our image successfully;
-          this.userForm.controls.u_profile_img.setValue(this.win.Ionic.WebView.convertFileSrc(imageData));
-          this.userForm.controls.u_profile_img.updateValueAndValidity();
-
-          
-
-        }
       }
       else
       {
-        this.presentToast('Error in getting Image');
+        this.presentToast('Error!!!Please select other image');
       }
 
 
@@ -258,7 +228,7 @@ export class EditProfilePage
     }, (err) =>
     {
       // Handle error
-      this.presentToast('Error in getting Image');
+        this.presentToast('Error!!!Please select other image');
     });
   }
 
@@ -276,11 +246,14 @@ export class EditProfilePage
     {
 
       this.lastImage = cordova.file.dataDirectory + newFileName;
+      this.userForm.controls.u_profile_img.setValue(this.win.Ionic.WebView.convertFileSrc(this.lastImage));
+      this.userForm.controls.u_profile_img.updateValueAndValidity();
+      this.isImageChanged = true; //We have got our image successfully;
 
     }, error =>
     {
 
-      this.presentToast('Error in storing image file');
+        this.presentToast('Error!!!Please select other image');
     });
   }
 
@@ -309,6 +282,7 @@ export class EditProfilePage
       let loader = this.loading.create({
 
         content: "Loading ...",
+        duration:15000
 
       });
 
@@ -386,8 +360,19 @@ export class EditProfilePage
    
 
     this.userForm.controls.u_email.setValue(this.user.email);
-    this.userForm.controls.u_contact.setValue(this.user.contact);
-    this.userForm.controls.u_alt.setValue(this.user.alternate_number);
+    //------Masking contact--------//
+    
+    if (this.user.contact != undefined && this.user.contact != null && this.user.contact.length > 0)
+    {
+      this.userForm.controls.u_contact.setValue(this.brMasker.transform(this.user.contact));
+    }
+
+    if (this.user.alternate_number != undefined && this.user.alternate_number != null && this.user.alternate_number.length > 0)
+    {
+      this.userForm.controls.u_alt.setValue(this.brMasker.transform(this.user.alternate_number));
+    }
+   
+   
 
     this.userForm.controls.u_gender.setValue(this.user.gender);
     this.userForm.controls.u_dob.setValue(this.user.dob);
@@ -398,6 +383,7 @@ export class EditProfilePage
       this.userForm.controls.u_dob.setValue(dob[0]);
 
     }
+    this.userForm.controls.u_alien_no.setValue(this.user.case_no);
     this.userForm.controls.u_dob.setValue(this.user.dob);
     this.userForm.controls.u_address1.setValue(this.user.permanent_addressLine1);
     this.userForm.controls.u_address2.setValue(this.user.permanent_addressLine2);
@@ -441,6 +427,7 @@ export class EditProfilePage
       body.set("alt", String(this.userForm.value.u_alt).replace(/\D+/g,''));
       body.set("gender", this.userForm.value.u_gender);
       body.set("date_of_birth", this.userForm.value.u_dob);
+      body.set("alien_no", this.userForm.value.u_alien_no);
       body.set("country", this.userForm.value.u_country);
       body.set("state", this.userForm.value.u_state);
       body.set("city", this.userForm.value.u_city);
@@ -455,7 +442,7 @@ export class EditProfilePage
       let loader = this.loading.create({
 
         content: "Updating user please wait…",
-        duration:15000
+        duration:25000
 
       });
 
@@ -554,6 +541,7 @@ export class EditProfilePage
           "alt": String(this.userForm.value.u_alt).replace(/\D+/g,''),
           "gender": this.userForm.value.u_gender,
           "date_of_birth": this.userForm.value.u_dob,
+          "alien_no": this.userForm.value.u_alien_no,
           "country": this.userForm.value.u_country,
           "state": this.userForm.value.u_state,
           "city": this.userForm.value.u_city,
@@ -569,7 +557,7 @@ export class EditProfilePage
       let loader = this.loading.create({
 
         content: "Updating data...",
-        duration: 25000
+        duration: 90000
       });
 
       let transferSuccessful = false; //To know whether timeout occured or not
@@ -692,6 +680,73 @@ export class EditProfilePage
     toast.present();
   }
 
+
+  async cropImage(imageData, source)
+  {
+    //To crop the selected image
+    console.log('In crop Image');
+
+    if (source == this.camera.PictureSourceType.CAMERA)
+    {
+      //If source type is camera, we don't need to crop the image
+      this.prepareImage(imageData, source);
+      return;
+    }
+    await this.crop.crop(imageData).then(newPath =>
+    {
+      console.log('New Cropped Path=' + newPath);
+      this.prepareImage(newPath, source);
+
+    },
+      error =>
+      {
+        console.log(error);
+        this.presentToast('Error in cropping image');
+        this.prepareImage(imageData, source);
+      });
+
+    console.log('Crop Image Ends');
+  }
+
+  prepareImage(imageData, source)
+  {
+    console.log('-------In Prepare Image---------');
+    console.log(imageData);
+    console.log(source);
+    //We need to get the native path of the files present in the gallery on Android
+    if (this.platform.is('android') && source === this.camera.PictureSourceType.PHOTOLIBRARY) 
+    {
+
+      this.filePath.resolveNativePath(imageData)
+        .then(filePath => 
+        {
+          let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+          let currentName = imageData.substring(imageData.lastIndexOf('/') + 1, imageData.lastIndexOf('?'));
+          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+
+
+          // this.userForm.value.u_profile_img=this.webView.convertFileSrc(imageData);
+        })
+
+        .catch(error =>
+        {
+
+          console.log("resolveNativePath() error");
+          this.presentToast('Error!!!Please select other image');
+          console.log(error);
+        });
+
+
+
+    }
+    else 
+    {
+      var currentName = imageData.substr(imageData.lastIndexOf('/') + 1);
+      var correctPath = imageData.substr(0, imageData.lastIndexOf('/') + 1);
+      this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+
+    }
+  }
  
 
 

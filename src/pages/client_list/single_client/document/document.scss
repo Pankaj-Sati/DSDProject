@@ -11,18 +11,74 @@ document {
     text-overflow: ellipsis;
     flex: 1;
     overflow: hidden;
+    margin: auto;
   }
 
 
-  .simpleCardSelected {
+  .simpleCardSelected
+  {
     background-color: #abffab;
     border-radius: 2%;
     text-align: center;
     margin: 5px 2px;
     box-shadow: 1px 2px darkgrey;
+
+    ion-col {
+      margin: auto;
+      text-overflow: ellipsis;
+      flex: 1;
+      overflow: hidden;
+    }
   }
 
   .blurDiv {
     filter: blur(3px);
+  }
+
+  .deleteDocIcon {
+    margin: auto;
+    zoom: 1.5;
+    color: map-get($colors,danger);
+  }
+
+  .docThumbnail {
+    display: block;
+    width: 64px;
+    height: 64px;
+    border-left: 1px solid #00BCD4;
+    border-top: 1px solid #00BCD4;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  .documentDetails {
+    margin: 10px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .documentName {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .documentDetails ion-label {
+    margin: 0px;
+    font-size: 14px;
+  }
+
+  .detailLabel {
+    color: map-get($colors,primary);
+  }
+
+  .delButton {
+    color: map-get($colors,danger);
+  }
+
+  .shareButton {
+    color: #009688;
+  }
+
+  .downloadButton {
+    color: #607D8B;
   }
 }

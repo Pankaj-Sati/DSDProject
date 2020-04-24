@@ -11,6 +11,8 @@ import { ViewProfilePage } from './view_profile/view_profile';
 import { ApiValuesProvider } from '../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../providers/my-storage/my-storage';
 
+import { ViewImageComponent} from '../../components/view-image/view-image';
+
 import { Events } from 'ionic-angular';
 
 import {User } from '../../models/login_user.model';
@@ -66,6 +68,16 @@ export class UserProfilePage
   viewProfile()
   {
     this.navCtrl.push(ViewProfilePage);
+  }
+
+  viewImage(image)
+  {
+    let data =
+    {
+      imageURL: image
+    };
+
+    this.navCtrl.push(ViewImageComponent,data);
   }
 
 }

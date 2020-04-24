@@ -33,7 +33,16 @@ export class RemindersPage
 	blurAmount:string;
 
 
-  constructor(public popoverCtrl: PopoverController, public modalCtrl: ModalController, public apiValue: ApiValuesProvider, public events: Events, public toastCtrl: ToastController, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController)
+  constructor(public popoverCtrl: PopoverController,
+    public modalCtrl: ModalController,
+    public apiValue: ApiValuesProvider,
+    public events: Events,
+    public toastCtrl: ToastController,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    private http: Http,
+    public loading: LoadingController)
 	{
 		this.fetchData();
     this.setDetailVisible=false;

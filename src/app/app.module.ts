@@ -4,10 +4,11 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Camera } from '@ionic-native/camera';
+import { Crop } from '@ionic-native/crop';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
-import { BrMaskerModule } from 'brmasker-ionic-3';
+import { BrMaskerModule, BrMaskerIonic3 } from 'brmasker-ionic-3';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
@@ -73,7 +74,16 @@ import { ForgotPasswordPageModule } from '../pages/forgot-password/forgot-passwo
 import { EntityTypeProvider } from '../providers/entity-type/entity-type';
 import { StateListProvider } from '../providers/state-list/state-list';
 import { PipesModule } from '../pipes/pipes.module';
-import {CommonCalendarPageModule } from '../pages/common-calendar/common-calendar.module'
+import { CommonCalendarPageModule } from '../pages/common-calendar/common-calendar.module';
+import { UserTypesProvider } from '../providers/user-types/user-types';
+import { FrontPage } from '../pages/front/front';
+import { FrontPageModule } from '../pages/front/front.module';
+import { MediaPageModule } from '../pages/media/media.module';
+import { ContactUsPageModule } from '../pages/contact-us/contact-us.module';
+import { HomePageModule } from '../pages/home/home.module';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { AppAvailability } from '@ionic-native/app-availability';
+
 
 
 @NgModule({
@@ -132,7 +142,11 @@ import {CommonCalendarPageModule } from '../pages/common-calendar/common-calenda
     AppointmentListPageModule,
     BookAppointmentAtLoginPageModule,
     PipesModule,
-    CommonCalendarPageModule
+    CommonCalendarPageModule,
+    FrontPageModule,
+    MediaPageModule,
+    ContactUsPageModule,
+    HomePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -140,7 +154,7 @@ import {CommonCalendarPageModule } from '../pages/common-calendar/common-calenda
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
-	  LoginPage,
+    LoginPage,
 	  DashboardPage,
 	   RemindersPage,
 	  NotificationsPage,
@@ -192,9 +206,13 @@ import {CommonCalendarPageModule } from '../pages/common-calendar/common-calenda
     CaseTypeProvider,
     Chooser,
     EntityTypeProvider,
-    StateListProvider
+    StateListProvider,
+    UserTypesProvider,
+    ImagePicker,
+    Crop,
+    AppAvailability
   ],
-  exports: [ComponentsModule],
+  exports: [ComponentsModule, PipesModule],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

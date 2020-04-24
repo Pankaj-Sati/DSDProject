@@ -122,6 +122,7 @@ page-main {
   //---------------Reminder Model Classes Ends------------//
 }
 
+$ionModalMargin:50px;
 ion-modal {
   top: 30% !important;
   padding: 10px;
@@ -129,9 +130,9 @@ ion-modal {
   overflow-y: scroll;
 
   ion-content {
-    height: 70%;
+    height: calc(70% - #{$ionModalMargin}) !important;
     overflow: scroll;
-    margin-top:50px;
+    margin-top: $ionModalMargin !important;
   }
 }
 

@@ -4,4 +4,7 @@ export class ClientDocuments
   documents;
   directory_id;
   created_on;
+  created_by;
+  share;
+  creator_name;
 }

@@ -26,7 +26,8 @@ export class ChangePasswordPage
 	current_pass:string;
 	new_pass:string;
 	confirm_pass:string;
-	passed_image:string;
+  passed_image: string;
+  passwordInvalid: string = ''; //To show appropriate message when password is invalid
 
   constructor(public myStorage: MyStorageProvider, public apiValue: ApiValuesProvider, public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private http: Http, public loading: LoadingController, public toastCtrl: ToastController, public storage: Storage, public menuCtrl: MenuController) 
   {
@@ -48,7 +49,7 @@ export class ChangePasswordPage
 		if(this.u_id==null)
 		{
 			const toast = this.toastCtrl.create({
-							  message: 'Error in user ID',
+							  message: 'Error in getting user ID',
 							  duration: 3000
 							});
 							toast.present();	
@@ -71,11 +72,11 @@ export class ChangePasswordPage
 
 				buttons: ["OK"]
 
-				});
-
+                });
+        this.passwordInvalid = "Password fields cannot be empty";
 				alert.present();
 
-		     } 
+		    } 
 		     else if(this.confirm_pass!=this.new_pass)
 		     {
 		     	let alert = this.alertCtrl.create({
@@ -87,22 +88,23 @@ export class ChangePasswordPage
 				buttons: ["OK"]
 
 				});
-
+        this.passwordInvalid = "New Password donot match with Confirm Password";
 				alert.present();
             }
 
-            else if (this.confirm_pass.length<5)
+            else if (! this.confirm_pass.match(this.apiValue.PASSWORD_VALIDATOR))
             {
               let alert = this.alertCtrl.create({
 
                 title: "ATTENTION",
 
-                subTitle: "New Password is too short",
+                subTitle: "Password should be between 4 and 15 digits",
 
                 buttons: ["OK"]
 
               });
 
+              this.passwordInvalid = 'Password should be between 4 and 15 digits';
               alert.present();
             }
 
@@ -155,7 +157,8 @@ export class ChangePasswordPage
 				   			loader.dismiss();
 
 				   			if("message" in serverReply)
-				   			{
+                {
+                  this.passwordInvalid = serverReply.message;
 				   				const toast = this.toastCtrl.create({
 									  message: serverReply.message,
 									  duration: 3000

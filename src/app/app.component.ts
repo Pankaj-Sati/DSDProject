@@ -5,6 +5,7 @@ import { Platform, MenuController, Nav} from 'ionic-angular';
 //Pages
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ListPage } from '../pages/list/list';
+import { FrontPage } from '../pages/front/front';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
 import { DashboardPage } from '../pages/dashboard/dashboard';
@@ -40,6 +41,7 @@ import { Client } from '../models/client.model';
 import { CaseType } from '../models/case_type.model';
 
 import { CaseTypeProvider } from '../providers/case-type/case-type';
+import { UserTypesProvider } from '../providers/user-types/user-types';
 
 import {timer} from 'rxjs/observable/timer';
 
@@ -48,6 +50,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 
 import { Events } from 'ionic-angular';
+import { HomePage } from '../pages/home/home';
 
 @Component(
   {
@@ -78,7 +81,9 @@ export class MyApp {
    u_img: string = "assets/imgs/generic_user.png";
 
    showSearch:boolean;
-   header_title:string;
+  header_title: string;
+
+  exitApp = false; //For exiting app when back button is pressed twice in 5 seconds delay
 
   constructor(
     public apiValues: ApiValuesProvider,
@@ -95,24 +100,26 @@ export class MyApp {
     public toastCtrl: ToastController,
     public stateListProvider: StateListProvider,
     public alertCtrl: AlertController,
-    public http: Http
+    public http: Http,
+    public userTypesProvider: UserTypesProvider
   ) 
   {
 
     this.initializeApp();
+    this.updateUserData(); //Update the data from local storage
     this.getCaseTypeList();
     this.getStateList();
+    this.getUserTypeList();
     this.checkIfAlreadyLoggedIn();
     this.showSearch=false;
-
 
     this.events.subscribe('loggedIn',()=>{
     // user and time are the same arguments passed in `events.publish(user, time)`
     console.log('Welcome: Gettting image');
-   
-            this.initializeApp();
 
-      });
+      this.updateUserData();
+
+    });
 
     events.subscribe('newPage',(title)=>{
       console.log(title);
@@ -130,6 +137,43 @@ export class MyApp {
       this.getStateList();
     });
 
+    events.subscribe('getUserTypeList', (data) =>
+    {
+      //This event can be used to get the user type list if it is not found
+      this.getUserTypeList();
+    });
+
+    //Emulating Back button callback
+
+    this.platform.registerBackButtonAction(() =>
+    {
+      console.log('Back Button Pressed');
+      if (! this.nav.canGoBack())
+      {
+        //If there are no other pages in the navigation stack, and user presses back button, we will ask him to press it again to exit
+
+        if (this.exitApp==false)
+        {
+          this.presentToast('Press back again to exit');
+          this.exitApp = true;
+        }
+        else
+        {
+          //Exit is true and user has again pressed back button, so we will exit;
+
+          this.platform.exitApp();
+        }
+        
+
+        timer(5000).subscribe(success =>
+        {
+          this.exitApp = false; //Set back to false if user does not press back button twice
+        });
+      }
+    });
+
+
+ 
 
     //set subPages
     this.settingPages = [
@@ -185,7 +229,7 @@ export class MyApp {
 
       this.pages = [
 
-        { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
+        { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: HomePage, subs: null, hasSub: false },
 
         // { title: 'Settings', icon: 'settings', iconColor: 'appSettingIcon', component: null, subs: this.settingPages, hasSub: false },
 
@@ -231,7 +275,7 @@ export class MyApp {
       // set our app's pages granting access to every module
       this.pages = [
 
-        { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: DashboardPage, subs: null, hasSub: false },
+        { title: 'Home', icon: 'home', iconColor: 'appDashboardIcon', component: HomePage, subs: null, hasSub: false },
 
         //{ title: 'Settings', icon: 'settings', iconColor: 'appSettingIcon', component: null, subs: this.settingPages, hasSub: false },
 
@@ -255,7 +299,7 @@ export class MyApp {
 
         { title: 'Case Study', icon: 'paper', iconColor: 'appCaseStudyIcon', component: null, subs: this.caseStudyPages, hasSub: false },
 
-        //{ title: 'File Test', icon:'paper', component: HelloIonicPage,subs:null,hasSub:false },
+        //{ title: 'File Test', icon: 'paper', iconColor:'#782424', component: HelloIonicPage, subs: null, hasSub: false },
         { title: 'Delete Profile', icon: 'trash', iconColor: 'appLogoutIcon', component: 'delete_profile', subs: null, hasSub: false },
 
         { title: 'Logout', icon: 'log-out', iconColor: 'appLogoutIcon', component: LogoutPage, subs: null, hasSub: false }
@@ -334,17 +378,52 @@ export class MyApp {
 
   }
 
+  getUserTypeList()
+  {
+    const loader = this.loadingCtrl.create(
+      {
+        content: 'Loading...',
+        duration: 10000
+      });
+    loader.present();
+
+    let loadingSuccessful = false; //To know whether timeout occured or not
+    this.userTypesProvider.fetchList();
+
+    this.events.subscribe('user_type_list_event', (result) =>
+    {
+
+      loadingSuccessful = true;
+      loader.dismiss(); //Dismiss the loader whether the result was a success or a failure
+    });
+
+    loader.onDidDismiss(() =>
+    {
+      if (!loadingSuccessful)
+      {
+        //Timeout
+        const toast = this.toastCtrl.create({
+          message: 'Timeout!!! Server Did Not Respond',
+          duration: 3000
+        });
+        toast.present();
+      }
+    });
+
+
+  }
+
   checkIfAlreadyLoggedIn()
   {
-    if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id.length > 0)
+    if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id!=undefined && this.loggedInUser.id.length > 0)
     {
-        this.rootPage=DashboardPage;     
+      this.rootPage = HomePage;     
     }
       else
     {
       console.log("nav");
       console.log(this.nav);
-      this.rootPage=LoginPage;
+      this.rootPage=FrontPage;
       
       }
         
@@ -366,8 +445,39 @@ export class MyApp {
       timer(3000).subscribe(()=>this.showSplash = false);
       */
     });
-    
 
+    this.platform.pause.subscribe(() =>
+    {
+      console.log('App Paused');
+      //If the user is logged-in, we will store the current time at which the app is paused i.e. not in foreground
+      if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id != undefined)
+      {
+        this.myStorage.setLastUsed(new Date().getTime()); //Current time
+      }
+    });
+
+    this.platform.resume.subscribe(() =>
+    {
+      console.log('App Resumed');
+
+      //When user resumes the app, we will see if the time is more than set time like 10 minutes, we will redirect user to home screen
+      if (this.loggedInUser != undefined && this.loggedInUser != null && this.loggedInUser.id != undefined)
+      {
+        let currentTimeInMilli = new Date().getTime();
+        let lastUsedTimeInMilli = this.myStorage.getLastUsed();
+        if (Number(currentTimeInMilli-lastUsedTimeInMilli) >= this.apiValues.APP_RELOAD_TIME)
+        {
+          console.log('Paused Time:'+Number(currentTimeInMilli - lastUsedTimeInMilli));
+          this.nav.setRoot(DashboardPage);
+        }
+      }
+      
+    
+    });	  		  
+  }
+
+  updateUserData()
+  {
     this.loggedInUser = this.myStorage.getParameters();
     this.giveAccessToMenus();
 
@@ -377,8 +487,6 @@ export class MyApp {
       this.u_email = this.loggedInUser.email;
       this.u_img = this.apiValues.baseImageFolder + this.loggedInUser.profile_img;
     }
-    
-		  		  
   }
 
   openPage(page) {
@@ -567,6 +675,17 @@ export class MyApp {
     });
 
     alert.present();
+  }
+
+  presentToast(msg)
+  {
+    const toast = this.toastCtrl.create(
+      {
+        message: msg,
+        duration:3000
+      });
+
+    toast.present();
   }
 
 }

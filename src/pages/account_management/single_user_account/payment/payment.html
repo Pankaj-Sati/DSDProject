@@ -85,10 +85,10 @@
 				</ion-item>
 
 				 <ion-item>
-				 	<ion-datetime picker-format="MMMM" placeholder="Select Month" [(ngModel)]="p_card_ex_month" displayFormat="MMMM"></ion-datetime>
+				 	<ion-datetime  picker-format="MMMM" placeholder="Select Month" [(ngModel)]="p_card_ex_month" displayFormat="MMMM"></ion-datetime>
 				 </ion-item>
 				 <ion-item>
-				 	<ion-datetime placeholder="Select Year" displayFormat="YYYY" [(ngModel)]="p_card_ex_year" ></ion-datetime>
+				 	<ion-datetime max="{{apiValue.maxSelectableDate}}" placeholder="Select Year" displayFormat="YYYY" [(ngModel)]="p_card_ex_year" ></ion-datetime>
 					   	
 				 </ion-item>
 

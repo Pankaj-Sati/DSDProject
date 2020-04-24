@@ -68,15 +68,10 @@ export class NotesListPage
   ionViewDidEnter()
   {
     console.log('---Ion View Did Enter---');
-    if (this.navParams.data.reload && this.navParams.data.caseHistory)
-    {
-      this.fetchCaseHistoryData();
-    }
+    this.reload();
+    
 
-    if (this.navParams.data.reload && this.navParams.data.caseHistory==undefined)
-    {
-      this.fetchData();
-    }
+    
   }
 
   showDetails(smsSelected, showEvent, i)

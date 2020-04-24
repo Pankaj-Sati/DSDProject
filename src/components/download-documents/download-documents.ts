@@ -24,6 +24,8 @@ export class DownloadDocumentsComponent {
 
   documentList: string[] = [];
 
+  userID=1;//Id of the user whose documents are fetched
+
   documentData: ClientDocuments[] = []; //To hold all the data about the document
 
   loggedInUser: User;
@@ -45,6 +47,7 @@ export class DownloadDocumentsComponent {
   {
     this.documentString = this.navParams.get('document');
     this.documentData = this.navParams.get('documentData');
+    this.userID = this.navParams.get('userID');
 
     console.log('----------Doc. Received------');
     console.log(this.documentString);
@@ -76,7 +79,7 @@ export class DownloadDocumentsComponent {
   {
 
     //http://dsdlawfirm.com/dsd/api_work/downloadDocs.php?user_id=113&checkboxID[]=43,44,45
-    let url = this.apiValue.baseURL + '/downloadDocs.php?user_id=' + this.loggedInUser.id + "&checkboxID[]=" + this.getCommaSeperatedDocumentString();
+    let url = this.apiValue.baseURL + '/downloadDocs.php?user_id=' + this.userID + "&checkboxID=" + this.getCommaSeperatedDocumentString();
     console.log('Download URL sent=' + url);
     this.inAppBrowser.create(url, '_system'); //_system indicated the O.S to open this link in the device's default browser
   }

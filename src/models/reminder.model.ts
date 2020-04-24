@@ -29,5 +29,7 @@ export class NewReminder
   del_on;
   status;
   clientName;
+  is_read;
+  read_on;
 
 }

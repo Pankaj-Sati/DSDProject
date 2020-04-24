@@ -19,15 +19,31 @@
 
   <div [class]="blurAmount">
 
-    <ion-row *ngIf="selected_file_name!=undefined && selected_file_name.length>0">
-      <ion-col style="text-align:center;">
-        <ion-label><b>Selected File:</b>{{selected_file_name}}</ion-label>
-        <button icon-start ion-button [disabled]="(selected_file_name==undefined || selected_file_name.length==0)" (click)="uploadFile()"><ion-icon name="cloud-upload"></ion-icon>Upload</button><br />
-        <progress-bar *ngIf="isUploading" [progress]="uploadProgress"></progress-bar>
-        <p style="width:100%;" *ngIf="isUploading">{{uploadProgress}}%</p>
-      </ion-col>
-    </ion-row>
+    <div *ngIf="uploadDocList!=undefined && uploadDocList.length>0">
+      <ion-row>
+        <ion-col style="text-align:center;">
+          <ion-label><b>Selected File:</b>{{selected_file_name}}</ion-label>
+          <button icon-start *ngIf="isUploading" ion-button [disabled]="(selected_file_name==undefined || selected_file_name.length==0)" (click)="cancelUpload()"><ion-icon name="close"></ion-icon>Cancel</button>
+          <button icon-start *ngIf="isUploading" ion-button [disabled]="(selected_file_name==undefined || selected_file_name.length==0)" (click)="cancelUpload(true)"><ion-icon name="close"></ion-icon>Cancel All</button><br />
+          <progress-bar *ngIf="isUploading" [progress]="uploadProgress"></progress-bar>
 
+          <p style="width:100%;" *ngIf="isUploading">{{uploadProgress}}%</p>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngFor="let eachUploadDoc of uploadDocList;let i=index">
+
+        <ion-col col-11>
+          <p>{{getDocName(eachUploadDoc)}}</p>
+        </ion-col>
+
+        <ion-col col-1 (click)="removeFilesFromUpload(i)">
+          <ion-icon name="close"></ion-icon>
+        </ion-col>
+
+      </ion-row>
+
+    </div>
     <ion-row>
       <ion-col style="text-align:center;">
         <button icon-start ion-button (click)="showFileSelectionDialog()"><ion-icon name="add"></ion-icon>Add New</button>
@@ -42,7 +58,7 @@
 
 
     <div *ngFor="let doc of doc_list;let i=index">
-      <ion-card class="{{isDocumentSelected(doc)?'simpleCardSelected':'simpleCard'}}" (click)="getDocument(doc)">
+      <ion-card class="{{isDocumentSelected(doc)?'simpleCardSelected':'simpleCard'}}">
 
         <ion-row style="padding-left: 5px;">
 
@@ -50,20 +66,20 @@
             <ion-icon name="document" color="primary" style="zoom: 1.2;"></ion-icon>
           </ion-checkbox>
 
-          <ion-col style="margin:auto;" col-1>
-            <ion-icon name="document" color="primary" style="zoom: 1.2;"></ion-icon>
+          <ion-col style="margin:auto;" col-2 (click)="viewDocument(doc)">
+            <img class="docThumbnail" [src]="getDocumentImage(doc)" />
           </ion-col>
 
-          <ion-col style="margin:auto;" col-7>
+          <ion-col style="margin:auto;" col-5 (click)="toggleDocumentDetails(i)">
             <ion-row>
               <ion-col style="text-align:left;">
-                <b>{{doc.documents}} </b>
+                <b class="documentName">{{doc.documents}} </b>
               </ion-col>
             </ion-row>
 
           </ion-col>
 
-          <ion-col style="margin:auto;float:right" col-3>
+          <ion-col style="margin:auto;float:right" col-3 (click)="toggleDocumentDetails(i)">
             <ion-row>
               <ion-col>
                 {{doc.created_on | date :  "MMM d,y"}}
@@ -72,9 +88,61 @@
 
           </ion-col>
 
+          <ion-col (click)="toggleDocumentDetails(i)" col-1 style="zoom:1.2;">
+            <ion-icon color="primary" name="more"></ion-icon>
+          </ion-col>
+          
         </ion-row>
 
       </ion-card>
+
+     
+      <div class="documentDetails" *ngIf="visibility[i]">
+
+        <ion-row>
+          <ion-col col-12>
+            <ion-item no-lines>
+              <ion-label class="detailLabel" stacked>Document Name</ion-label>
+              <ion-label>{{doc.documents}}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col col-6>
+            <ion-item no-lines>
+              <ion-label class="detailLabel" stacked>Created On</ion-label>
+              <ion-label>{{doc.created_on | date :  "MMM d,y HH:mm a"}}</ion-label>
+            </ion-item>
+          </ion-col>
+
+          <ion-col col-6 *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5">
+            <ion-item no-lines>
+              <ion-label class="detailLabel" stacked>Share With Client</ion-label>
+              <ion-label>{{doc.share}}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12>
+            <ion-item no-lines>
+              <ion-label class="detailLabel" stacked>Created By</ion-label>
+              <ion-label>{{doc.creator_name}}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <!--------------Currently hardcoding share document and delete document access control for non-client users (user_type_id!=5)--------------->
+        <ion-row >
+          <ion-col style="text-align:center;">
+            <button *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5" ion-button class="shareButton" (click)="showUpdateShareStatus(doc)" clear icon-start><ion-icon name="share-alt"></ion-icon>Share</button>
+            <button ion-button class="downloadButton" clear icon-start (click)="getDocument(doc)"><ion-icon name="cloud-download"></ion-icon>Download</button>
+            <button *ngIf="loggedInUser!=undefined && (loggedInUser.user_type_id!=5 || (loggedInUser.user_type_id==5 && loggedInUser.id==doc.created_by))" ion-button class="delButton" clear icon-start (click)="deleteDocumentDialog(doc)"><ion-icon name="trash"></ion-icon>Delete</button>
+          </ion-col>
+        </ion-row>
+
+      </div>
+
     </div>
 
     <div *ngIf="doc_list==undefined || doc_list==null || doc_list.length==0">

@@ -7,7 +7,7 @@
 	    
 	    <ion-row center style="text-align: center;vertical-align: middle;">
 	      <ion-col>
-	         <ion-title style="text-align: center;height: 100%;vertical-align: middle;">
+	         <ion-title style="text-align: left;height: 100%;vertical-align: middle;">
 	           Account Management
 	         </ion-title>
 
@@ -56,14 +56,14 @@
 
       <ion-item>
         <ion-label>From</ion-label>
-        <ion-datetime placeholder="Select Date" [(ngModel)]="c_pay_from"></ion-datetime>
+        <ion-datetime placeholder="Select Date" max="{{apiValue.maxSelectableDate}}" [(ngModel)]="c_pay_from"></ion-datetime>
 
 
       </ion-item>
 
       <ion-item>
         <ion-label>To</ion-label>
-        <ion-datetime placeholder="Select Date" [(ngModel)]="c_pay_to"></ion-datetime>
+        <ion-datetime placeholder="Select Date" max="{{apiValue.maxSelectableDate}}" [(ngModel)]="c_pay_to"></ion-datetime>
 
 
       </ion-item>
@@ -105,7 +105,7 @@
         <ion-col style="margin:auto;" col-3>
           <ion-row>
             <ion-col>
-              {{account.created_on| date:'MMM,dd yy'}}
+              {{account.created_on| customDateFormat:'MMM,DD YYYY'}}
             </ion-col>
           </ion-row>
 

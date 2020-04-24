@@ -18,6 +18,8 @@ import { DownloadDocumentsComponent } from './download-documents/download-docume
 import { BulkSmsDetailComponent } from './bulk-sms-detail/bulk-sms-detail';
 import { SendBulkSmsComponent } from './send-bulk-sms/send-bulk-sms';
 import { ProgressBarComponent } from './progress-bar/progress-bar';
+import { PipesModule } from '../pipes/pipes.module';
+import { ViewImageComponent } from './view-image/view-image';
 
 @NgModule({
 	declarations: [ClientDetailsComponent,
@@ -36,8 +38,9 @@ import { ProgressBarComponent } from './progress-bar/progress-bar';
     DownloadDocumentsComponent,
     BulkSmsDetailComponent,
     SendBulkSmsComponent,
-    ProgressBarComponent],
-  imports: [IonicPageModule.forChild(ClientDetailActionsComponent), CommonModule],
+    ProgressBarComponent,
+    ViewImageComponent],
+  imports: [IonicPageModule.forChild(ClientDetailActionsComponent), CommonModule, PipesModule],
   entryComponents: [ClientDetailsComponent,
     RemindersDetailComponent,
     NoRecordFoundComponent,
@@ -54,7 +57,8 @@ import { ProgressBarComponent } from './progress-bar/progress-bar';
     DownloadDocumentsComponent,
     BulkSmsDetailComponent,
     SendBulkSmsComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    ViewImageComponent
   ],
 	exports: [ClientDetailsComponent,
     NoRecordFoundComponent,
@@ -72,7 +76,8 @@ import { ProgressBarComponent } from './progress-bar/progress-bar';
     DownloadDocumentsComponent,
     BulkSmsDetailComponent,
     SendBulkSmsComponent,
-    ProgressBarComponent],
+    ProgressBarComponent,
+    ViewImageComponent],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ComponentsModule {}

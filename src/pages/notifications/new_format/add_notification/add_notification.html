@@ -8,7 +8,7 @@
 <ion-content style="margin-top: 10px;">
   <ion-item no-lines>
     <ion-label stacked>Date (MM-DD-YYYY)</ion-label>
-    <ion-datetime required displayFormat="MMM-DD-YYYY" [(ngModel)]="n_date" placeholder="Select Date"></ion-datetime>
+    <ion-datetime max="{{apiValue.maxSelectableDate}}" required displayFormat="MMM-DD-YYYY" [(ngModel)]="n_date" placeholder="Select Date"></ion-datetime>
   </ion-item>
 
   <ion-item no-lines>

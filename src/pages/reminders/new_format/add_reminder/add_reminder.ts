@@ -8,6 +8,7 @@ import { ToastController } from 'ionic-angular';
 
 import { ApiValuesProvider } from '../../../../providers/api-values/api-values';
 import { MyStorageProvider } from '../../../../providers/my-storage/my-storage';
+import { Convert24HourTimePipe} from '../../../../pipes/convert24-hour-time/convert24-hour-time';
 
 import { Client } from '../../../../models/client.model';
 import { User } from '../../../../models/login_user.model';
@@ -39,7 +40,8 @@ export class AddReminderPage
     public modalCtrl: ModalController,
     public apiValue: ApiValuesProvider,
     public menuCtrl: MenuController,
-    public myStorage: MyStorageProvider)
+    public myStorage: MyStorageProvider,
+    public convert24to12: Convert24HourTimePipe)
   {
     this.loggedInUser = this.myStorage.getParameters();
   
@@ -60,12 +62,12 @@ export class AddReminderPage
 
       let body = new FormData();
 
-      body.append('reminderDate', this.r_date);
-      body.append('reminderTime', this.r_time);
-      body.append('subject', this.r_subject);
-      body.append('disc', this.r_description);
-      body.append('client', this.getSelectedClientsParameters());
-      body.append('session_id', this.loggedInUser.id);
+      body.set('reminderDate', this.r_date);
+      body.set('reminderTime', this.convert24to12.transform(this.r_time));
+      body.set('subject', this.r_subject);
+      body.set('disc', this.r_description);
+      body.set('client', this.getSelectedClientsParameters());
+      body.set('session_id', this.loggedInUser.id);
 
       //http://dsdlawfirm.com/dsd/api_work/add_reminder.php?disc=test app disc rr gg
     //& reminderDate=2019 - 07 - 27 & reminderTime=21: 00

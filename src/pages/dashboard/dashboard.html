@@ -1,5 +1,5 @@
 
-  <ion-content class="area" >
+  <ion-content class="area">
     <!--
     <ion-toolbar *ngIf="showSearch">
             <ion-searchbar showCancelButton animated cancel-button-icon (ionCancel)="hideSearch()" (search)="searchClient()" placeholder="Allien no. | Docket No. | index No." ></ion-searchbar>
@@ -35,7 +35,7 @@
       <ion-row>
         <ion-col style="text-align:center;">
 
-          <img src="assets/imgs/logo.png" style="max-width:256px; max-height:256px; object-fit: contain;" />
+          <img src="assets/imgs/logo-front.png" style="background-color:#06377a;max-width:256px; max-height:192px;padding:10px; object-fit: contain;" />
 
         </ion-col>
       </ion-row>
@@ -106,12 +106,12 @@
         </ion-row>
 
       </div>
-      
+
 
 
     </div>
 
-    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5 && loggedInUser.user_type_id!=4">
+    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5 && loggedInUser.user_type_id!=4 && loggedInUser.user_type_id!=7">
 
       <!--Currently hardcoding access for admin users-->
       <ion-card-header class="headerContent">
@@ -135,72 +135,70 @@
     </ion-card>
 
     <!--
-    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5">
-      <!--Currently hardcoding access for a client user
-      <ion-card-header class="headerContent">
-        Book Appointment
-        <ion-icon name="bookmark" end></ion-icon>
-      </ion-card-header>
+  <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5">
+    <!--Currently hardcoding access for a client user
+    <ion-card-header class="headerContent">
+      Book Appointment
+      <ion-icon name="bookmark" end></ion-icon>
+    </ion-card-header>
 
-      <ion-card-content>
+    <ion-card-content>
 
-        <ion-row>
+      <ion-row>
 
-          <ion-col style="text-align: right">
-            <button ion-button (click)="bookAppointment()" style="background-color: #033054">Book an Appointment</button>
-          </ion-col>
-        </ion-row>
-      </ion-card-content>
-    </ion-card>
+        <ion-col style="text-align: right">
+          <button ion-button (click)="bookAppointment()" style="background-color: #033054">Book an Appointment</button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
 
-    -->
+  -->
 
-    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==4">
+    <ion-card class="dashboardCard" *ngIf="loggedInUser!=undefined && (loggedInUser.user_type_id==4 || loggedInUser.user_type_id==7)">
       <!--Currently hardcoding access for a Advocate user-->
       <ion-card-header class="headerContent">
         Appointments <ion-icon name="bookmark" end></ion-icon>
       </ion-card-header>
 
       <ion-card-content>
-       
-            <ion-row>
-              <ion-col>
-                Total Appointments: <b> {{total_appointments}}</b><br>
-              </ion-col>
-
-              <ion-col style="text-align: right">
-                <button ion-button (click)="viewAppointments()" style="background-color: #033054">View </button>
-              </ion-col>
-            </ion-row>
-      </ion-card-content>
-    </ion-card>
-
-    <!--
-    <ion-card class="dashboardCard" style="background-color:#3F51B5" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5">
-      <!--Currently hardcoding access for a client user 
-      <ion-card-header class="headerContent">
-        My Documents
-        <ion-icon name="document" end></ion-icon>
-      </ion-card-header>
-
-      <ion-card-content>
 
         <ion-row>
+          <ion-col>
+            Total Appointments: <b> {{total_appointments}}</b><br>
+          </ion-col>
 
           <ion-col style="text-align: right">
-            <button ion-button (click)="documentsList()" style="background-color: #033054">View / Upload</button>
+            <button ion-button (click)="viewAppointments()" style="background-color: #033054">View </button>
           </ion-col>
         </ion-row>
       </ion-card-content>
     </ion-card>
-    -->
 
+    <!--
+  <ion-card class="dashboardCard" style="background-color:#3F51B5" *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id==5">
+    <!--Currently hardcoding access for a client user
+    <ion-card-header class="headerContent">
+      My Documents
+      <ion-icon name="document" end></ion-icon>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-row>
+
+        <ion-col style="text-align: right">
+          <button ion-button (click)="documentsList()" style="background-color: #033054">View / Upload</button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  -->
     <!--------------Currently hardcoding Calender access control for client (user_type_id=5)--------------->
 
     <div *ngIf="loggedInUser!=undefined && loggedInUser.user_type_id!=5" #frame style="height:100%;overflow:scroll !important;-webkit-overflow-scrolling:touch !important">
       <iframe [src]="calendarLink" class="iframe" style="width:100%;min-height:360px;margin-top:20px" scrolling="yes"></iframe>
     </div>
-
 
 
   </ion-content>

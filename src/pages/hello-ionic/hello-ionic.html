@@ -21,4 +21,6 @@
     </ion-col>
   </ion-row>
 
+  <input type="file" name="fileSelection[]" multiple (change)="changedFile()" [(ngModel)]="files" />
+
 </ion-content>

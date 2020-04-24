@@ -44,7 +44,7 @@ export class AppointmentListPage
     this.getCaseManagerList();
 
      //-----------Hardcoding access for Case Manger so that they cannot see appointments of other case managers---//
-    if (this.loggedInUser != undefined && Number(this.loggedInUser.user_type_id) == 4)
+    if (this.loggedInUser != undefined && (Number(this.loggedInUser.user_type_id) == 4 || Number(this.loggedInUser.user_type_id) == 7))
     {
       this.case_manager = this.loggedInUser.id; //If the logged in user is an advocate, then his id will be same as logged-in id
     }
